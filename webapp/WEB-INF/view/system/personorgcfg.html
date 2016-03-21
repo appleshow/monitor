@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="用户组织管理">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="res/comm/css/icons/csg.ico">
+<link rel="stylesheet" href="../res/jquery/css/icon.css">
+<link rel="stylesheet" href="../res/jquery/css/easyui.css">
+<link rel="stylesheet" href="../res/jquery/css/color.css">
+<script type="text/javascript" src="../res/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../res/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../res/comm/comm.js"></script>
+<script type="text/javascript" src="../res/comm/datagrid-min.js"></script>
+<script type="text/javascript" src="../res/personorgcfg-min.js"></script>
+</head>
+<body onLoad="pageLoad()">
+     <div class="easyui-layout" data-options="fit:true">
+          <div data-options="region:'north',split:false" style="height: 40px; background: #B3DFDA; padding: 0px; overflow: hidden">
+               <table style="padding: 3px; width: 100%; height: 100%,; border: 0">
+                    <tr>
+                         <td>&nbsp;</td>
+                         <td>&nbsp;</td>
+                         <td><a href="javascript:selectUserID()" class="easyui-linkbutton c6" style="width: 70px">用户工号:</a>
+                         <input id="user_id" class="easyui-textbox" style="width: 80px; height: 28px"> <a href="javascript:selectUserName()" class="easyui-linkbutton c6" style="width: 70px">用户姓名:</a>
+                         <input id="user_name" class="easyui-textbox" style="width: 100px; height: 28px"></td>
+                    </tr>
+               </table>
+          </div>
+          <div data-options="region:'center'" style="padding: 0px; background: #eee;">
+               <table id="dgUser">
+               </table>
+          </div>
+     </div>
+</body>
+</html>

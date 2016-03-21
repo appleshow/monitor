@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.aps.monitor.dao.ComMenuMapper">
+	<resultMap
+		id="BaseResultMap"
+		type="com.aps.monitor.model.ComMenu">
+		<id
+			column="MENU_ID"
+			property="menuId"
+			jdbcType="INTEGER"/>
+		<result
+			column="MENU_NAME"
+			property="menuName"
+			jdbcType="VARCHAR"/>
+		<result
+			column="FAR_MENU_ID"
+			property="farMenuId"
+			jdbcType="INTEGER"/>
+		<result
+			column="MENU_SEQ"
+			property="menuSeq"
+			jdbcType="INTEGER"/>
+		<result
+			column="FORM_ID"
+			property="formId"
+			jdbcType="INTEGER"/>
+		<result
+			column="PRFLAG"
+			property="prflag"
+			jdbcType="INTEGER"/>
+		<result
+			column="PRGROUP"
+			property="prgroup"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PRTYPE"
+			property="prtype"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY0"
+			property="property0"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY1"
+			property="property1"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY2"
+			property="property2"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY3"
+			property="property3"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY4"
+			property="property4"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY5"
+			property="property5"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY6"
+			property="property6"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY7"
+			property="property7"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY8"
+			property="property8"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PROPERTY9"
+			property="property9"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PRINF"
+			property="prinf"
+			jdbcType="VARCHAR"/>
+		<result
+			column="PREXP"
+			property="prexp"
+			jdbcType="VARCHAR"/>
+		<result
+			column="ITIME"
+			property="itime"
+			jdbcType="TIMESTAMP"/>
+		<result
+			column="ISHIFT"
+			property="ishift"
+			jdbcType="VARCHAR"/>
+		<result
+			column="IGROUP"
+			property="igroup"
+			jdbcType="VARCHAR"/>
+		<result
+			column="IPERSON"
+			property="iperson"
+			jdbcType="INTEGER"/>
+		<result
+			column="UTIME"
+			property="utime"
+			jdbcType="TIMESTAMP"/>
+		<result
+			column="USHIFT"
+			property="ushift"
+			jdbcType="VARCHAR"/>
+		<result
+			column="UGROUP"
+			property="ugroup"
+			jdbcType="VARCHAR"/>
+		<result
+			column="UPERSON"
+			property="uperson"
+			jdbcType="INTEGER"/>
+		<result
+			column="UFROM"
+			property="ufrom"
+			jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql
+		id="Base_Column_List">
+		MENU_ID,
+		MENU_NAME,
+		FAR_MENU_ID,
+		MENU_SEQ,
+		FORM_ID,
+		PRFLAG,
+		PRGROUP,
+		PRTYPE,
+		PROPERTY0,
+		PROPERTY1,
+		PROPERTY2,
+		PROPERTY3,
+		PROPERTY4,
+		PROPERTY5,
+		PROPERTY6,
+		PROPERTY7,
+		PROPERTY8,
+		PROPERTY9,
+		PRINF,
+		PREXP,
+		ITIME,
+		ISHIFT,
+		IGROUP,
+		IPERSON,
+		UTIME,
+		USHIFT,
+		UGROUP,
+		UPERSON,
+		UFROM
+	
+	</sql>
+	<select
+		id="selectByPrimaryKey"
+		resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include
+			refid="Base_Column_List"/>
+		from
+		com_menu
+		where
+		MENU_ID
+		=
+		#{menuId,jdbcType=INTEGER}
+	</select>
+	<select
+		id="selectByCondition"
+		resultMap="BaseResultMap"
+		parameterType="com.aps.monitor.model.ComMenu">
+		select
+		<include
+			refid="Base_Column_List"/>
+		from
+		com_menu
+		<where>
+			<if
+				test="menuName != null">
+				MENU_NAME
+				like
+				CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
+			
+			</if>
+			<if
+				test="farMenuId != null">
+				FAR_MENU_ID
+				=#{farMenuId,jdbcType=VARCHAR}
+			
+			</if>
+		</where>
+		order
+		by
+		far_menu_id,menu_seq
+	</select>
+	<delete
+		id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete
+		from
+		com_menu
+		where
+		MENU_ID
+		=
+		#{menuId,jdbcType=INTEGER}
+	
+	</delete>
+	<insert
+		id="insert"
+		parameterType="com.aps.monitor.model.ComMenu">
+		insert
+		into
+		com_menu
+		(MENU_ID,
+		MENU_NAME,
+		FAR_MENU_ID,
+		MENU_SEQ,
+		FORM_ID,
+		PRFLAG,
+		PRGROUP,
+		PRTYPE,
+		PROPERTY0,
+		PROPERTY1,
+		PROPERTY2,
+		PROPERTY3,
+		PROPERTY4,
+		PROPERTY5,
+		PROPERTY6,
+		PROPERTY7,
+		PROPERTY8,
+		PROPERTY9,
+		PRINF,
+		PREXP,
+		ITIME,
+		ISHIFT,
+		IGROUP,
+		IPERSON,
+		UTIME,
+		USHIFT,
+		UGROUP,
+		UPERSON,
+		UFROM)
+		values
+		(#{menuId,jdbcType=INTEGER},
+		#{menuName,jdbcType=VARCHAR},
+		#{farMenuId,jdbcType=INTEGER},
+		#{menuSeq,jdbcType=INTEGER},
+		#{formId,jdbcType=INTEGER},
+		#{prflag,jdbcType=INTEGER},
+		#{prgroup,jdbcType=VARCHAR},
+		#{prtype,jdbcType=VARCHAR},
+		#{property0,jdbcType=VARCHAR},
+		#{property1,jdbcType=VARCHAR},
+		#{property2,jdbcType=VARCHAR},
+		#{property3,jdbcType=VARCHAR},
+		#{property4,jdbcType=VARCHAR},
+		#{property5,jdbcType=VARCHAR},
+		#{property6,jdbcType=VARCHAR},
+		#{property7,jdbcType=VARCHAR},
+		#{property8,jdbcType=VARCHAR},
+		#{property9,jdbcType=VARCHAR},
+		#{prinf,jdbcType=VARCHAR},
+		#{prexp,jdbcType=VARCHAR},
+		#{itime,jdbcType=TIMESTAMP},
+		#{ishift,jdbcType=VARCHAR},
+		#{igroup,jdbcType=VARCHAR},
+		#{iperson,jdbcType=INTEGER},
+		#{utime,jdbcType=TIMESTAMP},
+		#{ushift,jdbcType=VARCHAR},
+		#{ugroup,jdbcType=VARCHAR},
+		#{uperson,jdbcType=INTEGER},
+		#{ufrom,jdbcType=VARCHAR})
+	
+	</insert>
+	<insert
+		id="insertSelective"
+		parameterType="com.aps.monitor.model.ComMenu">
+		insert
+		into
+		com_menu
+		<trim
+			prefix="("
+			suffix=")"
+			suffixOverrides=",">
+			<if
+				test="menuId != null">
+				MENU_ID,
+			
+			</if>
+			<if
+				test="menuName != null">
+				MENU_NAME,
+			
+			</if>
+			<if
+				test="farMenuId != null">
+				FAR_MENU_ID,
+			
+			</if>
+			<if
+				test="menuSeq != null">
+				MENU_SEQ,
+			
+			</if>
+			<if
+				test="formId != null">
+				FORM_ID,
+			
+			</if>
+			<if
+				test="prflag != null">
+				PRFLAG,
+			
+			</if>
+			<if
+				test="prgroup != null">
+				PRGROUP,
+			
+			</if>
+			<if
+				test="prtype != null">
+				PRTYPE,
+			
+			</if>
+			<if
+				test="property0 != null">
+				PROPERTY0,
+			
+			</if>
+			<if
+				test="property1 != null">
+				PROPERTY1,
+			
+			</if>
+			<if
+				test="property2 != null">
+				PROPERTY2,
+			
+			</if>
+			<if
+				test="property3 != null">
+				PROPERTY3,
+			
+			</if>
+			<if
+				test="property4 != null">
+				PROPERTY4,
+			
+			</if>
+			<if
+				test="property5 != null">
+				PROPERTY5,
+			
+			</if>
+			<if
+				test="property6 != null">
+				PROPERTY6,
+			
+			</if>
+			<if
+				test="property7 != null">
+				PROPERTY7,
+			
+			</if>
+			<if
+				test="property8 != null">
+				PROPERTY8,
+			
+			</if>
+			<if
+				test="property9 != null">
+				PROPERTY9,
+			
+			</if>
+			<if
+				test="prinf != null">
+				PRINF,
+			
+			</if>
+			<if
+				test="prexp != null">
+				PREXP,
+			
+			</if>
+			<if
+				test="itime != null">
+				ITIME,
+			
+			</if>
+			<if
+				test="ishift != null">
+				ISHIFT,
+			
+			</if>
+			<if
+				test="igroup != null">
+				IGROUP,
+			
+			</if>
+			<if
+				test="iperson != null">
+				IPERSON,
+			
+			</if>
+			<if
+				test="utime != null">
+				UTIME,
+			
+			</if>
+			<if
+				test="ushift != null">
+				USHIFT,
+			
+			</if>
+			<if
+				test="ugroup != null">
+				UGROUP,
+			
+			</if>
+			<if
+				test="uperson != null">
+				UPERSON,
+			
+			</if>
+			<if
+				test="ufrom != null">
+				UFROM,
+			
+			</if>
+		</trim>
+		<trim
+			prefix="values ("
+			suffix=")"
+			suffixOverrides=",">
+			<if
+				test="menuId != null">
+				#{menuId,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="menuName != null">
+				#{menuName,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="farMenuId != null">
+				#{farMenuId,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="menuSeq != null">
+				#{menuSeq,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="formId != null">
+				#{formId,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="prflag != null">
+				#{prflag,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="prgroup != null">
+				#{prgroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prtype != null">
+				#{prtype,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property0 != null">
+				#{property0,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property1 != null">
+				#{property1,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property2 != null">
+				#{property2,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property3 != null">
+				#{property3,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property4 != null">
+				#{property4,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property5 != null">
+				#{property5,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property6 != null">
+				#{property6,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property7 != null">
+				#{property7,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property8 != null">
+				#{property8,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property9 != null">
+				#{property9,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prinf != null">
+				#{prinf,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prexp != null">
+				#{prexp,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="itime != null">
+				#{itime,jdbcType=TIMESTAMP},
+			
+			</if>
+			<if
+				test="ishift != null">
+				#{ishift,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="igroup != null">
+				#{igroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="iperson != null">
+				#{iperson,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="utime != null">
+				#{utime,jdbcType=TIMESTAMP},
+			
+			</if>
+			<if
+				test="ushift != null">
+				#{ushift,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="ugroup != null">
+				#{ugroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="uperson != null">
+				#{uperson,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="ufrom != null">
+				#{ufrom,jdbcType=VARCHAR},
+			
+			</if>
+		</trim>
+	</insert>
+	<update
+		id="updateByPrimaryKeySelective"
+		parameterType="com.aps.monitor.model.ComMenu">
+		update
+		com_menu
+		<set>
+			<if
+				test="menuName != null">
+				MENU_NAME
+				=
+				#{menuName,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="farMenuId != null">
+				FAR_MENU_ID
+				=
+				#{farMenuId,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="menuSeq != null">
+				MENU_SEQ
+				=
+				#{menuSeq,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="formId != null">
+				FORM_ID
+				=
+				#{formId,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="prflag != null">
+				PRFLAG
+				=
+				#{prflag,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="prgroup != null">
+				PRGROUP
+				=
+				#{prgroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prtype != null">
+				PRTYPE
+				=
+				#{prtype,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property0 != null">
+				PROPERTY0
+				=
+				#{property0,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property1 != null">
+				PROPERTY1
+				=
+				#{property1,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property2 != null">
+				PROPERTY2
+				=
+				#{property2,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property3 != null">
+				PROPERTY3
+				=
+				#{property3,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property4 != null">
+				PROPERTY4
+				=
+				#{property4,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property5 != null">
+				PROPERTY5
+				=
+				#{property5,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property6 != null">
+				PROPERTY6
+				=
+				#{property6,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property7 != null">
+				PROPERTY7
+				=
+				#{property7,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property8 != null">
+				PROPERTY8
+				=
+				#{property8,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="property9 != null">
+				PROPERTY9
+				=
+				#{property9,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prinf != null">
+				PRINF
+				=
+				#{prinf,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="prexp != null">
+				PREXP
+				=
+				#{prexp,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="itime != null">
+				ITIME
+				=
+				#{itime,jdbcType=TIMESTAMP},
+			
+			</if>
+			<if
+				test="ishift != null">
+				ISHIFT
+				=
+				#{ishift,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="igroup != null">
+				IGROUP
+				=
+				#{igroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="iperson != null">
+				IPERSON
+				=
+				#{iperson,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="utime != null">
+				UTIME
+				=
+				#{utime,jdbcType=TIMESTAMP},
+			
+			</if>
+			<if
+				test="ushift != null">
+				USHIFT
+				=
+				#{ushift,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="ugroup != null">
+				UGROUP
+				=
+				#{ugroup,jdbcType=VARCHAR},
+			
+			</if>
+			<if
+				test="uperson != null">
+				UPERSON
+				=
+				#{uperson,jdbcType=INTEGER},
+			
+			</if>
+			<if
+				test="ufrom != null">
+				UFROM
+				=
+				#{ufrom,jdbcType=VARCHAR},
+			
+			</if>
+		</set>
+		where
+		MENU_ID
+		=
+		#{menuId,jdbcType=INTEGER}
+	</update>
+	<update
+		id="updateByPrimaryKey"
+		parameterType="com.aps.monitor.model.ComMenu">
+		update
+		com_menu
+		set
+		MENU_NAME
+		=
+		#{menuName,jdbcType=VARCHAR},
+		FAR_MENU_ID
+		=
+		#{farMenuId,jdbcType=INTEGER},
+		MENU_SEQ
+		=
+		#{menuSeq,jdbcType=INTEGER},
+		FORM_ID
+		=
+		#{formId,jdbcType=INTEGER},
+		PRFLAG
+		=
+		#{prflag,jdbcType=INTEGER},
+		PRGROUP
+		=
+		#{prgroup,jdbcType=VARCHAR},
+		PRTYPE
+		=
+		#{prtype,jdbcType=VARCHAR},
+		PROPERTY0
+		=
+		#{property0,jdbcType=VARCHAR},
+		PROPERTY1
+		=
+		#{property1,jdbcType=VARCHAR},
+		PROPERTY2
+		=
+		#{property2,jdbcType=VARCHAR},
+		PROPERTY3
+		=
+		#{property3,jdbcType=VARCHAR},
+		PROPERTY4
+		=
+		#{property4,jdbcType=VARCHAR},
+		PROPERTY5
+		=
+		#{property5,jdbcType=VARCHAR},
+		PROPERTY6
+		=
+		#{property6,jdbcType=VARCHAR},
+		PROPERTY7
+		=
+		#{property7,jdbcType=VARCHAR},
+		PROPERTY8
+		=
+		#{property8,jdbcType=VARCHAR},
+		PROPERTY9
+		=
+		#{property9,jdbcType=VARCHAR},
+		PRINF
+		=
+		#{prinf,jdbcType=VARCHAR},
+		PREXP
+		=
+		#{prexp,jdbcType=VARCHAR},
+		ITIME
+		=
+		#{itime,jdbcType=TIMESTAMP},
+		ISHIFT
+		=
+		#{ishift,jdbcType=VARCHAR},
+		IGROUP
+		=
+		#{igroup,jdbcType=VARCHAR},
+		IPERSON
+		=
+		#{iperson,jdbcType=INTEGER},
+		UTIME
+		=
+		#{utime,jdbcType=TIMESTAMP},
+		USHIFT
+		=
+		#{ushift,jdbcType=VARCHAR},
+		UGROUP
+		=
+		#{ugroup,jdbcType=VARCHAR},
+		UPERSON
+		=
+		#{uperson,jdbcType=INTEGER},
+		UFROM
+		=
+		#{ufrom,jdbcType=VARCHAR}
+		where
+		MENU_ID
+		=
+		#{menuId,jdbcType=INTEGER}
+	
+	</update>
+	<select
+		id="selectPersonMenu"
+		resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		a.MENU_ID,a.MENU_NAME,a.FAR_MENU_ID,a.FORM_ID,
+		a.PROPERTY0,a.PROPERTY1,b.FORM_ID
+		as
+		PROPERTY2
+		from
+		com_menu
+		a
+		LEFT
+		JOIN
+		(select
+		a.FORM_ID
+		from
+		com_org_form
+		a,
+		com_person_org
+		b
+		where
+		a.ORG_ID
+		=
+		b.ORG_ID
+		and
+		b.PERSON_ID
+		=
+		#{personId,jdbcType=INTEGER}
+		GROUP
+		BY
+		a.FORM_ID)
+		b on
+		a.FORM_ID
+		=
+		b.FORM_ID
+		order
+		by
+		a.FAR_MENU_ID,a.MENU_SEQ
+	
+	</select>
+</mapper>

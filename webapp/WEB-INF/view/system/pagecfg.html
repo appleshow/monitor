@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>界面管理</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="界面管理">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="res/comm/css/icons/csg.ico">
+<link rel="stylesheet" href="./assets-view/jquery/css/icon.css">
+<link rel="stylesheet" href="./assets-view/jquery/css/easyui.css">
+<link rel="stylesheet" href="./assets-view/jquery/css/color.css">
+<script type="text/javascript" src="./assets-view/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="./assets-view/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./assets-view/comm/comm.js"></script>
+<script type="text/javascript" src="./assets-view/comm/datagrid.js"></script>
+<script type="text/javascript" src="./assets-view/system/pagecfg.js"></script>
+</head>
+<body onLoad="pageLoad()">
+     <div class="easyui-layout" data-options="fit:true">
+          <div data-options="region:'north',split:false" style="height: 40px; background: #B3DFDA; padding: 0px; overflow: hidden">
+               <table style="padding: 3px; width: 100%; height: 100%,; border: 0">
+                    <tr>
+                         <td>&nbsp;</td>
+                         <td>&nbsp;</td>
+                         <td><a href="javascript:selectPrgroup()" class="easyui-linkbutton c6" style="width: 70px">界面组别:</a>
+                         <input id="prgroup" class="easyui-textbox" style="width: 80px; height: 28px"> <a href="javascript:selectFormName()" class="easyui-linkbutton c6" style="width: 70px">界面名称:</a>
+                         <input id="form_name" class="easyui-textbox" style="width: 100px; height: 28px"></td>
+                    </tr>
+               </table>
+               <div style="display: none">
+                    <input id="form_id" type="text" style="width: 20px; visibility: hidden" value=''>
+                    <input id="form_name" type="text" style="width: 20px; visibility: hidden">
+               </div>
+          </div>
+          <div data-options="region:'center'" style="padding: 0px; background: #eee;">
+               <div class="easyui-layout" data-options="fit:true">
+                    <div data-options="region:'north',split:true" style="height: 400px; padding: 1px; overflow: hidden">
+                         <table id="dgPage">
+                         </table>
+                    </div>
+                    <div data-options="region:'center'" style="padding: 0px; background: #eee;">
+                         <table id="dgPageCTL">
+                         </table>
+                    </div>
+               </div>
+          </div>
+     </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap Login Form Template</title>
+<link rel="shortcut icon" href="res/comm/css/icons/csg.ico" type="image/x-icon">
+<!--Basic Styles-->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+<!--Beyond styles-->
+<link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/animate.min.css" rel="stylesheet" />
+<!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+<script src="assets/js/skins.min.js"></script>
+<style type="text/css">
+.page-header-fixed+.page-body {
+	margin-top: 40px !important
+}
+
+.page-header.page-header-fixed+.page-body {
+	margin-top: 40px
+}
+
+.page-body {
+	background: #eee;
+	padding: 0px 0px 0px
+}
+
+.page-header.page-header-fixed {
+	position: fixed;
+	right: 0;
+	left: 224px;
+	top: 45px;
+	z-index: 998;
+	margin-top: 0 !important
+}
+</style>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+     <!-- Loading Container -->
+     <div class="loading-container">
+          <div class="loader"></div>
+     </div>
+     <!--  /Loading Container -->
+     <!-- Navbar -->
+     <div class="navbar">
+          <div class="navbar-inner">
+               <div class="navbar-container">
+                    <!-- Navbar Barnd -->
+                    <div class="navbar-header pull-left">
+                         <a href="#" class="navbar-brand"> <small> <img src="assets/img/logo.png" alt="" />
+                         </small>
+                         </a>
+                    </div>
+                    <!-- /Navbar Barnd -->
+                    <!-- Sidebar Collapse -->
+                    <div class="sidebar-collapse" id="sidebar-collapse">
+                         <i class="collapse-icon fa fa-bars"></i>
+                    </div>
+                    <!-- /Sidebar Collapse -->
+                    <!-- Account Area and Settings --->
+                    <div class="navbar-header pull-right">
+                         <div class="navbar-account">
+                              <ul class="account-area">
+                                   <li id="person-m"></li>
+                                   <li><a class="login-area dropdown-toggle" data-toggle="dropdown">
+                                             <div class="avatar" title="查看我的资料">
+                                                  <img src="assets-view/main/css/images/user.png">
+                                             </div>
+                                             <section>
+                                                  <h2>
+                                                       <span class="profile"><span>&nbsp;您好，username &nbsp;&nbsp;&nbsp; </span></span>
+                                                  </h2>
+                                             </section>
+                                   </a> <!--Login Area Dropdown-->
+                                        <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                             <li class="username"><a>username</a></li>
+                                             <li class="email"><a>登入帐号:userid</a></li>
+                                             <!--Avatar Area-->
+                                             <li>
+                                                  <div class="avatar-area">
+                                                       <img src="assets-view/main/css/images/user.png" class="avatar"> <span class="caption">更改头像</span>
+                                                  </div>
+                                             </li>
+                                             <!--Avatar Area-->
+                                             <li class="edit"><a href="#" class="pull-right" onclick="userSetting()">用户设置</a></li>
+                                             <!--Theme Selector Area-->
+                                             <li class="theme-area">
+                                                  <ul class="colorpicker" id="skin-changer">
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #5DB2FF;" rel="assets/css/skins/blue.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #2dc3e8;" rel="assets/css/skins/azure.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #03B3B2;" rel="assets/css/skins/teal.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #53a93f;" rel="assets/css/skins/green.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #FF8F32;" rel="assets/css/skins/orange.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #cc324b;" rel="assets/css/skins/pink.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #AC193D;" rel="assets/css/skins/darkred.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #8C0095;" rel="assets/css/skins/purple.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #0072C6;" rel="assets/css/skins/darkblue.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #585858;" rel="assets/css/skins/gray.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #474544;" rel="assets/css/skins/black.min.css"></a></li>
+                                                       <li><a class="colorpick-btn" href="#" style="background-color: #001940;" rel="assets/css/skins/deepblue.min.css"></a></li>
+                                                  </ul>
+                                             </li>
+                                             <!--/Theme Selector Area-->
+                                             <li class="dropdown-footer"><a href="#" onclick="userOff()">注销</a></li>
+                                        </ul> <!--/Login Area Dropdown--></li>
+                                   <!-- /Account Area -->
+                                   <!--Note: notice that setting div must start right after account area list.
+                            no space must be between these elements-->
+                              </ul>
+                              <!-- Settings -->
+                              <!-- Settings -->
+                         </div>
+                    </div>
+                    <!-- /Account Area and Settings -->
+               </div>
+          </div>
+     </div>
+     <!-- /Navbar -->
+     <!-- Main Container -->
+     <div class="main-container container-fluid">
+          <!-- Page Container -->
+          <div class="page-container">
+               <!-- Page Sidebar -->
+               <div class="page-sidebar" id="sidebar">
+                    <!-- Page Sidebar Header-->
+                    <div class="sidebar-header-wrapper">
+                         <input type="text" class="searchinput" />
+                         <i class="searchicon fa fa-search"></i>
+                         <div class="searchhelper">检索页面</div>
+                    </div>
+                    <!-- /Page Sidebar Header -->
+                    <!-- Sidebar Menu -->
+                    <ul id="sidebarMenu" class="nav sidebar-menu">
+                    </ul>
+                    <!-- /Sidebar Menu -->
+               </div>
+               <!-- /Page Sidebar -->
+               <!-- Page Content -->
+               <div class="page-content">
+                    <!-- Page Breadcrumb -->
+                    <!-- /Page Breadcrumb -->
+                    <!-- Page Header -->
+                    <div class="page-header position-relative">
+                         <div class="header-title">
+                              <h1 id=childeName>
+                                   <span class='glyphicon glyphicon-home' aria-hidden='true'></span> 首页
+                              </h1>
+                         </div>
+                         <!--Header Buttons-->
+                         <div class="header-buttons">
+                              <a class="sidebar-toggler" href="#" title="隐藏"> <i class="fa fa-arrows-h"></i>
+                              </a> <a class="refresh" id="refresh-toggler" href="#" onclick="refreshPage()" title="刷新"> <i class="glyphicon glyphicon-refresh"></i>
+                              </a> <a class="fullscreen" id="fullscreen-toggler" href="#" title="全屏"> <i class="glyphicon glyphicon-fullscreen"></i>
+                              </a>
+                         </div>
+                         <!--Header Buttons End-->
+                    </div>
+                    <!-- /Page Header -->
+                    <!-- Page Body -->
+                    <div class="page-body">
+                         <div class="embed-responsive" id="childFrame">
+                              <iframe id="childePage" class="embed-responsive-item"></iframe>
+                         </div>
+                    </div>
+                    <!-- /Page Body -->
+                    <!-- /Page Content -->
+               </div>
+               <!-- /Page Container -->
+               <!-- Main Container -->
+          </div>
+     </div>
+     <div class="modal fade" id="modal-setting" tabindex="-1" role="dialog" aria-labelledby="mlSettingTitle">
+          <div class="modal-dialog" role="document" style="width: 30%">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h4 class="modal-title" id="mlSettingTitle"></h4>
+                    </div>
+                    <div class="modal-body" style="padding: 1px;">
+                         <div class="tabbable">
+                              <ul class="nav nav-tabs tabs-flat" id="tab-notes">
+                                   <li class="active"><a data-toggle="tab" href="#tab-p"> 修改密码 </a></li>
+                              </ul>
+                              <div class="tab-content tabs-flat">
+                                   <div id="tab-p" class="tab-pane in active">
+                                        <span class="input-icon icon-right"> <input type="password" class="form-control" id="pwo" placeholder="请录入旧密码"> <i class="fa fa-key blue"></i>
+                                        </span><span class="input-icon icon-right"> <input type="password" class="form-control" id="pwn1" placeholder="请录入新密码"> <i class="fa fa-key blue"></i>
+                                        </span><span class="input-icon icon-right"> <input type="password" class="form-control" id="pwn2" placeholder="请确认新密码"> <i class="fa fa-key blue"></i>
+                                        </span>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveSetting()">保存修改</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <i class="glyphicon glyphicon-check"></i>
+                    </div>
+                    <div class="modal-title" id="msTitle"></div>
+                    <div class="modal-body" id="msMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="modal-title" id="mwTitle"></div>
+                    <div class="modal-body" id="mwMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <!--Basic Scripts-->
+     <script src="assets/js/jquery.min.js"></script>
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+     <!--Beyond Scripts-->
+     <script src="assets/js/bootbox/bootbox.js"></script>
+     <script src="assets-view/main/main.js"></script>
+     <script src="assets-view/comm/comm.js"></script>
+</body>
+<!--  /Body -->
+</html>

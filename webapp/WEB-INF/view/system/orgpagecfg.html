@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>组织架构权限管理</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="组织架构权限管理">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="res/comm/css/icons/csg.ico">
+<link rel="stylesheet" href="../res/jquery/css/icon.css">
+<link rel="stylesheet" href="../res/jquery/css/easyui.css">
+<link rel="stylesheet" href="../res/jquery/css/color.css">
+<script type="text/javascript" src="../res/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../res/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../res/comm/comm.js"></script>
+<script type="text/javascript" src="../res/comm/datagrid-min.js"></script>
+<script type="text/javascript" src="../res/orgpagecfg-min.js"></script>
+</head>
+<body onLoad="pageLoad()">
+     <div class="easyui-layout" data-options="fit:true">
+          <div data-options="region:'north',split:false" style="height: 35px; background: #B3DFDA; padding: 0px; overflow: hidden">
+               <div class="easyui-panel" style="width: 100%; height: 36px; padding: 0px; background-color: #F4F4F4" data-options="border:true">
+                    <div id="toolbar">
+                         <table>
+                              <tr>
+                                   <td><a href="javascript:toolRef()" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true">查询</a></td>
+                                   <td>
+                                        <div class="datagrid-btn-separator"></div>
+                                   </td>
+                                   <td><a href="javascript:toolSave()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a></td>
+                              </tr>
+                         </table>
+                    </div>
+               </div>
+          </div>
+          <div data-options="region:'center'" style="padding: 0px; background: #eee;">
+               <div id="tabMain" class="easyui-tabs" data-options="fit:true">
+                    <div title="组织架构界面权限" style="padding: 0px">
+                         <div class="easyui-layout" data-options="fit:true">
+                              <div data-options="region:'east',split:true" style="width: 200px;">
+                                   <ul id="treePageA" class="easyui-tree" data-options="animate:true,lines:true"></ul>
+                              </div>
+                              <div data-options="region:'center'">
+                                   <div class="easyui-layout" data-options="fit:true">
+                                        <div data-options="region:'west',split:true" style="width: 200px;">
+                                             <ul id="treeOrgA" class="easyui-tree" data-options="animate:true,lines:true"></ul>
+                                        </div>
+                                        <div data-options="region:'south',split:true" style="height: 200px;">
+                                             <table id="dgPageCtlA">
+                                             </table>
+                                        </div>
+                                        <div data-options="region:'center'">
+                                             <table id="dgOrgPageA">
+                                             </table>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div title="界面组织架构权限" style="padding: 0px">
+                         <div class="easyui-layout" data-options="fit:true">
+                              <div data-options="region:'west',split:true" style="width: 200px;">
+                                   <ul id="treePageB" class="easyui-tree" data-options="animate:true,lines:true"></ul>
+                              </div>
+                              <div data-options="region:'center'">
+                                   <div class="easyui-layout" data-options="fit:true">
+                                        <div data-options="region:'east',split:true" style="width: 200px;">
+                                             <ul id="treeOrgB" class="easyui-tree" data-options="animate:true,lines:true"></ul>
+                                        </div>
+                                        <div data-options="region:'south',split:true" style="height: 200px;">
+                                             <table id="dgPageCtlB">
+                                             </table>
+                                        </div>
+                                        <div data-options="region:'center'">
+                                             <table id="dgOrgPageB">
+                                             </table>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</body>
+</html>

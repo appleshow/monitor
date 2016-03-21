@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>公共代码管理</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="公共代码管理">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="res/comm/css/icons/csg.ico">
+<link rel="stylesheet" href="./assets-view/jquery/css/icon.css">
+<link rel="stylesheet" href="./assets-view/jquery/css/easyui.css">
+<link rel="stylesheet" href="./assets-view/jquery/css/color.css">
+<script type="text/javascript" src="./assets-view/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="./assets-view/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./assets-view/comm/comm.js"></script>
+<script type="text/javascript" src="./assets-view/system/orgcfg.js"></script>
+</head>
+<body onLoad="pageLoad()">
+     <div class="easyui-layout" data-options="fit:true">
+          <div data-options="region:'north',split:false" style="height: 35px; background: #B3DFDA; padding: 0px; overflow: hidden">
+               <div class="easyui-panel" style="width: 100%; height: 36px; padding: 0px; background-color: #F4F4F4" data-options="border:true">
+                    <div id="toolbar">
+                         <table>
+                              <tr>
+                                   <td><a href="javascript:orgRef()" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true">查询</a></td>
+                                   <td>
+                                        <div class="datagrid-btn-separator"></div>
+                                   </td>
+                                   <td><a href="javascript:orgEdit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a></td>
+                                   <td>
+                                        <div class="datagrid-btn-separator"></div>
+                                   </td>
+                                   <td><a href="javascript:orgAdd()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">新增</a></td>
+                                   <td>
+                                        <div class="datagrid-btn-separator"></div>
+                                   </td>
+                                   <td><a href="javascript:orgDel()" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a></td>
+                              </tr>
+                         </table>
+                    </div>
+               </div>
+          </div>
+          <div data-options="region:'center'" style="padding: 0px; background: #eee;">
+               <ul id="treeOrg" class="easyui-tree" data-options="animate:true,lines:true"></ul>
+          </div>
+     </div>
+     <div id="orgModiy" class="easyui-window" title="组织架构管理" data-options="modal:true,closed:true,collapsible:false,minimizable:false,maximizable:false,iconCls:'icon-edit'" style="width: 360px; height: 186px; padding: 0px;">
+          <div class="easyui-panel" style="width: 100%; height: 30px; padding: 5px; background-color: #E0ECFF" data-options="border:true">
+               <span id="modifyTitle" style="color: blue; font-size: 12pt"></span>
+               <input id="far_org_id" type="text" style="width: 20px; visibility: hidden">
+          </div>
+          <div class="easyui-panel" style="width: 100%; height: 40px; padding: 5px;" data-options="border:true">
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:selectOrgName()" class="easyui-linkbutton c6" style="width: 90px">组织架构名称:</a>
+               <input id="org_name" class="easyui-textbox" style="width: 140px; height: 28px">
+          </div>
+          <div class="easyui-panel" style="width: 100%; height: 40px; padding: 5px;" data-options="border:true">
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:selectOrgSeq()" class="easyui-linkbutton c6" style="width: 90px">组织架构排序:</a>
+               <input id="org_seq" class="easyui-textbox" style="width: 140px; height: 28px">
+          </div>
+          <div class="easyui-panel" style="width: 100%; height: 40px; padding: 5px;" data-options="border:true">
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:modifyOK()" class="easyui-linkbutton c6" style="width: 60px">确定</a> <a href="javascript:modifyCancel()" class="easyui-linkbutton c6" style="width: 60px">取消</a>
+          </div>
+     </div>
+</body>
+</html>

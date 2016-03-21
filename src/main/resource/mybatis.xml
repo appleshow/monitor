@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J2" />
+	</settings>
+	<mappers>
+		<mapper resource="com/aps/monitor/mapper/ComCodeMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComFormMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComFormRightMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComMenuMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComOrgFormMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComOrgMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComPersonMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComPersonOrgMapper.xml" />
+	</mappers>
+</configuration>
