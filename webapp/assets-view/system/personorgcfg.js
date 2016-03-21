@@ -1,8 +1,6 @@
 ﻿// ************************
 // 窗体 全局变量定义
 // ************************
-var personid = null;
-var username = null;
 var orgcombdata = [];
 var personcombdata = [];
 var orgtreedata = null;
@@ -16,9 +14,6 @@ var dgUser = null;
  * 窗体 启动 事件
  */
 function pageLoad() {
-	personid = window.parent.document.getElementById("personid").value;
-	username = window.parent.document.getElementById("username").value;
-
 	pageIni();
 }
 
