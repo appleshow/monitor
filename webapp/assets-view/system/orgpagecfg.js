@@ -1,9 +1,6 @@
 ﻿// ************************
 // 窗体 全局变量定义
 // ************************
-var personid = null;
-var username = null;
-var orgcount = 0;
 var treeorgaslt = null, treepageslt = null;
 var orgformedita = " ", orgformeditb = " ";
 var refa = false, refb = false;
@@ -23,9 +20,6 @@ var dgPageCtlB = null;
  * 窗体 启动 事件
  */
 function pageLoad() {
-	personid = window.parent.document.getElementById("personid").value;
-	username = window.parent.document.getElementById("username").value;
-
 	pageIni();
 }
 
@@ -916,17 +910,10 @@ function pageIni() {
  * 查询
  */
 function toolRef() {
-
 	dgOrgPageA.Grid.datagrid('loadData', []);
 	dgPageCtlA.Grid.datagrid('loadData', []);
 	dgOrgPageB.Grid.datagrid('loadData', []);
 	dgPageCtlB.Grid.datagrid('loadData', []);
-
-	var url = "../servlet/DBHelper";
-	var inf = {
-		type : 'QJ',
-		prc : 'aps.com.dao.COM0005.refOrgFrm'
-	};
 
 	orgformedita = " ";
 	orgformeditb = " ";
@@ -937,7 +924,9 @@ function toolRef() {
 	treeorgaslt = null;
 	treepageslt = null;
 
-	// 加载ORG
+	var url = "orgFormConfig.refOrg";
+	var inf = {};
+	// 加载组织Tree
 	$.ajax({
 		async : false,
 		type : "POST",
@@ -946,108 +935,42 @@ function toolRef() {
 		data : "inf=" + JSON.stringify(inf),
 		dataType : "json",
 		success : function(res) {
-			if (res[0].p_e_code != 0) {
-				dataformctl = [];
-				$smsg(res[0].p_e_msg, "E", res[0].p_e_code);
+			if (res.code != 0) {
+				$smsg(res.message, "E", res.code);
 			} else {
-				var formlist = " ";
-				var datarows = res[0].p_m_rows;
-
-				dataformctl = res;
-				orgcount = datarows.substring(0, instr(datarows, "*"));
-				// 加载组织Tree
-				for (var icnt = 1; icnt <= orgcount; icnt++) {
-					if (res[icnt].far_org_id == "-1") {
+				for (var icnt = 0; icnt < res.data.length; icnt++) {
+					if (res.data[icnt].farOrgId == 0) {
 						$('#treeOrgA').tree('append', {
 							parent : null,
 							data : [ {
-								id : 'node' + res[icnt].org_id,
-								text : res[icnt].org_name
+								id : 'node' + res.data[icnt].orgId,
+								text : res.data[icnt].orgName
 							} ]
 						});
 
 						$('#treeOrgB').tree('append', {
 							parent : null,
 							data : [ {
-								id : 'node' + res[icnt].org_id,
-								text : res[icnt].org_name
+								id : 'node' + res.data[icnt].orgId,
+								text : res.data[icnt].orgName
 							} ]
 						});
 					} else {
 						$('#treeOrgA').tree('append', {
-							parent : $('#treeOrgA').tree("find", "node" + res[icnt].far_org_id).target,
+							parent : $('#treeOrgA').tree("find", "node" + res.data[icnt].farOrgId).target,
 							data : [ {
-								id : 'node' + res[icnt].org_id,
-								text : res[icnt].org_name
+								id : 'node' + res.data[icnt].orgId,
+								text : res.data[icnt].orgName
 							} ]
 						});
 
 						$('#treeOrgB').tree('append', {
-							parent : $('#treeOrgB').tree("find", "node" + res[icnt].far_org_id).target,
+							parent : $('#treeOrgB').tree("find", "node" + res.data[icnt].farOrgId).target,
 							data : [ {
-								id : 'node' + res[icnt].org_id,
-								text : res[icnt].org_name
+								id : 'node' + res.data[icnt].orgId,
+								text : res.data[icnt].orgName
 							} ]
 						});
-					}
-				}
-
-				// 加载窗体Tree
-				var prgroup = " ";
-				for (var icnt = parseInt(orgcount) + 1; icnt < res.length; icnt++) {
-					if (instr(formlist, res[icnt].form_id + ",") < 0) {
-						formlist += res[icnt].form_id + ",";
-
-						if (prgroup == " " || prgroup != res[icnt].prgroup) {
-							prgroup = res[icnt].prgroup;
-							$('#treePageA').tree('append', {
-								parent : null,
-								data : [ {
-									id : 'node' + prgroup,
-									text : prgroup
-								} ]
-							});
-
-							$('#treePageA').tree('append', {
-								parent : $('#treePageA').tree("find", "node" + prgroup).target,
-								data : [ {
-									id : 'node' + res[icnt].form_id,
-									text : res[icnt].form_name
-								} ]
-							});
-
-							$('#treePageB').tree('append', {
-								parent : null,
-								data : [ {
-									id : 'node' + prgroup,
-									text : prgroup
-								} ]
-							});
-
-							$('#treePageB').tree('append', {
-								parent : $('#treePageB').tree("find", "node" + prgroup).target,
-								data : [ {
-									id : 'node' + res[icnt].form_id,
-									text : res[icnt].form_name
-								} ]
-							});
-						} else {
-							$('#treePageA').tree('append', {
-								parent : $('#treePageA').tree("find", "node" + prgroup).target,
-								data : [ {
-									id : 'node' + res[icnt].form_id,
-									text : res[icnt].form_name
-								} ]
-							});
-
-							$('#treePageB').tree('append', {
-								parent : $('#treePageB').tree("find", "node" + prgroup).target,
-								data : [ {
-									id : 'node' + res[icnt].form_id,
-									text : res[icnt].form_name
-								} ]
-							});
-						}
 					}
 				}
 			}
@@ -1055,6 +978,83 @@ function toolRef() {
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
 		}
+	});
+
+	url = "orgFormConfig.refForm";
+	// 加载窗体Tree
+	$.ajax({
+		async : false,
+		type : "POST",
+		url : url,
+		cache : false,
+		data : "inf=" + JSON.stringify(inf),
+		dataType : "json",
+		success : function(res) {
+			if (res.code != 0) {
+				$smsg(res.message, "E", res.code);
+			} else {
+				var prgroup = " ";
+
+				dataformctl = res.data;
+				for (var icnt = 0; icnt < res.data.length; icnt++) {
+					if (prgroup == " " || prgroup != res.data[icnt].prgroup) {
+						prgroup = res.data[icnt].prgroup;
+						$('#treePageA').tree('append', {
+							parent : null,
+							data : [ {
+								id : 'node' + prgroup,
+								text : prgroup
+							} ]
+						});
+
+						$('#treePageA').tree('append', {
+							parent : $('#treePageA').tree("find", "node" + prgroup).target,
+							data : [ {
+								id : 'node' + res.data[icnt].formId,
+								text : res.data[icnt].formName
+							} ]
+						});
+
+						$('#treePageB').tree('append', {
+							parent : null,
+							data : [ {
+								id : 'node' + prgroup,
+								text : prgroup
+							} ]
+						});
+
+						$('#treePageB').tree('append', {
+							parent : $('#treePageB').tree("find", "node" + prgroup).target,
+							data : [ {
+								id : 'node' + res.data[icnt].formId,
+								text : res.data[icnt].formName
+							} ]
+						});
+					} else {
+						$('#treePageA').tree('append', {
+							parent : $('#treePageA').tree("find", "node" + prgroup).target,
+							data : [ {
+								id : 'node' + res.data[icnt].formId,
+								text : res.data[icnt].formName
+							} ]
+						});
+
+						$('#treePageB').tree('append', {
+							parent : $('#treePageB').tree("find", "node" + prgroup).target,
+							data : [ {
+								id : 'node' + res.data[icnt].formId,
+								text : res.data[icnt].formName
+							} ]
+						});
+					}
+
+				}
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+		}
+
 	});
 }
 /**
