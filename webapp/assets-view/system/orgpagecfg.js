@@ -58,8 +58,7 @@ function pageIni() {
 				var orgname = node.text;
 				var url = "../servlet/DBHelper";
 				var inf = {
-					type : 'QJ',
-					prc : 'aps.com.dao.COM0005.refFrm',
+					parcnt : 1,
 					inpar : {
 						org_id : nodeid
 					}
