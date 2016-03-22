@@ -20,7 +20,7 @@ import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComFormRight;
+import com.aps.monitor.model.ComFormRights;
 import com.aps.monitor.service.IFormConfigService;
 
 @Controller
@@ -126,8 +126,8 @@ public class FormConfigController {
 	@RequestMapping(value = "/formConfig.refFormRight", method = RequestMethod.POST)
 	@ResponseBody
 	public String refFormRight(HttpSession session, @RequestParam("inf") String inpar) {
-		ComFormRight comFormRight = new ComFormRight();
-		List<ComFormRight> comFormRights;
+		ComFormRights comFormRight = new ComFormRights();
+		List<ComFormRights> comFormRights;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
 
 		comFormRight.setFormId(requestRefPar.getIntegerPar("formId"));
@@ -154,7 +154,7 @@ public class FormConfigController {
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
-		ComFormRight comFormRight;
+		ComFormRights comFormRight;
 		ResponseData<Object> responseData = new ResponseData<Object>();
 
 		try {
@@ -162,7 +162,7 @@ public class FormConfigController {
 			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
 				rowData = requestMdyPar.getInpar().get(row);
 				type = requestMdyPar.getType(rowData);
-				comFormRight = (ComFormRight) JsonUtil.readValueAsObject(rowData, ComFormRight.class);
+				comFormRight = (ComFormRights) JsonUtil.readValueAsObject(rowData, ComFormRights.class);
 				if (null != comFormRight) {
 					personId = requestMdyPar.getPersonId(session, now, rowData);
 					switch (type) {

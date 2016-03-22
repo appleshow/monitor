@@ -2,7 +2,7 @@ package com.aps.monitor.model;
 
 import java.util.Date;
 
-public class ComOrgForm extends ComOrgFormKey {
+public class ComOrgFormRights extends ComOrgFormRightsKey {
 	private Integer prflag;
 
 	private String prgroup;

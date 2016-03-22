@@ -1,9 +1,7 @@
 package com.aps.monitor.model;
 
-public class ComOrgFormKey {
+public class ComFormRightsKey {
     private Integer formId;
-
-    private Integer orgId;
 
     private String rightId;
 
@@ -13,14 +11,6 @@ public class ComOrgFormKey {
 
     public void setFormId(Integer formId) {
         this.formId = formId;
-    }
-
-    public Integer getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(Integer orgId) {
-        this.orgId = orgId;
     }
 
     public String getRightId() {

@@ -1,26 +1,22 @@
-package com.aps.monitor.service;
+package com.aps.monitor.dao;
 
 import java.util.List;
 
-import com.aps.monitor.model.ComCode;
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComOrg;
 import com.aps.monitor.model.ComOrgFormRights;
 import com.aps.monitor.model.ComOrgFormRightsKey;
 
-public interface IOrgFormConfigService {
-	List<ComCode> selectCombData(List<String> codeType);
-
-	List<ComOrg> selectByCondition(ComOrg record);
-
-	List<ComForm> selectByCondition(ComForm record);
-
+public interface ComOrgFormRightsMapper {
 	int deleteByPrimaryKey(ComOrgFormRightsKey key);
 
+	int insert(ComOrgFormRights record);
+
 	int insertSelective(ComOrgFormRights record);
+
+	ComOrgFormRights selectByPrimaryKey(ComOrgFormRightsKey key);
 
 	List<ComOrgFormRights> selectByCondition(ComOrgFormRights record);
 
 	int updateByPrimaryKeySelective(ComOrgFormRights record);
 
+	int updateByPrimaryKey(ComOrgFormRights record);
 }

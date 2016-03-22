@@ -123,7 +123,7 @@
 			jdbcType="VARCHAR"/>
 		<collection
 			property="comFormRights"
-			ofType="com.aps.monitor.model.ComFormRight">
+			ofType="com.aps.monitor.model.ComFormRights">
 			<id
 				column="FORM_ID"
 				property="formId"
@@ -294,7 +294,7 @@
 		a
 		left
 		join
-		com_form_right
+		com_form_rights
 		b on
 		a.form_id
 		=
@@ -316,7 +316,7 @@
 		a
 		left
 		join
-		com_form_right
+		com_form_rights
 		b on
 		a.form_id
 		=

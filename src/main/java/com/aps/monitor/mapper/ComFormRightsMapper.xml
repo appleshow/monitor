@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-	namespace="com.aps.monitor.dao.ComFormRightMapper">
+	namespace="com.aps.monitor.dao.ComFormRightsMapper">
 	<resultMap
 		id="BaseResultMap"
-		type="com.aps.monitor.model.ComFormRight">
+		type="com.aps.monitor.model.ComFormRights">
 		<id
 			column="FORM_ID"
 			property="formId"
@@ -168,12 +168,12 @@
 	<select
 		id="selectByPrimaryKey"
 		resultMap="BaseResultMap"
-		parameterType="com.aps.monitor.model.ComFormRightKey">
+		parameterType="com.aps.monitor.model.ComFormRightsKey">
 		select
 		<include
 			refid="Base_Column_List"/>
 		from
-		com_form_right
+		com_form_rights
 		where
 		FORM_ID
 		=
@@ -186,12 +186,12 @@
 	<select
 		id="selectByCondition"
 		resultMap="BaseResultMap"
-		parameterType="com.aps.monitor.model.ComFormRight">
+		parameterType="com.aps.monitor.model.ComFormRights">
 		select
 		<include
 			refid="Base_Column_List"/>
 		from
-		com_form_right
+		com_form_rights
 		<where>
 			<if
 				test="formId != null">
@@ -203,10 +203,10 @@
 	</select>
 	<delete
 		id="deleteByPrimaryKey"
-		parameterType="com.aps.monitor.model.ComFormRightKey">
+		parameterType="com.aps.monitor.model.ComFormRightsKey">
 		delete
 		from
-		com_form_right
+		com_form_rights
 		where
 		FORM_ID
 		=
@@ -219,10 +219,10 @@
 	</delete>
 	<insert
 		id="insert"
-		parameterType="com.aps.monitor.model.ComFormRight">
+		parameterType="com.aps.monitor.model.ComFormRights">
 		insert
 		into
-		com_form_right
+		com_form_rights
 		(FORM_ID,
 		RIGHT_ID,
 		RIGHT_INF,
@@ -292,10 +292,10 @@
 	</insert>
 	<insert
 		id="insertSelective"
-		parameterType="com.aps.monitor.model.ComFormRight">
+		parameterType="com.aps.monitor.model.ComFormRights">
 		insert
 		into
-		com_form_right
+		com_form_rights
 		<trim
 			prefix="("
 			suffix=")"
@@ -619,9 +619,9 @@
 	</insert>
 	<update
 		id="updateByPrimaryKeySelective"
-		parameterType="com.aps.monitor.model.ComFormRight">
+		parameterType="com.aps.monitor.model.ComFormRights">
 		update
-		com_form_right
+		com_form_rights
 		<set>
 			<if
 				test="rightInf != null">
@@ -838,9 +838,9 @@
 	</update>
 	<update
 		id="updateByPrimaryKey"
-		parameterType="com.aps.monitor.model.ComFormRight">
+		parameterType="com.aps.monitor.model.ComFormRights">
 		update
-		com_form_right
+		com_form_rights
 		set
 		RIGHT_INF
 		=

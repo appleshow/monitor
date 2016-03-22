@@ -15,6 +15,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.model.ComForm;
 import com.aps.monitor.model.ComOrg;
+import com.aps.monitor.model.ComOrgFormRights;
 import com.aps.monitor.service.IOrgFormConfigService;
 
 @Controller
@@ -66,4 +67,29 @@ public class OrgFormConfigController {
 		return JsonUtil.writeResponseAsString(comForms);
 	}
 
+	/**
+	 * 
+	 * @Title: refOrgForm
+	 * @Description: TODO
+	 * @param: @param session
+	 * @param: @param inpar
+	 * @param: @return
+	 * @return: String
+	 * @throws
+	 * @since 1.0.0
+	 */
+	@RequestMapping(value = "/orgFormConfig.refOrgForm", method = RequestMethod.POST)
+	@ResponseBody
+	public String refOrgForm(HttpSession session, @RequestParam("inf") String inpar) {
+		ComOrgFormRights comOrgForm = new ComOrgFormRights();
+		List<ComOrgFormRights> comroComOrgForms;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
+
+		comOrgForm.setOrgId(requestRefPar.getIntegerPar("orgId"));
+		comOrgForm.setFormId(requestRefPar.getIntegerPar("formId"));
+		comroComOrgForms = orgFormConfigService.selectByCondition(comOrgForm);
+
+		return JsonUtil.writeResponseAsString(comroComOrgForms);
+
+	}
 }

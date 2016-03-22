@@ -2,7 +2,7 @@ package com.aps.monitor.model;
 
 import java.util.Date;
 
-public class ComFormRight extends ComFormRightKey {
+public class ComFormRights extends ComFormRightsKey {
     private String rightInf;
 
     private Integer prflag;

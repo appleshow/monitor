@@ -8,9 +8,9 @@
 	<mappers>
 		<mapper resource="com/aps/monitor/mapper/ComCodeMapper.xml" />
 		<mapper resource="com/aps/monitor/mapper/ComFormMapper.xml" />
-		<mapper resource="com/aps/monitor/mapper/ComFormRightMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComFormRightsMapper.xml" />
 		<mapper resource="com/aps/monitor/mapper/ComMenuMapper.xml" />
-		<mapper resource="com/aps/monitor/mapper/ComOrgFormMapper.xml" />
+		<mapper resource="com/aps/monitor/mapper/ComOrgFormRightsMapper.xml" />
 		<mapper resource="com/aps/monitor/mapper/ComOrgMapper.xml" />
 		<mapper resource="com/aps/monitor/mapper/ComPersonMapper.xml" />
 		<mapper resource="com/aps/monitor/mapper/ComPersonOrgMapper.xml" />

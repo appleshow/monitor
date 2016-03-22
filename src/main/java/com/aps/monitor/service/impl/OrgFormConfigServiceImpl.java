@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.dao.ComFormMapper;
-import com.aps.monitor.dao.ComFormRightMapper;
-import com.aps.monitor.dao.ComOrgFormMapper;
+import com.aps.monitor.dao.ComFormRightsMapper;
+import com.aps.monitor.dao.ComOrgFormRightsMapper;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.model.ComForm;
 import com.aps.monitor.model.ComOrg;
-import com.aps.monitor.model.ComOrgForm;
-import com.aps.monitor.model.ComOrgFormKey;
+import com.aps.monitor.model.ComOrgFormRights;
+import com.aps.monitor.model.ComOrgFormRightsKey;
 import com.aps.monitor.service.IOrgFormConfigService;
 
 @Service
@@ -27,9 +27,9 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	@Resource
 	private ComFormMapper comFormMapper;
 	@Resource
-	private ComFormRightMapper comFormRightMapper;
+	private ComFormRightsMapper comFormRightMapper;
 	@Resource
-	private ComOrgFormMapper comOrgFormMapper;
+	private ComOrgFormRightsMapper comOrgFormMapper;
 
 	@Override
 	public List<ComCode> selectCombData(List<String> codeType) {
@@ -47,22 +47,22 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	}
 
 	@Override
-	public int deleteByPrimaryKey(ComOrgFormKey key) {
+	public int deleteByPrimaryKey(ComOrgFormRightsKey key) {
 		return comOrgFormMapper.deleteByPrimaryKey(key);
 	}
 
 	@Override
-	public int insertSelective(ComOrgForm record) {
+	public int insertSelective(ComOrgFormRights record) {
 		return comOrgFormMapper.insertSelective(record);
 	}
 
 	@Override
-	public List<ComOrgForm> selectByCondition(ComOrgForm record) {
+	public List<ComOrgFormRights> selectByCondition(ComOrgFormRights record) {
 		return comOrgFormMapper.selectByCondition(record);
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(ComOrgForm record) {
+	public int updateByPrimaryKeySelective(ComOrgFormRights record) {
 		return comOrgFormMapper.updateByPrimaryKeySelective(record);
 	}
 }

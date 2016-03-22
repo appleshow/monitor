@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.dao.ComFormMapper;
-import com.aps.monitor.dao.ComFormRightMapper;
+import com.aps.monitor.dao.ComFormRightsMapper;
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComFormRight;
-import com.aps.monitor.model.ComFormRightKey;
+import com.aps.monitor.model.ComFormRights;
+import com.aps.monitor.model.ComFormRightsKey;
 import com.aps.monitor.service.IFormConfigService;
 
 @Service
@@ -20,7 +20,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 	@Resource
 	private ComFormMapper comFormMapper;
 	@Resource
-	private ComFormRightMapper comFormRightMapper;
+	private ComFormRightsMapper comFormRightMapper;
 	@Resource
 	private ComCodeMapper comCodeMapper;
 
@@ -30,7 +30,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 	}
 
 	@Override
-	public List<ComFormRight> selectFormRightByCondition(ComFormRight record) {
+	public List<ComFormRights> selectFormRightByCondition(ComFormRights record) {
 		return comFormRightMapper.selectByCondition(record);
 	}
 
@@ -40,7 +40,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 	}
 
 	@Override
-	public int insertFormRightSelective(ComFormRight record) {
+	public int insertFormRightSelective(ComFormRights record) {
 		return comFormRightMapper.insertSelective(record);
 	}
 
@@ -50,7 +50,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 	}
 
 	@Override
-	public int updateFormRightBySelective(ComFormRight record) {
+	public int updateFormRightBySelective(ComFormRights record) {
 		return comFormRightMapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -60,7 +60,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 	}
 
 	@Override
-	public int deleteFormRightByPrimaryKey(ComFormRightKey key) {
+	public int deleteFormRightByPrimaryKey(ComFormRightsKey key) {
 		return comFormRightMapper.deleteByPrimaryKey(key);
 	}
 

@@ -56,11 +56,11 @@ function pageIni() {
 				dgPageCtlA.Grid.datagrid('loadData', []);
 
 				var orgname = node.text;
-				var url = "../servlet/DBHelper";
+				var url = "orgFormConfig.refOrgForm";
 				var inf = {
 					parcnt : 1,
 					inpar : {
-						org_id : nodeid
+						orgId : nodeid
 					}
 				};
 
@@ -72,28 +72,28 @@ function pageIni() {
 					data : "inf=" + JSON.stringify(inf),
 					dataType : "json",
 					success : function(res) {
-						if (res[0].p_e_code != 0) {
+						if (res.code != 0) {
 							refa = false;
 							dgOrgPageA.Grid.datagrid('loaded');
-							$smsg(res[0].p_e_msg, "E", res[0].p_e_code);
+							$smsg(res.message, "E", res.code);
 						} else {
 							var formid = " ";
 							var roworgform = null;
 
-							dataorgformctla = res;
-							for (var icnt = 1; icnt < res.length; icnt++) {
-								if (formid == " " || formid != res[icnt].form_id) {
-									formid = res[icnt].form_id;
+							dataorgformctla = res.data;
+							for (var icnt = 0; icnt < res.data.length; icnt++) {
+								if (formid == " " || formid != res.data[icnt].formId) {
+									formid = res.data[icnt].formId;
 									roworgform = {
-										org_id : res[icnt].org_id,
+										org_id : res.data[icnt].orgId,
 										org_name : orgname,
-										form_id : res[icnt].form_id,
-										form_name : res[icnt].form_name,
-										prgroup : res[icnt].prgroup
+										form_id : res.data[icnt].formId,
+										form_name : res.data[icnt].formName,
+										prgroup : res.data[icnt].prgroup
 									};
 									dgOrgPageA.Grid.datagrid('appendRow', roworgform);
 									refa = true;
-									$("#treePageA").tree("check", $('#treePageA').tree("find", "node" + res[icnt].form_id).target);
+									$("#treePageA").tree("check", $('#treePageA').tree("find", "node" + res.data[icnt].form_id).target);
 								}
 							}
 							refa = false;

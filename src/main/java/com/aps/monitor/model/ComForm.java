@@ -62,7 +62,7 @@ public class ComForm {
 
 	private String ufrom;
 
-	private List<ComFormRight> comFormRights;
+	private List<ComFormRights> comFormRights;
 
 	public Integer getFormId() {
 		return formId;
@@ -296,11 +296,11 @@ public class ComForm {
 		this.ufrom = ufrom == null ? null : ufrom.trim();
 	}
 
-	public List<ComFormRight> getComFormRights() {
+	public List<ComFormRights> getComFormRights() {
 		return comFormRights;
 	}
 
-	public void setComFormRights(List<ComFormRight> comFormRights) {
+	public void setComFormRights(List<ComFormRights> comFormRights) {
 		this.comFormRights = comFormRights;
 	}
 
