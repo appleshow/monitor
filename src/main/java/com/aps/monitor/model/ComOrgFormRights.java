@@ -61,6 +61,12 @@ public class ComOrgFormRights extends ComOrgFormRightsKey {
 
 	private String ufrom;
 
+	private ComOrg comOrg;
+
+	private ComForm comForm;
+
+	private ComFormRights comFormRights;
+
 	public Integer getPrflag() {
 		return prflag;
 	}
@@ -291,6 +297,30 @@ public class ComOrgFormRights extends ComOrgFormRightsKey {
 
 	public void setUfrom(String ufrom) {
 		this.ufrom = ufrom == null ? null : ufrom.trim();
+	}
+
+	public ComOrg getComOrg() {
+		return comOrg;
+	}
+
+	public void setComOrg(ComOrg comOrg) {
+		this.comOrg = comOrg;
+	}
+
+	public ComForm getComForm() {
+		return comForm;
+	}
+
+	public void setComForm(ComForm comForm) {
+		this.comForm = comForm;
+	}
+
+	public ComFormRights getComFormRights() {
+		return comFormRights;
+	}
+
+	public void setComFormRights(ComFormRights comFormRights) {
+		this.comFormRights = comFormRights;
 	}
 
 }

@@ -4,16 +4,23 @@ import java.util.List;
 
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.model.ComForm;
+import com.aps.monitor.model.ComFormRights;
 import com.aps.monitor.model.ComOrg;
+import com.aps.monitor.model.ComOrgForm;
+import com.aps.monitor.model.ComOrgFormKey;
 import com.aps.monitor.model.ComOrgFormRights;
 import com.aps.monitor.model.ComOrgFormRightsKey;
 
 public interface IOrgFormConfigService {
-	List<ComCode> selectCombData(List<String> codeType);
+	List<ComCode> selectComCode(ComCode record);
 
-	List<ComOrg> selectByCondition(ComOrg record);
+	List<ComOrg> selectComOrg(ComOrg record);
 
-	List<ComForm> selectByCondition(ComForm record);
+	List<ComForm> selectComForm(ComForm record);
+
+	List<ComOrgForm> selectComOrgForm(ComOrgForm record);
+
+	List<ComFormRights> selectComFormRights(ComFormRights record);
 
 	int deleteByPrimaryKey(ComOrgFormRightsKey key);
 
@@ -23,4 +30,7 @@ public interface IOrgFormConfigService {
 
 	int updateByPrimaryKeySelective(ComOrgFormRights record);
 
+	int insertComOrgFormSelective(ComOrgForm record);
+
+	int deleteComOrgFormByPrimaryKey(ComOrgFormKey record);
 }

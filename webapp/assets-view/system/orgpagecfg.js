@@ -4,10 +4,7 @@
 var treeorgaslt = null, treepageslt = null;
 var orgformedita = " ", orgformeditb = " ";
 var refa = false, refb = false;
-var dataformctl = [];
-var dataorgformctla = [];
-var dataorgformctlb = [];
-
+var comCode = [];
 /**
  * Grid控件
  */
@@ -25,7 +22,28 @@ function pageLoad() {
 
 // 初始化 Grid
 function pageIni() {
+	var url = "orgFormConfig.refComCode";
+	var inf = {};
 
+	$.ajax({
+		type : "POST",
+		url : url,
+		cache : false,
+		data : "inf=" + JSON.stringify(inf),
+		dataType : "json",
+		success : function(res) {
+			if (res.code != 0) {
+				$smsg(res.message, "E", res.code);
+			} else {
+				comCode = res.data;
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			refa = false;
+			$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+		}
+
+	});
 	/***************************************************************************************************************************************************************************************************
 	 * 初始化treeOrgA
 	 **************************************************************************************************************************************************************************************************/
@@ -38,6 +56,7 @@ function pageIni() {
 		dnd : false,
 
 		onCheck : function(node, checked) {
+			orgformedita = " ";
 			if (checked) {
 				dgOrgPageA.Grid.datagrid('loading');
 				if (treeorgaslt != null) {
@@ -77,24 +96,20 @@ function pageIni() {
 							dgOrgPageA.Grid.datagrid('loaded');
 							$smsg(res.message, "E", res.code);
 						} else {
-							var formid = " ";
 							var roworgform = null;
 
-							dataorgformctla = res.data;
 							for (var icnt = 0; icnt < res.data.length; icnt++) {
-								if (formid == " " || formid != res.data[icnt].formId) {
-									formid = res.data[icnt].formId;
-									roworgform = {
-										org_id : res.data[icnt].orgId,
-										org_name : orgname,
-										form_id : res.data[icnt].formId,
-										form_name : res.data[icnt].formName,
-										prgroup : res.data[icnt].prgroup
-									};
-									dgOrgPageA.Grid.datagrid('appendRow', roworgform);
-									refa = true;
-									$("#treePageA").tree("check", $('#treePageA').tree("find", "node" + res.data[icnt].form_id).target);
-								}
+								formid = res.data[icnt].formId;
+								roworgform = {
+									orgId : res.data[icnt].orgId,
+									orgName : orgname,
+									formId : res.data[icnt].formId,
+									formName : res.data[icnt].comForm.formName,
+									prgroup : res.data[icnt].comForm.prgroup
+								};
+								dgOrgPageA.Grid.datagrid('appendRow', roworgform);
+								refa = true;
+								$("#treePageA").tree("check", $('#treePageA').tree("find", "node" + res.data[icnt].formId).target);
 							}
 							refa = false;
 							dgOrgPageA.Grid.datagrid('loaded');
@@ -157,59 +172,82 @@ function pageIni() {
 				var griddata = dgOrgPageA.Grid.datagrid("getRows");
 
 				for (var row = 0; row < griddata.length; row++) {
-					if (griddata[row].form_id == formid) {
+					if (griddata[row].formId == formid) {
 						findformid = row;
 						break;
 					}
 				}
 				if (findformid != -1) {
 					dgOrgPageA.setRowHeader(findformid + 1, false, findformid);
-					orgformedita = replace(orgformedita, findformid + ",", "");
+					orgformedita = replace(orgformedita, formid + ",", "");
 				} else {
 					var first = true;
 					var orgid = replace($("#treeOrgA").tree("getChecked")[0].id, "node", "");
 					var orgname = $("#treeOrgA").tree("getChecked")[0].text;
 					var griddatalen = dgOrgPageA.Grid.datagrid("getRows").length;
 
-					for (var icnt = parseInt(orgcount) + 1; icnt < dataformctl.length; icnt++) {
-						if (formid == dataformctl[icnt].form_id) {
-							if (first) {
-								first = false;
-
-								roworgform = {
-									org_id : orgid,
-									org_name : orgname,
-									form_id : dataformctl[icnt].form_id,
-									form_name : dataformctl[icnt].form_name,
-									prgroup : dataformctl[icnt].prgroup
-								};
-								dgOrgPageA.Grid.datagrid('appendRow', roworgform);
-								dgOrgPageA.setRowHeader("Insert", false, griddatalen);
-								dgOrgPageA.Grid.datagrid('checkRow', griddatalen);
-
-								orgformedita += griddatalen + ",";
-							}
-
-							roworgform = {
-								org_id : orgid,
-								form_id : dataformctl[icnt].form_id,
-								form_name : dataformctl[icnt].form_name,
-								right_id : dataformctl[icnt].right_id,
-								right_inf : dataformctl[icnt].right_inf,
-								code_value : dataformctl[icnt].code_value,
-								code_name : dataformctl[icnt].code_name,
-								rea : dataformctl[icnt].rea,
-								rel : 1,
-								r1 : dataformctl[icnt].r1,
-								r2 : dataformctl[icnt].r2,
-								r3 : dataformctl[icnt].r3,
-								personid : personid
-							};
-							dgPageCtlA.Grid.datagrid('appendRow', roworgform);
-							dgPageCtlA.setRowHeader("Insert", false, dgPageCtlA.Grid.datagrid("getRows").length - 1);
-							dgPageCtlA.addModifyRow("I", dgPageCtlA.Grid.datagrid("getRows").length - 1);
+					// 查询窗体权限信息
+					var url = "orgFormConfig.refFormRights";
+					var inf = {
+						parcnt : 1,
+						inpar : {
+							formId : formid
 						}
-					}
+					};
+
+					$.ajax({
+						type : "POST",
+						url : url,
+						cache : false,
+						data : "inf=" + JSON.stringify(inf),
+						dataType : "json",
+						success : function(res) {
+							if (res.code != 0) {
+								$smsg(res.message, "E", res.code);
+							} else {
+								for (var icnt = 0; icnt < res.data.length; icnt++) {
+									if (first) {
+										first = false;
+
+										roworgform = {
+											orgId : orgid,
+											orgName : orgname,
+											formId : res.data[icnt].formId,
+											formName : res.data[icnt].comForm.formName,
+											prgroup : res.data[icnt].comForm.prgroup
+										};
+										dgOrgPageA.Grid.datagrid('appendRow', roworgform);
+										dgOrgPageA.setRowHeader("Insert", false, griddatalen);
+										dgOrgPageA.Grid.datagrid('checkRow', griddatalen);
+
+										orgformedita += formid + ",";
+									}
+
+									roworgform = {
+										orgId : orgid,
+										formId : res.data[icnt].formId,
+										formName : res.data[icnt].comForm.formName,
+										rightId : res.data[icnt].rightId,
+										rightInf : res.data[icnt].rightInf,
+										prtype : res.data[icnt].prtype,
+										codeName : findComCodeName("C0001", res.data[icnt].prtype),
+										rea : res.data[icnt].rea,
+										rel : 1,
+										r1 : res.data[icnt].r1,
+										r2 : res.data[icnt].r2,
+										r3 : res.data[icnt].r3
+									};
+									dgPageCtlA.Grid.datagrid('appendRow', roworgform);
+									dgPageCtlA.setRowHeader("Insert", false, dgPageCtlA.Grid.datagrid("getRows").length - 1);
+									dgPageCtlA.addModifyRow("I", dgPageCtlA.Grid.datagrid("getRows").length - 1);
+
+								}
+							}
+						},
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+						}
+					});
 				}
 			} else {
 				var type = null;
@@ -219,7 +257,7 @@ function pageIni() {
 				var tr = panel.find("div.datagrid-cell-rownumber");
 
 				tr.each(function(icnt) {
-					if (orgformdata[icnt].form_id == formid) {
+					if (orgformdata[icnt].formId == formid) {
 						type = $(this).html();
 						if (isNaN(type)) {
 							switch (type) {
@@ -231,12 +269,12 @@ function pageIni() {
 								var formctldata = dgPageCtlA.Grid.datagrid("getRows");
 
 								for (var row = 0; row < formctldata.length; row++) {
-									if (formctldata[row].form_id == formid) {
+									if (formctldata[row].formId == formid) {
 										dgPageCtlA.Grid.datagrid('deleteRow', row);
 										row--;
 									}
 								}
-								orgformedita = replace(orgformedita, icnt + ",", "");
+								orgformedita = replace(orgformedita, formid + ",", "");
 								break;
 							case "Delete":
 								break;
@@ -245,7 +283,7 @@ function pageIni() {
 						} else {
 							dgOrgPageA.Grid.datagrid('uncheckRow', icnt);
 							$(this).html("Delete");
-							orgformedita += icnt + ",";
+							orgformedita += formid + ",";
 						}
 					}
 				});
@@ -289,59 +327,85 @@ function pageIni() {
 				var griddata = dgOrgPageB.Grid.datagrid("getRows");
 
 				for (var row = 0; row < griddata.length; row++) {
-					if (griddata[row].org_id == orgid) {
+					if (griddata[row].orgId == orgid) {
 						findorgid = row;
 						break;
 					}
 				}
 				if (findorgid != -1) {
 					dgOrgPageB.setRowHeader(findorgid + 1, false, findorgid);
-					orgformeditb = replace(orgformeditb, findorgid + ",", "");
+					orgformeditb = replace(orgformeditb, orgid + ",", "");
 				} else {
 					var first = true;
 					var orgid = replace(node.id, "node", "");
 					var orgname = node.text;
 					var griddatalen = dgOrgPageB.Grid.datagrid("getRows").length;
 
-					for (var icnt = parseInt(orgcount) + 1; icnt < dataformctl.length; icnt++) {
-						if (formid == dataformctl[icnt].form_id) {
-							if (first) {
-								first = false;
-
-								roworgform = {
-									org_id : orgid,
-									org_name : orgname,
-									form_id : dataformctl[icnt].form_id,
-									form_name : dataformctl[icnt].form_name,
-									prgroup : dataformctl[icnt].prgroup
-								};
-								dgOrgPageB.Grid.datagrid('appendRow', roworgform);
-								dgOrgPageB.setRowHeader("Insert", false, griddatalen);
-								dgOrgPageB.Grid.datagrid('checkRow', griddatalen);
-
-								orgformeditb += griddatalen + ",";
-							}
-
-							roworgform = {
-								org_id : orgid,
-								form_id : dataformctl[icnt].form_id,
-								org_name : orgname,
-								right_id : dataformctl[icnt].right_id,
-								right_inf : dataformctl[icnt].right_inf,
-								code_value : dataformctl[icnt].code_value,
-								code_name : dataformctl[icnt].code_name,
-								rea : dataformctl[icnt].rea,
-								rel : 1,
-								r1 : dataformctl[icnt].r1,
-								r2 : dataformctl[icnt].r2,
-								r3 : dataformctl[icnt].r3,
-								personid : personid
-							};
-							dgPageCtlB.Grid.datagrid('appendRow', roworgform);
-							dgPageCtlB.setRowHeader("Insert", false, dgPageCtlB.Grid.datagrid("getRows").length - 1);
-							dgPageCtlB.addModifyRow("I", dgPageCtlB.Grid.datagrid("getRows").length - 1);
+					// 查询窗体权限信息
+					var url = "orgFormConfig.refFormRights";
+					var inf = {
+						parcnt : 1,
+						inpar : {
+							formId : formid
 						}
-					}
+					};
+
+					$.ajax({
+						type : "POST",
+						url : url,
+						cache : false,
+						data : "inf=" + JSON.stringify(inf),
+						dataType : "json",
+						success : function(res) {
+							if (res.code != 0) {
+								$smsg(res.message, "E", res.code);
+							} else {
+								for (var icnt = 0; icnt < res.data.length; icnt++) {
+									if (formid == res.data[icnt].formId) {
+										if (first) {
+											first = false;
+
+											roworgform = {
+												orgId : orgid,
+												orgName : orgname,
+												formId : res.data[icnt].formId,
+												formName : res.data[icnt].comForm.formName,
+												prgroup : res.data[icnt].comForm.prgroup
+											};
+											dgOrgPageB.Grid.datagrid('appendRow', roworgform);
+											dgOrgPageB.setRowHeader("Insert", false, griddatalen);
+											dgOrgPageB.Grid.datagrid('checkRow', griddatalen);
+
+											orgformeditb += orgid + ",";
+										}
+
+										roworgform = {
+											orgId : orgid,
+											formId : res.data[icnt].formId,
+											orgName : orgname,
+											rightId : res.data[icnt].rightId,
+											rightInf : res.data[icnt].rightInf,
+											prtype : res.data[icnt].prtype,
+											codeName : findComCodeName("C0001", res.data[icnt].prtype),
+											rea : res.data[icnt].rea,
+											rel : 1,
+											r1 : res.data[icnt].r1,
+											r2 : res.data[icnt].r2,
+											r3 : res.data[icnt].r3
+										};
+										dgPageCtlB.Grid.datagrid('appendRow', roworgform);
+										dgPageCtlB.setRowHeader("Insert", false, dgPageCtlB.Grid.datagrid("getRows").length - 1);
+										dgPageCtlB.addModifyRow("I", dgPageCtlB.Grid.datagrid("getRows").length - 1);
+									}
+
+								}
+							}
+						},
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+						}
+
+					});
 				}
 			} else {
 				var type = null;
@@ -352,7 +416,7 @@ function pageIni() {
 				var tr = panel.find("div.datagrid-cell-rownumber");
 
 				tr.each(function(icnt) {
-					if (orgformdata[icnt].org_id == orgid) {
+					if (orgformdata[icnt].orgId == orgid) {
 						type = $(this).html();
 						if (isNaN(type)) {
 							switch (type) {
@@ -364,12 +428,12 @@ function pageIni() {
 								var formctldata = dgPageCtlB.Grid.datagrid("getRows");
 
 								for (var row = 0; row < formctldata.length; row++) {
-									if (formctldata[row].form_id == formid) {
+									if (formctldata[row].formId == formid) {
 										dgPageCtlB.Grid.datagrid('deleteRow', row);
 										row--;
 									}
 								}
-								orgformeditb = replace(orgformeditb, icnt + ",", "");
+								orgformeditb = replace(orgformeditb, orgid + ",", "");
 								break;
 							case "Delete":
 								break;
@@ -378,7 +442,7 @@ function pageIni() {
 						} else {
 							dgOrgPageB.Grid.datagrid('uncheckRow', icnt);
 							$(this).html("Delete");
-							orgformeditb += icnt + ",";
+							orgformeditb += orgid + ",";
 						}
 					}
 				});
@@ -398,6 +462,7 @@ function pageIni() {
 		dnd : false,
 
 		onCheck : function(node, checked) {
+			orgformeditb = " ";
 			if (checked) {
 				dgOrgPageB.Grid.datagrid('loading');
 				if (treepageslt != null) {
@@ -415,16 +480,15 @@ function pageIni() {
 				dgOrgPageB.Grid.datagrid('loadData', []);
 				dgPageCtlB.Grid.datagrid('loadData', []);
 
-				var url = "../servlet/DBHelper";
+				// 查询构窗组织架体信息
+				var url = "orgFormConfig.refOrgForm";
 				var inf = {
-					type : 'QJ',
-					prc : 'aps.com.dao.COM0005.refFrm',
+					parcnt : 1,
 					inpar : {
-						form_id : formid
+						formId : formid
 					}
 				};
 
-				// 查询组织架构窗体信息
 				$.ajax({
 					type : "POST",
 					url : url,
@@ -432,29 +496,24 @@ function pageIni() {
 					data : "inf=" + JSON.stringify(inf),
 					dataType : "json",
 					success : function(res) {
-						if (res[0].p_e_code != 0) {
+						if (res.code != 0) {
 							refa = false;
 							dgOrgPageB.Grid.datagrid('loaded');
-							$smsg(res[0].p_e_msg, "E", res[0].p_e_code);
+							$smsg(res.message, "E", res.code);
 						} else {
-							var orgid = " ";
 							var roworgform = null;
 
-							dataorgformctlb = res;
-							for (var icnt = 1; icnt < res.length; icnt++) {
-								if (orgid == " " || orgid != res[icnt].org_id) {
-									orgid = res[icnt].org_id;
-									roworgform = {
-										org_id : res[icnt].org_id,
-										org_name : $("#treeOrgB").tree("find", "node" + res[icnt].org_id).text,
-										form_id : res[icnt].form_id,
-										form_name : res[icnt].form_name,
-										prgroup : res[icnt].prgroup
-									};
-									dgOrgPageB.Grid.datagrid('appendRow', roworgform);
-									refb = true;
-									$("#treeOrgB").tree("check", $('#treeOrgB').tree("find", "node" + res[icnt].org_id).target);
-								}
+							for (var icnt = 0; icnt < res.data.length; icnt++) {
+								roworgform = {
+									orgId : res.data[icnt].orgId,
+									orgName : res.data[icnt].comOrg.orgName,
+									formId : res.data[icnt].formId,
+									formName : res.data[icnt].comForm.formName,
+									prgroup : res.data[icnt].prgroup
+								};
+								dgOrgPageB.Grid.datagrid('appendRow', roworgform);
+								refb = true;
+								$("#treeOrgB").tree("check", $('#treeOrgB').tree("find", "node" + res.data[icnt].orgId).target);
 							}
 							refb = false;
 							dgOrgPageB.Grid.datagrid('loaded');
@@ -490,16 +549,14 @@ function pageIni() {
 	// 初始化Grid列
 	// grid.setHeadCol(rowindex,colid, colname, colwidth, valign,irowspan,icolspan, bsort, bfrozen, bresizable, osorter, ostyler, oedit,oPageat,bprimery, bnecessary,binput, bhidden)
 
-	dgOrgPageA.setHeadCol(1, "ORG_ID", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
-	dgOrgPageA.setHeadCol(1, "ORG_NAME", "组织架构名称", 100, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgOrgPageA.setHeadCol(1, "FORM_ID", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgOrgPageA.setHeadCol(1, "FORM_NAME", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgOrgPageA.setHeadCol(1, "PRGROUP", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageA.setHeadCol(1, "orgId", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
+	dgOrgPageA.setHeadCol(1, "orgName", "组织架构名称", 100, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageA.setHeadCol(1, "formId", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgOrgPageA.setHeadCol(1, "formName", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageA.setHeadCol(1, "prgroup", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgOrgPageA.dbinf.modify = {
-		url : "../servlet/DBHelper",
-		type : "PJ",
-		prc : "aps.com.dao.COM0005.mdyOrgFrm",
+		url : "orgFormConfig.mdyComOrgForm",
 	};
 
 	// 初始化Grid属性
@@ -524,7 +581,7 @@ function pageIni() {
 		columns : dgOrgPageA.aryheadcols.ufrozen,
 
 		onBeforeCheck : function(index, row) {
-			if (instr(orgformedita, index + ",") >= 0) {
+			if (instr(orgformedita, row.formId + ",") >= 0) {
 				return false;
 			} else {
 				return true;
@@ -532,7 +589,7 @@ function pageIni() {
 		},
 
 		onBeforeUncheck : function(index, row) {
-			if (instr(orgformedita, index + ",") >= 0) {
+			if (instr(orgformedita, row.formId + ",") >= 0) {
 				return false;
 			} else {
 				return true;
@@ -558,39 +615,62 @@ function pageIni() {
 
 			if (!insert) {
 				var roworgform = null;
-				var formid = row.form_id;
+				var formid = row.formId;
 				var orgid = replace($("#treeOrgA").tree("getChecked")[0].id, "node", "");
 
-				for (var icnt = 1; icnt < dataorgformctla.length; icnt++) {
-					if (formid == dataorgformctla[icnt].form_id) {
-
-						roworgform = {
-							org_id : orgid,
-							form_id : dataorgformctla[icnt].form_id,
-							form_name : dataorgformctla[icnt].form_name,
-							right_id : dataorgformctla[icnt].right_id,
-							right_inf : dataorgformctla[icnt].right_inf,
-							code_value : dataorgformctla[icnt].code_value,
-							code_name : dataorgformctla[icnt].code_name,
-							rea : dataorgformctla[icnt].rea,
-							rel : dataorgformctla[icnt].rel,
-							r1 : dataorgformctla[icnt].r1,
-							r2 : dataorgformctla[icnt].r1,
-							r3 : dataorgformctla[icnt].r1
-						};
-						dgPageCtlA.Grid.datagrid('appendRow', roworgform);
+				// ******
+				var url = "orgFormConfig.refOrgFormRights";
+				var inf = {
+					parcnt : 1,
+					inpar : {
+						formId : row.formId,
+						orgId : row.orgId
 					}
-				}
+				};
+
+				$.ajax({
+					type : "POST",
+					url : url,
+					cache : false,
+					data : "inf=" + JSON.stringify(inf),
+					dataType : "json",
+					success : function(res) {
+						if (res.code != 0) {
+							$smsg(res.message, "E", res.code);
+						} else {
+							for (var icnt = 0; icnt < res.data.length; icnt++) {
+								roworgform = {
+									orgId : orgid,
+									formId : res.data[icnt].formId,
+									formName : res.data[icnt].comForm.formName,
+									rightId : res.data[icnt].rightId,
+									rightInf : res.data[icnt].comFormRights.rightInf,
+									prtye : res.data[icnt].comFormRights.prtype,
+									codeName : findComCodeName("C0001", res.data[icnt].comFormRights.prtype),
+									rea : res.data[icnt].rea,
+									rel : res.data[icnt].rel,
+									r1 : res.data[icnt].r1,
+									r2 : res.data[icnt].r1,
+									r3 : res.data[icnt].r1
+								};
+								dgPageCtlA.Grid.datagrid('appendRow', roworgform);
+							}
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+					}
+				});
 			}
 		},
 
 		onUncheck : function(index, row) {
 			var remove = 0;
-			var formid = row.form_id;
+			var formid = row.formId;
 			var formctldata = dgPageCtlA.Grid.datagrid("getRows");
 
 			for (var row = 0; row < formctldata.length; row++) {
-				if (formctldata[row].form_id == formid) {
+				if (formctldata[row].formId == formid) {
 					dgPageCtlA.Grid.datagrid('deleteRow', row);
 					row--;
 
@@ -616,36 +696,36 @@ function pageIni() {
 	// 初始化Grid列
 	// grid.setHeadCol(rowindex,colid, colname, colwidth, valign,irowspan,icolspan, bsort, bfrozen, bresizable, osorter, ostyler, oedit,oPageat,bprimery, bnecessary,binput, bhidden)
 
-	dgPageCtlA.setHeadCol(1, "ORG_ID", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
-	dgPageCtlA.setHeadCol(1, "FORM_ID", "界面标识", 80, "left", 0, 0, false, false, true, null, null, null, null, true, true, true, false);
-	dgPageCtlA.setHeadCol(1, "FORM_NAME", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgPageCtlA.setHeadCol(1, "RIGHT_ID", "功能标识", 60, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgPageCtlA.setHeadCol(1, "RIGHT_INF", "功能描述", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgPageCtlA.setHeadCol(1, "CODE_VALUE", "功能类型ID", 80, "right", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
-	dgPageCtlA.setHeadCol(1, "CODE_NAME", "功能类型描述", 160, "left", 0, 0, false, false, true, null, null, null, null, true, false, false, false);
-	dgPageCtlA.setHeadCol(1, "REA", "锁定", 40, "center", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgPageCtlA.setHeadCol(1, "REL", "可用", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlA.setHeadCol(1, "orgId", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
+	dgPageCtlA.setHeadCol(1, "formId", "界面标识", 80, "left", 0, 0, false, false, true, null, null, null, null, true, true, true, false);
+	dgPageCtlA.setHeadCol(1, "formName", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgPageCtlA.setHeadCol(1, "rightId", "功能标识", 60, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgPageCtlA.setHeadCol(1, "rightInf", "功能描述", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgPageCtlA.setHeadCol(1, "prtype", "功能类型ID", 80, "right", 0, 0, false, false, true, null, null, null, null, false, false, false, true);
+	dgPageCtlA.setHeadCol(1, "codeName", "功能类型描述", 160, "left", 0, 0, false, false, true, null, null, null, null, true, false, false, false);
+	dgPageCtlA.setHeadCol(1, "rea", "锁定", 40, "center", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgPageCtlA.setHeadCol(1, "rel", "可用", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlA.setHeadCol(1, "R1", "备用1", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlA.setHeadCol(1, "r1", "备用1", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlA.setHeadCol(1, "R2", "备用2", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlA.setHeadCol(1, "r2", "备用2", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlA.setHeadCol(1, "R3", "备用3", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlA.setHeadCol(1, "r3", "备用3", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
@@ -654,9 +734,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPageCtlA.dbinf.modify = {
-		url : "../servlet/DBHelper",
-		type : "PJ",
-		prc : "aps.com.dao.COM0005.mdyOrgFrmCtl",
+		url : "orgFormConfig.mdyComOrgFormRights",
 	};
 
 	// 初始化Grid属性
@@ -701,16 +779,14 @@ function pageIni() {
 	// 初始化Grid列
 	// grid.setHeadCol(rowindex,colid, colname, colwidth, valign,irowspan,icolspan, bsort, bfrozen, bresizable, osorter, ostyler, oedit,oPageat,bprimery, bnecessary,binput, bhidden)
 
-	dgOrgPageB.setHeadCol(1, "ORG_ID", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
-	dgOrgPageB.setHeadCol(1, "ORG_NAME", "组织架构名称", 100, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgOrgPageB.setHeadCol(1, "FORM_ID", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgOrgPageB.setHeadCol(1, "FORM_NAME", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgOrgPageB.setHeadCol(1, "PRGROUP", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageB.setHeadCol(1, "orgId", "ORG_ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
+	dgOrgPageB.setHeadCol(1, "orgName", "组织架构名称", 100, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageB.setHeadCol(1, "formId", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgOrgPageB.setHeadCol(1, "formName", "界面名称", 160, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgOrgPageB.setHeadCol(1, "prgroup", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgOrgPageB.dbinf.modify = {
-		url : "../servlet/DBHelper",
-		type : "PJ",
-		prc : "aps.com.dao.COM0005.mdyOrgFrm",
+		url : "orgFormConfig.mdyComOrgForm",
 	};
 
 	// 初始化Grid属性
@@ -735,7 +811,7 @@ function pageIni() {
 		columns : dgOrgPageB.aryheadcols.ufrozen,
 
 		onBeforeCheck : function(index, row) {
-			if (instr(orgformeditb, index + ",") >= 0) {
+			if (instr(orgformeditb, row.orgId + ",") >= 0) {
 				return false;
 			} else {
 				return true;
@@ -743,7 +819,7 @@ function pageIni() {
 		},
 
 		onBeforeUncheck : function(index, row) {
-			if (instr(orgformeditb, index + ",") >= 0) {
+			if (instr(orgformeditb, row.orgId + ",") >= 0) {
 				return false;
 			} else {
 				return true;
@@ -769,29 +845,53 @@ function pageIni() {
 
 			if (!insert) {
 				var roworgform = null;
-				var orgid = row.org_id;
-				var orgname = row.org_name;
+				var orgid = row.orgId;
+				var orgname = row.orgName;
 
-				for (var icnt = 1; icnt < dataorgformctlb.length; icnt++) {
-					if (orgid == dataorgformctlb[icnt].org_id) {
-
-						roworgform = {
-							org_id : orgid,
-							form_id : dataorgformctlb[icnt].form_id,
-							org_name : orgname,
-							right_id : dataorgformctlb[icnt].right_id,
-							right_inf : dataorgformctlb[icnt].right_inf,
-							code_value : dataorgformctlb[icnt].code_value,
-							code_name : dataorgformctlb[icnt].code_name,
-							rea : dataorgformctlb[icnt].rea,
-							rel : dataorgformctlb[icnt].rel,
-							r1 : dataorgformctlb[icnt].r1,
-							r2 : dataorgformctlb[icnt].r2,
-							r3 : dataorgformctlb[icnt].r3
-						};
-						dgPageCtlB.Grid.datagrid('appendRow', roworgform);
+				// ***
+				var url = "orgFormConfig.refOrgFormRights";
+				var inf = {
+					parcnt : 1,
+					inpar : {
+						formId : row.formId,
+						orgId : row.orgId
 					}
-				}
+				};
+
+				$.ajax({
+					type : "POST",
+					url : url,
+					cache : false,
+					data : "inf=" + JSON.stringify(inf),
+					dataType : "json",
+					success : function(res) {
+						if (res.code != 0) {
+							$smsg(res.message, "E", res.code);
+						} else {
+							for (var icnt = 0; icnt < res.data.length; icnt++) {
+								roworgform = {
+									orgId : orgid,
+									formId : res.data[icnt].formId,
+									orgName : orgname,
+									rightId : res.data[icnt].rightId,
+									rightInf : res.data[icnt].comFormRights.rightInf,
+									prtye : res.data[icnt].comFormRights.prtype,
+									codeName : findComCodeName("C0001", res.data[icnt].comFormRights.prtype),
+									rea : res.data[icnt].rea,
+									rel : res.data[icnt].rel,
+									r1 : res.data[icnt].r1,
+									r2 : res.data[icnt].r2,
+									r3 : res.data[icnt].r3
+								};
+								dgPageCtlB.Grid.datagrid('appendRow', roworgform);
+
+							}
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+					}
+				});
 			}
 		},
 
@@ -827,36 +927,36 @@ function pageIni() {
 	// 初始化Grid列
 	// grid.setHeadCol(rowindex,colid, colname, colwidth, valign,irowspan,icolspan, bsort, bfrozen, bresizable, osorter, ostyler, oedit,oPageat,bprimery, bnecessary,binput, bhidden)
 
-	dgPageCtlB.setHeadCol(1, "ORG_ID", "组织架构ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "FORM_ID", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, true, true, true, true);
-	dgPageCtlB.setHeadCol(1, "ORG_NAME", "组织架构名称", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgPageCtlB.setHeadCol(1, "RIGHT_ID", "功能标识", 60, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "RIGHT_INF", "功能描述", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgPageCtlB.setHeadCol(1, "CODE_VALUE", "功能类型ID", 80, "right", 0, 0, false, false, true, null, null, null, null, false, false, true, true);
-	dgPageCtlB.setHeadCol(1, "CODE_NAME", "功能类型描述", 160, "left", 0, 0, false, false, true, null, null, null, null, true, false, false, false);
-	dgPageCtlB.setHeadCol(1, "REA", "锁定", 40, "center", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "REL", "可用", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlB.setHeadCol(1, "orgId", "组织架构ID", 80, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgPageCtlB.setHeadCol(1, "formId", "界面ID", 80, "left", 0, 0, false, false, true, null, null, null, null, true, true, true, true);
+	dgPageCtlB.setHeadCol(1, "orgName", "组织架构名称", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgPageCtlB.setHeadCol(1, "rightId", "功能标识", 60, "left", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgPageCtlB.setHeadCol(1, "rightInf", "功能描述", 120, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgPageCtlB.setHeadCol(1, "prtype", "功能类型ID", 80, "right", 0, 0, false, false, true, null, null, null, null, false, false, false, true);
+	dgPageCtlB.setHeadCol(1, "codeName", "功能类型描述", 160, "left", 0, 0, false, false, true, null, null, null, null, true, false, false, false);
+	dgPageCtlB.setHeadCol(1, "rea", "锁定", 40, "center", 0, 0, false, false, true, null, null, null, null, false, false, true, false);
+	dgPageCtlB.setHeadCol(1, "rel", "可用", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "R1", "备用1", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlB.setHeadCol(1, "r1", "备用1", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "R2", "备用2", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlB.setHeadCol(1, "r2", "备用2", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgPageCtlB.setHeadCol(1, "R3", "备用3", 40, "center", 0, 0, false, false, true, null, null, {
+	dgPageCtlB.setHeadCol(1, "r3", "备用3", 40, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
@@ -865,9 +965,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPageCtlB.dbinf.modify = {
-		url : "../servlet/DBHelper",
-		type : "PJ",
-		prc : "aps.com.dao.COM0005.mdyOrgFrmCtl",
+		url : "orgFormConfig.mdyComOrgFormRights",
 	};
 
 	// 初始化Grid属性
@@ -994,7 +1092,6 @@ function toolRef() {
 			} else {
 				var prgroup = " ";
 
-				dataformctl = res.data;
 				for (var icnt = 0; icnt < res.data.length; icnt++) {
 					if (prgroup == " " || prgroup != res.data[icnt].prgroup) {
 						prgroup = res.data[icnt].prgroup;
@@ -1169,4 +1266,20 @@ function pageCtlBEERow(showmsg) {
 	} else {
 		return true;
 	}
+}
+
+/**
+ * 
+ * @param codeType
+ * @param codeValue
+ * @returns
+ */
+function findComCodeName(codeType, codeValue) {
+
+	for (var index = 0; index < comCode.length; index++) {
+		if (comCode[index].codeType == codeType && comCode[index].codeValue == codeValue) {
+			return comCode[index].codeName;
+		}
+	}
+	return "";
 }

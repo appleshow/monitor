@@ -121,6 +121,126 @@
 			column="UFROM"
 			property="ufrom"
 			jdbcType="VARCHAR"/>
+		<association
+			property="comForm"
+			javaType="com.aps.monitor.model.ComForm">
+			<id
+				column="FORM_ID"
+				property="formId"
+				jdbcType="INTEGER"/>
+			<result
+				column="FORM_NAME"
+				property="formName"
+				jdbcType="VARCHAR"/>
+			<result
+				column="FORM_FDSG"
+				property="formFdsg"
+				jdbcType="INTEGER"/>
+			<result
+				column="FORM_BDSG"
+				property="formBdsg"
+				jdbcType="INTEGER"/>
+			<result
+				column="FORM_PROC"
+				property="formProc"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PRFLAG"
+				property="prflag"
+				jdbcType="INTEGER"/>
+			<result
+				column="PRGROUP"
+				property="prgroup"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PRTYPE"
+				property="prtype"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY0"
+				property="property0"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY1"
+				property="property1"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY2"
+				property="property2"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY3"
+				property="property3"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY4"
+				property="property4"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY5"
+				property="property5"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY6"
+				property="property6"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY7"
+				property="property7"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY8"
+				property="property8"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PROPERTY9"
+				property="property9"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PRINF"
+				property="prinf"
+				jdbcType="VARCHAR"/>
+			<result
+				column="PREXP"
+				property="prexp"
+				jdbcType="VARCHAR"/>
+			<result
+				column="ITIME"
+				property="itime"
+				jdbcType="TIMESTAMP"/>
+			<result
+				column="ISHIFT"
+				property="ishift"
+				jdbcType="VARCHAR"/>
+			<result
+				column="IGROUP"
+				property="igroup"
+				jdbcType="VARCHAR"/>
+			<result
+				column="IPERSON"
+				property="iperson"
+				jdbcType="INTEGER"/>
+			<result
+				column="UTIME"
+				property="utime"
+				jdbcType="TIMESTAMP"/>
+			<result
+				column="USHIFT"
+				property="ushift"
+				jdbcType="VARCHAR"/>
+			<result
+				column="UGROUP"
+				property="ugroup"
+				jdbcType="VARCHAR"/>
+			<result
+				column="UPERSON"
+				property="uperson"
+				jdbcType="INTEGER"/>
+			<result
+				column="UFROM"
+				property="ufrom"
+				jdbcType="VARCHAR"/>
+		</association>
 	</resultMap>
 	<sql
 		id="Base_Column_List">
@@ -160,35 +280,52 @@
 		resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		<include
-			refid="Base_Column_List"/>
+		*
 		from
 		com_menu
+		a
+		left
+		join
+		com_form
+		b on
+		b.form_id
+		=
+		a.form_id
 		where
-		MENU_ID
+		a.MENU_ID
 		=
 		#{menuId,jdbcType=INTEGER}
+	
 	</select>
 	<select
 		id="selectByCondition"
 		resultMap="BaseResultMap"
 		parameterType="com.aps.monitor.model.ComMenu">
 		select
-		<include
-			refid="Base_Column_List"/>
+		*
 		from
 		com_menu
+		a
+		left
+		join
+		com_form
+		b on
+		b.form_id
+		=
+		a.form_id
 		<where>
 			<if
 				test="menuName != null">
-				MENU_NAME
+				and
+				a.MENU_NAME
 				like
 				CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
 			
 			</if>
 			<if
 				test="farMenuId != null">
-				FAR_MENU_ID
+				and
+				a.FAR_MENU_ID
 				=#{farMenuId,jdbcType=VARCHAR}
 			
 			</if>

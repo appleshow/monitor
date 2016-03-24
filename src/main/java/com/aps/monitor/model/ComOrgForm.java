@@ -2,9 +2,7 @@ package com.aps.monitor.model;
 
 import java.util.Date;
 
-public class ComFormRights extends ComFormRightsKey {
-	private String rightInf;
-
+public class ComOrgForm extends ComOrgFormKey {
 	private Integer prflag;
 
 	private String prgroup;
@@ -12,6 +10,8 @@ public class ComFormRights extends ComFormRightsKey {
 	private String prtype;
 
 	private Integer rea;
+
+	private Integer rel;
 
 	private Integer r1;
 
@@ -55,21 +55,15 @@ public class ComFormRights extends ComFormRightsKey {
 
 	private String ushift;
 
-	private String ugroup;
-
 	private Integer uperson;
+
+	private String ugroup;
 
 	private String ufrom;
 
+	private ComOrg comOrg;
+
 	private ComForm comForm;
-
-	public String getRightInf() {
-		return rightInf;
-	}
-
-	public void setRightInf(String rightInf) {
-		this.rightInf = rightInf == null ? null : rightInf.trim();
-	}
 
 	public Integer getPrflag() {
 		return prflag;
@@ -101,6 +95,14 @@ public class ComFormRights extends ComFormRightsKey {
 
 	public void setRea(Integer rea) {
 		this.rea = rea;
+	}
+
+	public Integer getRel() {
+		return rel;
+	}
+
+	public void setRel(Integer rel) {
+		this.rel = rel;
 	}
 
 	public Integer getR1() {
@@ -271,14 +273,6 @@ public class ComFormRights extends ComFormRightsKey {
 		this.ushift = ushift == null ? null : ushift.trim();
 	}
 
-	public String getUgroup() {
-		return ugroup;
-	}
-
-	public void setUgroup(String ugroup) {
-		this.ugroup = ugroup == null ? null : ugroup.trim();
-	}
-
 	public Integer getUperson() {
 		return uperson;
 	}
@@ -287,12 +281,28 @@ public class ComFormRights extends ComFormRightsKey {
 		this.uperson = uperson;
 	}
 
+	public String getUgroup() {
+		return ugroup;
+	}
+
+	public void setUgroup(String ugroup) {
+		this.ugroup = ugroup == null ? null : ugroup.trim();
+	}
+
 	public String getUfrom() {
 		return ufrom;
 	}
 
 	public void setUfrom(String ufrom) {
 		this.ufrom = ufrom == null ? null : ufrom.trim();
+	}
+
+	public ComOrg getComOrg() {
+		return comOrg;
+	}
+
+	public void setComOrg(ComOrg comOrg) {
+		this.comOrg = comOrg;
 	}
 
 	public ComForm getComForm() {

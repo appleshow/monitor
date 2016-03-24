@@ -1,7 +1,6 @@
 package com.aps.monitor.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class ComForm {
 	private Integer formId;
@@ -61,8 +60,6 @@ public class ComForm {
 	private Integer uperson;
 
 	private String ufrom;
-
-	private List<ComFormRights> comFormRights;
 
 	public Integer getFormId() {
 		return formId;
@@ -294,14 +291,6 @@ public class ComForm {
 
 	public void setUfrom(String ufrom) {
 		this.ufrom = ufrom == null ? null : ufrom.trim();
-	}
-
-	public List<ComFormRights> getComFormRights() {
-		return comFormRights;
-	}
-
-	public void setComFormRights(List<ComFormRights> comFormRights) {
-		this.comFormRights = comFormRights;
 	}
 
 }

@@ -1,1644 +1,490 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-	namespace="com.aps.monitor.dao.ComCodeMapper">
-	<resultMap
-		id="BaseResultMap"
-		type="com.aps.monitor.model.ComCode">
-		<id
-			column="CODE_TYPE"
-			property="codeType"
-			jdbcType="VARCHAR"/>
-		<id
-			column="CODE_VALUE"
-			property="codeValue"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME"
-			property="codeName"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME1"
-			property="codeName1"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME2"
-			property="codeName2"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME3"
-			property="codeName3"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME4"
-			property="codeName4"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_NAME5"
-			property="codeName5"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC"
-			property="codeDesc"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC1"
-			property="codeDesc1"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC2"
-			property="codeDesc2"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC3"
-			property="codeDesc3"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC4"
-			property="codeDesc4"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_DESC5"
-			property="codeDesc5"
-			jdbcType="VARCHAR"/>
-		<result
-			column="CODE_INDEX"
-			property="codeIndex"
-			jdbcType="INTEGER"/>
-		<result
-			column="CODE_SEQ"
-			property="codeSeq"
-			jdbcType="INTEGER"/>
-		<result
-			column="PRFLAG"
-			property="prflag"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PRGROUP"
-			property="prgroup"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PRTYPE"
-			property="prtype"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PRCLASS"
-			property="prclass"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY0"
-			property="property0"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY1"
-			property="property1"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY2"
-			property="property2"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY3"
-			property="property3"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY4"
-			property="property4"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY5"
-			property="property5"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY6"
-			property="property6"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY7"
-			property="property7"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY8"
-			property="property8"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY9"
-			property="property9"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY10"
-			property="property10"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PROPERTY11"
-			property="property11"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PROPERTY12"
-			property="property12"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PROPERTY13"
-			property="property13"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PROPERTY14"
-			property="property14"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PROPERTY15"
-			property="property15"
-			jdbcType="DECIMAL"/>
-		<result
-			column="PRINF"
-			property="prinf"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PREXP"
-			property="prexp"
-			jdbcType="VARCHAR"/>
-		<result
-			column="ITIME"
-			property="itime"
-			jdbcType="TIMESTAMP"/>
-		<result
-			column="IPERSON"
-			property="iperson"
-			jdbcType="INTEGER"/>
-		<result
-			column="UTIME"
-			property="utime"
-			jdbcType="TIMESTAMP"/>
-		<result
-			column="UPERSON"
-			property="uperson"
-			jdbcType="INTEGER"/>
+<mapper namespace="com.aps.monitor.dao.ComCodeMapper">
+	<resultMap id="BaseResultMap" type="com.aps.monitor.model.ComCode">
+		<id column="CODE_TYPE" property="codeType" jdbcType="VARCHAR"/>
+		<id column="CODE_VALUE" property="codeValue" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME" property="codeName" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME1" property="codeName1" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME2" property="codeName2" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME3" property="codeName3" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME4" property="codeName4" jdbcType="VARCHAR"/>
+		<result column="CODE_NAME5" property="codeName5" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC" property="codeDesc" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC1" property="codeDesc1" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC2" property="codeDesc2" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC3" property="codeDesc3" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC4" property="codeDesc4" jdbcType="VARCHAR"/>
+		<result column="CODE_DESC5" property="codeDesc5" jdbcType="VARCHAR"/>
+		<result column="CODE_INDEX" property="codeIndex" jdbcType="INTEGER"/>
+		<result column="CODE_SEQ" property="codeSeq" jdbcType="INTEGER"/>
+		<result column="PRFLAG" property="prflag" jdbcType="DECIMAL"/>
+		<result column="PRGROUP" property="prgroup" jdbcType="VARCHAR"/>
+		<result column="PRTYPE" property="prtype" jdbcType="VARCHAR"/>
+		<result column="PRCLASS" property="prclass" jdbcType="VARCHAR"/>
+		<result column="PROPERTY0" property="property0" jdbcType="VARCHAR"/>
+		<result column="PROPERTY1" property="property1" jdbcType="VARCHAR"/>
+		<result column="PROPERTY2" property="property2" jdbcType="VARCHAR"/>
+		<result column="PROPERTY3" property="property3" jdbcType="VARCHAR"/>
+		<result column="PROPERTY4" property="property4" jdbcType="VARCHAR"/>
+		<result column="PROPERTY5" property="property5" jdbcType="VARCHAR"/>
+		<result column="PROPERTY6" property="property6" jdbcType="VARCHAR"/>
+		<result column="PROPERTY7" property="property7" jdbcType="VARCHAR"/>
+		<result column="PROPERTY8" property="property8" jdbcType="VARCHAR"/>
+		<result column="PROPERTY9" property="property9" jdbcType="VARCHAR"/>
+		<result column="PROPERTY10" property="property10" jdbcType="DECIMAL"/>
+		<result column="PROPERTY11" property="property11" jdbcType="DECIMAL"/>
+		<result column="PROPERTY12" property="property12" jdbcType="DECIMAL"/>
+		<result column="PROPERTY13" property="property13" jdbcType="DECIMAL"/>
+		<result column="PROPERTY14" property="property14" jdbcType="DECIMAL"/>
+		<result column="PROPERTY15" property="property15" jdbcType="DECIMAL"/>
+		<result column="PRINF" property="prinf" jdbcType="VARCHAR"/>
+		<result column="PREXP" property="prexp" jdbcType="VARCHAR"/>
+		<result column="ITIME" property="itime" jdbcType="TIMESTAMP"/>
+		<result column="IPERSON" property="iperson" jdbcType="INTEGER"/>
+		<result column="UTIME" property="utime" jdbcType="TIMESTAMP"/>
+		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
 	</resultMap>
 	<!-- Base_Column_List -->
-	<sql
-		id="Base_Column_List">
-		CODE_TYPE,
-		CODE_VALUE,
-		CODE_NAME,
-		CODE_NAME1,
-		CODE_NAME2,
-		CODE_NAME3,
-		CODE_NAME4,
-		CODE_NAME5,
-		CODE_DESC,
-		CODE_DESC1,
-		CODE_DESC2,
-		CODE_DESC3,
-		CODE_DESC4,
-		CODE_DESC5,
-		CODE_INDEX,
-		CODE_SEQ,
-		PRFLAG,
-		PRGROUP,
-		PRTYPE,
-		PRCLASS,
-		PROPERTY0,
-		PROPERTY1,
-		PROPERTY2,
-		PROPERTY3,
-		PROPERTY4,
-		PROPERTY5,
-		PROPERTY6,
-		PROPERTY7,
-		PROPERTY8,
-		PROPERTY9,
-		PROPERTY10,
-		PROPERTY11,
-		PROPERTY12,
-		PROPERTY13,
-		PROPERTY14,
-		PROPERTY15,
-		PRINF,
-		PREXP,
-		ITIME,
-		IPERSON,
-		UTIME,
-		UPERSON
-	
+	<sql id="Base_Column_List"> CODE_TYPE, CODE_VALUE, CODE_NAME, CODE_NAME1, CODE_NAME2, CODE_NAME3, CODE_NAME4, CODE_NAME5, CODE_DESC,
+		CODE_DESC1, CODE_DESC2, CODE_DESC3, CODE_DESC4, CODE_DESC5, CODE_INDEX, CODE_SEQ, PRFLAG, PRGROUP, PRTYPE, PRCLASS,
+		PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9,
+		PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PROPERTY15, PRINF, PREXP, ITIME, IPERSON, UTIME, UPERSON
 	</sql>
 	<!-- selectByPrimaryKey -->
-	<select
-		id="selectByPrimaryKey"
-		resultMap="BaseResultMap"
-		parameterType="com.aps.monitor.model.ComCodeKey">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComCodeKey">
 		select
-		<include
-			refid="Base_Column_List"/>
-		from
-		com_code
-		where
-		CODE_TYPE
-		=
-		#{codeType,jdbcType=VARCHAR}
-		and
-		CODE_VALUE
-		=
-		#{codeValue,jdbcType=VARCHAR}
+		<include refid="Base_Column_List"/>
+		from com_code where CODE_TYPE = #{codeType,jdbcType=VARCHAR} and CODE_VALUE = #{codeValue,jdbcType=VARCHAR}
 	</select>
 	<!-- -->
-	<select
-		id="selectByCondition"
-		resultMap="BaseResultMap"
-		parameterType="com.aps.monitor.model.ComCode">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComCode">
 		select
-		<include
-			refid="Base_Column_List"/>
-		from
-		com_code
+		<include refid="Base_Column_List"/>
+		from com_code
 		<where>
-			<if
-				test="codeType != null">
-				CODE_TYPE
-				like
-				CONCAT('%',#{codeType,jdbcType=VARCHAR},'%')
-			
+			<if test="codeType != null"> CODE_TYPE like CONCAT('%',#{codeType,jdbcType=VARCHAR},'%')
 			</if>
-			<if
-				test="codeName != null">
-				CODE_NAME
-				like
-				CONCAT('%',#{codeName,jdbcType=VARCHAR},'%')
-			
+			<if test="codeName != null"> CODE_NAME like CONCAT('%',#{codeName,jdbcType=VARCHAR},'%')
 			</if>
 		</where>
 	</select>
-	<select
-		id="selectCombData"
-		resultMap="BaseResultMap"
-		parameterType="java.util.List">
-		select
-		CODE_TYPE,
-		CODE_VALUE,
-		CODE_NAME
-		from
-		com_code
-		where
-		code_type
-		in
-		<foreach
-			collection="list"
-			index="index"
-			item="item"
-			open="("
-			separator=","
-			close=")">
-			#{item}
-		
+	<select id="selectCombData" resultMap="BaseResultMap" parameterType="java.util.List">
+		select CODE_TYPE, CODE_VALUE, CODE_NAME from com_code where code_type in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")"> #{item}
 		</foreach>
-		and
-		code_value!='-'
-		order
-		by
-		code_type,code_seq
+		and code_value!='-' order by code_type,code_seq
 	</select>
 	<!-- deleteByPrimaryKey -->
-	<delete
-		id="deleteByPrimaryKey"
-		parameterType="com.aps.monitor.model.ComCodeKey">
-		delete
-		from
-		com_code
-		where
-		CODE_TYPE
-		=
-		#{codeType,jdbcType=VARCHAR}
-		and
-		CODE_VALUE
-		=
-		#{codeValue,jdbcType=VARCHAR}
-	
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComCodeKey"> delete from com_code where CODE_TYPE =
+		#{codeType,jdbcType=VARCHAR} and CODE_VALUE = #{codeValue,jdbcType=VARCHAR}
 	</delete>
 	<!-- insert -->
-	<insert
-		id="insert"
-		parameterType="com.aps.monitor.model.ComCode">
-		insert
-		into
-		com_code
-		(CODE_TYPE,
-		CODE_VALUE,
-		CODE_NAME,
-		CODE_NAME1,
-		CODE_NAME2,
-		CODE_NAME3,
-		CODE_NAME4,
-		CODE_NAME5,
-		CODE_DESC,
-		CODE_DESC1,
-		CODE_DESC2,
-		CODE_DESC3,
-		CODE_DESC4,
-		CODE_DESC5,
-		CODE_INDEX,
-		CODE_SEQ,
-		PRFLAG,
-		PRGROUP,
-		PRTYPE,
-		PRCLASS,
-		PROPERTY0,
-		PROPERTY1,
-		PROPERTY2,
-		PROPERTY3,
-		PROPERTY4,
-		PROPERTY5,
-		PROPERTY6,
-		PROPERTY7,
-		PROPERTY8,
-		PROPERTY9,
-		PROPERTY10,
-		PROPERTY11,
-		PROPERTY12,
-		PROPERTY13,
-		PROPERTY14,
-		PROPERTY15,
-		PRINF,
-		PREXP,
-		ITIME,
-		IPERSON,
-		UTIME,
-		UPERSON
-		)
-		values
-		(#{codeType,jdbcType=VARCHAR},
-		#{codeValue,jdbcType=VARCHAR},
-		#{codeName,jdbcType=VARCHAR},
-		#{codeName1,jdbcType=VARCHAR},
-		#{codeName2,jdbcType=VARCHAR},
-		#{codeName3,jdbcType=VARCHAR},
-		#{codeName4,jdbcType=VARCHAR},
-		#{codeName5,jdbcType=VARCHAR},
-		#{codeDesc,jdbcType=VARCHAR},
-		#{codeDesc1,jdbcType=VARCHAR},
-		#{codeDesc2,jdbcType=VARCHAR},
-		#{codeDesc3,jdbcType=VARCHAR},
-		#{codeDesc4,jdbcType=VARCHAR},
-		#{codeDesc5,jdbcType=VARCHAR},
-		#{codeIndex,jdbcType=INTEGER},
-		#{codeSeq,jdbcType=INTEGER},
-		#{prflag,jdbcType=DECIMAL},
-		#{prgroup,jdbcType=VARCHAR},
-		#{prtype,jdbcType=VARCHAR},
-		#{prclass,jdbcType=VARCHAR},
-		#{property0,jdbcType=VARCHAR},
-		#{property1,jdbcType=VARCHAR},
-		#{property2,jdbcType=VARCHAR},
-		#{property3,jdbcType=VARCHAR},
-		#{property4,jdbcType=VARCHAR},
-		#{property5,jdbcType=VARCHAR},
-		#{property6,jdbcType=VARCHAR},
-		#{property7,jdbcType=VARCHAR},
-		#{property8,jdbcType=VARCHAR},
-		#{property9,jdbcType=VARCHAR},
-		#{property10,jdbcType=DECIMAL},
-		#{property11,jdbcType=DECIMAL},
-		#{property12,jdbcType=DECIMAL},
-		#{property13,jdbcType=DECIMAL},
-		#{property14,jdbcType=DECIMAL},
-		#{property15,jdbcType=DECIMAL},
-		#{prinf,jdbcType=VARCHAR},
-		#{prexp,jdbcType=VARCHAR},
-		#{itime,jdbcType=TIMESTAMP},
-		#{iperson,jdbcType=INTEGER},
-		#{utime,jdbcType=TIMESTAMP},
-		#{uperson,jdbcType=INTEGER}
-		)
-	
+	<insert id="insert" parameterType="com.aps.monitor.model.ComCode"> insert into com_code (CODE_TYPE, CODE_VALUE, CODE_NAME, CODE_NAME1,
+		CODE_NAME2, CODE_NAME3, CODE_NAME4, CODE_NAME5, CODE_DESC, CODE_DESC1, CODE_DESC2, CODE_DESC3, CODE_DESC4, CODE_DESC5,
+		CODE_INDEX, CODE_SEQ, PRFLAG, PRGROUP, PRTYPE, PRCLASS, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4,
+		PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14,
+		PROPERTY15, PRINF, PREXP, ITIME, IPERSON, UTIME, UPERSON ) values (#{codeType,jdbcType=VARCHAR},
+		#{codeValue,jdbcType=VARCHAR}, #{codeName,jdbcType=VARCHAR}, #{codeName1,jdbcType=VARCHAR},
+		#{codeName2,jdbcType=VARCHAR}, #{codeName3,jdbcType=VARCHAR}, #{codeName4,jdbcType=VARCHAR},
+		#{codeName5,jdbcType=VARCHAR}, #{codeDesc,jdbcType=VARCHAR}, #{codeDesc1,jdbcType=VARCHAR},
+		#{codeDesc2,jdbcType=VARCHAR}, #{codeDesc3,jdbcType=VARCHAR}, #{codeDesc4,jdbcType=VARCHAR},
+		#{codeDesc5,jdbcType=VARCHAR}, #{codeIndex,jdbcType=INTEGER}, #{codeSeq,jdbcType=INTEGER}, #{prflag,jdbcType=DECIMAL},
+		#{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{prclass,jdbcType=VARCHAR}, #{property0,jdbcType=VARCHAR},
+		#{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR},
+		#{property4,jdbcType=VARCHAR}, #{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR},
+		#{property7,jdbcType=VARCHAR}, #{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR},
+		#{property10,jdbcType=DECIMAL}, #{property11,jdbcType=DECIMAL}, #{property12,jdbcType=DECIMAL},
+		#{property13,jdbcType=DECIMAL}, #{property14,jdbcType=DECIMAL}, #{property15,jdbcType=DECIMAL},
+		#{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP}, #{iperson,jdbcType=INTEGER},
+		#{utime,jdbcType=TIMESTAMP}, #{uperson,jdbcType=INTEGER} )
 	</insert>
 	<!-- insertSelective -->
-	<insert
-		id="insertSelective"
-		parameterType="com.aps.monitor.model.ComCode">
-		insert
-		into
-		com_code
-		<trim
-			prefix="("
-			suffix=")"
-			suffixOverrides=",">
-			<if
-				test="codeType != null">
-				CODE_TYPE,
-			
+	<insert id="insertSelective" parameterType="com.aps.monitor.model.ComCode">
+		insert into com_code
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="codeType != null"> CODE_TYPE,
 			</if>
-			<if
-				test="codeValue != null">
-				CODE_VALUE,
-			
+			<if test="codeValue != null"> CODE_VALUE,
 			</if>
-			<if
-				test="codeName != null">
-				CODE_NAME,
-			
+			<if test="codeName != null"> CODE_NAME,
 			</if>
-			<if
-				test="codeName1 != null">
-				CODE_NAME1,
-			
+			<if test="codeName1 != null"> CODE_NAME1,
 			</if>
-			<if
-				test="codeName2 != null">
-				CODE_NAME2,
-			
+			<if test="codeName2 != null"> CODE_NAME2,
 			</if>
-			<if
-				test="codeName3 != null">
-				CODE_NAME3,
-			
+			<if test="codeName3 != null"> CODE_NAME3,
 			</if>
-			<if
-				test="codeName4 != null">
-				CODE_NAME4,
-			
+			<if test="codeName4 != null"> CODE_NAME4,
 			</if>
-			<if
-				test="codeName5 != null">
-				CODE_NAME5,
-			
+			<if test="codeName5 != null"> CODE_NAME5,
 			</if>
-			<if
-				test="codeDesc != null">
-				CODE_DESC,
-			
+			<if test="codeDesc != null"> CODE_DESC,
 			</if>
-			<if
-				test="codeDesc1 != null">
-				CODE_DESC1,
-			
+			<if test="codeDesc1 != null"> CODE_DESC1,
 			</if>
-			<if
-				test="codeDesc2 != null">
-				CODE_DESC2,
-			
+			<if test="codeDesc2 != null"> CODE_DESC2,
 			</if>
-			<if
-				test="codeDesc3 != null">
-				CODE_DESC3,
-			
+			<if test="codeDesc3 != null"> CODE_DESC3,
 			</if>
-			<if
-				test="codeDesc4 != null">
-				CODE_DESC4,
-			
+			<if test="codeDesc4 != null"> CODE_DESC4,
 			</if>
-			<if
-				test="codeDesc5 != null">
-				CODE_DESC5,
-			
+			<if test="codeDesc5 != null"> CODE_DESC5,
 			</if>
-			<if
-				test="codeIndex != null">
-				CODE_INDEX,
-			
+			<if test="codeIndex != null"> CODE_INDEX,
 			</if>
-			<if
-				test="codeSeq != null">
-				CODE_SEQ,
-			
+			<if test="codeSeq != null"> CODE_SEQ,
 			</if>
-			<if
-				test="prflag != null">
-				PRFLAG,
-			
+			<if test="prflag != null"> PRFLAG,
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP,
-			
+			<if test="prgroup != null"> PRGROUP,
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE,
-			
+			<if test="prtype != null"> PRTYPE,
 			</if>
-			<if
-				test="prclass != null">
-				PRCLASS,
-			
+			<if test="prclass != null"> PRCLASS,
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0,
-			
+			<if test="property0 != null"> PROPERTY0,
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1,
-			
+			<if test="property1 != null"> PROPERTY1,
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2,
-			
+			<if test="property2 != null"> PROPERTY2,
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3,
-			
+			<if test="property3 != null"> PROPERTY3,
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4,
-			
+			<if test="property4 != null"> PROPERTY4,
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5,
-			
+			<if test="property5 != null"> PROPERTY5,
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6,
-			
+			<if test="property6 != null"> PROPERTY6,
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7,
-			
+			<if test="property7 != null"> PROPERTY7,
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8,
-			
+			<if test="property8 != null"> PROPERTY8,
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9,
-			
+			<if test="property9 != null"> PROPERTY9,
 			</if>
-			<if
-				test="property10 != null">
-				PROPERTY10,
-			
+			<if test="property10 != null"> PROPERTY10,
 			</if>
-			<if
-				test="property11 != null">
-				PROPERTY11,
-			
+			<if test="property11 != null"> PROPERTY11,
 			</if>
-			<if
-				test="property12 != null">
-				PROPERTY12,
-			
+			<if test="property12 != null"> PROPERTY12,
 			</if>
-			<if
-				test="property13 != null">
-				PROPERTY13,
-			
+			<if test="property13 != null"> PROPERTY13,
 			</if>
-			<if
-				test="property14 != null">
-				PROPERTY14,
-			
+			<if test="property14 != null"> PROPERTY14,
 			</if>
-			<if
-				test="property15 != null">
-				PROPERTY15,
-			
+			<if test="property15 != null"> PROPERTY15,
 			</if>
-			<if
-				test="prinf != null">
-				PRINF,
-			
+			<if test="prinf != null"> PRINF,
 			</if>
-			<if
-				test="prexp != null">
-				PREXP,
-			
+			<if test="prexp != null"> PREXP,
 			</if>
-			<if
-				test="itime != null">
-				ITIME,
-			
+			<if test="itime != null"> ITIME,
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON,
-			
+			<if test="iperson != null"> IPERSON,
 			</if>
-			<if
-				test="utime != null">
-				UTIME,
-			
+			<if test="utime != null"> UTIME,
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON,
-			
+			<if test="uperson != null"> UPERSON,
 			</if>
 		</trim>
-		<trim
-			prefix="values ("
-			suffix=")"
-			suffixOverrides=",">
-			<if
-				test="codeType != null">
-				#{codeType,jdbcType=VARCHAR},
-			
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="codeType != null"> #{codeType,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeValue != null">
-				#{codeValue,jdbcType=VARCHAR},
-			
+			<if test="codeValue != null"> #{codeValue,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName != null">
-				#{codeName,jdbcType=VARCHAR},
-			
+			<if test="codeName != null"> #{codeName,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName1 != null">
-				#{codeName1,jdbcType=VARCHAR},
-			
+			<if test="codeName1 != null"> #{codeName1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName2 != null">
-				#{codeName2,jdbcType=VARCHAR},
-			
+			<if test="codeName2 != null"> #{codeName2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName3 != null">
-				#{codeName3,jdbcType=VARCHAR},
-			
+			<if test="codeName3 != null"> #{codeName3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName4 != null">
-				#{codeName4,jdbcType=VARCHAR},
-			
+			<if test="codeName4 != null"> #{codeName4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName5 != null">
-				#{codeName5,jdbcType=VARCHAR},
-			
+			<if test="codeName5 != null"> #{codeName5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc != null">
-				#{codeDesc,jdbcType=VARCHAR},
-			
+			<if test="codeDesc != null"> #{codeDesc,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc1 != null">
-				#{codeDesc1,jdbcType=VARCHAR},
-			
+			<if test="codeDesc1 != null"> #{codeDesc1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc2 != null">
-				#{codeDesc2,jdbcType=VARCHAR},
-			
+			<if test="codeDesc2 != null"> #{codeDesc2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc3 != null">
-				#{codeDesc3,jdbcType=VARCHAR},
-			
+			<if test="codeDesc3 != null"> #{codeDesc3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc4 != null">
-				#{codeDesc4,jdbcType=VARCHAR},
-			
+			<if test="codeDesc4 != null"> #{codeDesc4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc5 != null">
-				#{codeDesc5,jdbcType=VARCHAR},
-			
+			<if test="codeDesc5 != null"> #{codeDesc5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeIndex != null">
-				#{codeIndex,jdbcType=INTEGER},
-			
+			<if test="codeIndex != null"> #{codeIndex,jdbcType=INTEGER},
 			</if>
-			<if
-				test="codeSeq != null">
-				#{codeSeq,jdbcType=INTEGER},
-			
+			<if test="codeSeq != null"> #{codeSeq,jdbcType=INTEGER},
 			</if>
-			<if
-				test="prflag != null">
-				#{prflag,jdbcType=DECIMAL},
-			
+			<if test="prflag != null"> #{prflag,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="prgroup != null">
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> #{prgroup,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prtype != null">
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> #{prtype,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prclass != null">
-				#{prclass,jdbcType=VARCHAR},
-			
+			<if test="prclass != null"> #{prclass,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property0 != null">
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> #{property0,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property1 != null">
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> #{property1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property2 != null">
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> #{property2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property3 != null">
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> #{property3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property4 != null">
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> #{property4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property5 != null">
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> #{property5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property6 != null">
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> #{property6,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property7 != null">
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> #{property7,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property8 != null">
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> #{property8,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property9 != null">
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> #{property9,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property10 != null">
-				#{property10,jdbcType=DECIMAL},
-			
+			<if test="property10 != null"> #{property10,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property11 != null">
-				#{property11,jdbcType=DECIMAL},
-			
+			<if test="property11 != null"> #{property11,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property12 != null">
-				#{property12,jdbcType=DECIMAL},
-			
+			<if test="property12 != null"> #{property12,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property13 != null">
-				#{property13,jdbcType=DECIMAL},
-			
+			<if test="property13 != null"> #{property13,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property14 != null">
-				#{property14,jdbcType=DECIMAL},
-			
+			<if test="property14 != null"> #{property14,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property15 != null">
-				#{property15,jdbcType=DECIMAL},
-			
+			<if test="property15 != null"> #{property15,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="prinf != null">
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> #{prinf,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prexp != null">
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> #{prexp,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="itime != null">
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> #{itime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="iperson != null">
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> #{iperson,jdbcType=INTEGER},
 			</if>
-			<if
-				test="utime != null">
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> #{utime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="uperson != null">
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> #{uperson,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
 	<!-- updateByPrimaryKeySelective -->
-	<update
-		id="updateByPrimaryKeySelective"
-		parameterType="com.aps.monitor.model.ComCode">
-		update
-		com_code
+	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.ComCode">
+		update com_code
 		<set>
-			<if
-				test="codeName != null">
-				CODE_NAME
-				=
-				#{codeName,jdbcType=VARCHAR},
-			
+			<if test="codeName != null"> CODE_NAME = #{codeName,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName1 != null">
-				CODE_NAME1
-				=
-				#{codeName1,jdbcType=VARCHAR},
-			
+			<if test="codeName1 != null"> CODE_NAME1 = #{codeName1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName2 != null">
-				CODE_NAME2
-				=
-				#{codeName2,jdbcType=VARCHAR},
-			
+			<if test="codeName2 != null"> CODE_NAME2 = #{codeName2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName3 != null">
-				CODE_NAME3
-				=
-				#{codeName3,jdbcType=VARCHAR},
-			
+			<if test="codeName3 != null"> CODE_NAME3 = #{codeName3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName4 != null">
-				CODE_NAME4
-				=
-				#{codeName4,jdbcType=VARCHAR},
-			
+			<if test="codeName4 != null"> CODE_NAME4 = #{codeName4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName5 != null">
-				CODE_NAME5
-				=
-				#{codeName5,jdbcType=VARCHAR},
-			
+			<if test="codeName5 != null"> CODE_NAME5 = #{codeName5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc != null">
-				CODE_DESC
-				=
-				#{codeDesc,jdbcType=VARCHAR},
-			
+			<if test="codeDesc != null"> CODE_DESC = #{codeDesc,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc1 != null">
-				CODE_DESC1
-				=
-				#{codeDesc1,jdbcType=VARCHAR},
-			
+			<if test="codeDesc1 != null"> CODE_DESC1 = #{codeDesc1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc2 != null">
-				CODE_DESC2
-				=
-				#{codeDesc2,jdbcType=VARCHAR},
-			
+			<if test="codeDesc2 != null"> CODE_DESC2 = #{codeDesc2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc3 != null">
-				CODE_DESC3
-				=
-				#{codeDesc3,jdbcType=VARCHAR},
-			
+			<if test="codeDesc3 != null"> CODE_DESC3 = #{codeDesc3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc4 != null">
-				CODE_DESC4
-				=
-				#{codeDesc4,jdbcType=VARCHAR},
-			
+			<if test="codeDesc4 != null"> CODE_DESC4 = #{codeDesc4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc5 != null">
-				CODE_DESC5
-				=
-				#{codeDesc5,jdbcType=VARCHAR},
-			
+			<if test="codeDesc5 != null"> CODE_DESC5 = #{codeDesc5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeIndex != null">
-				CODE_INDEX
-				=
-				#{codeIndex,jdbcType=INTEGER},
-			
+			<if test="codeIndex != null"> CODE_INDEX = #{codeIndex,jdbcType=INTEGER},
 			</if>
-			<if
-				test="codeSeq != null">
-				CODE_SEQ
-				=
-				#{codeSeq,jdbcType=INTEGER},
-			
+			<if test="codeSeq != null"> CODE_SEQ = #{codeSeq,jdbcType=INTEGER},
 			</if>
-			<if
-				test="prflag != null">
-				PRFLAG
-				=
-				#{prflag,jdbcType=DECIMAL},
-			
+			<if test="prflag != null"> PRFLAG = #{prflag,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP
-				=
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> PRGROUP = #{prgroup,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE
-				=
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> PRTYPE = #{prtype,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prclass != null">
-				PRCLASS
-				=
-				#{prclass,jdbcType=VARCHAR},
-			
+			<if test="prclass != null"> PRCLASS = #{prclass,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0
-				=
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1
-				=
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> PROPERTY1 = #{property1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2
-				=
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> PROPERTY2 = #{property2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3
-				=
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> PROPERTY3 = #{property3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4
-				=
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> PROPERTY4 = #{property4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5
-				=
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> PROPERTY5 = #{property5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6
-				=
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> PROPERTY6 = #{property6,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7
-				=
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> PROPERTY7 = #{property7,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8
-				=
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> PROPERTY8 = #{property8,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9
-				=
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> PROPERTY9 = #{property9,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property10 != null">
-				PROPERTY10
-				=
-				#{property10,jdbcType=DECIMAL},
-			
+			<if test="property10 != null"> PROPERTY10 = #{property10,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property11 != null">
-				PROPERTY11
-				=
-				#{property11,jdbcType=DECIMAL},
-			
+			<if test="property11 != null"> PROPERTY11 = #{property11,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property12 != null">
-				PROPERTY12
-				=
-				#{property12,jdbcType=DECIMAL},
-			
+			<if test="property12 != null"> PROPERTY12 = #{property12,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property13 != null">
-				PROPERTY13
-				=
-				#{property13,jdbcType=DECIMAL},
-			
+			<if test="property13 != null"> PROPERTY13 = #{property13,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property14 != null">
-				PROPERTY14
-				=
-				#{property14,jdbcType=DECIMAL},
-			
+			<if test="property14 != null"> PROPERTY14 = #{property14,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="property15 != null">
-				PROPERTY15
-				=
-				#{property15,jdbcType=DECIMAL},
-			
+			<if test="property15 != null"> PROPERTY15 = #{property15,jdbcType=DECIMAL},
 			</if>
-			<if
-				test="prinf != null">
-				PRINF
-				=
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> PRINF = #{prinf,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prexp != null">
-				PREXP
-				=
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> PREXP = #{prexp,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="itime != null">
-				ITIME
-				=
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> ITIME = #{itime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON
-				=
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> IPERSON = #{iperson,jdbcType=INTEGER},
 			</if>
-			<if
-				test="utime != null">
-				UTIME
-				=
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> UTIME = #{utime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON
-				=
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> UPERSON = #{uperson,jdbcType=INTEGER},
 			</if>
 		</set>
-		where
-		CODE_TYPE
-		=
-		#{codeType,jdbcType=VARCHAR}
-		and
-		CODE_VALUE
-		=
-		#{codeValue,jdbcType=VARCHAR}
+		where CODE_TYPE = #{codeType,jdbcType=VARCHAR} and CODE_VALUE = #{codeValue,jdbcType=VARCHAR}
 	</update>
 	<!-- updateByPrimaryKeyMap -->
-	<update
-		id="updateByPrimaryKeyMap"
-		parameterType="java.util.Map">
-		update
-		com_code
+	<update id="updateByPrimaryKeyMap" parameterType="java.util.Map">
+		update com_code
 		<set>
-			<if
-				test="codeName != null">
-				CODE_NAME
-				=
-				#{codeName,jdbcType=VARCHAR},
-			
+			<if test="codeName != null"> CODE_NAME = #{codeName,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName1 != null">
-				CODE_NAME1
-				=
-				#{codeName1,jdbcType=VARCHAR},
-			
+			<if test="codeName1 != null"> CODE_NAME1 = #{codeName1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName2 != null">
-				CODE_NAME2
-				=
-				#{codeName2,jdbcType=VARCHAR},
-			
+			<if test="codeName2 != null"> CODE_NAME2 = #{codeName2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName3 != null">
-				CODE_NAME3
-				=
-				#{codeName3,jdbcType=VARCHAR},
-			
+			<if test="codeName3 != null"> CODE_NAME3 = #{codeName3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName4 != null">
-				CODE_NAME4
-				=
-				#{codeName4,jdbcType=VARCHAR},
-			
+			<if test="codeName4 != null"> CODE_NAME4 = #{codeName4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeName5 != null">
-				CODE_NAME5
-				=
-				#{codeName5,jdbcType=VARCHAR},
-			
+			<if test="codeName5 != null"> CODE_NAME5 = #{codeName5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc != null">
-				CODE_DESC
-				=
-				#{codeDesc,jdbcType=VARCHAR},
-			
+			<if test="codeDesc != null"> CODE_DESC = #{codeDesc,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc1 != null">
-				CODE_DESC1
-				=
-				#{codeDesc1,jdbcType=VARCHAR},
-			
+			<if test="codeDesc1 != null"> CODE_DESC1 = #{codeDesc1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc2 != null">
-				CODE_DESC2
-				=
-				#{codeDesc2,jdbcType=VARCHAR},
-			
+			<if test="codeDesc2 != null"> CODE_DESC2 = #{codeDesc2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc3 != null">
-				CODE_DESC3
-				=
-				#{codeDesc3,jdbcType=VARCHAR},
-			
+			<if test="codeDesc3 != null"> CODE_DESC3 = #{codeDesc3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc4 != null">
-				CODE_DESC4
-				=
-				#{codeDesc4,jdbcType=VARCHAR},
-			
+			<if test="codeDesc4 != null"> CODE_DESC4 = #{codeDesc4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="codeDesc5 != null">
-				CODE_DESC5
-				=
-				#{codeDesc5,jdbcType=VARCHAR},
-			
+			<if test="codeDesc5 != null"> CODE_DESC5 = #{codeDesc5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test='codeIndex != ""'>
-				CODE_INDEX
-				=
-				#{codeIndex,jdbcType=INTEGER},
-			
+			<if test='codeIndex != ""'> CODE_INDEX = #{codeIndex,jdbcType=INTEGER},
 			</if>
-			<if
-				test='codeIndex == ""'>
-				CODE_INDEX
-				=
-				null,
-			
+			<if test='codeIndex == ""'> CODE_INDEX = null,
 			</if>
-			<if
-				test='codeSeq != ""'>
-				CODE_SEQ
-				=
-				#{codeSeq,jdbcType=INTEGER},
-			
+			<if test='codeSeq != ""'> CODE_SEQ = #{codeSeq,jdbcType=INTEGER},
 			</if>
-			<if
-				test='codeSeq == ""'>
-				CODE_SEQ
-				=
-				null,
-			
+			<if test='codeSeq == ""'> CODE_SEQ = null,
 			</if>
-			<if
-				test='prflag != ""'>
-				PRFLAG
-				=
-				#{prflag,jdbcType=DECIMAL},
-			
+			<if test='prflag != ""'> PRFLAG = #{prflag,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='prflag == ""'>
-				PRFLAG
-				=
-				null,
-			
+			<if test='prflag == ""'> PRFLAG = null,
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP
-				=
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> PRGROUP = #{prgroup,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE
-				=
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> PRTYPE = #{prtype,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prclass != null">
-				PRCLASS
-				=
-				#{prclass,jdbcType=VARCHAR},
-			
+			<if test="prclass != null"> PRCLASS = #{prclass,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0
-				=
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1
-				=
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> PROPERTY1 = #{property1,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2
-				=
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> PROPERTY2 = #{property2,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3
-				=
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> PROPERTY3 = #{property3,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4
-				=
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> PROPERTY4 = #{property4,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5
-				=
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> PROPERTY5 = #{property5,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6
-				=
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> PROPERTY6 = #{property6,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7
-				=
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> PROPERTY7 = #{property7,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8
-				=
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> PROPERTY8 = #{property8,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9
-				=
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> PROPERTY9 = #{property9,jdbcType=VARCHAR},
 			</if>
-			<if
-				test='property10 != ""'>
-				PROPERTY10
-				=
-				#{property10,jdbcType=DECIMAL},
-			
+			<if test='property10 != ""'> PROPERTY10 = #{property10,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property10 == ""'>
-				PROPERTY10
-				=
-				null,
-			
+			<if test='property10 == ""'> PROPERTY10 = null,
 			</if>
-			<if
-				test='property11 != ""'>
-				PROPERTY11
-				=
-				#{property11,jdbcType=DECIMAL},
-			
+			<if test='property11 != ""'> PROPERTY11 = #{property11,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property11 == ""'>
-				PROPERTY11
-				=
-				null,
-			
+			<if test='property11 == ""'> PROPERTY11 = null,
 			</if>
-			<if
-				test='property12 != ""'>
-				PROPERTY12
-				=
-				#{property12,jdbcType=DECIMAL},
-			
+			<if test='property12 != ""'> PROPERTY12 = #{property12,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property12 == ""'>
-				PROPERTY12
-				=
-				null,
-			
+			<if test='property12 == ""'> PROPERTY12 = null,
 			</if>
-			<if
-				test='property13 != ""'>
-				PROPERTY13
-				=
-				#{property13,jdbcType=DECIMAL},
-			
+			<if test='property13 != ""'> PROPERTY13 = #{property13,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property13 == ""'>
-				PROPERTY13
-				=
-				null,
-			
+			<if test='property13 == ""'> PROPERTY13 = null,
 			</if>
-			<if
-				test='property14 != ""'>
-				PROPERTY14
-				=
-				#{property14,jdbcType=DECIMAL},
-			
+			<if test='property14 != ""'> PROPERTY14 = #{property14,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property14 == ""'>
-				PROPERTY14
-				=
-				null,
-			
+			<if test='property14 == ""'> PROPERTY14 = null,
 			</if>
-			<if
-				test='property15 != ""'>
-				PROPERTY15
-				=
-				#{property15,jdbcType=DECIMAL},
-			
+			<if test='property15 != ""'> PROPERTY15 = #{property15,jdbcType=DECIMAL},
 			</if>
-			<if
-				test='property15 == ""'>
-				PROPERTY15
-				=
-				null,
-			
+			<if test='property15 == ""'> PROPERTY15 = null,
 			</if>
-			<if
-				test="prinf != null">
-				PRINF
-				=
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> PRINF = #{prinf,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="prexp != null">
-				PREXP
-				=
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> PREXP = #{prexp,jdbcType=VARCHAR},
 			</if>
-			<if
-				test="itime != null">
-				ITIME
-				=
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> ITIME = #{itime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON
-				=
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> IPERSON = #{iperson,jdbcType=INTEGER},
 			</if>
-			<if
-				test="utime != null">
-				UTIME
-				=
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> UTIME = #{utime,jdbcType=TIMESTAMP},
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON
-				=
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> UPERSON = #{uperson,jdbcType=INTEGER},
 			</if>
 		</set>
-		where
-		CODE_TYPE
-		=
-		#{codeType,jdbcType=VARCHAR}
-		and
-		CODE_VALUE
-		=
-		#{codeValue,jdbcType=VARCHAR}
+		where CODE_TYPE = #{codeType,jdbcType=VARCHAR} and CODE_VALUE = #{codeValue,jdbcType=VARCHAR}
 	</update>
 	<!-- updateByPrimaryKey -->
-	<update
-		id="updateByPrimaryKey"
-		parameterType="com.aps.monitor.model.ComCode">
-		update
-		com_code
-		set
-		CODE_NAME
-		=
-		#{codeName,jdbcType=VARCHAR},
-		CODE_NAME1
-		=
-		#{codeName1,jdbcType=VARCHAR},
-		CODE_NAME2
-		=
-		#{codeName2,jdbcType=VARCHAR},
-		CODE_NAME3
-		=
-		#{codeName3,jdbcType=VARCHAR},
-		CODE_NAME4
-		=
-		#{codeName4,jdbcType=VARCHAR},
-		CODE_NAME5
-		=
-		#{codeName5,jdbcType=VARCHAR},
-		CODE_DESC
-		=
-		#{codeDesc,jdbcType=VARCHAR},
-		CODE_DESC1
-		=
-		#{codeDesc1,jdbcType=VARCHAR},
-		CODE_DESC2
-		=
-		#{codeDesc2,jdbcType=VARCHAR},
-		CODE_DESC3
-		=
-		#{codeDesc3,jdbcType=VARCHAR},
-		CODE_DESC4
-		=
-		#{codeDesc4,jdbcType=VARCHAR},
-		CODE_DESC5
-		=
-		#{codeDesc5,jdbcType=VARCHAR},
-		CODE_INDEX
-		=
-		#{codeIndex,jdbcType=INTEGER},
-		CODE_SEQ
-		=
-		#{codeSeq,jdbcType=INTEGER},
-		PRFLAG
-		=
-		#{prflag,jdbcType=DECIMAL},
-		PRGROUP
-		=
-		#{prgroup,jdbcType=VARCHAR},
-		PRTYPE
-		=
-		#{prtype,jdbcType=VARCHAR},
-		PRCLASS
-		=
-		#{prclass,jdbcType=VARCHAR},
-		PROPERTY0
-		=
-		#{property0,jdbcType=VARCHAR},
-		PROPERTY1
-		=
-		#{property1,jdbcType=VARCHAR},
-		PROPERTY2
-		=
-		#{property2,jdbcType=VARCHAR},
-		PROPERTY3
-		=
-		#{property3,jdbcType=VARCHAR},
-		PROPERTY4
-		=
-		#{property4,jdbcType=VARCHAR},
-		PROPERTY5
-		=
-		#{property5,jdbcType=VARCHAR},
-		PROPERTY6
-		=
-		#{property6,jdbcType=VARCHAR},
-		PROPERTY7
-		=
-		#{property7,jdbcType=VARCHAR},
-		PROPERTY8
-		=
-		#{property8,jdbcType=VARCHAR},
-		PROPERTY9
-		=
-		#{property9,jdbcType=VARCHAR},
-		PROPERTY10
-		=
-		#{property10,jdbcType=DECIMAL},
-		PROPERTY11
-		=
-		#{property11,jdbcType=DECIMAL},
-		PROPERTY12
-		=
-		#{property12,jdbcType=DECIMAL},
-		PROPERTY13
-		=
-		#{property13,jdbcType=DECIMAL},
-		PROPERTY14
-		=
-		#{property14,jdbcType=DECIMAL},
-		PROPERTY15
-		=
-		#{property15,jdbcType=DECIMAL},
-		PRINF
-		=
-		#{prinf,jdbcType=VARCHAR},
-		PREXP
-		=
-		#{prexp,jdbcType=VARCHAR},
-		ITIME
-		=
-		#{itime,jdbcType=TIMESTAMP},
-		IPERSON
-		=
-		#{iperson,jdbcType=INTEGER},
-		UTIME
-		=
-		#{utime,jdbcType=TIMESTAMP},
-		UPERSON
-		=
-		#{uperson,jdbcType=INTEGER}
-		where
-		CODE_TYPE
-		=
-		#{codeType,jdbcType=VARCHAR}
-		and
-		CODE_VALUE
-		=
+	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComCode"> update com_code set CODE_NAME = #{codeName,jdbcType=VARCHAR},
+		CODE_NAME1 = #{codeName1,jdbcType=VARCHAR}, CODE_NAME2 = #{codeName2,jdbcType=VARCHAR}, CODE_NAME3 =
+		#{codeName3,jdbcType=VARCHAR}, CODE_NAME4 = #{codeName4,jdbcType=VARCHAR}, CODE_NAME5 = #{codeName5,jdbcType=VARCHAR},
+		CODE_DESC = #{codeDesc,jdbcType=VARCHAR}, CODE_DESC1 = #{codeDesc1,jdbcType=VARCHAR}, CODE_DESC2 =
+		#{codeDesc2,jdbcType=VARCHAR}, CODE_DESC3 = #{codeDesc3,jdbcType=VARCHAR}, CODE_DESC4 = #{codeDesc4,jdbcType=VARCHAR},
+		CODE_DESC5 = #{codeDesc5,jdbcType=VARCHAR}, CODE_INDEX = #{codeIndex,jdbcType=INTEGER}, CODE_SEQ =
+		#{codeSeq,jdbcType=INTEGER}, PRFLAG = #{prflag,jdbcType=DECIMAL}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE =
+		#{prtype,jdbcType=VARCHAR}, PRCLASS = #{prclass,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=VARCHAR},
+		PROPERTY1 = #{property1,jdbcType=VARCHAR}, PROPERTY2 = #{property2,jdbcType=VARCHAR}, PROPERTY3 =
+		#{property3,jdbcType=VARCHAR}, PROPERTY4 = #{property4,jdbcType=VARCHAR}, PROPERTY5 = #{property5,jdbcType=VARCHAR},
+		PROPERTY6 = #{property6,jdbcType=VARCHAR}, PROPERTY7 = #{property7,jdbcType=VARCHAR}, PROPERTY8 =
+		#{property8,jdbcType=VARCHAR}, PROPERTY9 = #{property9,jdbcType=VARCHAR}, PROPERTY10 = #{property10,jdbcType=DECIMAL},
+		PROPERTY11 = #{property11,jdbcType=DECIMAL}, PROPERTY12 = #{property12,jdbcType=DECIMAL}, PROPERTY13 =
+		#{property13,jdbcType=DECIMAL}, PROPERTY14 = #{property14,jdbcType=DECIMAL}, PROPERTY15 =
+		#{property15,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP = #{prexp,jdbcType=VARCHAR}, ITIME =
+		#{itime,jdbcType=TIMESTAMP}, IPERSON = #{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, UPERSON =
+		#{uperson,jdbcType=INTEGER} where CODE_TYPE = #{codeType,jdbcType=VARCHAR} and CODE_VALUE =
 		#{codeValue,jdbcType=VARCHAR}
-	
 	</update>
 </mapper>
