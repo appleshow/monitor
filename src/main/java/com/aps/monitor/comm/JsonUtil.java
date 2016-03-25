@@ -16,6 +16,7 @@ public class JsonUtil {
 	static {
 		jsonMapper.setSerializationInclusion(Include.NON_NULL);
 		jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		jsonMapper.setDateFormat(DateUtil.getSimpleDateFormat());
 	}
 
 	/**
@@ -168,7 +169,7 @@ public class JsonUtil {
 		System.out.println("--------------------------INPAR----------------------------------------");
 		System.out.println(inpar);
 		System.out.println("--------------------------INPAR----------------------------------------");
-		
+
 		return requestRefPar;
 	}
 

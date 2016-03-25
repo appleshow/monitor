@@ -39,13 +39,13 @@ public class ComPersonOrg extends ComPersonOrgKey {
 
     private String igroup;
 
-    private Long iperson;
+    private Integer iperson;
 
     private Date utime;
 
     private String ushift;
 
-    private Long uperson;
+    private Integer uperson;
 
     private String ugroup;
 
@@ -195,11 +195,11 @@ public class ComPersonOrg extends ComPersonOrgKey {
         this.igroup = igroup == null ? null : igroup.trim();
     }
 
-    public Long getIperson() {
+    public Integer getIperson() {
         return iperson;
     }
 
-    public void setIperson(Long iperson) {
+    public void setIperson(Integer iperson) {
         this.iperson = iperson;
     }
 
@@ -219,11 +219,11 @@ public class ComPersonOrg extends ComPersonOrgKey {
         this.ushift = ushift == null ? null : ushift.trim();
     }
 
-    public Long getUperson() {
+    public Integer getUperson() {
         return uperson;
     }
 
-    public void setUperson(Long uperson) {
+    public void setUperson(Integer uperson) {
         this.uperson = uperson;
     }
 

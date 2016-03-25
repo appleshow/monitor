@@ -21,11 +21,8 @@ function pageLoad() {
 function pageIni() {
 
 	// 取得COM_ORG数据
-	var url = "../servlet/DBHelper";
-	var inf = {
-		type : 'QJ',
-		prc : 'aps.com.dao.COM0006.refComCode'
-	};
+	var url = "personOrgConfig.refComOrg";
+	var inf = {};
 	$.ajax({
 		async : false,
 		type : "POST",
@@ -34,19 +31,34 @@ function pageIni() {
 		data : "inf=" + JSON.stringify(inf),
 		dataType : "json",
 		success : function(res) {
-			if (res[0].p_e_code != 0) {
-				$smsg(res[0].p_e_msg, "E", res[0].p_e_code);
+			if (res.code != 0) {
+				$smsg(res.message, "E", res.code);
 			} else {
-				for (var row = 1; row < res.length; row++) {
-					if (res[row].type == "P") {
-						personcombdata.push(res[row]);
-					} else if (res[row].type == "O") {
-						orgcombdata.push(res[row]);
-					}
-				}
-				orgcombdata = JSON.stringify(orgcombdata);
-				orgtreedata = Json2Tree( JSON.parse(orgcombdata), -1, 0);
-				orgcombdata = JSON.parse(orgcombdata);
+				orgcombdata = res.data;
+
+				orgtreedata = Json2Tree(orgcombdata, "orgId", "farOrgId", "orgName", 0, 0);
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$smsg(textStatus != null ? textStatus : errorThrown, "E", XMLHttpRequest.status);
+		}
+	});
+
+	// 取得COM_PERSON数据
+	url = "personOrgConfig.refComPerson";
+	inf = {};
+	$.ajax({
+		async : false,
+		type : "POST",
+		url : url,
+		cache : false,
+		data : "inf=" + JSON.stringify(inf),
+		dataType : "json",
+		success : function(res) {
+			if (res.code != 0) {
+				$smsg(res.message, "E", res.code);
+			} else {
+				personcombdata = res.data;
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -63,18 +75,18 @@ function pageIni() {
 
 	// 初始化Grid列
 	// grid.setHeadCol(rowindex,colid, colname, colwidth, valign,irowspan,icolspan, bsort, bfrozen, bresizable, osorter, ostyler, oedit,oformat,bprimery, bnecessary,binput, bhidden)
-	dgUser.setHeadCol(1, "PERSON_ID", "人员名称", 120, "left", 0, 0, false, false, true, null, null, {
+	dgUser.setHeadCol(1, "personId", "人员名称", 120, "left", 0, 0, false, false, true, null, null, {
 		type : 'combobox',
 		options : {
 			required : true,
 			editable : false,
 			panelHeight : 'auto',
-			valueField : 'id',
-			textField : 'text',
+			valueField : 'personId',
+			textField : 'userName',
 			data : personcombdata
 		}
-	}, fmtUser, false, false, true, false);
-	dgUser.setHeadCol(1, "ORG_ID", "组织名称", 160, "left", 0, 0, false, false, true, null, null, {
+	}, fmtUser, true, false, true, false);
+	dgUser.setHeadCol(1, "orgId", "组织名称", 160, "left", 0, 0, false, false, true, null, null, {
 		type : 'combotree',
 		options : {
 			animate : false,
@@ -85,36 +97,32 @@ function pageIni() {
 			required : true,
 			data : orgtreedata
 		}
-	}, fmtUserOrg, false, false, true, false);
-	dgUser.setHeadCol(1, "PRFLAG", "是否有效", 60, "center", 0, 0, false, false, true, null, null, {
+	}, fmtUserOrg, true, false, true, false);
+	dgUser.setHeadCol(1, "prflag", "是否有效", 60, "center", 0, 0, false, false, true, null, null, {
 		type : 'checkbox',
 		options : {
 			on : '1',
 			off : '0'
 		}
 	}, null, false, false, true, false);
-	dgUser.setHeadCol(1, "UPERSON", "更新人", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
-	dgUser.setHeadCol(1, "UTIME", "更新时间", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgUser.setHeadCol(1, "uperson", "更新人", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
+	dgUser.setHeadCol(1, "utime", "更新时间", 140, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgUser.dbinf.query = {
-		url : "../servlet/DBHelper",
-		type : "QJ",
-		prc : "aps.com.dao.COM0006.refPersonOrg",
+		url : "personOrgConfig.refComPersonOrg",
 		inpar : [ {
 			type : "jtext",
-			name : "user_id",
+			name : "userId",
 			crtl : $('#user_id')
 		}, {
 			type : "jtext",
-			name : "user_name",
+			name : "userName",
 			crtl : $('#user_name')
 		}, ]
 	};
 
 	dgUser.dbinf.modify = {
-		url : "../servlet/DBHelper",
-		type : "PJ",
-		prc : "aps.com.dao.COM0006.mdyPersonOrg",
+		url : "personOrgConfig.mydComPersonOrg",
 	};
 
 	// 初始化Grid属性
@@ -139,31 +147,27 @@ function pageIni() {
 		columns : dgUser.aryheadcols.ufrozen,
 
 		loadFilter : function(res) {
-			var data = null;
+			var data = {
+				total : 0,
+				rows : []
+			};
 
-			if (res == null || res.length <= 0) {
-				data = '{"total":' + 0;
-				data += ',"rows":[]}';
+			if (res == null) {
 			} else {
 				// 查询成功
-				if (res[0].p_e_code != 0) {
-					data = '{"total":' + 0;
-					data += ',"rows":[]}';
-					$smsg(res[0].p_e_msg, "E", res[0].p_e_code);
+				if (res.code != 0) {
+					$smsg(res.message, "E", res.code);
 				} else {
-					data = '{"total":' + res[0].p_m_rows;
-					data += ',"rows":[';
-					for (var row = 1; row < res.length; row++) {
-						if (row == 1) {
-							data += JSON.stringify(res[row]);
-						} else {
-							data += "," + JSON.stringify(res[row]);
-						}
-					}
-					data += "]}";
+					data.total = res.rowcount;
+					data.rows = res.data;
 				}
 			}
-			return JSON.parse(data);
+
+			for (var index = 0; index < data.rows.length; index++) {
+				data.rows[index].uperson = fmtUser(data.rows[index].uperson);
+			}
+
+			return data;
 		},
 
 		onBeforeLoad : function() {
@@ -297,6 +301,7 @@ function selectUserName() {
 	$("#user_name").textbox("textbox").select();
 }
 
+
 /**
  * 格式用户
  * 
@@ -304,8 +309,8 @@ function selectUserName() {
  */
 function fmtUser(value) {
 	for (var icnt = 0; icnt < personcombdata.length; icnt++) {
-		if (personcombdata[icnt].id == value)
-			return personcombdata[icnt].text;
+		if (personcombdata[icnt].personId == value)
+			return personcombdata[icnt].userName;
 	}
 	return value;
 }

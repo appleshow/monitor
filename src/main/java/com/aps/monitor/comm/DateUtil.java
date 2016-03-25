@@ -8,6 +8,19 @@ public class DateUtil {
 
 	/**
 	 * 
+	 * @Title: getSimpleDateFormat
+	 * @Description: TODO
+	 * @param: @return
+	 * @return: SimpleDateFormat
+	 * @throws
+	 * @since 1.0.0
+	 */
+	public static SimpleDateFormat getSimpleDateFormat() {
+		return simpleDateFormat;
+	}
+
+	/**
+	 * 
 	 * @Title: formatString
 	 * @Description: TODO
 	 * @param: @param date

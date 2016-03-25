@@ -471,14 +471,36 @@ function doPageLoad() {
 
 // Through a menu
 function getChildMenu(farther, menus) {
-	var haschild = false, inner = "";
+	var haschild = false, show = false, url = "", inner = "";
 
 	for (var index = 0; index < menus.length; index++) {
-		if (menus[index].farMenuId == menus[farther].menuId && (!menus[index].property1 || menus[index].property2)) {
+		if (!menus[index].hasOwnProperty("formId")) {
+			show = true;
+		} else {
+			if (menus[index].hasOwnProperty("comForm")) {
+				if (menus[index].comForm.hasOwnProperty("property0")) {
+					show = true;
+				} else {
+					show = false;
+				}
+			} else {
+				show = false;
+			}
+		}
+		if (menus[index].farMenuId == menus[farther].menuId && show) {
 			if (!haschild) {
 				haschild = true;
-				inner = " <li><a href='#' onclick = 'showPage(" + '"' + menus[farther].property1 + '"' + ',"' + menus[farther].menuName + '"' + ',"' + menus[farther].menuId + '"' + ',"'
-						+ menus[farther].property0 + '"' + ")' class='menu-dropdown'> <i class='menu-icon " + menus[farther].property0 + "'></i> <span class='menu-text'> " + menus[farther].menuName
+				if (menus[farther].hasOwnProperty("comForm")) {
+					if (menus[farther].comForm.hasOwnProperty("property0")) {
+						url = menus[farther].comForm.property0;
+					} else {
+						url = "";
+					}
+				} else {
+					url = "";
+				}
+				inner = " <li><a href='#' onclick = 'showPage(" + '"' + url + '"' + ',"' + menus[farther].menuName + '"' + ',"' + menus[farther].menuId + '"' + ',"' + menus[farther].property0 + '"'
+						+ ")' class='menu-dropdown'> <i class='menu-icon " + menus[farther].property0 + "'></i> <span class='menu-text'> " + menus[farther].menuName
 						+ " </span> <i class='menu-expand'></i></a><ul class='submenu'>";
 			}
 			inner += getChildMenu(index, menus);
@@ -487,8 +509,17 @@ function getChildMenu(farther, menus) {
 	if (haschild) {
 		inner += " </ul></li>";
 	} else {
-		inner = "<li><a href='#' onclick = 'showPage(" + '"' + menus[farther].property1 + '"' + ',"' + menus[farther].menuName + '"' + ',"' + menus[farther].menuId + '"' + ',"'
-				+ menus[farther].property0 + '"' + ")'> <i class='menu-icon " + menus[farther].property0 + "'></i> <span class='menu-text'>" + menus[farther].menuName + "</span></a></li>";
+		if (menus[farther].hasOwnProperty("comForm")) {
+			if (menus[farther].comForm.hasOwnProperty("property0")) {
+				url = menus[farther].comForm.property0;
+			} else {
+				url = "";
+			}
+		} else {
+			url = "";
+		}
+		inner = "<li><a href='#' onclick = 'showPage(" + '"' + url + '"' + ',"' + menus[farther].menuName + '"' + ',"' + menus[farther].menuId + '"' + ',"' + menus[farther].property0 + '"'
+				+ ")'> <i class='menu-icon " + menus[farther].property0 + "'></i> <span class='menu-text'>" + menus[farther].menuName + "</span></a></li>";
 	}
 
 	return inner;

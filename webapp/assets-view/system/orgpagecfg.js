@@ -1157,27 +1157,14 @@ function toolRef() {
  * 保存
  */
 function toolSave() {
-
 	var tab = $('#tabMain').tabs('getSelected');
 	var tabindex = $('#tabMain').tabs('getTabIndex', tab);
 
 	if (tabindex == 0) {
-
 		var type = null;
-		var panel = dgOrgPageA.Grid.datagrid("getPanel");
-		var tr = panel.find("div.datagrid-cell-rownumber");
 		var treeorgslt = $('#treeOrgA').tree('getChecked')[0].id;
 
 		pageCtlAEERow(true);
-		tr.each(function(icnt) {
-			type = $(this).html();
-			if (isNaN(type)) {
-				if (type == "Insert") {
-					$(this).html(icnt + 1);
-				}
-			}
-		});
-
 		if (dgOrgPageA.doModify(true)) {
 			if (dgPageCtlA.doModify(true)) {
 				toolRef();
@@ -1185,22 +1172,10 @@ function toolSave() {
 			}
 		}
 	} else if (tabindex == 1) {
-
 		var type = null;
-		var panel = dgOrgPageB.Grid.datagrid("getPanel");
-		var tr = panel.find("div.datagrid-cell-rownumber");
 		var treepageslt = $('#treePageB').tree('getChecked')[0].id;
 
 		pageCtlBEERow(true);
-		tr.each(function(icnt) {
-			type = $(this).html();
-			if (isNaN(type)) {
-				if (type == "Insert") {
-					$(this).html(icnt + 1);
-				}
-			}
-		});
-
 		if (dgOrgPageB.doModify(true)) {
 			if (dgPageCtlB.doModify(true)) {
 				toolRef();

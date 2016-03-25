@@ -270,6 +270,18 @@ public class OrgFormConfigController {
 							comOrgFormRights.setIperson(personId);
 							comOrgFormRights.setUtime(now);
 							comOrgFormRights.setUperson(personId);
+							if (null == comOrgFormRights.getRea()) {
+								comOrgFormRights.setRea(0);
+							}
+							if (null == comOrgFormRights.getR1()) {
+								comOrgFormRights.setR1(0);
+							}
+							if (null == comOrgFormRights.getR2()) {
+								comOrgFormRights.setR2(0);
+							}
+							if (null == comOrgFormRights.getR3()) {
+								comOrgFormRights.setR3(0);
+							}
 							orgFormConfigService.insertSelective(comOrgFormRights);
 							break;
 						case "U":
