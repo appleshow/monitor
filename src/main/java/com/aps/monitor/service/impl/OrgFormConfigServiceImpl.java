@@ -84,7 +84,11 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	@Override
 	public int insertComOrgFormSelective(ComOrgForm record) {
-		return comOrgFormMapper.insertSelective(record);
+		int returnValue = 0;
+		
+		returnValue = comOrgFormMapper.insertSelective(record);
+		
+		return returnValue;
 	}
 
 	@Override

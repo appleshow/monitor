@@ -70,19 +70,20 @@
 	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComPerson">
 		select
 		<include refid="Base_Column_List"/>
-		from 
-		com_person_org a, 
-		com_person b
+		from com_person_org a, com_person b
 		<where>
-		a.person_id = b.person_id 
-			<if test="userId != null">and b.USER_ID like CONCAT('%',#{userId,jdbcType=VARCHAR},'%')
-			</if>
-			<if test="userName != null">and b.USER_NAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
-			</if>
+			a.person_id = b.person_id and a.prtype = '1'
+			<if test="userId != null">and b.USER_ID like CONCAT('%',#{userId,jdbcType=VARCHAR},'%')</if>
+			<if test="userName != null">and b.USER_NAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')</if>
 		</where>
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComPersonOrgKey"> delete from com_person_org where ORG_ID =
-		#{orgId,jdbcType=INTEGER} and PERSON_ID = #{personId,jdbcType=INTEGER}
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComPersonOrgKey">
+		delete from com_person_org
+		<where>
+			<if test="orgId != null">ORG_ID = #{orgId,jdbcType=INTEGER}</if>
+			<if test="personId != null">and PERSON_ID = #{personId,jdbcType=INTEGER}</if>
+			<if test="(orgId == null and personId == null)">PERSON_ID = null</if>
+		</where>
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.ComPersonOrg"> insert into com_person_org (ORG_ID, PERSON_ID, PRFLAG, PRGROUP, PRTYPE,
 		PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PRINF,
@@ -258,7 +259,11 @@
 			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where ORG_ID = #{orgId,jdbcType=INTEGER} and PERSON_ID = #{personId,jdbcType=INTEGER}
+		<where>
+			<if test="orgId != null">ORG_ID = #{orgId,jdbcType=INTEGER}</if>
+			<if test="personId != null">and PERSON_ID = #{personId,jdbcType=INTEGER}</if>
+			<if test="(orgId == null and personId == null)">PERSON_ID = null</if>
+		</where>
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComPersonOrg"> update com_person_org set PRFLAG = #{prflag,jdbcType=INTEGER},
 		PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=VARCHAR},

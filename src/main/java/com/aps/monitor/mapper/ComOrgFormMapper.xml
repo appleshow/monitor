@@ -93,75 +93,75 @@
 			<result column="UFROM" property="ufrom" jdbcType="VARCHAR"/>
 		</association>
 	</resultMap>
-	<sql
-	id="Base_Column_List">
-	a.FORM_ID,
-	a.ORG_ID,
-	a.PRFLAG,
-	a.PRGROUP,
-	a.PRTYPE,
-	a.REA,
-	a.REL,
-	a.R1,
-	a.R2,
-	a.R3,
+	<sql id="Base_Column_List"> 
+	a.FORM_ID, 
+	a.ORG_ID, 
+	a.PRFLAG, 
+	a.PRGROUP, 
+	a.PRTYPE, 
+	a.REA, 
+	a.REL, 
+	a.R1, 
+	a.R2, 
+	a.R3, 
 	a.PROPERTY0,
-	a.PROPERTY1,
-	a.PROPERTY2,
-	a.PROPERTY3,
-	a.PROPERTY4,
-	a.PROPERTY5,
-	a.PROPERTY6,
-	a.PROPERTY7,
-	a.PROPERTY8,
+	a.PROPERTY1, 
+	a.PROPERTY2, 
+	a.PROPERTY3, 
+	a.PROPERTY4, 
+	a.PROPERTY5, 
+	a.PROPERTY6, 
+	a.PROPERTY7, 
+	a.PROPERTY8, 
 	a.PROPERTY9,
-	a.PRINF,
-	a.PREXP,
-	a.ITIME,
-	a.ISHIFT,
-	a.IGROUP,
-	a.IPERSON,
-	a.UTIME,
-	a.USHIFT,
-	a.UPERSON,
-	a.UGROUP,
-	a.UFROM,
-	b.org_name as b_org_name,
-	c.form_name as c_form_name,
+	a.PRINF, 
+	a.PREXP, 
+	a.ITIME, 
+	a.ISHIFT, 
+	a.IGROUP, 
+	a.IPERSON, 
+	a.UTIME, 
+	a.USHIFT, 
+	a.UPERSON, 
+	a.UGROUP, 
+	a.UFROM, 
+	b.org_name as b_org_name, 
+	c.form_name as c_form_name, 
 	c.prgroup as c_prgroup
-</sql>
+	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComOrgFormKey">
-	select
-	<include refid="Base_Column_List"/>
-	from 
-	com_org_form a, 
-	com_org b, 
-	com_form c 
-	where 
-	b.org_id = a.org_id 
-	and c.form_id = a.form_id 
-	and a.FORM_ID = #{formId,jdbcType=INTEGER} 
-	and a.ORG_ID = #{orgId,jdbcType=INTEGER}
-</select>
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComOrgForm">
-	select
-	<include refid="Base_Column_List"/>
-	from 
-	com_org_form a, 
-	com_org b, 
-	com_form c
-	<where>
+		select
+		<include refid="Base_Column_List"/>
+		from 
+		com_org_form a, 
+		com_org b, 
+		com_form c 
+		where 
 		b.org_id = a.org_id 
-		and c.form_id = a.form_id
-		<if test="orgId != null"> and a.ORG_ID=#{orgId,jdbcType=VARCHAR}
-		</if>
-		<if test="formId != null"> and a.FORM_ID=#{formId,jdbcType=VARCHAR}
-		</if>
-	</where>
-	order by b.org_id, c.prgroup, c.form_id
-</select>
-	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComOrgFormKey"> delete from com_org_form where FORM_ID =
-		#{formId,jdbcType=INTEGER} and ORG_ID = #{orgId,jdbcType=INTEGER}
+		and c.form_id = a.form_id 
+		and a.FORM_ID =
+		#{formId,jdbcType=INTEGER} and a.ORG_ID = #{orgId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.ComOrgForm">
+		select
+		<include refid="Base_Column_List"/>
+		from com_org_form a, com_org b, com_form c
+		<where>
+			b.org_id = a.org_id and c.form_id = a.form_id
+			<if test="orgId != null"> and a.ORG_ID=#{orgId,jdbcType=VARCHAR}
+			</if>
+			<if test="formId != null"> and a.FORM_ID=#{formId,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by b.org_id, c.prgroup, c.form_id
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComOrgFormKey">
+		delete from com_org_form
+		<where>
+			<if test="orgId != null">ORG_ID = #{orgId,jdbcType=INTEGER}</if>
+			<if test="formId != null">and FORM_ID = #{formId,jdbcType=INTEGER}</if>
+			<if test="(orgId == null and formId == null)">ORG_ID = null</if>
+		</where>
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.ComOrgForm"> insert into com_org_form (FORM_ID, ORG_ID, PRFLAG, PRGROUP, PRTYPE, REA, REL,
 		R1, R2, R3, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8,
@@ -369,7 +369,11 @@
 			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where FORM_ID = #{formId,jdbcType=INTEGER} and ORG_ID = #{orgId,jdbcType=INTEGER}
+		<where>
+			<if test="orgId != null">ORG_ID = #{orgId,jdbcType=INTEGER}</if>
+			<if test="formId != null">and FORM_ID = #{formId,jdbcType=INTEGER}</if>
+			<if test="(orgId == null and formId == null)">ORG_ID = null</if>
+		</where>
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComOrgForm"> update com_org_form set PRFLAG = #{prflag,jdbcType=INTEGER},
 		PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR}, REA = #{rea,jdbcType=INTEGER}, REL =

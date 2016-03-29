@@ -41,6 +41,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 	@Override
 	public int insertSelective(ComPersonOrg record) {
+		record.setPrtype("1");
 		return comPeronOrgMapper.insertSelective(record);
 	}
 

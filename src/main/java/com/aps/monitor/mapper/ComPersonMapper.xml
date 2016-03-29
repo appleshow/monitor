@@ -1,146 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper
-	namespace="com.aps.monitor.dao.ComPersonMapper">
-	<resultMap
-		id="BaseResultMap"
-		type="com.aps.monitor.model.ComPerson">
-		<id
-			column="PERSON_ID"
-			property="personId"
-			jdbcType="INTEGER"/>
-		<result
-			column="USER_ID"
-			property="userId"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_NAME"
-			property="userName"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_ORG"
-			property="userOrg"
-			jdbcType="INTEGER"/>
-		<result
-			column="USER_PSW"
-			property="userPsw"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_SEX"
-			property="userSex"
-			jdbcType="INTEGER"/>
-		<result
-			column="USER_TEL"
-			property="userTel"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_ADDR"
-			property="userAddr"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_EMAIL"
-			property="userEmail"
-			jdbcType="VARCHAR"/>
-		<result
-			column="USER_IP"
-			property="userIp"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PRFLAG"
-			property="prflag"
-			jdbcType="INTEGER"/>
-		<result
-			column="PRGROUP"
-			property="prgroup"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PRTYPE"
-			property="prtype"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY0"
-			property="property0"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY1"
-			property="property1"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY2"
-			property="property2"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY3"
-			property="property3"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY4"
-			property="property4"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY5"
-			property="property5"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY6"
-			property="property6"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY7"
-			property="property7"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY8"
-			property="property8"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PROPERTY9"
-			property="property9"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PRINF"
-			property="prinf"
-			jdbcType="VARCHAR"/>
-		<result
-			column="PREXP"
-			property="prexp"
-			jdbcType="VARCHAR"/>
-		<result
-			column="ITIME"
-			property="itime"
-			jdbcType="TIMESTAMP"/>
-		<result
-			column="ISHIFT"
-			property="ishift"
-			jdbcType="VARCHAR"/>
-		<result
-			column="IGROUP"
-			property="igroup"
-			jdbcType="VARCHAR"/>
-		<result
-			column="IPERSON"
-			property="iperson"
-			jdbcType="INTEGER"/>
-		<result
-			column="UTIME"
-			property="utime"
-			jdbcType="TIMESTAMP"/>
-		<result
-			column="USHIFT"
-			property="ushift"
-			jdbcType="VARCHAR"/>
-		<result
-			column="UGROUP"
-			property="ugroup"
-			jdbcType="VARCHAR"/>
-		<result
-			column="UPERSON"
-			property="uperson"
-			jdbcType="INTEGER"/>
-		<result
-			column="UFROM"
-			property="ufrom"
-			jdbcType="VARCHAR"/>
+<mapper namespace="com.aps.monitor.dao.ComPersonMapper">
+	<resultMap id="BaseResultMap" type="com.aps.monitor.model.ComPerson">
+		<id column="PERSON_ID" property="personId" jdbcType="INTEGER"/>
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="USER_ORG" property="userOrg" jdbcType="INTEGER"/>
+		<result column="USER_PSW" property="userPsw" jdbcType="VARCHAR"/>
+		<result column="USER_SEX" property="userSex" jdbcType="INTEGER"/>
+		<result column="USER_TEL" property="userTel" jdbcType="VARCHAR"/>
+		<result column="USER_ADDR" property="userAddr" jdbcType="VARCHAR"/>
+		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR"/>
+		<result column="USER_IP" property="userIp" jdbcType="VARCHAR"/>
+		<result column="PRFLAG" property="prflag" jdbcType="INTEGER"/>
+		<result column="PRGROUP" property="prgroup" jdbcType="VARCHAR"/>
+		<result column="PRTYPE" property="prtype" jdbcType="VARCHAR"/>
+		<result column="PROPERTY0" property="property0" jdbcType="VARCHAR"/>
+		<result column="PROPERTY1" property="property1" jdbcType="VARCHAR"/>
+		<result column="PROPERTY2" property="property2" jdbcType="VARCHAR"/>
+		<result column="PROPERTY3" property="property3" jdbcType="VARCHAR"/>
+		<result column="PROPERTY4" property="property4" jdbcType="VARCHAR"/>
+		<result column="PROPERTY5" property="property5" jdbcType="VARCHAR"/>
+		<result column="PROPERTY6" property="property6" jdbcType="VARCHAR"/>
+		<result column="PROPERTY7" property="property7" jdbcType="VARCHAR"/>
+		<result column="PROPERTY8" property="property8" jdbcType="VARCHAR"/>
+		<result column="PROPERTY9" property="property9" jdbcType="VARCHAR"/>
+		<result column="PRINF" property="prinf" jdbcType="VARCHAR"/>
+		<result column="PREXP" property="prexp" jdbcType="VARCHAR"/>
+		<result column="ITIME" property="itime" jdbcType="TIMESTAMP"/>
+		<result column="ISHIFT" property="ishift" jdbcType="VARCHAR"/>
+		<result column="IGROUP" property="igroup" jdbcType="VARCHAR"/>
+		<result column="IPERSON" property="iperson" jdbcType="INTEGER"/>
+		<result column="UTIME" property="utime" jdbcType="TIMESTAMP"/>
+		<result column="USHIFT" property="ushift" jdbcType="VARCHAR"/>
+		<result column="UGROUP" property="ugroup" jdbcType="VARCHAR"/>
+		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
+		<result column="UFROM" property="ufrom" jdbcType="VARCHAR"/>
 	</resultMap>
 	<sql
 		id="Base_Column_List">
@@ -177,1107 +72,346 @@
 		USHIFT,
 		UGROUP,
 		UPERSON,
-		UFROM
-	
+		UFROM 
 	</sql>
-	<select
-		id="selectByPrimaryKey"
-		resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
 		select
-		<include
-			refid="Base_Column_List"/>
-		from
-		com_person
-		where
-		PERSON_ID
-		=
-		#{personId,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>
+		from com_person where PERSON_ID = #{personId,jdbcType=INTEGER}
 	</select>
-	<select
-		id="selectByUserName"
-		resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
-		<include
-			refid="Base_Column_List"/>
-		from
-		com_person
-		where
-		USER_ID
-		=
-		#{userId,jdbcType=VARCHAR}
+		<include refid="Base_Column_List"/>
+		from com_person where USER_ID = #{userId,jdbcType=VARCHAR}
 	</select>
-	<select
-		id="selectByCondition"
-		resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
-		<include
-			refid="Base_Column_List"/>
-		from
-		com_person
+		<include refid="Base_Column_List"/>
+		from com_person
 		<where>
-			<if
-				test="userId != null">
-				USER_ID
-				like
-				CONCAT('%',#{userId,jdbcType=VARCHAR},'%')
-			
+			<if test="userId != null"> USER_ID like CONCAT('%',#{userId,jdbcType=VARCHAR},'%') 
 			</if>
-			<if
-				test="userName != null">
-				USER_NAME
-				like
-				CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
-			
+			<if test="userName != null"> USER_NAME like CONCAT('%',#{userName,jdbcType=VARCHAR},'%') 
 			</if>
 		</where>
-		order
-		by
-		user_org
+		order by user_org
 	</select>
-	<delete
-		id="deleteByPrimaryKey"
-		parameterType="java.lang.Integer">
-		delete
-		from
-		com_person
-		where
-		PERSON_ID
-		=
-		#{personId,jdbcType=INTEGER}
-	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer"> delete from com_person where PERSON_ID =
+		#{personId,jdbcType=INTEGER} 
 	</delete>
-	<insert
-		id="insert"
-		parameterType="com.aps.monitor.model.ComPerson">
-		insert
-		into
-		com_person
-		(PERSON_ID,
-		USER_ID,
-		USER_NAME,
-		USER_ORG,
-		USER_PSW,
-		USER_SEX,
-		USER_TEL,
-		USER_ADDR,
-		USER_EMAIL,
-		USER_IP,
-		PRFLAG,
-		PRGROUP,
-		PRTYPE,
-		PROPERTY0,
-		PROPERTY1,
-		PROPERTY2,
-		PROPERTY3,
-		PROPERTY4,
-		PROPERTY5,
-		PROPERTY6,
-		PROPERTY7,
-		PROPERTY8,
-		PROPERTY9,
-		PRINF,
-		PREXP,
-		ITIME,
-		ISHIFT,
-		IGROUP,
-		IPERSON,
-		UTIME,
-		USHIFT,
-		UGROUP,
-		UPERSON,
-		UFROM)
-		values
-		(#{personId,jdbcType=INTEGER},
-		#{userId,jdbcType=VARCHAR},
-		#{userName,jdbcType=VARCHAR},
-		#{userOrg,jdbcType=INTEGER},
-		#{userPsw,jdbcType=VARCHAR},
-		#{userSex,jdbcType=INTEGER},
-		#{userTel,jdbcType=VARCHAR},
-		#{userAddr,jdbcType=VARCHAR},
-		#{userEmail,jdbcType=VARCHAR},
-		#{userIp,jdbcType=VARCHAR},
-		#{prflag,jdbcType=INTEGER},
-		#{prgroup,jdbcType=VARCHAR},
-		#{prtype,jdbcType=VARCHAR},
-		#{property0,jdbcType=VARCHAR},
-		#{property1,jdbcType=VARCHAR},
-		#{property2,jdbcType=VARCHAR},
-		#{property3,jdbcType=VARCHAR},
-		#{property4,jdbcType=VARCHAR},
-		#{property5,jdbcType=VARCHAR},
-		#{property6,jdbcType=VARCHAR},
-		#{property7,jdbcType=VARCHAR},
-		#{property8,jdbcType=VARCHAR},
-		#{property9,jdbcType=VARCHAR},
-		#{prinf,jdbcType=VARCHAR},
-		#{prexp,jdbcType=VARCHAR},
-		#{itime,jdbcType=TIMESTAMP},
-		#{ishift,jdbcType=VARCHAR},
-		#{igroup,jdbcType=VARCHAR},
-		#{iperson,jdbcType=INTEGER},
-		#{utime,jdbcType=TIMESTAMP},
-		#{ushift,jdbcType=VARCHAR},
-		#{ugroup,jdbcType=VARCHAR},
-		#{uperson,jdbcType=INTEGER},
-		#{ufrom,jdbcType=VARCHAR})
-	
+	<insert id="insert" parameterType="com.aps.monitor.model.ComPerson" useGeneratedKeys="true" keyProperty="personId"> insert into com_person (PERSON_ID, USER_ID, USER_NAME, USER_ORG, USER_PSW,
+		USER_SEX, USER_TEL, USER_ADDR, USER_EMAIL, USER_IP, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2,
+		PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PRINF, PREXP, ITIME, ISHIFT, IGROUP,
+		IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values (#{personId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR}, #{userOrg,jdbcType=INTEGER}, #{userPsw,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER},
+		#{userTel,jdbcType=VARCHAR}, #{userAddr,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR},
+		#{prflag,jdbcType=INTEGER}, #{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=VARCHAR},
+		#{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR},
+		#{property4,jdbcType=VARCHAR}, #{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR},
+		#{property7,jdbcType=VARCHAR}, #{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR},
+		#{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP}, #{ishift,jdbcType=VARCHAR},
+		#{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP}, #{ushift,jdbcType=VARCHAR},
+		#{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR}) 
 	</insert>
-	<insert
-		id="insertSelective"
-		parameterType="com.aps.monitor.model.ComPerson">
-		insert
-		into
-		com_person
-		<trim
-			prefix="("
-			suffix=")"
-			suffixOverrides=",">
-			<if
-				test="personId != null">
-				PERSON_ID,
-			
+	<insert id="insertSelective" parameterType="com.aps.monitor.model.ComPerson" useGeneratedKeys="true" keyProperty="personId">
+		insert into com_person
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="personId != null"> PERSON_ID, 
 			</if>
-			<if
-				test="userId != null">
-				USER_ID,
-			
+			<if test="userId != null"> USER_ID, 
 			</if>
-			<if
-				test="userName != null">
-				USER_NAME,
-			
+			<if test="userName != null"> USER_NAME, 
 			</if>
-			<if
-				test="userOrg != null">
-				USER_ORG,
-			
+			<if test="userOrg != null"> USER_ORG, 
 			</if>
-			<if
-				test="userPsw != null">
-				USER_PSW,
-			
+			<if test="userPsw != null"> USER_PSW, 
 			</if>
-			<if
-				test="userSex != null">
-				USER_SEX,
-			
+			<if test="userSex != null"> USER_SEX, 
 			</if>
-			<if
-				test="userTel != null">
-				USER_TEL,
-			
+			<if test="userTel != null"> USER_TEL, 
 			</if>
-			<if
-				test="userAddr != null">
-				USER_ADDR,
-			
+			<if test="userAddr != null"> USER_ADDR, 
 			</if>
-			<if
-				test="userEmail != null">
-				USER_EMAIL,
-			
+			<if test="userEmail != null"> USER_EMAIL, 
 			</if>
-			<if
-				test="userIp != null">
-				USER_IP,
-			
+			<if test="userIp != null"> USER_IP, 
 			</if>
-			<if
-				test="prflag != null">
-				PRFLAG,
-			
+			<if test="prflag != null"> PRFLAG, 
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP,
-			
+			<if test="prgroup != null"> PRGROUP, 
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE,
-			
+			<if test="prtype != null"> PRTYPE, 
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0,
-			
+			<if test="property0 != null"> PROPERTY0, 
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1,
-			
+			<if test="property1 != null"> PROPERTY1, 
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2,
-			
+			<if test="property2 != null"> PROPERTY2, 
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3,
-			
+			<if test="property3 != null"> PROPERTY3, 
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4,
-			
+			<if test="property4 != null"> PROPERTY4, 
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5,
-			
+			<if test="property5 != null"> PROPERTY5, 
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6,
-			
+			<if test="property6 != null"> PROPERTY6, 
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7,
-			
+			<if test="property7 != null"> PROPERTY7, 
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8,
-			
+			<if test="property8 != null"> PROPERTY8, 
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9,
-			
+			<if test="property9 != null"> PROPERTY9, 
 			</if>
-			<if
-				test="prinf != null">
-				PRINF,
-			
+			<if test="prinf != null"> PRINF, 
 			</if>
-			<if
-				test="prexp != null">
-				PREXP,
-			
+			<if test="prexp != null"> PREXP, 
 			</if>
-			<if
-				test="itime != null">
-				ITIME,
-			
+			<if test="itime != null"> ITIME, 
 			</if>
-			<if
-				test="ishift != null">
-				ISHIFT,
-			
+			<if test="ishift != null"> ISHIFT, 
 			</if>
-			<if
-				test="igroup != null">
-				IGROUP,
-			
+			<if test="igroup != null"> IGROUP, 
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON,
-			
+			<if test="iperson != null"> IPERSON, 
 			</if>
-			<if
-				test="utime != null">
-				UTIME,
-			
+			<if test="utime != null"> UTIME, 
 			</if>
-			<if
-				test="ushift != null">
-				USHIFT,
-			
+			<if test="ushift != null"> USHIFT, 
 			</if>
-			<if
-				test="ugroup != null">
-				UGROUP,
-			
+			<if test="ugroup != null"> UGROUP, 
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON,
-			
+			<if test="uperson != null"> UPERSON, 
 			</if>
-			<if
-				test="ufrom != null">
-				UFROM,
-			
+			<if test="ufrom != null"> UFROM, 
 			</if>
 		</trim>
-		<trim
-			prefix="values ("
-			suffix=")"
-			suffixOverrides=",">
-			<if
-				test="personId != null">
-				#{personId,jdbcType=INTEGER},
-			
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="personId != null"> #{personId,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userId != null">
-				#{userId,jdbcType=VARCHAR},
-			
+			<if test="userId != null"> #{userId,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userName != null">
-				#{userName,jdbcType=VARCHAR},
-			
+			<if test="userName != null"> #{userName,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userOrg != null">
-				#{userOrg,jdbcType=INTEGER},
-			
+			<if test="userOrg != null"> #{userOrg,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userPsw != null">
-				#{userPsw,jdbcType=VARCHAR},
-			
+			<if test="userPsw != null"> #{userPsw,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userSex != null">
-				#{userSex,jdbcType=INTEGER},
-			
+			<if test="userSex != null"> #{userSex,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userTel != null">
-				#{userTel,jdbcType=VARCHAR},
-			
+			<if test="userTel != null"> #{userTel,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userAddr != null">
-				#{userAddr,jdbcType=VARCHAR},
-			
+			<if test="userAddr != null"> #{userAddr,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userEmail != null">
-				#{userEmail,jdbcType=VARCHAR},
-			
+			<if test="userEmail != null"> #{userEmail,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userIp != null">
-				#{userIp,jdbcType=VARCHAR},
-			
+			<if test="userIp != null"> #{userIp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prflag != null">
-				#{prflag,jdbcType=INTEGER},
-			
+			<if test="prflag != null"> #{prflag,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="prgroup != null">
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> #{prgroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prtype != null">
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> #{prtype,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property0 != null">
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> #{property0,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property1 != null">
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> #{property1,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property2 != null">
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> #{property2,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property3 != null">
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> #{property3,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property4 != null">
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> #{property4,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property5 != null">
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> #{property5,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property6 != null">
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> #{property6,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property7 != null">
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> #{property7,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property8 != null">
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> #{property8,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property9 != null">
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> #{property9,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prinf != null">
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> #{prinf,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prexp != null">
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> #{prexp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="itime != null">
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> #{itime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ishift != null">
-				#{ishift,jdbcType=VARCHAR},
-			
+			<if test="ishift != null"> #{ishift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="igroup != null">
-				#{igroup,jdbcType=VARCHAR},
-			
+			<if test="igroup != null"> #{igroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="iperson != null">
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> #{iperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="utime != null">
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> #{utime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ushift != null">
-				#{ushift,jdbcType=VARCHAR},
-			
+			<if test="ushift != null"> #{ushift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="ugroup != null">
-				#{ugroup,jdbcType=VARCHAR},
-			
+			<if test="ugroup != null"> #{ugroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="uperson != null">
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> #{uperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="ufrom != null">
-				#{ufrom,jdbcType=VARCHAR},
-			
+			<if test="ufrom != null"> #{ufrom,jdbcType=VARCHAR}, 
 			</if>
 		</trim>
 	</insert>
-	<update
-		id="updateByPrimaryKeySelective"
-		parameterType="com.aps.monitor.model.ComPerson">
-		update
-		com_person
+	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.ComPerson">
+		update com_person
 		<set>
-			<if
-				test="userId != null">
-				USER_ID
-				=
-				#{userId,jdbcType=VARCHAR},
-			
+			<if test="userId != null"> USER_ID = #{userId,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userName != null">
-				USER_NAME
-				=
-				#{userName,jdbcType=VARCHAR},
-			
+			<if test="userName != null"> USER_NAME = #{userName,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userOrg != null">
-				USER_ORG
-				=
-				#{userOrg,jdbcType=INTEGER},
-			
+			<if test="userOrg != null"> USER_ORG = #{userOrg,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userPsw != null">
-				USER_PSW
-				=
-				#{userPsw,jdbcType=VARCHAR},
-			
+			<if test="userPsw != null"> USER_PSW = #{userPsw,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userSex != null">
-				USER_SEX
-				=
-				#{userSex,jdbcType=INTEGER},
-			
+			<if test="userSex != null"> USER_SEX = #{userSex,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userTel != null">
-				USER_TEL
-				=
-				#{userTel,jdbcType=VARCHAR},
-			
+			<if test="userTel != null"> USER_TEL = #{userTel,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userAddr != null">
-				USER_ADDR
-				=
-				#{userAddr,jdbcType=VARCHAR},
-			
+			<if test="userAddr != null"> USER_ADDR = #{userAddr,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userEmail != null">
-				USER_EMAIL
-				=
-				#{userEmail,jdbcType=VARCHAR},
-			
+			<if test="userEmail != null"> USER_EMAIL = #{userEmail,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userIp != null">
-				USER_IP
-				=
-				#{userIp,jdbcType=VARCHAR},
-			
+			<if test="userIp != null"> USER_IP = #{userIp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prflag != null">
-				PRFLAG
-				=
-				#{prflag,jdbcType=INTEGER},
-			
+			<if test="prflag != null"> PRFLAG = #{prflag,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP
-				=
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> PRGROUP = #{prgroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE
-				=
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> PRTYPE = #{prtype,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0
-				=
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1
-				=
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> PROPERTY1 = #{property1,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2
-				=
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> PROPERTY2 = #{property2,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3
-				=
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> PROPERTY3 = #{property3,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4
-				=
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> PROPERTY4 = #{property4,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5
-				=
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> PROPERTY5 = #{property5,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6
-				=
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> PROPERTY6 = #{property6,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7
-				=
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> PROPERTY7 = #{property7,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8
-				=
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> PROPERTY8 = #{property8,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9
-				=
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> PROPERTY9 = #{property9,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prinf != null">
-				PRINF
-				=
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> PRINF = #{prinf,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prexp != null">
-				PREXP
-				=
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> PREXP = #{prexp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="itime != null">
-				ITIME
-				=
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> ITIME = #{itime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ishift != null">
-				ISHIFT
-				=
-				#{ishift,jdbcType=VARCHAR},
-			
+			<if test="ishift != null"> ISHIFT = #{ishift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="igroup != null">
-				IGROUP
-				=
-				#{igroup,jdbcType=VARCHAR},
-			
+			<if test="igroup != null"> IGROUP = #{igroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON
-				=
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> IPERSON = #{iperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="utime != null">
-				UTIME
-				=
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> UTIME = #{utime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ushift != null">
-				USHIFT
-				=
-				#{ushift,jdbcType=VARCHAR},
-			
+			<if test="ushift != null"> USHIFT = #{ushift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="ugroup != null">
-				UGROUP
-				=
-				#{ugroup,jdbcType=VARCHAR},
-			
+			<if test="ugroup != null"> UGROUP = #{ugroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON
-				=
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> UPERSON = #{uperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="ufrom != null">
-				UFROM
-				=
-				#{ufrom,jdbcType=VARCHAR},
-			
+			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR}, 
 			</if>
 		</set>
-		where
-		PERSON_ID
-		=
-		#{personId,jdbcType=INTEGER}
+		where PERSON_ID = #{personId,jdbcType=INTEGER}
 	</update>
-	<update
-		id="updateByPrimaryKeyMap"
-		parameterType="com.aps.monitor.model.ComPerson">
-		update
-		com_person
+	<update id="updateByPrimaryKeyMap" parameterType="com.aps.monitor.model.ComPerson">
+		update com_person
 		<set>
-			<if
-				test="userId != null">
-				USER_ID
-				=
-				#{userId,jdbcType=VARCHAR},
-			
+			<if test="userId != null"> USER_ID = #{userId,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userName != null">
-				USER_NAME
-				=
-				#{userName,jdbcType=VARCHAR},
-			
+			<if test="userName != null"> USER_NAME = #{userName,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userOrg != null">
-				USER_ORG
-				=
-				#{userOrg,jdbcType=INTEGER},
-			
+			<if test="userOrg != null"> USER_ORG = #{userOrg,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userPsw != null">
-				USER_PSW
-				=
-				#{userPsw,jdbcType=VARCHAR},
-			
+			<if test="userPsw != null"> USER_PSW = #{userPsw,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userSex != null">
-				USER_SEX
-				=
-				#{userSex,jdbcType=INTEGER},
-			
+			<if test="userSex != null"> USER_SEX = #{userSex,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="userTel != null">
-				USER_TEL
-				=
-				#{userTel,jdbcType=VARCHAR},
-			
+			<if test="userTel != null"> USER_TEL = #{userTel,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userAddr != null">
-				USER_ADDR
-				=
-				#{userAddr,jdbcType=VARCHAR},
-			
+			<if test="userAddr != null"> USER_ADDR = #{userAddr,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userEmail != null">
-				USER_EMAIL
-				=
-				#{userEmail,jdbcType=VARCHAR},
-			
+			<if test="userEmail != null"> USER_EMAIL = #{userEmail,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="userIp != null">
-				USER_IP
-				=
-				#{userIp,jdbcType=VARCHAR},
-			
+			<if test="userIp != null"> USER_IP = #{userIp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prflag != null">
-				PRFLAG
-				=
-				#{prflag,jdbcType=INTEGER},
-			
+			<if test="prflag != null"> PRFLAG = #{prflag,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="prgroup != null">
-				PRGROUP
-				=
-				#{prgroup,jdbcType=VARCHAR},
-			
+			<if test="prgroup != null"> PRGROUP = #{prgroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prtype != null">
-				PRTYPE
-				=
-				#{prtype,jdbcType=VARCHAR},
-			
+			<if test="prtype != null"> PRTYPE = #{prtype,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property0 != null">
-				PROPERTY0
-				=
-				#{property0,jdbcType=VARCHAR},
-			
+			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property1 != null">
-				PROPERTY1
-				=
-				#{property1,jdbcType=VARCHAR},
-			
+			<if test="property1 != null"> PROPERTY1 = #{property1,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property2 != null">
-				PROPERTY2
-				=
-				#{property2,jdbcType=VARCHAR},
-			
+			<if test="property2 != null"> PROPERTY2 = #{property2,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property3 != null">
-				PROPERTY3
-				=
-				#{property3,jdbcType=VARCHAR},
-			
+			<if test="property3 != null"> PROPERTY3 = #{property3,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property4 != null">
-				PROPERTY4
-				=
-				#{property4,jdbcType=VARCHAR},
-			
+			<if test="property4 != null"> PROPERTY4 = #{property4,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property5 != null">
-				PROPERTY5
-				=
-				#{property5,jdbcType=VARCHAR},
-			
+			<if test="property5 != null"> PROPERTY5 = #{property5,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property6 != null">
-				PROPERTY6
-				=
-				#{property6,jdbcType=VARCHAR},
-			
+			<if test="property6 != null"> PROPERTY6 = #{property6,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property7 != null">
-				PROPERTY7
-				=
-				#{property7,jdbcType=VARCHAR},
-			
+			<if test="property7 != null"> PROPERTY7 = #{property7,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property8 != null">
-				PROPERTY8
-				=
-				#{property8,jdbcType=VARCHAR},
-			
+			<if test="property8 != null"> PROPERTY8 = #{property8,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="property9 != null">
-				PROPERTY9
-				=
-				#{property9,jdbcType=VARCHAR},
-			
+			<if test="property9 != null"> PROPERTY9 = #{property9,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prinf != null">
-				PRINF
-				=
-				#{prinf,jdbcType=VARCHAR},
-			
+			<if test="prinf != null"> PRINF = #{prinf,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="prexp != null">
-				PREXP
-				=
-				#{prexp,jdbcType=VARCHAR},
-			
+			<if test="prexp != null"> PREXP = #{prexp,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="itime != null">
-				ITIME
-				=
-				#{itime,jdbcType=TIMESTAMP},
-			
+			<if test="itime != null"> ITIME = #{itime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ishift != null">
-				ISHIFT
-				=
-				#{ishift,jdbcType=VARCHAR},
-			
+			<if test="ishift != null"> ISHIFT = #{ishift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="igroup != null">
-				IGROUP
-				=
-				#{igroup,jdbcType=VARCHAR},
-			
+			<if test="igroup != null"> IGROUP = #{igroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="iperson != null">
-				IPERSON
-				=
-				#{iperson,jdbcType=INTEGER},
-			
+			<if test="iperson != null"> IPERSON = #{iperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="utime != null">
-				UTIME
-				=
-				#{utime,jdbcType=TIMESTAMP},
-			
+			<if test="utime != null"> UTIME = #{utime,jdbcType=TIMESTAMP}, 
 			</if>
-			<if
-				test="ushift != null">
-				USHIFT
-				=
-				#{ushift,jdbcType=VARCHAR},
-			
+			<if test="ushift != null"> USHIFT = #{ushift,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="ugroup != null">
-				UGROUP
-				=
-				#{ugroup,jdbcType=VARCHAR},
-			
+			<if test="ugroup != null"> UGROUP = #{ugroup,jdbcType=VARCHAR}, 
 			</if>
-			<if
-				test="uperson != null">
-				UPERSON
-				=
-				#{uperson,jdbcType=INTEGER},
-			
+			<if test="uperson != null"> UPERSON = #{uperson,jdbcType=INTEGER}, 
 			</if>
-			<if
-				test="ufrom != null">
-				UFROM
-				=
-				#{ufrom,jdbcType=VARCHAR},
-			
+			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR}, 
 			</if>
 		</set>
-		where
-		PERSON_ID
-		=
-		#{personId,jdbcType=INTEGER}
+		where PERSON_ID = #{personId,jdbcType=INTEGER}
 	</update>
-	<update
-		id="updateByPrimaryKey"
-		parameterType="com.aps.monitor.model.ComPerson">
-		update
-		com_person
-		set
-		USER_ID
-		=
-		#{userId,jdbcType=VARCHAR},
-		USER_NAME
-		=
-		#{userName,jdbcType=VARCHAR},
-		USER_ORG
-		=
-		#{userOrg,jdbcType=INTEGER},
-		USER_PSW
-		=
-		#{userPsw,jdbcType=VARCHAR},
-		USER_SEX
-		=
-		#{userSex,jdbcType=INTEGER},
-		USER_TEL
-		=
-		#{userTel,jdbcType=VARCHAR},
-		USER_ADDR
-		=
-		#{userAddr,jdbcType=VARCHAR},
-		USER_EMAIL
-		=
-		#{userEmail,jdbcType=VARCHAR},
-		USER_IP
-		=
-		#{userIp,jdbcType=VARCHAR},
-		PRFLAG
-		=
-		#{prflag,jdbcType=INTEGER},
-		PRGROUP
-		=
-		#{prgroup,jdbcType=VARCHAR},
-		PRTYPE
-		=
-		#{prtype,jdbcType=VARCHAR},
-		PROPERTY0
-		=
-		#{property0,jdbcType=VARCHAR},
-		PROPERTY1
-		=
-		#{property1,jdbcType=VARCHAR},
-		PROPERTY2
-		=
-		#{property2,jdbcType=VARCHAR},
-		PROPERTY3
-		=
-		#{property3,jdbcType=VARCHAR},
-		PROPERTY4
-		=
-		#{property4,jdbcType=VARCHAR},
-		PROPERTY5
-		=
-		#{property5,jdbcType=VARCHAR},
-		PROPERTY6
-		=
-		#{property6,jdbcType=VARCHAR},
-		PROPERTY7
-		=
-		#{property7,jdbcType=VARCHAR},
-		PROPERTY8
-		=
-		#{property8,jdbcType=VARCHAR},
-		PROPERTY9
-		=
-		#{property9,jdbcType=VARCHAR},
-		PRINF
-		=
-		#{prinf,jdbcType=VARCHAR},
-		PREXP
-		=
-		#{prexp,jdbcType=VARCHAR},
-		ITIME
-		=
-		#{itime,jdbcType=TIMESTAMP},
-		ISHIFT
-		=
-		#{ishift,jdbcType=VARCHAR},
-		IGROUP
-		=
-		#{igroup,jdbcType=VARCHAR},
-		IPERSON
-		=
-		#{iperson,jdbcType=INTEGER},
-		UTIME
-		=
-		#{utime,jdbcType=TIMESTAMP},
-		USHIFT
-		=
-		#{ushift,jdbcType=VARCHAR},
-		UGROUP
-		=
-		#{ugroup,jdbcType=VARCHAR},
-		UPERSON
-		=
-		#{uperson,jdbcType=INTEGER},
-		UFROM
-		=
-		#{ufrom,jdbcType=VARCHAR}
-		where
-		PERSON_ID
-		=
-		#{personId,jdbcType=INTEGER}
-	
+	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComPerson"> update com_person set USER_ID = #{userId,jdbcType=VARCHAR},
+		USER_NAME = #{userName,jdbcType=VARCHAR}, USER_ORG = #{userOrg,jdbcType=INTEGER}, USER_PSW =
+		#{userPsw,jdbcType=VARCHAR}, USER_SEX = #{userSex,jdbcType=INTEGER}, USER_TEL = #{userTel,jdbcType=VARCHAR}, USER_ADDR
+		= #{userAddr,jdbcType=VARCHAR}, USER_EMAIL = #{userEmail,jdbcType=VARCHAR}, USER_IP = #{userIp,jdbcType=VARCHAR},
+		PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR},
+		PROPERTY0 = #{property0,jdbcType=VARCHAR}, PROPERTY1 = #{property1,jdbcType=VARCHAR}, PROPERTY2 =
+		#{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 = #{property4,jdbcType=VARCHAR},
+		PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR}, PROPERTY7 =
+		#{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 = #{property9,jdbcType=VARCHAR},
+		PRINF = #{prinf,jdbcType=VARCHAR}, PREXP = #{prexp,jdbcType=VARCHAR}, ITIME = #{itime,jdbcType=TIMESTAMP}, ISHIFT =
+		#{ishift,jdbcType=VARCHAR}, IGROUP = #{igroup,jdbcType=VARCHAR}, IPERSON = #{iperson,jdbcType=INTEGER}, UTIME =
+		#{utime,jdbcType=TIMESTAMP}, USHIFT = #{ushift,jdbcType=VARCHAR}, UGROUP = #{ugroup,jdbcType=VARCHAR}, UPERSON =
+		#{uperson,jdbcType=INTEGER}, UFROM = #{ufrom,jdbcType=VARCHAR} where PERSON_ID = #{personId,jdbcType=INTEGER} 
 	</update>
 </mapper>

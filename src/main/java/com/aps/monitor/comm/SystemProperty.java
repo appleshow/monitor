@@ -2,6 +2,9 @@ package com.aps.monitor.comm;
 
 public class SystemProperty {
 
+	/*
+	 * https://github.com/appleshow/monitor.git
+	 */
 	public final static String LOCK_WORD = "jmzfc369";
 	public final static String SESSION_VERIFICATION = "verification";
 	public final static String SESSION_PERSON_ID = "personId";

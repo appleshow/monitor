@@ -7,7 +7,7 @@ import com.aps.monitor.model.ComOrgFormRightsKey;
 
 public interface ComOrgFormRightsMapper {
 	int deleteByPrimaryKey(ComOrgFormRightsKey key);
-
+	
 	int insert(ComOrgFormRights record);
 
 	int insertSelective(ComOrgFormRights record);

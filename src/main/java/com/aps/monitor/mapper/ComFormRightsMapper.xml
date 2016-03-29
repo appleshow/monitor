@@ -125,8 +125,15 @@
 		</if>
 	</where>
     </select>
-	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComFormRightsKey"> delete from com_form_rights where FORM_ID =
-		#{formId,jdbcType=INTEGER} and RIGHT_ID = #{rightId,jdbcType=VARCHAR}
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComFormRightsKey"> 
+	delete 
+	from 
+	com_form_rights 
+	<where>
+		<if test="formId != null">FORM_ID = #{formId,jdbcType=INTEGER}</if>
+		<if test="rightId != null">and RIGHT_ID = #{rightId,jdbcType=VARCHAR}</if>
+		<if test="(formId == null and rightId == null)">FORM_ID = null</if>
+	</where>
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.ComFormRights"> insert into com_form_rights (FORM_ID, RIGHT_ID, RIGHT_INF, PRFLAG, PRGROUP,
 		PRTYPE, REA, R1, R2, R3, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7,
@@ -334,7 +341,11 @@
 			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where FORM_ID = #{formId,jdbcType=INTEGER} and RIGHT_ID = #{rightId,jdbcType=VARCHAR}
+		<where>
+		<if test="formId != null">FORM_ID = #{formId,jdbcType=INTEGER}</if>
+		<if test="rightId != null">and RIGHT_ID = #{rightId,jdbcType=VARCHAR}</if>
+		<if test="(formId == null and rightId == null)">FORM_ID = null</if>
+	</where>
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComFormRights"> update com_form_rights set RIGHT_INF =
 		#{rightInf,jdbcType=VARCHAR}, PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE =

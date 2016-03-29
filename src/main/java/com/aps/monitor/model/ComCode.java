@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ComCode extends ComCodeKey {
+	
 	private String codeName;
 
 	private String codeName1;

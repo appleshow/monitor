@@ -112,8 +112,7 @@ public class PersonConfigController {
 			responseData.setCode(-100);
 			responseData.setMessage(e.getMessage());
 		}
-
+		
 		return JsonUtil.writeResponseAsString(responseData);
-
 	}
 }

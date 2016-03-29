@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation=" 
        http://www.springframework.org/schema/beans  
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -12,45 +12,47 @@
        http://www.springframework.org/schema/aop  
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<!-- dataSource -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://192.168.91.129:3306/monitor" />
-		<property name="user" value="admin" />
-		<property name="password" value="soaring" />
-		<property name="initialPoolSize" value="1" />
-		<property name="minPoolSize" value="1" />
-		<property name="maxPoolSize" value="10" />
-		<property name="acquireIncrement" value="5" />
-		<property name="maxIdleTime" value="10" />
-		<property name="maxStatements" value="0" />
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://192.168.91.129:3306/monitor"/>
+		<property name="user" value="admin"/>
+		<property name="password" value="soaring"/>
+		<property name="initialPoolSize" value="1"/>
+		<property name="minPoolSize" value="1"/>
+		<property name="maxPoolSize" value="10"/>
+		<property name="acquireIncrement" value="5"/>
+		<property name="maxIdleTime" value="10"/>
+		<property name="maxStatements" value="0"/>
 	</bean>
+	<!-- 防止事务失效，此处对所有Service进行扫描 -->
+	<context:component-scan base-package="com.aps.monitor.service.impl">
+	</context:component-scan>
 	<!-- 使用spring的会话管理 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:mybatis.xml"/>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.aps.monitor.dao" />
+		<property name="basePackage" value="com.aps.monitor.dao"/>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 	<!-- 使用spring的事务管理 -->
-	<bean name="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 配置当出现Exception、RuntimeException、Exception时采用对应的事务操作 -->
-	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
-				rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />
-			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
-				rollback-for="java.lang.RuntimeException" />
-			<tx:method name="update*" propagation="REQUIRED" read-only="false"
-				rollback-for="java.lang.Exception" />
-			<tx:method name="find*" propagation="SUPPORTS" />
-			<tx:method name="get*" propagation="SUPPORTS" />
-			<tx:method name="select*" propagation="SUPPORTS" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+			<tx:method name="find*" propagation="SUPPORTS"/>
+			<tx:method name="get*" propagation="SUPPORTS"/>
+			<tx:method name="select*" propagation="SUPPORTS"/>
 		</tx:attributes>
 	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="transactionPointcut" expression="execution(* com.aps.monitor.service..*Impl.*(..))"/>
+		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
+	</aop:config>
 </beans>

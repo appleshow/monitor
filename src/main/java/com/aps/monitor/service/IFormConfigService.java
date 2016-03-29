@@ -5,7 +5,6 @@ import java.util.List;
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.model.ComForm;
 import com.aps.monitor.model.ComFormRights;
-import com.aps.monitor.model.ComFormRightsKey;
 
 public interface IFormConfigService {
 
@@ -23,7 +22,7 @@ public interface IFormConfigService {
 
 	int deleteFormByPrimaryKey(Integer formId);
 
-	int deleteFormRightByPrimaryKey(ComFormRightsKey key);
+	int deleteFormRightsByPrimaryKey(ComFormRights record);
 
 	List<ComCode> selectFormCtlType(List<String> codeType);
 }

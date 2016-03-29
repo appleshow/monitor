@@ -177,7 +177,7 @@ public class FormConfigController {
 							formConfigService.updateFormRightBySelective(comFormRight);
 							break;
 						case "D":
-							formConfigService.deleteFormRightByPrimaryKey(comFormRight);
+							formConfigService.deleteFormRightsByPrimaryKey(comFormRight);
 							break;
 						default:
 							break;
