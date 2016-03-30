@@ -1,12 +1,20 @@
 package com.aps.monitor.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.JsonUtil;
+import com.aps.monitor.comm.RequestMdyPar;
+import com.aps.monitor.comm.RequestRefPar;
+import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
+import com.aps.monitor.comm.SystemProperty;
 import com.aps.monitor.dao.ComPersonMapper;
 import com.aps.monitor.dao.ComPersonOrgMapper;
 import com.aps.monitor.model.ComPerson;
@@ -20,74 +28,119 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 	@Resource
 	private ComPersonOrgMapper comPersonOrgMapper;
 
+	/**
+	 * 
+	 * <p>
+	 * Title: referPerson
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param httpSession
+	 * @param inPar
+	 * @param responseData
+	 * @see com.aps.monitor.service.IPersonConfigService#referPerson(javax.servlet.http.HttpSession,
+	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 */
 	@Override
-	public int deleteByPrimaryKey(Integer personId) {
-		int returnValue = 0;
-		ComPersonOrg comPersonOrg = new ComPersonOrg();
+	public void referPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
+		ComPerson comPerson = new ComPerson();
+		List<ComPerson> comPersons;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		comPersonOrg.setPersonId(personId);
-		comPersonOrgMapper.deleteByPrimaryKey(comPersonOrg);
-		returnValue = comPersonMapper.deleteByPrimaryKey(personId);
-
-		return returnValue;
-	}
-
-	@Override
-	public int insert(ComPerson record) {
-		return comPersonMapper.insert(record);
-	}
-
-	@Override
-	public int insertSelective(ComPerson record) {
-		int returnValue = 0;
-
-		returnValue = comPersonMapper.insertSelective(record);
-		if (returnValue > 0) {
-			ComPersonOrg comPersonOrg = new ComPersonOrg();
-
-			comPersonOrg.setPersonId(record.getPersonId());
-			comPersonOrg.setOrgId(record.getUserOrg());
-			comPersonOrg.setPrflag(1);
-			comPersonOrg.setPrtype("0");
-			comPersonOrg.setIperson(record.getIperson());
-			comPersonOrg.setItime(record.getItime());
-			comPersonOrg.setIperson(record.getIperson());
-			comPersonOrg.setUtime(record.getUtime());
-
-			comPersonOrgMapper.insertSelective(comPersonOrg);
+		try {
+			comPerson.setUserId(requestRefPar.getStringPar("userId"));
+			comPerson.setUserName(requestRefPar.getStringPar("userName"));
+			comPersons = comPersonMapper.selectByCondition(comPerson);
+			responseData.setData(comPersons);
+		} catch (Exception e) {
+			responseData.setData(e);
+			throw (e);
 		}
-
-		return returnValue;
 	}
 
+	/**
+	 * 
+	 * <p>
+	 * Title: modifyPerson
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param httpSession
+	 * @param inPar
+	 * @param responseData
+	 * @see com.aps.monitor.service.IPersonConfigService#modifyPerson(javax.servlet.http.HttpSession,
+	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 */
 	@Override
-	public ComPerson selectByPrimaryKey(Integer personId) {
-		return comPersonMapper.selectByPrimaryKey(personId);
-	}
+	public void modifyPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
+		int personId, returnValue = 0;
+		String type;
+		Date now = new Date();
+		Map<String, String> rowData;
+		ComPerson comPerson;
 
-	@Override
-	public ComPerson selectByUserName(String userId) {
-		return comPersonMapper.selectByUserName(userId);
-	}
+		try {
+			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
+				rowData = requestMdyPar.getInpar().get(row);
+				type = requestMdyPar.getType(rowData);
+				comPerson = (ComPerson) JsonUtil.readValueAsObject(rowData, ComPerson.class);
+				if (null != comPerson) {
+					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+					switch (type) {
+						case SystemProperty.MODIFY_TYPE_INSERT:
+							comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), SystemProperty.LOCK_WORD));
+							comPerson.setItime(now);
+							comPerson.setIperson(personId);
+							comPerson.setUtime(now);
+							comPerson.setUperson(personId);
 
-	@Override
-	public List<ComPerson> selectByCondition(ComPerson record) {
-		return comPersonMapper.selectByCondition(record);
-	}
+							returnValue = comPersonMapper.insertSelective(comPerson);
+							if (returnValue > 0) {
+								ComPersonOrg comPersonOrg = new ComPersonOrg();
 
-	@Override
-	public int updateByPrimaryKeySelective(ComPerson record) {
-		return comPersonMapper.updateByPrimaryKeySelective(record);
-	}
+								comPersonOrg.setPersonId(comPerson.getPersonId());
+								comPersonOrg.setOrgId(comPerson.getUserOrg());
+								comPersonOrg.setPrflag(1);
+								comPersonOrg.setPrtype("0");
+								comPersonOrg.setIperson(comPerson.getIperson());
+								comPersonOrg.setItime(comPerson.getItime());
+								comPersonOrg.setIperson(comPerson.getIperson());
+								comPersonOrg.setUtime(comPerson.getUtime());
 
-	@Override
-	public int updateByPrimaryKeyMap(Map<String, String> recode) {
-		return comPersonMapper.updateByPrimaryKeyMap(recode);
-	}
+								comPersonOrgMapper.insertSelective(comPersonOrg);
+							}
 
-	@Override
-	public int updateByPrimaryKey(ComPerson record) {
-		return comPersonMapper.updateByPrimaryKey(record);
+							break;
+						case SystemProperty.MODIFY_TYPE_UPDATE:
+							if ("1".equals(rowData.get("resPsw"))) {
+								comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), SystemProperty.LOCK_WORD));
+							}
+							comPersonMapper.updateByPrimaryKeySelective(comPerson);
+							break;
+						case SystemProperty.MODIFY_TYPE_DELETE:
+							ComPersonOrg comPersonOrg = new ComPersonOrg();
+
+							comPersonOrg.setPersonId(personId);
+							comPersonOrgMapper.deleteByPrimaryKey(comPersonOrg);
+							comPersonMapper.deleteByPrimaryKey(personId);
+
+							break;
+						default:
+							break;
+					}
+				}
+			}
+
+			responseData.setCode(0);
+		} catch (Exception e) {
+			responseData.setData(e);
+			throw (e);
+		}
 	}
 
 }

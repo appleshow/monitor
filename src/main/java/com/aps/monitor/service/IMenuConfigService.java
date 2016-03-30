@@ -1,20 +1,14 @@
 package com.aps.monitor.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComMenu;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IMenuConfigService {
+	void referMenu(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int deleteByPrimaryKey(Integer menuId);
+	void modifyMenu(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertSelective(ComMenu record);
-
-	List<ComMenu> selectByCondition(ComMenu record);
-
-	int updateByPrimaryKeySelective(ComMenu record);
-
-	List<ComForm> selectAllForms(ComForm record);
+	void referAllForms(HttpSession httpSession, String inPar, ResponseData responseData);
 
 }

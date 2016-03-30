@@ -1,36 +1,24 @@
 package com.aps.monitor.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComCode;
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComFormRights;
-import com.aps.monitor.model.ComOrg;
-import com.aps.monitor.model.ComOrgForm;
-import com.aps.monitor.model.ComOrgFormKey;
-import com.aps.monitor.model.ComOrgFormRights;
-import com.aps.monitor.model.ComOrgFormRightsKey;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IOrgFormConfigService {
-	List<ComCode> selectComCode(ComCode record);
 
-	List<ComOrg> selectComOrg(ComOrg record);
+	void referOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComForm> selectComForm(ComForm record);
+	void referForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComOrgForm> selectComOrgForm(ComOrgForm record);
+	void referOrgForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComFormRights> selectComFormRights(ComFormRights record);
+	void referFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int deleteByPrimaryKey(ComOrgFormRightsKey key);
+	void referOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertSelective(ComOrgFormRights record);
+	void referComCode(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComOrgFormRights> selectByCondition(ComOrgFormRights record);
+	void modifyComOrgForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int updateByPrimaryKeySelective(ComOrgFormRights record);
-
-	int insertComOrgFormSelective(ComOrgForm record);
-
-	int deleteComOrgFormByPrimaryKey(ComOrgFormKey record);
+	void modifyComOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
 }

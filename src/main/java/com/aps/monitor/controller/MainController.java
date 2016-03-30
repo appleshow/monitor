@@ -1,7 +1,5 @@
 package com.aps.monitor.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -12,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.SystemProperty;
-import com.aps.monitor.model.ComMenu;
+import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IMainViewService;
 
 /**
@@ -42,11 +39,12 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/main.personMenu", method = RequestMethod.POST)
 	@ResponseBody
-	public String personMenu(HttpSession session) {
-		int personId = (int) session.getAttribute(SystemProperty.SESSION_PERSON_ID);
-		List<ComMenu> comMenus = mainViewService.selectPersonMenu(personId);
+	public String personMenu(HttpSession httpSession) {
+		ResponseData responseData = new ResponseData();
 
-		return JsonUtil.writeResponseAsString(comMenus);
+		mainViewService.referPersonMenu(httpSession, "", responseData);
+
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**

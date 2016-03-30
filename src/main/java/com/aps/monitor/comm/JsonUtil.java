@@ -1,7 +1,6 @@
 package com.aps.monitor.comm;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -64,41 +63,8 @@ public class JsonUtil {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	public static <T> String writeResponseAsString(ResponseData<T> responseData) {
+	public static <T> String writeResponseAsString(ResponseData responseData) {
 		String jsonString;
-
-		try {
-			jsonString = jsonMapper.writeValueAsString(responseData);
-		} catch (JsonProcessingException e) {
-			jsonString = ErrorUtil.nomarlException(e);
-		}
-
-		return jsonString;
-	}
-
-	/**
-	 * 
-	 * @Title: writeResponseAsString
-	 * @Description: TODO
-	 * @param: @param <T>
-	 * @param: @param listData
-	 * @param: @return
-	 * @return: String
-	 * @throws
-	 * @since 1.0.0
-	 */
-	public static <T> String writeResponseAsString(List<T> listData) {
-		String jsonString;
-		ResponseData<T> responseData = new ResponseData<T>();
-
-		if (null == listData || listData.isEmpty()) {
-			responseData.setCode(-1);
-			responseData.setMessage("无法找到对应的资料...!!");
-		} else {
-			responseData.setCode(0);
-			responseData.setRowcount(listData.size());
-			responseData.setData(listData);
-		}
 
 		try {
 			jsonString = jsonMapper.writeValueAsString(responseData);

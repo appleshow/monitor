@@ -1,10 +1,10 @@
 package com.aps.monitor.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComMenu;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IMainViewService {
 
-	List<ComMenu> selectPersonMenu(Integer personId);
+	void referPersonMenu(HttpSession httpSession, String inPar, ResponseData responseData);
 }

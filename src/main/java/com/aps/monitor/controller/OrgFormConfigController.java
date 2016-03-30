@@ -1,9 +1,5 @@
 package com.aps.monitor.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -14,15 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.model.ComCode;
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComFormRights;
-import com.aps.monitor.model.ComOrg;
-import com.aps.monitor.model.ComOrgForm;
-import com.aps.monitor.model.ComOrgFormRights;
 import com.aps.monitor.service.IOrgFormConfigService;
 
 @Controller
@@ -43,13 +31,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrg(HttpSession session, @RequestParam("inf") String inpar) {
-		ComOrg comOrg = new ComOrg();
-		List<ComOrg> comOrgs;
+	public String refOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comOrgs = orgFormConfigService.selectComOrg(comOrg);
-
-		return JsonUtil.writeResponseAsString(comOrgs);
+		orgFormConfigService.referOrg(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -65,13 +51,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String refForm(HttpSession session, @RequestParam("inf") String inpar) {
-		ComForm comForm = new ComForm();
-		List<ComForm> comForms;
+	public String refForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comForms = orgFormConfigService.selectComForm(comForm);
-
-		return JsonUtil.writeResponseAsString(comForms);
+		orgFormConfigService.referForm(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -87,16 +71,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refOrgForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrgForm(HttpSession session, @RequestParam("inf") String inpar) {
-		ComOrgForm comOrgForm = new ComOrgForm();
-		List<ComOrgForm> comOrgForms;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
+	public String refOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comOrgForm.setOrgId(requestRefPar.getIntegerPar("orgId"));
-		comOrgForm.setFormId(requestRefPar.getIntegerPar("formId"));
-		comOrgForms = orgFormConfigService.selectComOrgForm(comOrgForm);
-
-		return JsonUtil.writeResponseAsString(comOrgForms);
+		orgFormConfigService.referOrgForm(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -112,15 +91,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String refFormRights(HttpSession session, @RequestParam("inf") String inpar) {
-		ComFormRights comFormRights = new ComFormRights();
-		List<ComFormRights> comFormRightss;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
+	public String refFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
-		comFormRightss = orgFormConfigService.selectComFormRights(comFormRights);
-
-		return JsonUtil.writeResponseAsString(comFormRightss);
+		orgFormConfigService.referFormRights(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -136,16 +111,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refOrgFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrgFormRights(HttpSession session, @RequestParam("inf") String inpar) {
-		ComOrgFormRights comOrgFormRights = new ComOrgFormRights();
-		List<ComOrgFormRights> comOrgFormRightss;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
+	public String refOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comOrgFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
-		comOrgFormRights.setOrgId(requestRefPar.getIntegerPar("orgId"));
-		comOrgFormRightss = orgFormConfigService.selectByCondition(comOrgFormRights);
-
-		return JsonUtil.writeResponseAsString(comOrgFormRightss);
+		orgFormConfigService.referOrgFormRights(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -161,14 +131,11 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.refComCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String refComCode(HttpSession session, @RequestParam("inf") String inpar) {
-		ComCode comCode = new ComCode();
-		List<ComCode> comCodes;
+	public String refComCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		comCode.setCodeType("C0001");
-		comCodes = orgFormConfigService.selectComCode(comCode);
-
-		return JsonUtil.writeResponseAsString(comCodes);
+		orgFormConfigService.referComCode(httpSession, inPar, responseData);
+		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
@@ -184,54 +151,10 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.mdyComOrgForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyComOrgForm(HttpSession session, @RequestParam("inf") String inpar) {
-		int personId;
-		String type;
-		Date now = new Date();
-		Map<String, String> rowData;
-		ComOrgForm comOrgForm;
-		ComOrgFormRights comOrgFormRights;
-		ResponseData<Object> responseData = new ResponseData<Object>();
+	public String mdyComOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inpar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comOrgForm = (ComOrgForm) JsonUtil.readValueAsObject(rowData, ComOrgForm.class);
-				if (null != comOrgForm) {
-					personId = requestMdyPar.getPersonId(session, now, rowData);
-					switch (type) {
-						case "I":
-							comOrgForm.setItime(now);
-							comOrgForm.setIperson(personId);
-							comOrgForm.setUtime(now);
-							comOrgForm.setUperson(personId);
-							orgFormConfigService.insertComOrgFormSelective(comOrgForm);
-							break;
-						case "U":
-							break;
-						case "D":
-							orgFormConfigService.deleteComOrgFormByPrimaryKey(comOrgForm);
-							comOrgFormRights = new ComOrgFormRights();
-
-							comOrgFormRights.setOrgId(comOrgForm.getOrgId());
-							comOrgFormRights.setFormId(comOrgForm.getFormId());
-
-							orgFormConfigService.deleteByPrimaryKey(comOrgFormRights);
-							break;
-						default:
-							break;
-					}
-				}
-			}
-
-			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setCode(-100);
-			responseData.setMessage(e.getMessage());
-		}
-
+		orgFormConfigService.modifyComOrgForm(httpSession, inPar, responseData);
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
@@ -248,61 +171,10 @@ public class OrgFormConfigController {
 	 */
 	@RequestMapping(value = "/orgFormConfig.mdyComOrgFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyComOrgFormRights(HttpSession session, @RequestParam("inf") String inpar) {
-		int personId;
-		String type;
-		Date now = new Date();
-		Map<String, String> rowData;
-		ComOrgFormRights comOrgFormRights;
-		ResponseData<Object> responseData = new ResponseData<Object>();
+	public String mdyComOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inpar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comOrgFormRights = (ComOrgFormRights) JsonUtil.readValueAsObject(rowData, ComOrgFormRights.class);
-				if (null != comOrgFormRights) {
-					personId = requestMdyPar.getPersonId(session, now, rowData);
-					switch (type) {
-						case "I":
-							comOrgFormRights.setItime(now);
-							comOrgFormRights.setIperson(personId);
-							comOrgFormRights.setUtime(now);
-							comOrgFormRights.setUperson(personId);
-							if (null == comOrgFormRights.getRea()) {
-								comOrgFormRights.setRea(0);
-							}
-							if (null == comOrgFormRights.getR1()) {
-								comOrgFormRights.setR1(0);
-							}
-							if (null == comOrgFormRights.getR2()) {
-								comOrgFormRights.setR2(0);
-							}
-							if (null == comOrgFormRights.getR3()) {
-								comOrgFormRights.setR3(0);
-							}
-							orgFormConfigService.insertSelective(comOrgFormRights);
-							break;
-						case "U":
-							comOrgFormRights.setUtime(now);
-							comOrgFormRights.setUperson(personId);
-							orgFormConfigService.updateByPrimaryKeySelective(comOrgFormRights);
-							break;
-						case "D":
-							break;
-						default:
-							break;
-					}
-				}
-			}
-
-			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setCode(-100);
-			responseData.setMessage(e.getMessage());
-		}
-
+		orgFormConfigService.modifyComOrgFormRights(httpSession, inPar, responseData);
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

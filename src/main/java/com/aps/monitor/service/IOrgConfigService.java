@@ -1,24 +1,12 @@
 package com.aps.monitor.service;
 
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComOrg;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IOrgConfigService {
-	int deleteByPrimaryKey(Integer orgId);
+	void referOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insert(ComOrg record);
+	void modifyOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertSelective(ComOrg record);
-
-	ComOrg selectByPrimaryKey(Integer orgId);
-
-	List<ComOrg> selectByCondition(ComOrg record);
-
-	int updateByPrimaryKeySelective(ComOrg record);
-
-	int updateByPrimaryKeyMap(Map<String, String> recode);
-
-	int updateByPrimaryKey(ComOrg record);
 }

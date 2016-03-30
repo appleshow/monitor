@@ -1,28 +1,17 @@
 package com.aps.monitor.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComCode;
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComFormRights;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IFormConfigService {
+	void referForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComForm> selectFormByCondition(ComForm record);
+	void modifyForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComFormRights> selectFormRightByCondition(ComFormRights record);
+	void referFormRight(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertFormSelective(ComForm record);
+	void modifyFormRight(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertFormRightSelective(ComFormRights record);
-
-	int updateFormBySelective(ComForm record);
-
-	int updateFormRightBySelective(ComFormRights record);
-
-	int deleteFormByPrimaryKey(Integer formId);
-
-	int deleteFormRightsByPrimaryKey(ComFormRights record);
-
-	List<ComCode> selectFormCtlType(List<String> codeType);
+	void referFormCtlType(HttpSession httpSession, String inPar, ResponseData responseData);
 }

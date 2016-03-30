@@ -1,26 +1,13 @@
 package com.aps.monitor.service;
 
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComCode;
-import com.aps.monitor.model.ComCodeKey;
+import com.aps.monitor.comm.ResponseData;
 
 public interface ICodeConfigService {
-	int deleteByPrimaryKey(ComCodeKey key);
 
-	int insert(ComCode record);
+	void referCode(HttpSession session, String inpar, ResponseData responseData);
 
-	int insertSelective(ComCode record);
-
-	ComCode selectByPrimaryKey(ComCodeKey key);
-
-	int updateByPrimaryKeySelective(ComCode record);
-
-	int updateByPrimaryKeyMap(Map<String, String> recode);
-
-	int updateByPrimaryKey(ComCode record);
-
-	List<ComCode> selectByCondition(ComCode record);
+	void modifyCode(HttpSession session, String inpar, ResponseData responseData);
 
 }

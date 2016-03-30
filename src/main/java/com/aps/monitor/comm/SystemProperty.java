@@ -12,4 +12,8 @@ public class SystemProperty {
 	public final static String SESSION_USER_NAME = "userName";
 
 	public final static String REQUEST_SQL_DML_TYPE = "_type";
+
+	public final static String MODIFY_TYPE_INSERT = "I";
+	public final static String MODIFY_TYPE_UPDATE = "U";
+	public final static String MODIFY_TYPE_DELETE = "D";
 }

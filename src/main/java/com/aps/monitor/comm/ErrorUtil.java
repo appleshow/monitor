@@ -37,6 +37,7 @@ public class ErrorUtil {
 	 * @since 1.0.0
 	 */
 	private static String createError(int code, String message) {
+
 		return "{\"code\":" + code + ",\"message\":" + message + "}";
 	}
 }

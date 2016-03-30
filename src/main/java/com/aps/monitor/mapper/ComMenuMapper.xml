@@ -93,7 +93,7 @@
 		a.USHIFT,
 		a.UGROUP,
 		a.UPERSON,
-		a.UFROM
+		a.UFROM,
 		b.form_name as b_form_name,
 		b.property0 as b_property0
 	

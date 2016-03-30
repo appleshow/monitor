@@ -1,9 +1,8 @@
 package com.aps.monitor.comm;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseData<T> {
+public class ResponseData {
 	private int code;
 	private String message;
 	private int rowcount;
@@ -11,15 +10,36 @@ public class ResponseData<T> {
 	private int totalcount;
 	private int pagesize;
 	private int pagenumber;
-	private List<T> data = new ArrayList<T>();
+	private List<?> data;
 
 	public ResponseData() {
 
 	}
 
+	public ResponseData(Exception e) {
+		setCode(-100);
+		setMessage(e.getMessage());
+	}
+
+	public ResponseData(int errorCode, Exception e) {
+		setCode(errorCode);
+		setMessage(e.getMessage());
+	}
+
 	public ResponseData(int code, String message) {
 		this.code = code;
 		this.message = message;
+	}
+
+	public ResponseData(List<?> listData) {
+		if (null == listData || listData.isEmpty()) {
+			setCode(-1);
+			setMessage("无法找到对应的资料...!!");
+		} else {
+			setCode(0);
+			setRowcount(listData.size());
+			setData(listData);
+		}
 	}
 
 	/**
@@ -176,7 +196,7 @@ public class ResponseData<T> {
 	 * @since 1.0.0
 	 */
 
-	public List<T> getData() {
+	public List<?> getData() {
 		return data;
 	}
 
@@ -186,8 +206,43 @@ public class ResponseData<T> {
 	 * @return: List<T>
 	 * @since 1.0.0
 	 */
-	public void setData(List<T> data) {
-		this.data = data;
+	public void setData(List<?> data) {
+		if (null == data || data.isEmpty()) {
+			setCode(-1);
+			setMessage("无法找到对应的资料...!!");
+		} else {
+			setCode(0);
+			setRowcount(data.size());
+			this.data = data;
+		}
 	}
 
+	/**
+	 * 
+	 * @Title: setData
+	 * @Description: TODO
+	 * @param: @param e
+	 * @return: void
+	 * @throws
+	 * @since 1.0.0
+	 */
+	public void setData(Exception e) {
+		setCode(-100);
+		setMessage(e.getMessage());
+	}
+
+	/**
+	 * 
+	 * @Title: setData
+	 * @Description: TODO
+	 * @param: @param code
+	 * @param: @param e
+	 * @return: void
+	 * @throws
+	 * @since 1.0.0
+	 */
+	public void setData(int code, Exception e) {
+		setCode(code);
+		setMessage(e.getMessage());
+	}
 }

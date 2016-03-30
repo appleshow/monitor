@@ -1,22 +1,16 @@
 package com.aps.monitor.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import com.aps.monitor.model.ComOrg;
-import com.aps.monitor.model.ComPerson;
-import com.aps.monitor.model.ComPersonOrg;
-import com.aps.monitor.model.ComPersonOrgKey;
+import com.aps.monitor.comm.ResponseData;
 
 public interface IPersonOrgConfigService {
-	List<ComPerson> selectComPersonByCondition(ComPerson record);
 
-	List<ComOrg> selectComOrgByCondition(ComOrg record);
+	void referComPerson(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	List<ComPersonOrg> selectByCondition(ComPerson record);
+	void referComOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int insertSelective(ComPersonOrg record);
+	void referComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	int updateByPrimaryKeySelective(ComPersonOrg record);
-
-	int deleteByPrimaryKey(ComPersonOrgKey key);
+	void modifyComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 }
