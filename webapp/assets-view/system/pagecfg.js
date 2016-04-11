@@ -20,7 +20,7 @@ function pageLoad() {
 function pageIni() {
 
 	// 取得FORM_CTL数据
-	var url = "formConfig.refFormCtlType";
+	var url = "formConfig.referFormCtlType";
 	var inf = {};
 	$.ajax({
 		async : false,
@@ -77,7 +77,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPage.dbinf.query = {
-		url : "formConfig.refForm",
+		url : "formConfig.referForm",
 		inpar : [ {
 			type : "jtext",
 			name : "prgroup",
@@ -90,7 +90,7 @@ function pageIni() {
 	};
 
 	dgPage.dbinf.modify = {
-		url : "formConfig.mdyForm",
+		url : "formConfig.modifyForm",
 	};
 
 	// 初始化Grid属性
@@ -286,7 +286,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPageCTL.dbinf.query = {
-		url : "formConfig.refFormRight",
+		url : "formConfig.referFormRight",
 		inpar : [ {
 			type : "text",
 			name : "formId",
@@ -295,7 +295,7 @@ function pageIni() {
 	};
 
 	dgPageCTL.dbinf.modify = {
-		url : "formConfig.mdyFormRight",
+		url : "formConfig.modifyFormRight",
 	};
 
 	// 初始化Grid属性

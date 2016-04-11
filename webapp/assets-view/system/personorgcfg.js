@@ -21,7 +21,7 @@ function pageLoad() {
 function pageIni() {
 
 	// 取得COM_ORG数据
-	var url = "personOrgConfig.refComOrg";
+	var url = "personOrgConfig.referOrg";
 	var inf = {};
 	$.ajax({
 		async : false,
@@ -45,7 +45,7 @@ function pageIni() {
 	});
 
 	// 取得COM_PERSON数据
-	url = "personOrgConfig.refComPerson";
+	url = "personOrgConfig.referPerson";
 	inf = {};
 	$.ajax({
 		async : false,
@@ -109,7 +109,7 @@ function pageIni() {
 	dgUser.setHeadCol(1, "utime", "更新时间", 140, "left", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgUser.dbinf.query = {
-		url : "personOrgConfig.refComPersonOrg",
+		url : "personOrgConfig.referPersonOrg",
 		inpar : [ {
 			type : "jtext",
 			name : "userId",
@@ -122,7 +122,7 @@ function pageIni() {
 	};
 
 	dgUser.dbinf.modify = {
-		url : "personOrgConfig.mydComPersonOrg",
+		url : "personOrgConfig.modifyPersonOrg",
 	};
 
 	// 初始化Grid属性

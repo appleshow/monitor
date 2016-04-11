@@ -16,9 +16,9 @@ public interface IOrgFormConfigService {
 
 	void referOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void referComCode(HttpSession httpSession, String inPar, ResponseData responseData);
+	void referCombCode(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void modifyComOrgForm(HttpSession httpSession, String inPar, ResponseData responseData);
+	void modifyOrgForm(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void modifyComOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
+	void modifyOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData);
 }

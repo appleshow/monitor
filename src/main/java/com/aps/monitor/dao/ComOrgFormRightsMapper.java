@@ -7,7 +7,7 @@ import com.aps.monitor.model.ComOrgFormRightsKey;
 
 public interface ComOrgFormRightsMapper {
 	int deleteByPrimaryKey(ComOrgFormRightsKey key);
-	
+
 	int insert(ComOrgFormRights record);
 
 	int insertSelective(ComOrgFormRights record);
@@ -15,6 +15,8 @@ public interface ComOrgFormRightsMapper {
 	ComOrgFormRights selectByPrimaryKey(ComOrgFormRightsKey key);
 
 	List<ComOrgFormRights> selectByCondition(ComOrgFormRights record);
+
+	List<ComOrgFormRights> selectByPersonId(Integer personId);
 
 	int updateByPrimaryKeySelective(ComOrgFormRights record);
 

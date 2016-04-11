@@ -9,14 +9,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IFormConfigService;
 
+/**
+ * 界面管理
+ * 
+ * @ClassName: FormConfigController
+ * @Description:TODO
+ * @author: AppleShow
+ * @date: 2016年4月7日 下午8:30:31
+ * 
+ * @since 1.0.0
+ */
 @Controller
 public class FormConfigController {
 	@Resource(name = "formConfigServiceImpl")
 	private IFormConfigService formConfigService;
+	private final int formId = 4;
 
 	/**
 	 * 
@@ -29,19 +41,21 @@ public class FormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/formConfig.refForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/formConfig.referForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String refForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		formConfigService.referForm(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referForm", responseData)) {
+			formConfigService.referForm(httpSession, inPar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyForm
+	 * @Title: modifyForm
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -50,12 +64,14 @@ public class FormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/formConfig.mdyForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/formConfig.modifyForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		formConfigService.modifyForm(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyForm", responseData)) {
+			formConfigService.modifyForm(httpSession, inPar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
@@ -71,19 +87,21 @@ public class FormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/formConfig.refFormRight", method = RequestMethod.POST)
+	@RequestMapping(value = "/formConfig.referFormRight", method = RequestMethod.POST)
 	@ResponseBody
-	public String refFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		formConfigService.referFormRight(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referFormRight", responseData)) {
+			formConfigService.referFormRight(httpSession, inPar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyFormRight
+	 * @Title: modifyFormRight
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -92,12 +110,14 @@ public class FormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/formConfig.mdyFormRight", method = RequestMethod.POST)
+	@RequestMapping(value = "/formConfig.modifyFormRight", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		formConfigService.modifyFormRight(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyFormRight", responseData)) {
+			formConfigService.modifyFormRight(httpSession, inPar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
@@ -113,13 +133,15 @@ public class FormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/formConfig.refFormCtlType", method = RequestMethod.POST)
+	@RequestMapping(value = "/formConfig.referFormCtlType", method = RequestMethod.POST)
 	@ResponseBody
-	public String refFormCtlType(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referFormCtlType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		formConfigService.referFormCtlType(httpSession, inPar, responseData);
-
+		if (CommUtil.isPermissoned(httpSession, formId, "referFormCtlType", responseData)) {
+			formConfigService.referFormCtlType(httpSession, inPar, responseData);
+		}
+		
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

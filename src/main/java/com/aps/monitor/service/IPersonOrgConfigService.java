@@ -6,11 +6,11 @@ import com.aps.monitor.comm.ResponseData;
 
 public interface IPersonOrgConfigService {
 
-	void referComPerson(HttpSession httpSession, String inPar, ResponseData responseData);
+	void referPerson(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void referComOrg(HttpSession httpSession, String inPar, ResponseData responseData);
+	void referOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void referComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
+	void referPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void modifyComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
+	void modifyPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData);
 }

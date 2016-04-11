@@ -9,18 +9,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IMenuConfigService;
 
+/**
+ * 菜单管理
+ * 
+ * @ClassName: MenuConfigController
+ * @Description:TODO
+ * @author: AppleShow
+ * @date: 2016年4月7日 下午8:32:48
+ * 
+ * @since 1.0.0
+ */
 @Controller
 public class MenuConfigController {
 	@Resource(name = "menuConfigServiceImpl")
 	private IMenuConfigService menuConfigService;
+	private final int formId = 5;
 
 	/**
 	 * 
-	 * @Title: refMenu
+	 * @Title: referMenu
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -29,18 +41,20 @@ public class MenuConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/menuConfig.refMenu", method = RequestMethod.POST)
+	@RequestMapping(value = "/menuConfig.referMenu", method = RequestMethod.POST)
 	@ResponseBody
-	public String refMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		menuConfigService.referMenu(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referMenu", responseData)) {
+			menuConfigService.referMenu(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyMenu
+	 * @Title: modifyMenu
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -49,18 +63,21 @@ public class MenuConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/menuConfig.mdyMenu", method = RequestMethod.POST)
+	@RequestMapping(value = "/menuConfig.modifyMenu", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		menuConfigService.modifyMenu(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyMenu", responseData)) {
+			menuConfigService.modifyMenu(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refAllForms
+	 * @Title: referAllForms
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -69,12 +86,15 @@ public class MenuConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/menuConfig.refAllForms", method = RequestMethod.POST)
+	@RequestMapping(value = "/menuConfig.referAllForms", method = RequestMethod.POST)
 	@ResponseBody
-	public String refAllForms(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referAllForms(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		menuConfigService.referAllForms(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referAllForms", responseData)) {
+			menuConfigService.referAllForms(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

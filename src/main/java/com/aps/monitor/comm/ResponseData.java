@@ -2,6 +2,8 @@ package com.aps.monitor.comm;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public class ResponseData {
 	private int code;
 	private String message;
@@ -11,6 +13,7 @@ public class ResponseData {
 	private int pagesize;
 	private int pagenumber;
 	private List<?> data;
+	private ObjectNode subjoin;
 
 	public ResponseData() {
 
@@ -245,4 +248,25 @@ public class ResponseData {
 		setCode(code);
 		setMessage(e.getMessage());
 	}
+
+	/**
+	 * @Title: getSubjoin
+	 * @Description:
+	 * @return: ObjectNode
+	 * @since 1.0.0
+	 */
+	public ObjectNode getSubjoin() {
+		return subjoin;
+	}
+
+	/**
+	 * @Title: setSubjoin
+	 * @Description:
+	 * @return: ObjectNode
+	 * @since 1.0.0
+	 */
+	public void setSubjoin(ObjectNode subjoin) {
+		this.subjoin = subjoin;
+	}
+
 }

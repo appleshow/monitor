@@ -13,7 +13,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComFormRightsMapper;
@@ -212,7 +212,7 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referComCode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referCombCode(HttpSession httpSession, String inPar, ResponseData responseData) {
 		ComCode comCode = new ComCode();
 		List<ComCode> comCodes;
 
@@ -242,7 +242,7 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyComOrgForm(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyOrgForm(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
 		String type;
 		Date now = new Date();
@@ -259,16 +259,16 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 				if (null != comOrgForm) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comOrgForm.setItime(now);
 							comOrgForm.setIperson(personId);
 							comOrgForm.setUtime(now);
 							comOrgForm.setUperson(personId);
 							comOrgFormMapper.insertSelective(comOrgForm);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							comOrgFormMapper.deleteByPrimaryKey(comOrgForm);
 							comOrgFormRights = new ComOrgFormRights();
 
@@ -306,7 +306,7 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyComOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
 		String type;
 		Date now = new Date();
@@ -322,7 +322,7 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 				if (null != comOrgFormRights) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comOrgFormRights.setItime(now);
 							comOrgFormRights.setIperson(personId);
 							comOrgFormRights.setUtime(now);
@@ -341,12 +341,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 							}
 							comOrgFormRightsMapper.insertSelective(comOrgFormRights);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comOrgFormRights.setUtime(now);
 							comOrgFormRights.setUperson(personId);
 							comOrgFormRightsMapper.updateByPrimaryKeySelective(comOrgFormRights);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							break;
 						default:
 							break;

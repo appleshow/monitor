@@ -23,9 +23,9 @@ public class RequestMdyPar {
 	public String getType(Map<String, String> rowData) {
 		String type = "";
 
-		if (rowData.containsKey(SystemProperty.REQUEST_SQL_DML_TYPE)) {
-			type = rowData.get(SystemProperty.REQUEST_SQL_DML_TYPE);
-			rowData.remove(SystemProperty.REQUEST_SQL_DML_TYPE);
+		if (rowData.containsKey(CommUtil.REQUEST_SQL_DML_TYPE)) {
+			type = rowData.get(CommUtil.REQUEST_SQL_DML_TYPE);
+			rowData.remove(CommUtil.REQUEST_SQL_DML_TYPE);
 		}
 
 		return type;
@@ -44,7 +44,7 @@ public class RequestMdyPar {
 	 * @since 1.0.0
 	 */
 	public int getPersonId(HttpSession session, Date now, Map<String, String> rowData) {
-		int personId = (int) session.getAttribute(SystemProperty.SESSION_PERSON_ID);
+		int personId = (int) session.getAttribute(CommUtil.SESSION_PERSON_ID);
 
 		rowData.put("utime", DateUtil.formatString(now));
 		rowData.put("uperson", String.valueOf(personId));

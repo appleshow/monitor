@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IPersonOrgConfigService;
 
 /**
+ * 用户组织管理
  * 
  * @ClassName: PersonOrgConfigController
  * @Description:TODO
@@ -26,10 +28,11 @@ import com.aps.monitor.service.IPersonOrgConfigService;
 public class PersonOrgConfigController {
 	@Resource(name = "personOrgConfigServiceImpl")
 	private IPersonOrgConfigService personOrgConfigService;
+	private final int formId = 7;
 
 	/**
 	 * 
-	 * @Title: refComPerson
+	 * @Title: referComPerson
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -38,18 +41,21 @@ public class PersonOrgConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/personOrgConfig.refComPerson", method = RequestMethod.POST)
+	@RequestMapping(value = "/personOrgConfig.referPerson", method = RequestMethod.POST)
 	@ResponseBody
-	public String refComPerson(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referPerson(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		personOrgConfigService.referComPerson(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referPerson", responseData)) {
+			personOrgConfigService.referPerson(httpSession, inPar, responseData);
+		}
+		
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refComOrg
+	 * @Title: referComOrg
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -58,18 +64,21 @@ public class PersonOrgConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/personOrgConfig.refComOrg", method = RequestMethod.POST)
+	@RequestMapping(value = "/personOrgConfig.referOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public String refComOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		personOrgConfigService.referComOrg(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referOrg", responseData)) {
+			personOrgConfigService.referOrg(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refComPersonOrg
+	 * @Title: referComPersonOrg
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -78,12 +87,14 @@ public class PersonOrgConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/personOrgConfig.refComPersonOrg", method = RequestMethod.POST)
+	@RequestMapping(value = "/personOrgConfig.referPersonOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public String refComPersonOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referPersonOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		personOrgConfigService.referComPersonOrg(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referPersonOrg", responseData)) {
+			personOrgConfigService.referPersonOrg(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
@@ -98,12 +109,15 @@ public class PersonOrgConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/personOrgConfig.mydComPersonOrg", method = RequestMethod.POST)
+	@RequestMapping(value = "/personOrgConfig.modifyPersonOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public String mydComPersonOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyPersonOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		personOrgConfigService.modifyComPersonOrg(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyPersonOrg", responseData)) {
+			personOrgConfigService.modifyPersonOrg(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

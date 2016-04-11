@@ -60,7 +60,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgCode.dbinf.query = {
-		url : "codeConfig.refCode",
+		url : "codeConfig.referCode",
 		inpar : [ {
 			type : "jtext",
 			name : "codeType",
@@ -73,7 +73,7 @@ function pageIni() {
 	};
 
 	dgCode.dbinf.modify = {
-		url : "codeConfig.mdyCode",
+		url : "codeConfig.modifyCode",
 	};
 
 	// 初始化Grid属性

@@ -74,6 +74,9 @@ $(window).load(function() {
 				$("#mwMessage").html(res.message);
 				$("#modal-warning").modal("show");
 			} else {
+				$obj("lblUserName").innerHTML = "&nbsp;您好，" + res.subjoin.userName + " &nbsp;&nbsp;&nbsp; ";
+				$obj("lblUserId").innerHTML = "登入帐号: " + res.subjoin.userId;
+
 				menus = res.data;
 				for (var index = 0; index < menus.length; index++) {
 					if (menus[index].farMenuId == 0) {
@@ -550,8 +553,10 @@ function showPage(url, name, id, icon) {
  * 
  */
 function refreshPage() {
-	$obj("childePage").src = pageurl;
-	$obj("childeName").innerHTML = " <span class='" + pageicon + "' aria-hidden='true'></span> " + pagename;
+	if (pageurl != "undefined" && pageurl != "") {
+		$obj("childePage").src = "main.showPage?url=" + pageurl;
+		$obj("childeName").innerHTML = " <span class='" + pageicon + "' aria-hidden='true'></span> " + pagename;
+	}
 }
 
 function userSetting() {
@@ -590,14 +595,12 @@ function saveSetting() {
 		return;
 	}
 
-	var url = "servlet/DBHelper";
+	var url = "main.updatePersonPSW";
 	var inf = {
-		type : 'PJ',
-		prc : 'aps.com.dao.PageMain.mdyPersonPSW',
+		parcnt : 1,
 		inpar : [ {
-			pswo : $("#pwo").val(),
-			pswn : $("#pwn1").val(),
-			psws : $("#pwn2").val()
+			pswo : $.md5($("#pwo").val()),
+			pswn : $("#pwn1").val()
 		} ]
 	};
 
@@ -609,9 +612,9 @@ function saveSetting() {
 		data : "inf=" + JSON.stringify(inf),
 		dataType : "json",
 		success : function(res) {
-			if (res[0].p_e_code != 0) {
+			if (res.code != 0) {
 				$("#mwTitle").html("警告");
-				$("#mwMessage").html(res[0].p_e_msg);
+				$("#mwMessage").html(res.message);
 				$("#modal-warning").modal("show");
 			} else {
 				$("#msTitle").html("操作成功");
@@ -634,21 +637,5 @@ function userOff() {
 	if (confirm("确定注销当前用户？") == false) {
 		return;
 	}
-	$.ajax({
-		async : false,
-		type : "POST",
-		url : "servlet/UserLogin",
-		cache : false,
-		data : {
-			uname : "",
-			upassword : ""
-		},
-		dataType : "json",
-		success : function(res) {
-			location.href = "login.html";
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-
-	})
+	location.href = "main.showPage?url=";
 }

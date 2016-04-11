@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aps.monitor.comm.MD5Util;
 import com.aps.monitor.comm.StringUtil;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.model.ComPerson;
 import com.aps.monitor.service.ILoginViewService;
 import com.aps.monitor.service.IPreLoginHandler;
@@ -90,14 +90,13 @@ public class LoginController {
 	 * @since 1.0.0
 	 */
 	@RequestMapping(value = "/main", method = RequestMethod.POST)
-	public String login(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("username") String userName, @RequestParam("password") String password,
-			@RequestParam("") String verification, ModelMap map) {
-		HttpSession session = request.getSession();
+	public String login(HttpServletRequest request, HttpServletResponse response, @RequestParam("username") String userName,
+			@RequestParam("password") String password, @RequestParam("verification") String verification, ModelMap map) {
+		HttpSession httpSession = request.getSession();
 		ComPerson person;
 		String userPassword, userVerification;
 
-		userVerification = (String) session.getAttribute(SystemProperty.SESSION_VERIFICATION);
+		userVerification = (String) httpSession.getAttribute(CommUtil.SESSION_VERIFICATION);
 		if (!verification.equals(userVerification)) {
 			return "index1.html";
 		}
@@ -106,13 +105,15 @@ public class LoginController {
 		if (null == person) {
 			return "index2.html";
 		}
-		userPassword = StringUtil.desDecryptStr(person.getUserPsw(), SystemProperty.LOCK_WORD);
+		userPassword = StringUtil.desDecryptStr(person.getUserPsw(), CommUtil.LOCK_WORD);
 		userPassword = MD5Util.getMD5String(MD5Util.getMD5String(userPassword) + userVerification);
 
 		if (userPassword.equals(password)) {
-			session.setAttribute(SystemProperty.SESSION_PERSON_ID, person.getPersonId());
-			session.setAttribute(SystemProperty.SESSION_USER_ID, person.getUserId());
-			session.setAttribute(SystemProperty.SESSION_USER_NAME, person.getUserName());
+			httpSession.setAttribute(CommUtil.SESSION_PERSON_ID, person.getPersonId());
+			httpSession.setAttribute(CommUtil.SESSION_USER_ID, person.getUserId());
+			httpSession.setAttribute(CommUtil.SESSION_USER_NAME, person.getUserName());
+
+			CommUtil.updatePermissoned(httpSession, loginViewService.selectPersonPermissions(person.getPersonId()));
 
 			return "main.html";
 		} else {

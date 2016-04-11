@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IMainViewService;
@@ -49,6 +50,27 @@ public class MainController {
 
 	/**
 	 * 
+	 * @Title: updatePersonPSW
+	 * @Description: TODO
+	 * @param: @param httpSession
+	 * @param: @param inPar
+	 * @param: @return
+	 * @return: String
+	 * @throws
+	 * @since 1.0.0
+	 */
+	@RequestMapping(value = "/main.updatePersonPSW", method = RequestMethod.POST)
+	@ResponseBody
+	public String updatePersonPSW(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
+
+		mainViewService.modifyPersonPassword(httpSession, inPar, responseData);
+
+		return JsonUtil.writeResponseAsString(responseData);
+	}
+
+	/**
+	 * 
 	 * @Title: showPage
 	 * @Description: TODO
 	 * @param: @param session
@@ -59,7 +81,13 @@ public class MainController {
 	 * @since 1.0.0
 	 */
 	@RequestMapping(value = "/main.showPage", method = RequestMethod.GET)
-	public String showPage(HttpSession session, @RequestParam("url") String url) {
-		return url;
+	public String showPage(HttpSession httpSession, @RequestParam("url") String url) {
+		if (null == httpSession.getAttribute(CommUtil.SESSION_PERSON_ID) || null == url || "".equals(url.trim())) {
+			httpSession.invalidate();
+
+			return "index.html";
+		} else {
+			return url;
+		}
 	}
 }

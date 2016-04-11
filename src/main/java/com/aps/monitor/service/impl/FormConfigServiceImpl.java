@@ -14,7 +14,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComFormRightsMapper;
@@ -106,17 +106,17 @@ public class FormConfigServiceImpl implements IFormConfigService {
 				if (null != comForm) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comForm.setItime(now);
 							comForm.setIperson(personId);
 							comForm.setUtime(now);
 							comForm.setUperson(personId);
 							comFormMapper.insertSelective(comForm);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comFormMapper.updateByPrimaryKeySelective(comForm);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							ComOrgFormRights comOrgFormRights = new ComOrgFormRights();
 							ComOrgForm comOrgForm = new ComOrgForm();
 							ComFormRights comFormRights = new ComFormRights();
@@ -208,7 +208,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 				if (null != comFormRight) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							if (null == comFormRight.getRea()) {
 								comFormRight.setRea(0);
 							}
@@ -257,7 +257,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 							}
 
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							returnValue = comFormRightMapper.updateByPrimaryKeySelective(comFormRight);
 							if (returnValue > 0) {
 								ComOrgFormRights comOrgFormRights = new ComOrgFormRights();
@@ -275,7 +275,7 @@ public class FormConfigServiceImpl implements IFormConfigService {
 							}
 
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							ComOrgFormRights comOrgFormRights = new ComOrgFormRights();
 
 							comOrgFormRights.setFormId(comFormRight.getFormId());

@@ -9,18 +9,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IOrgFormConfigService;
 
+/**
+ * 组织权限管理
+ * 
+ * @ClassName: OrgFormConfigController
+ * @Description:TODO
+ * @author: AppleShow
+ * @date: 2016年4月7日 下午8:34:16
+ * 
+ * @since 1.0.0
+ */
 @Controller
 public class OrgFormConfigController {
 	@Resource(name = "orgFormConfigServiceImpl")
 	private IOrgFormConfigService orgFormConfigService;
+	private final int formId = 6;
 
 	/**
 	 * 
-	 * @Title: refOrg
+	 * @Title: referOrg
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -29,18 +41,20 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refOrg", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referOrg(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referOrg", responseData)) {
+			orgFormConfigService.referOrg(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refForm
+	 * @Title: referForm
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -49,18 +63,21 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String refForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referForm(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referForm", responseData)) {
+			orgFormConfigService.referForm(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refOrgForm
+	 * @Title: referOrgForm
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -69,18 +86,21 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refOrgForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referOrgForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referOrgForm(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referOrgForm", responseData)) {
+			orgFormConfigService.referOrgForm(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refFormRights
+	 * @Title: referFormRights
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -89,18 +109,21 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refFormRights", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String refFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referFormRights(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referFormRights", responseData)) {
+			orgFormConfigService.referFormRights(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refOrgFormRights
+	 * @Title: referOrgFormRights
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -109,18 +132,21 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refOrgFormRights", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referOrgFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String refOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referOrgFormRights(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referOrgFormRights", responseData)) {
+			orgFormConfigService.referOrgFormRights(httpSession, inPar, responseData);
+		}
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: refComCode
+	 * @Title: referComCode
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -129,18 +155,20 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.refComCode", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.referCombCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String refComCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referCombCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.referComCode(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referCombCode", responseData)) {
+			orgFormConfigService.referCombCode(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyComOrgForm
+	 * @Title: modifyComOrgForm
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -149,18 +177,20 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.mdyComOrgForm", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.modifyOrgForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyComOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyOrgForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.modifyComOrgForm(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyOrgForm", responseData)) {
+			orgFormConfigService.modifyOrgForm(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyComOrgFormRights
+	 * @Title: modifyComOrgFormRights
 	 * @Description: TODO
 	 * @param: @param session
 	 * @param: @param inpar
@@ -169,12 +199,14 @@ public class OrgFormConfigController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/orgFormConfig.mdyComOrgFormRights", method = RequestMethod.POST)
+	@RequestMapping(value = "/orgFormConfig.modifyOrgFormRights", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyComOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String modifyOrgFormRights(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		orgFormConfigService.modifyComOrgFormRights(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyOrgFormRights", responseData)) {
+			orgFormConfigService.modifyOrgFormRights(httpSession, inPar, responseData);
+		}
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

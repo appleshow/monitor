@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.ICodeConfigService;
 
 /**
+ * 代码管理
  * 
  * @ClassName: CodeConfigController
  * @Description:TODO
@@ -27,44 +29,50 @@ public class CodeConfigController {
 	@Resource(name = "codeConfigServiceImpl")
 	private ICodeConfigService codeConfigService;
 
+	private final int formId = 1;
+
 	/**
 	 * 
-	 * @Title: refCode
+	 * @Title: referCode
 	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param inpar
+	 * @param: @param httpSession
+	 * @param: @param inPar
 	 * @param: @return
 	 * @return: String
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/codeConfig.refCode", method = RequestMethod.POST)
+	@RequestMapping(value = "/codeConfig.referCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String refCode(HttpSession session, @RequestParam("inf") String inpar) {
+	public String referCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		codeConfigService.referCode(session, inpar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referCode", responseData)) {
+			codeConfigService.referCode(httpSession, inPar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
 	/**
 	 * 
-	 * @Title: mdyCode
+	 * @Title: modifyCode
 	 * @Description: TODO
-	 * @param: @param session
+	 * @param: @param httpSession
 	 * @param: @param inpar
 	 * @param: @return
 	 * @return: String
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/codeConfig.mdyCode", method = RequestMethod.POST)
+	@RequestMapping(value = "/codeConfig.modifyCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String mdyCode(HttpSession session, @RequestParam("inf") String inpar) {
+	public String modifyCode(HttpSession httpSession, @RequestParam("inf") String inpar) {
 		ResponseData responseData = new ResponseData();
 
-		codeConfigService.modifyCode(session, inpar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyCode", responseData)) {
+			codeConfigService.modifyCode(httpSession, inpar, responseData);
+		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}

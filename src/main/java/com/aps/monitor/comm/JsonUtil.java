@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonUtil {
@@ -63,7 +64,7 @@ public class JsonUtil {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	public static <T> String writeResponseAsString(ResponseData responseData) {
+	public static String writeResponseAsString(ResponseData responseData) {
 		String jsonString;
 
 		try {
@@ -163,5 +164,27 @@ public class JsonUtil {
 		System.out.println("--------------------------MDY----------------------------------------");
 
 		return requestMdyPar;
+	}
+
+	/**
+	 * 
+	 * @Title: valueToArrayNode
+	 * @Description: TODO
+	 * @param: @param object
+	 * @param: @return
+	 * @return: ArrayNode
+	 * @throws
+	 * @since 1.0.0
+	 */
+	public static ArrayNode valueToArrayNode(Object object) {
+		ArrayNode arrayNode;
+
+		try {
+			arrayNode = jsonMapper.valueToTree(object);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+		
+		return arrayNode;
 	}
 }

@@ -20,7 +20,7 @@ function pageLoad() {
 function pageIni() {
 
 	// 取得FORM数据
-	var url = "menuConfig.refAllForms";
+	var url = "menuConfig.referAllForms";
 	var inf = {};
 
 	$.ajax({
@@ -95,7 +95,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgMenu.dbinf.query = {
-		url : "menuConfig.refMenu",
+		url : "menuConfig.referMenu",
 		inpar : [ {
 			type : "jtext",
 			name : "farMenuId",
@@ -108,7 +108,7 @@ function pageIni() {
 	};
 
 	dgMenu.dbinf.modify = {
-		url : "menuConfig.mdyMenu",
+		url : "menuConfig.modifyMenu",
 	};
 
 	// 初始化Grid属性
@@ -270,7 +270,7 @@ function menuEERow(showmsg) {
  * 查询菜单
  */
 function menuRef() {
-	var url = "menuConfig.refMenu";
+	var url = "menuConfig.referMenu";
 	var inf = {};
 
 	rootnodes = $('#treeMenu').tree('loadData', []);
@@ -366,7 +366,7 @@ function menuDel() {
 		modifytype = "D";
 		$cmsg("确定删除菜单：" + selectnode.text + " ..??", function(bok) {
 			if (bok) {
-				var url = "menuConfig.mdyMenu";
+				var url = "menuConfig.modifyMenu";
 				var inf = {
 					parcnt : 1,
 					inpar : [ {
@@ -437,7 +437,7 @@ function modifyOK() {
 	var menuid = $obj("far_menu_id").value;
 
 	if (menunameo != null || menunameo != menunamen || menuseqo != menuseqn) {
-		var url = "menuConfig.mdyMenu";
+		var url = "menuConfig.modifyMenu";
 		var inf = null;
 
 		if (modifytype == "U" || modifytype == "D") {

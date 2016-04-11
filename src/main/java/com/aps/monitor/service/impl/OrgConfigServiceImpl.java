@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.model.ComOrg;
 import com.aps.monitor.service.IOrgConfigService;
@@ -53,17 +53,17 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 				if (null != comOrg) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comOrg.setItime(now);
 							comOrg.setIperson(personId);
 							comOrg.setUtime(now);
 							comOrg.setUperson(personId);
 							comOrgMapper.insertSelective(comOrg);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comOrgMapper.updateByPrimaryKeyMap(rowData);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							comOrgMapper.deleteByPrimaryKey(comOrg.getOrgId());
 							break;
 						default:

@@ -13,7 +13,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComMenuMapper;
 import com.aps.monitor.model.ComForm;
@@ -92,17 +92,17 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 				if (null != comMenu) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comMenu.setItime(now);
 							comMenu.setIperson(personId);
 							comMenu.setUtime(now);
 							comMenu.setUperson(personId);
 							comMenuMapper.insertSelective(comMenu);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comMenuMapper.updateByPrimaryKeySelective(comMenu);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							comMenuMapper.deleteByPrimaryKey(comMenu.getMenuId());
 							break;
 						default:

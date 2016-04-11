@@ -20,7 +20,7 @@ function pageLoad() {
 function pageIni() {
 
 	// 取得COM_ORG数据
-	var url = "orgConfig.refOrg";
+	var url = "personConfig.referOrg";
 	var inf = {};
 
 	$.ajax({
@@ -118,7 +118,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgUser.dbinf.query = {
-		url : "personConfig.refPerson",
+		url : "personConfig.referPerson",
 		inpar : [ {
 			type : "jtext",
 			name : "userId",
@@ -131,7 +131,7 @@ function pageIni() {
 	};
 
 	dgUser.dbinf.modify = {
-		url : "personConfig.mdyPerson",
+		url : "personConfig.modifyPerson",
 	};
 
 	// 初始化Grid属性

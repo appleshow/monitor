@@ -206,6 +206,15 @@
 		</if>
 		</where>
 	</select>
+	<select id="selectByPersonId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select a.* 
+		from
+	    com_org_form_rights a,
+	    com_person_org b
+	    where
+	    a.ORG_ID = b.ORG_ID
+	    and b.PERSON_ID = #{personId,jdbcType=VARCHAR}
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.ComOrgFormRightsKey">
 		delete from com_org_form_rights
 		<where>

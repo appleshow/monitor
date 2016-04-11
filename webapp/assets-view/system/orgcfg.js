@@ -29,7 +29,7 @@ function pageIni() {
  */
 function orgRef() {
 
-	var url = "orgConfig.refOrg";
+	var url = "orgConfig.referOrg";
 	var inf = {};
 
 	$('#treeOrg').tree('loadData', []);
@@ -123,7 +123,7 @@ function orgDel() {
 		modifytype = "D";
 		$cmsg("确定删除组织架构：" + selectnode.text + " ..??", function(bok) {
 			if (bok) {
-				var url = "orgConfig.mdyOrg";
+				var url = "orgConfig.modifyOrg";
 				var inf = {
 					parcnt : 1,
 					inpar : [ {
@@ -179,7 +179,7 @@ function modifyOK() {
 	var orgid = $obj("far_org_id").value;
 
 	if (orgnameo != null || orgnameo != orgnamen || orgseqo != orgseqn) {
-		var url = "orgConfig.mdyOrg";
+		var url = "orgConfig.modifyOrg";
 		var inf = {};
 
 		if (modifytype == "U" || modifytype == "D") {

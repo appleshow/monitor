@@ -22,7 +22,7 @@ function pageLoad() {
 
 // 初始化 Grid
 function pageIni() {
-	var url = "orgFormConfig.refComCode";
+	var url = "orgFormConfig.referCombCode";
 	var inf = {};
 
 	$.ajax({
@@ -75,7 +75,7 @@ function pageIni() {
 				dgPageCtlA.Grid.datagrid('loadData', []);
 
 				var orgname = node.text;
-				var url = "orgFormConfig.refOrgForm";
+				var url = "orgFormConfig.referOrgForm";
 				var inf = {
 					parcnt : 1,
 					inpar : {
@@ -187,7 +187,7 @@ function pageIni() {
 					var griddatalen = dgOrgPageA.Grid.datagrid("getRows").length;
 
 					// 查询窗体权限信息
-					var url = "orgFormConfig.refFormRights";
+					var url = "orgFormConfig.referFormRights";
 					var inf = {
 						parcnt : 1,
 						inpar : {
@@ -342,7 +342,7 @@ function pageIni() {
 					var griddatalen = dgOrgPageB.Grid.datagrid("getRows").length;
 
 					// 查询窗体权限信息
-					var url = "orgFormConfig.refFormRights";
+					var url = "orgFormConfig.referFormRights";
 					var inf = {
 						parcnt : 1,
 						inpar : {
@@ -481,7 +481,7 @@ function pageIni() {
 				dgPageCtlB.Grid.datagrid('loadData', []);
 
 				// 查询构窗组织架体信息
-				var url = "orgFormConfig.refOrgForm";
+				var url = "orgFormConfig.referOrgForm";
 				var inf = {
 					parcnt : 1,
 					inpar : {
@@ -556,7 +556,7 @@ function pageIni() {
 	dgOrgPageA.setHeadCol(1, "prgroup", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgOrgPageA.dbinf.modify = {
-		url : "orgFormConfig.mdyComOrgForm",
+		url : "orgFormConfig.modifyOrgForm",
 	};
 
 	// 初始化Grid属性
@@ -619,7 +619,7 @@ function pageIni() {
 				var orgid = replace($("#treeOrgA").tree("getChecked")[0].id, "node", "");
 
 				// ******
-				var url = "orgFormConfig.refOrgFormRights";
+				var url = "orgFormConfig.referOrgFormRights";
 				var inf = {
 					parcnt : 1,
 					inpar : {
@@ -734,7 +734,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPageCtlA.dbinf.modify = {
-		url : "orgFormConfig.mdyComOrgFormRights",
+		url : "orgFormConfig.modifyOrgFormRights",
 	};
 
 	// 初始化Grid属性
@@ -786,7 +786,7 @@ function pageIni() {
 	dgOrgPageB.setHeadCol(1, "prgroup", "界面组别", 60, "center", 0, 0, false, false, true, null, null, null, null, false, false, false, false);
 
 	dgOrgPageB.dbinf.modify = {
-		url : "orgFormConfig.mdyComOrgForm",
+		url : "orgFormConfig.modifyOrgForm",
 	};
 
 	// 初始化Grid属性
@@ -849,7 +849,7 @@ function pageIni() {
 				var orgname = row.orgName;
 
 				// ***
-				var url = "orgFormConfig.refOrgFormRights";
+				var url = "orgFormConfig.referOrgFormRights";
 				var inf = {
 					parcnt : 1,
 					inpar : {
@@ -965,7 +965,7 @@ function pageIni() {
 	}, null, false, false, true, false);
 
 	dgPageCtlB.dbinf.modify = {
-		url : "orgFormConfig.mdyComOrgFormRights",
+		url : "orgFormConfig.modifyOrgFormRights",
 	};
 
 	// 初始化Grid属性
@@ -1021,7 +1021,7 @@ function toolRef() {
 	treeorgaslt = null;
 	treepageslt = null;
 
-	var url = "orgFormConfig.refOrg";
+	var url = "orgFormConfig.referOrg";
 	var inf = {};
 	// 加载组织Tree
 	$.ajax({
@@ -1077,7 +1077,7 @@ function toolRef() {
 		}
 	});
 
-	url = "orgFormConfig.refForm";
+	url = "orgFormConfig.referForm";
 	// 加载窗体Tree
 	$.ajax({
 		async : false,

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.service.IPreLoginHandler;
 
 @Service
@@ -29,7 +29,7 @@ public class PerLoginHandlerVerification implements IPreLoginHandler {
 		Map<String, Object> ret = new HashMap<String, Object>();
 
 		String code = randomCode();
-		session.setAttribute(SystemProperty.SESSION_VERIFICATION, code);
+		session.setAttribute(CommUtil.SESSION_VERIFICATION, code);
 		ret.put("imgData", "data:image/png;base64," + Base64.getEncoder().encodeToString(generateImg(code)));
 
 		return ret;

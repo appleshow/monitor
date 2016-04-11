@@ -13,7 +13,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.model.ComCode;
 import com.aps.monitor.service.ICodeConfigService;
@@ -91,17 +91,17 @@ public class CodeConfigServiceImpl implements ICodeConfigService {
 				if (null != comCode) {
 					personId = requestMdyPar.getPersonId(session, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comCode.setItime(now);
 							comCode.setIperson(personId);
 							comCode.setUtime(now);
 							comCode.setUperson(personId);
 							comCodeMapper.insertSelective(comCode);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comCodeMapper.updateByPrimaryKeyMap(rowData);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							comCodeMapper.deleteByPrimaryKey(comCode);
 							break;
 						default:

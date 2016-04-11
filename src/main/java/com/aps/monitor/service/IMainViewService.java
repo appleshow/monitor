@@ -7,4 +7,7 @@ import com.aps.monitor.comm.ResponseData;
 public interface IMainViewService {
 
 	void referPersonMenu(HttpSession httpSession, String inPar, ResponseData responseData);
+
+	void modifyPersonPassword(HttpSession httpSession, String inPar, ResponseData responseData);
+
 }

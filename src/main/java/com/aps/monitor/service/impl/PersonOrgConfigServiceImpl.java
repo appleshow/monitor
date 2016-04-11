@@ -13,7 +13,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.SystemProperty;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.dao.ComPersonMapper;
 import com.aps.monitor.dao.ComPersonOrgMapper;
@@ -56,7 +56,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referComPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
 		ComPerson comPerson = new ComPerson();
 		List<ComPerson> comPersons;
 
@@ -85,7 +85,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referComOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
@@ -114,7 +114,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
 		ComPerson comPerson = new ComPerson();
 		List<ComPersonOrg> comPersonOrgs;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
@@ -146,7 +146,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyComPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
 		String type;
 		Date now = new Date();
@@ -162,7 +162,7 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 				if (null != comPersonOrg) {
 					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 					switch (type) {
-						case SystemProperty.MODIFY_TYPE_INSERT:
+						case CommUtil.MODIFY_TYPE_INSERT:
 							comPersonOrg.setPrtype("1");
 							comPersonOrg.setItime(now);
 							comPersonOrg.setIperson(personId);
@@ -171,12 +171,12 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 							comPeronOrgMapper.insertSelective(comPersonOrg);
 							break;
-						case SystemProperty.MODIFY_TYPE_UPDATE:
+						case CommUtil.MODIFY_TYPE_UPDATE:
 							comPersonOrg.setUtime(now);
 							comPersonOrg.setUperson(personId);
 							comPeronOrgMapper.updateByPrimaryKeySelective(comPersonOrg);
 							break;
-						case SystemProperty.MODIFY_TYPE_DELETE:
+						case CommUtil.MODIFY_TYPE_DELETE:
 							comPeronOrgMapper.deleteByPrimaryKey(comPersonOrg);
 							break;
 						default:

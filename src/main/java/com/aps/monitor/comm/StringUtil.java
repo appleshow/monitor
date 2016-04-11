@@ -15,7 +15,22 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 public class StringUtil {
-	
+
+	/**
+	 * 字符串是否为null或""
+	 * 
+	 * @Title: isNullOrEmpty
+	 * @Description: TODO
+	 * @param: @param value
+	 * @param: @return
+	 * @return: boolean
+	 * @throws
+	 * @since 1.0.0
+	 */
+	public static boolean isNullOrEmpty(String value) {
+		return (null == value || "".equals(value));
+	}
+
 	/**
 	 * 字符右对齐(左边填充)
 	 * 

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Login Form Template</title>
-<link rel="shortcut icon" href="res/comm/css/icons/csg.ico" type="image/x-icon">
+<title>污染源在线监测管理系统</title>
+<link rel="shortcut icon" href="assets-view/login/ico/favicon.png">
 <!--Basic Styles-->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
@@ -73,17 +73,17 @@
                                              </div>
                                              <section>
                                                   <h2>
-                                                       <span class="profile"><span>&nbsp;您好，username &nbsp;&nbsp;&nbsp; </span></span>
+                                                       <span class="profile"><span id="lblUserName">&nbsp;您好，username &nbsp;&nbsp;&nbsp; </span></span>
                                                   </h2>
                                              </section>
                                    </a> <!--Login Area Dropdown-->
                                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
                                              <li class="username"><a>username</a></li>
-                                             <li class="email"><a>登入帐号:userid</a></li>
+                                             <li class="email"><a id="lblUserId">登入帐号:userid</a></li>
                                              <!--Avatar Area-->
                                              <li>
                                                   <div class="avatar-area">
-                                                       <img src="assets-view/main/css/images/user.png" class="avatar"> <span class="caption">更改头像</span>
+                                                       <img src="assets-view/main/css/images/user.png" class="avatar"> <span class="caption"></span>
                                                   </div>
                                              </li>
                                              <!--Avatar Area-->
@@ -153,9 +153,9 @@
                          </div>
                          <!--Header Buttons-->
                          <div class="header-buttons">
-                              <a class="sidebar-toggler" href="#" title="隐藏"> <i class="fa fa-arrows-h"></i>
-                              </a> <a class="refresh" id="refresh-toggler" href="#" onclick="refreshPage()" title="刷新"> <i class="glyphicon glyphicon-refresh"></i>
-                              </a> <a class="fullscreen" id="fullscreen-toggler" href="#" title="全屏"> <i class="glyphicon glyphicon-fullscreen"></i>
+                              <a class="sidebar-toggler" href="#" title="隐藏/显示导航栏"> <i class="fa fa-arrows-h"></i>
+                              </a> <a class="refresh" id="refresh-toggler" href="#" onclick="refreshPage()" title="刷新当前页面"> <i class="glyphicon glyphicon-refresh"></i>
+                              </a> <a class="fullscreen" id="fullscreen-toggler" href="#" title="全屏/取消全屏"> <i class="glyphicon glyphicon-fullscreen"></i>
                               </a>
                          </div>
                          <!--Header Buttons End-->
@@ -240,6 +240,7 @@
      <script src="assets/js/bootbox/bootbox.js"></script>
      <script src="assets-view/main/main.js"></script>
      <script src="assets-view/comm/comm.js"></script>
+     <script src="assets/js/md5.js"></script>
 </body>
 <!--  /Body -->
 </html>
