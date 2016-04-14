@@ -7,13 +7,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class ResponseData {
 	private int code;
 	private String message;
-	private int rowcount;
-	private int colcount;
-	private int totalcount;
-	private int pagesize;
-	private int pagenumber;
+	private int rowCount;
+	private int colCount;
+	private int totalCount;
+	private int pageSize;
+	private int pageNumber;
 	private List<?> data;
-	private ObjectNode subjoin;
+	private ObjectNode subJoin;
 
 	public ResponseData() {
 
@@ -40,7 +40,7 @@ public class ResponseData {
 			setMessage("无法找到对应的资料...!!");
 		} else {
 			setCode(0);
-			setRowcount(listData.size());
+			setRowCount(listData.size());
 			setData(listData);
 		}
 	}
@@ -88,66 +88,66 @@ public class ResponseData {
 	}
 
 	/**
-	 * @Title: getRowcount
+	 * @Title: getRowCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getRowcount() {
-		return rowcount;
+	public int getRowCount() {
+		return rowCount;
 	}
 
 	/**
-	 * @Title: setRowcount
+	 * @Title: setRowCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setRowcount(int rowcount) {
-		this.rowcount = rowcount;
+	public void setRowCount(int rowCount) {
+		this.rowCount = rowCount;
 	}
 
 	/**
-	 * @Title: getColcount
+	 * @Title: getColCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getColcount() {
-		return colcount;
+	public int getColCount() {
+		return colCount;
 	}
 
 	/**
-	 * @Title: setColcount
+	 * @Title: setColCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setColcount(int colcount) {
-		this.colcount = colcount;
+	public void setColCount(int colCount) {
+		this.colCount = colCount;
 	}
 
 	/**
-	 * @Title: getTotalcount
+	 * @Title: getTotalCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getTotalcount() {
-		return totalcount;
+	public int getTotalCount() {
+		return totalCount;
 	}
 
 	/**
-	 * @Title: setTotalcount
+	 * @Title: setTotalCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setTotalcount(int totalcount) {
-		this.totalcount = totalcount;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
 	/**
@@ -157,39 +157,39 @@ public class ResponseData {
 	 * @since 1.0.0
 	 */
 
-	public int getPagesize() {
-		return pagesize;
+	public int getPageSize() {
+		return pageSize;
 	}
 
 	/**
-	 * @Title: setPagesize
+	 * @Title: setPageSze
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setPagesize(int pagesize) {
-		this.pagesize = pagesize;
+	public void setPageSze(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 	/**
-	 * @Title: getPagenumber
+	 * @Title: getPageNumber
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getPagenumber() {
-		return pagenumber;
+	public int getPageNumber() {
+		return pageNumber;
 	}
 
 	/**
-	 * @Title: setPagenumber
+	 * @Title: setPageNumber
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setPagenumber(int pagenumber) {
-		this.pagenumber = pagenumber;
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class ResponseData {
 			setMessage("无法找到对应的资料...!!");
 		} else {
 			setCode(0);
-			setRowcount(data.size());
+			setRowCount(data.size());
 			this.data = data;
 		}
 	}
@@ -250,23 +250,23 @@ public class ResponseData {
 	}
 
 	/**
-	 * @Title: getSubjoin
+	 * @Title: getSubJoin
 	 * @Description:
 	 * @return: ObjectNode
 	 * @since 1.0.0
 	 */
-	public ObjectNode getSubjoin() {
-		return subjoin;
+	public ObjectNode getSubJoin() {
+		return subJoin;
 	}
 
 	/**
-	 * @Title: setSubjoin
+	 * @Title: setSubJoin
 	 * @Description:
 	 * @return: ObjectNode
 	 * @since 1.0.0
 	 */
-	public void setSubjoin(ObjectNode subjoin) {
-		this.subjoin = subjoin;
+	public void setSubJoin(ObjectNode subJoin) {
+		this.subJoin = subJoin;
 	}
 
 }

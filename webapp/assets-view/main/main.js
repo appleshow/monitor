@@ -74,8 +74,8 @@ $(window).load(function() {
 				$("#mwMessage").html(res.message);
 				$("#modal-warning").modal("show");
 			} else {
-				$obj("lblUserName").innerHTML = "&nbsp;您好，" + res.subjoin.userName + " &nbsp;&nbsp;&nbsp; ";
-				$obj("lblUserId").innerHTML = "登入帐号: " + res.subjoin.userId;
+				$obj("lblUserName").innerHTML = "&nbsp;您好，" + res.subJoin.userName + " &nbsp;&nbsp;&nbsp; ";
+				$obj("lblUserId").innerHTML = "登入帐号: " + res.subJoin.userId;
 
 				menus = res.data;
 				for (var index = 0; index < menus.length; index++) {
