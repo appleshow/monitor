@@ -1,5 +1,15 @@
-﻿var tableType = null, tableTypeEditor = null;
-var tableTypeData = {}, tableTypeColumnInfo = {};
+﻿var tableType = {
+	editor : function() {
+	},
+	table : function() {
+	},
+	data : {},
+	info : {}
+};
+
+jQuery(document).ready(function() {
+	iniPage();
+});
 
 function iniPage() {
 	setTableHtmlColumn();
@@ -9,9 +19,9 @@ function iniPage() {
 
 function iniEditorType() {
 	// Initialized Editor
-	tableTypeEditor = new $.fn.dataTable.Editor({
+	tableType.editor = new $.fn.dataTable.Editor({
 		table : "#table-type",
-		fields : getEditorFields(tableTypeColumnInfo),
+		fields : getEditorFields(tableType.info),
 		i18n : {
 			create : {
 				button : '<i class="glyphicon glyphicon-plus green"></i> 新增',
@@ -57,10 +67,11 @@ function iniEditorType() {
 			} else if (rows.action === "remove") {
 				type = "D";
 			} else {
-				tableTypeEditor.i18n.error.system = "操作失败，未知的处理类型！";
+				tableType.editor.i18n.error.system = "操作失败，未知的处理类型！";
 				callError();
 				return;
 			}
+
 			for ( var primaryValue in rows.data) {
 				rows.data[primaryValue]["_type"] = type;
 				inf.inPar.push(rows.data[primaryValue]);
@@ -76,10 +87,10 @@ function iniEditorType() {
 				dataType : "json",
 				success : function(res) {
 					if (res.code != 0) {
-						tableTypeEditor.i18n.error.system = res.message;
+						tableType.editor.i18n.error.system = res.message;
 						callError();
 					} else {
-						callSuccess(tableTypeData);
+						callSuccess(tableType.data);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -89,12 +100,12 @@ function iniEditorType() {
 		}
 	});
 
-	tableTypeEditor.on('initCreate', function() {
+	tableType.editor.on('initCreate', function() {
 		// Enable order for create
-		$.each(tableTypeEditor.fields(), function(index, value) {
-			var field = tableTypeEditor.field(value);
+		$.each(tableType.editor.fields(), function(index, value) {
+			var field = tableType.editor.field(value);
 
-			if (tableTypeColumnInfo[value].edit == 1) {
+			if (tableType.info[value].edit == 1) {
 				field.enable();
 			} else {
 				field.disable();
@@ -102,22 +113,30 @@ function iniEditorType() {
 		});
 	}).on('initEdit', function() {
 		// Disable for edit
-		$.each(tableTypeEditor.fields(), function(index, value) {
-			var field = tableTypeEditor.field(value);
+		$.each(tableType.editor.fields(), function(index, value) {
+			var field = tableType.editor.field(value);
 
-			if (tableTypeColumnInfo[value].edit == 1 && tableTypeColumnInfo[value].primary == 0) {
+			if (tableType.info[value].edit == 1 && tableType.info[value].primary == 0) {
 				field.enable();
 			} else {
 				field.disable();
 			}
 		});
-	});
+	}).on('preSubmit', function() {
+		for ( var columId in tableType.info) {
+			if (tableType.info[columId].hide === 0 && this.val(columId) === "") {
+				this.error("操作失败，请录入项目：<strong>" + tableType.info[columId].name + "</strong>");
+				return false;
+			}
+		}
 
+		return true;
+	});
 }
 
 function iniTableType() {
 	// Initialized DataTable
-	tableType = $('#table-type').DataTable({
+	tableType.table = $('#table-type').DataTable({
 		dom : "<'row'<'col-sm-10'B><'col-sm-2'l>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-3'i><'col-sm-9'p>>",
 		language : {
 			loadingRecords : "加载中...",
@@ -140,21 +159,21 @@ function iniTableType() {
 		serverSide : true,
 		scrollY : '80vh',
 		scrollCollapse : true,
-		columns : getTableColumns(tableTypeColumnInfo),
+		columns : getTableColumns(tableType.info),
 		buttons : [ {
 			text : '<i class="glyphicon glyphicon-search blueberry"></i> 查询',
 			action : function(e, dt, node, config) {
-				tableType.ajax.reload(null, false);
+				tableType.table.ajax.reload(null, false);
 			}
 		}, {
 			extend : "create",
-			editor : tableTypeEditor
+			editor : tableType.editor
 		}, {
 			extend : "edit",
-			editor : tableTypeEditor
+			editor : tableType.editor
 		}, {
 			extend : "remove",
-			editor : tableTypeEditor
+			editor : tableType.editor
 		}, {
 			extend : 'collection',
 			text : '<i class="glyphicon glyphicon-download-alt"></i> 导出',
@@ -212,8 +231,8 @@ function iniTableType() {
 						$.each(res.data, function(index, valueRow) {
 							var DT_RowId = "";
 
-							for ( var columnId in tableTypeColumnInfo) {
-								if (tableTypeColumnInfo[columnId].primary === 1) {
+							for ( var columnId in tableType.info) {
+								if (tableType.info[columnId].primary === 1) {
 									DT_RowId += "_" + valueRow[columnId];
 								}
 							}
@@ -223,7 +242,7 @@ function iniTableType() {
 						});
 					}
 
-					tableTypeData = tableData;
+					tableType.data = tableData;
 					callback(tableData);
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -283,7 +302,7 @@ function setTableHtmlColumn() {
 					columnInfo.hide = value.columnHide === undefined ? 0 : value.columnHide;
 					columnInfo.width = value.columnWidth === undefined ? 0 : value.columnWidth;
 
-					tableTypeColumnInfo[value.columnId] = columnInfo;
+					tableType.info[value.columnId] = columnInfo;
 
 					for (var len = 1; len <= value.columnWidth; len++) {
 						addWidth += "&nbsp;"
@@ -343,8 +362,4 @@ function getEditorFields(columnInfo) {
 	}
 
 	return editorFiels;
-}
-
-function refer() {
-	$('#table-type').DataTable().fnDraw();
 }
