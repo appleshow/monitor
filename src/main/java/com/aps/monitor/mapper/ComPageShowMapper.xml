@@ -10,7 +10,7 @@
 		<result column="COLUMN_EDIT" property="columnEdit" jdbcType="INTEGER"/>
 		<result column="COLUMN_UPDATE" property="columnUpdate" jdbcType="INTEGER"/>
 		<result column="COLUMN_SORT" property="columnSort" jdbcType="INTEGER"/>
-		<result column="COLUMN_WITH" property="columnWith" jdbcType="INTEGER"/>
+		<result column="COLUMN_WIDTH" property="columnWidth" jdbcType="INTEGER"/>
 		<result column="COLUMN_TYPE" property="columnType" jdbcType="VARCHAR"/>
 		<result column="COLUMN_ALIGN" property="columnAlign" jdbcType="INTEGER"/>
 		<result column="COLUMN_MERGE" property="columnMerge" jdbcType="INTEGER"/>
@@ -46,7 +46,7 @@
 		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
 	</resultMap>
 	<sql id="Base_Column_List"> COLUMN_ID, PAGE_ID, COLUMN_NAME, COLUMN_COUNT, COLUMN_PRIMARY, COLUMN_EDIT, COLUMN_UPDATE, COLUMN_SORT,
-		COLUMN_WITH, COLUMN_TYPE, COLUMN_ALIGN, COLUMN_MERGE, COLUMN_EDITOR, COLUMN_HIDE, COLUMN_INDEX, COLUMN_LOCK, PRFLAG,
+		COLUMN_WIDTH, COLUMN_TYPE, COLUMN_ALIGN, COLUMN_MERGE, COLUMN_EDITOR, COLUMN_HIDE, COLUMN_INDEX, COLUMN_LOCK, PRFLAG,
 		PRGROUP, PRTYPE, PRCLASS, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7,
 		PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PROPERTY15, PRINF, PREXP, ITIME,
 		IPERSON, UTIME, UPERSON
@@ -72,13 +72,13 @@
 		#{columnId,jdbcType=VARCHAR} and PAGE_ID = #{pageId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.ComPageShow"> insert into com_pageshow (COLUMN_ID, PAGE_ID, COLUMN_NAME, COLUMN_COUNT,
-		COLUMN_PRIMARY, COLUMN_EDIT, COLUMN_UPDATE, COLUMN_SORT, COLUMN_WITH, COLUMN_TYPE, COLUMN_ALIGN, COLUMN_MERGE,
+		COLUMN_PRIMARY, COLUMN_EDIT, COLUMN_UPDATE, COLUMN_SORT, COLUMN_WIDTH, COLUMN_TYPE, COLUMN_ALIGN, COLUMN_MERGE,
 		COLUMN_EDITOR, COLUMN_HIDE, COLUMN_INDEX, COLUMN_LOCK, PRFLAG, PRGROUP, PRTYPE, PRCLASS, PROPERTY0, PROPERTY1,
 		PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11,
 		PROPERTY12, PROPERTY13, PROPERTY14, PROPERTY15, PRINF, PREXP, ITIME, IPERSON, UTIME, UPERSON ) values
 		(#{columnId,jdbcType=VARCHAR}, #{pageId,jdbcType=INTEGER}, #{columnName,jdbcType=VARCHAR},
 		#{columnCount,jdbcType=INTEGER}, #{columnPrimary,jdbcType=INTEGER}, #{columnEdit,jdbcType=INTEGER},
-		#{columnUpdate,jdbcType=INTEGER}, #{columnSort,jdbcType=INTEGER}, #{columnWith,jdbcType=INTEGER},
+		#{columnUpdate,jdbcType=INTEGER}, #{columnSort,jdbcType=INTEGER}, #{columnWidth,jdbcType=INTEGER},
 		#{columnType,jdbcType=VARCHAR}, #{columnAlign,jdbcType=INTEGER}, #{columnMerge,jdbcType=INTEGER},
 		#{columnEditor,jdbcType=VARCHAR}, #{columnHide,jdbcType=INTEGER}, #{columnIndex,jdbcType=INTEGER},
 		#{columnLock,jdbcType=INTEGER}, #{prflag,jdbcType=DECIMAL}, #{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR},
@@ -109,7 +109,7 @@
 			</if>
 			<if test="columnSort != null"> COLUMN_SORT,
 			</if>
-			<if test="columnWith != null"> COLUMN_WITH,
+			<if test="columnWidth != null"> COLUMN_WIDTH,
 			</if>
 			<if test="columnType != null"> COLUMN_TYPE,
 			</if>
@@ -195,7 +195,7 @@
 			</if>
 			<if test="columnSort != null"> #{columnSort,jdbcType=INTEGER},
 			</if>
-			<if test="columnWith != null"> #{columnWith,jdbcType=INTEGER},
+			<if test="columnWidth != null"> #{columnWidth,jdbcType=INTEGER},
 			</if>
 			<if test="columnType != null"> #{columnType,jdbcType=VARCHAR},
 			</if>
@@ -280,7 +280,7 @@
 			</if>
 			<if test="columnSort != null"> COLUMN_SORT = #{columnSort,jdbcType=INTEGER},
 			</if>
-			<if test="columnWith != null"> COLUMN_WITH = #{columnWith,jdbcType=INTEGER},
+			<if test="columnWidth != null"> COLUMN_WIDTH = #{columnWidth,jdbcType=INTEGER},
 			</if>
 			<if test="columnType != null"> COLUMN_TYPE = #{columnType,jdbcType=VARCHAR},
 			</if>
@@ -354,8 +354,8 @@
 	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.ComPageShow"> update com_pageshow set COLUMN_NAME =
 		#{columnName,jdbcType=VARCHAR}, COLUMN_COUNT = #{columnCount,jdbcType=INTEGER}, COLUMN_PRIMARY =
 		#{columnPrimary,jdbcType=INTEGER}, COLUMN_EDIT = #{columnEdit,jdbcType=INTEGER}, COLUMN_UPDATE =
-		#{columnUpdate,jdbcType=INTEGER}, COLUMN_SORT = #{columnSort,jdbcType=INTEGER}, COLUMN_WITH =
-		#{columnWith,jdbcType=INTEGER}, COLUMN_TYPE = #{columnType,jdbcType=VARCHAR}, COLUMN_ALIGN =
+		#{columnUpdate,jdbcType=INTEGER}, COLUMN_SORT = #{columnSort,jdbcType=INTEGER}, COLUMN_WIDTH =
+		#{columnWidth,jdbcType=INTEGER}, COLUMN_TYPE = #{columnType,jdbcType=VARCHAR}, COLUMN_ALIGN =
 		#{columnAlign,jdbcType=INTEGER}, COLUMN_MERGE = #{columnMerge,jdbcType=INTEGER}, COLUMN_EDITOR =
 		#{columnEditor,jdbcType=VARCHAR}, COLUMN_HIDE = #{columnHide,jdbcType=INTEGER}, COLUMN_INDEX =
 		#{columnIndex,jdbcType=INTEGER}, COLUMN_LOCK = #{columnLock,jdbcType=INTEGER}, PRFLAG = #{prflag,jdbcType=DECIMAL},

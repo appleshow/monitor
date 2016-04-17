@@ -9,7 +9,7 @@ public class ResponseData {
 	private String message;
 	private int rowCount;
 	private int colCount;
-	private int totalCount;
+	private long totalCount;
 	private int pageSize;
 	private int pageNumber;
 	private List<?> data;
@@ -136,7 +136,7 @@ public class ResponseData {
 	 * @since 1.0.0
 	 */
 
-	public int getTotalCount() {
+	public long getTotalCount() {
 		return totalCount;
 	}
 
@@ -146,7 +146,7 @@ public class ResponseData {
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(long totalCount) {
 		this.totalCount = totalCount;
 	}
 

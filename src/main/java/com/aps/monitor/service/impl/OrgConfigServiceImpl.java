@@ -46,8 +46,8 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comOrg = (ComOrg) JsonUtil.readValueAsObject(rowData, ComOrg.class);
 				if (null != comOrg) {

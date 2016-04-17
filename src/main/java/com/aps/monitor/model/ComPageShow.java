@@ -16,7 +16,7 @@ public class ComPageShow extends ComPageShowKey {
 
     private Integer columnSort;
 
-    private Integer columnWith;
+    private Integer columnWidth;
 
     private String columnType;
 
@@ -132,12 +132,12 @@ public class ComPageShow extends ComPageShowKey {
         this.columnSort = columnSort;
     }
 
-    public Integer getColumnWith() {
-        return columnWith;
+    public Integer getColumnWidth() {
+        return columnWidth;
     }
 
-    public void setColumnWith(Integer columnWith) {
-        this.columnWith = columnWith;
+    public void setColumnWidth(Integer columnWidth) {
+        this.columnWidth = columnWidth;
     }
 
     public String getColumnType() {

@@ -1,7 +1,6 @@
 package com.aps.monitor.dao;
 
 import java.util.List;
-
 import com.aps.monitor.model.HbType;
 
 public interface HbTypeMapper {

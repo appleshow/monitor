@@ -28,7 +28,7 @@
 		<result column="ISHIFT" property="ishift" jdbcType="VARCHAR"/>
 		<result column="IGROUP" property="igroup" jdbcType="VARCHAR"/>
 		<result column="IPERSON" property="iperson" jdbcType="INTEGER"/>
-		<result column="UTIME" property="utime" jdbcType="DATE"/>
+		<result column="UTIME" property="utime" jdbcType="TIMESTAMP"/>
 		<result column="USHIFT" property="ushift" jdbcType="VARCHAR"/>
 		<result column="UGROUP" property="ugroup" jdbcType="VARCHAR"/>
 		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
@@ -67,7 +67,7 @@
 		#{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR}, #{property10,jdbcType=DECIMAL},
 		#{property11,jdbcType=DECIMAL}, #{property12,jdbcType=DECIMAL}, #{property13,jdbcType=DECIMAL},
 		#{property14,jdbcType=DECIMAL}, #{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP},
-		#{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=DATE},
+		#{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP},
 		#{ushift,jdbcType=VARCHAR}, #{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbType">
@@ -189,7 +189,7 @@
 			</if>
 			<if test="iperson != null"> #{iperson,jdbcType=INTEGER},
 			</if>
-			<if test="utime != null"> #{utime,jdbcType=DATE},
+			<if test="utime != null"> #{utime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="ushift != null"> #{ushift,jdbcType=VARCHAR},
 			</if>
@@ -254,7 +254,7 @@
 			</if>
 			<if test="iperson != null"> IPERSON = #{iperson,jdbcType=INTEGER},
 			</if>
-			<if test="utime != null"> UTIME = #{utime,jdbcType=DATE},
+			<if test="utime != null"> UTIME = #{utime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="ushift != null"> USHIFT = #{ushift,jdbcType=VARCHAR},
 			</if>
@@ -277,7 +277,7 @@
 		#{property12,jdbcType=DECIMAL}, PROPERTY13 = #{property13,jdbcType=DECIMAL}, PROPERTY14 =
 		#{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP = #{prexp,jdbcType=VARCHAR}, ITIME =
 		#{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP = #{igroup,jdbcType=VARCHAR}, IPERSON =
-		#{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=DATE}, USHIFT = #{ushift,jdbcType=VARCHAR}, UGROUP =
+		#{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT = #{ushift,jdbcType=VARCHAR}, UGROUP =
 		#{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM = #{ufrom,jdbcType=VARCHAR} where TYPE_ID =
 		#{typeId,jdbcType=INTEGER}
 	</update>

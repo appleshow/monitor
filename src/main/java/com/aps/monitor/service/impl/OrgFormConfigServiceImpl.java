@@ -252,8 +252,8 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comOrgForm = (ComOrgForm) JsonUtil.readValueAsObject(rowData, ComOrgForm.class);
 				if (null != comOrgForm) {
@@ -315,8 +315,8 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comOrgFormRights = (ComOrgFormRights) JsonUtil.readValueAsObject(rowData, ComOrgFormRights.class);
 				if (null != comOrgFormRights) {

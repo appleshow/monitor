@@ -78,8 +78,8 @@ public class MainViewServiceImpl implements IMainViewService {
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 			ComPerson person = comPersonMapper.selectByPrimaryKey((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
-			String pswo = requestMdyPar.getInpar().get(0).get("pswo");
-			String pswn = requestMdyPar.getInpar().get(0).get("pswn");
+			String pswo = requestMdyPar.getInPar().get(0).get("pswo");
+			String pswn = requestMdyPar.getInPar().get(0).get("pswn");
 
 			if (null == person) {
 				responseData.setCode(-100);

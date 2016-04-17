@@ -230,49 +230,49 @@ comDataGrid.prototype.doRefer = function() {
 			var icnt, parcnt;
 
 			inf = {
-				parcnt : 0,
-				inpar : {}
+				parCount : 0,
+				inPar : {}
 			};
 			parcnt = 0;
 			for (icnt = 0; icnt < this.dbinf.query.inpar.length; icnt++) {
 				if (this.dbinf.query.inpar[icnt].type == "text") {
 					if (this.dbinf.query.inpar[icnt].crtl.value != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.value;
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.value;
 					}
 				} else if (this.dbinf.query.inpar[icnt].type == "jtext") {
 					if (this.dbinf.query.inpar[icnt].crtl.textbox('getValue') != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.textbox('getValue');
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.textbox('getValue');
 					}
 				} else if (this.dbinf.query.inpar[icnt].type == "jcomb") {
 					if (this.dbinf.query.inpar[icnt].crtl.combobox('getValue') != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.combobox('getValue');
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.combobox('getValue');
 					}
 				} else if (this.dbinf.query.inpar[icnt].type == "jdate") {
 					if (this.dbinf.query.inpar[icnt].crtl.datetimebox('getValue') != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.datetimebox('getValue');
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.datetimebox('getValue');
 					}
 				} else if (this.dbinf.query.inpar[icnt].type == "jnum") {
 					if (this.dbinf.query.inpar[icnt].crtl.numberbox('getValue') != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.numberbox('getValue');
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].crtl.numberbox('getValue');
 					}
 				} else if (this.dbinf.query.inpar[icnt].type == "real") {
 					if (this.dbinf.query.inpar[icnt].value != "") {
 						parcnt++;
-						inf.inpar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].value;
+						inf.inPar[this.dbinf.query.inpar[icnt].name] = this.dbinf.query.inpar[icnt].value;
 					}
 				} else {
 
 				}
 			}
-			inf.parcnt = parcnt;
+			inf.parCount = parcnt;
 		} else {
 			inf = {
-				parcnt : 0
+				parCount : 0
 			};
 		}
 
@@ -304,8 +304,8 @@ comDataGrid.prototype.doModify = function(unref) {
 
 		url = this.dbinf.modify.url;
 		inf = {
-			parcnt : 0,
-			inpar : []
+			parCount : 0,
+			inPar : []
 		};
 
 		// 生成参数
@@ -383,12 +383,12 @@ comDataGrid.prototype.doModify = function(unref) {
 							parrow[colinf[icol].field] = cellval;
 						}
 					}
-					inf.inpar.push(parrow);
+					inf.inPar.push(parrow);
 				}
 			}
 		});
 
-		inf.parcnt = ipar;
+		inf.parCount = ipar;
 		this.imodify = ipar;
 
 		tr = null;

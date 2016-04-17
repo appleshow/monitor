@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class RequestRefPar {
 
-	private int parcnt;
-	private Map<String, String> inpar;
+	private int parCount;
+	private Map<String, String> inPar;
 
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class RequestRefPar {
 	 * @since 1.0.0
 	 */
 	public boolean hasPar() {
-		return parcnt > 0 ? true : false;
+		return parCount > 0 ? true : false;
 	}
 
 	/**
@@ -32,8 +32,8 @@ public class RequestRefPar {
 	 */
 	public String getStringPar(String name) {
 		if (hasPar()) {
-			if (inpar.containsKey(name)) {
-				return inpar.get(name);
+			if (inPar.containsKey(name)) {
+				return inPar.get(name);
 			} else {
 				return null;
 			}
@@ -54,9 +54,9 @@ public class RequestRefPar {
 	 */
 	public Integer getIntegerPar(String name) {
 		if (hasPar()) {
-			if (inpar.containsKey(name)) {
+			if (inPar.containsKey(name)) {
 				try {
-					int par = Integer.parseInt(inpar.get(name));
+					int par = Integer.parseInt(inPar.get(name));
 
 					return par;
 				} catch (Exception e) {
@@ -82,9 +82,9 @@ public class RequestRefPar {
 	 */
 	public Float getFloatPar(String name) {
 		if (hasPar()) {
-			if (inpar.containsKey(name)) {
+			if (inPar.containsKey(name)) {
 				try {
-					float par = Float.parseFloat(inpar.get(name));
+					float par = Float.parseFloat(inPar.get(name));
 
 					return par;
 				} catch (Exception e) {
@@ -110,9 +110,9 @@ public class RequestRefPar {
 	 */
 	public Double getDoublePar(String name) {
 		if (hasPar()) {
-			if (inpar.containsKey(name)) {
+			if (inPar.containsKey(name)) {
 				try {
-					double par = Double.parseDouble(inpar.get(name));
+					double par = Double.parseDouble(inPar.get(name));
 
 					return par;
 				} catch (Exception e) {
@@ -127,45 +127,45 @@ public class RequestRefPar {
 	}
 
 	/**
-	 * @Title: getParcnt
+	 * @Title: getParCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getParcnt() {
-		return parcnt;
+	public int getParCount() {
+		return parCount;
 	}
 
 	/**
-	 * @Title: setParcnt
+	 * @Title: setParCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setParcnt(int parcnt) {
-		this.parcnt = parcnt;
+	public void setParCount(int parCount) {
+		this.parCount = parCount;
 	}
 
 	/**
-	 * @Title: getInpar
+	 * @Title: getInPar
 	 * @Description:
 	 * @return: Map<String,String>
 	 * @since 1.0.0
 	 */
 
-	public Map<String, String> getInpar() {
-		return inpar;
+	public Map<String, String> getInPar() {
+		return inPar;
 	}
 
 	/**
-	 * @Title: setInpar
+	 * @Title: setInPar
 	 * @Description:
 	 * @return: Map<String,String>
 	 * @since 1.0.0
 	 */
-	public void setInpar(Map<String, String> inpar) {
-		this.inpar = inpar;
+	public void setInPar(Map<String, String> inPar) {
+		this.inPar = inPar;
 	}
 
 }

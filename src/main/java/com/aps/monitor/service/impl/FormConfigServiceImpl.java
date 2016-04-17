@@ -99,8 +99,8 @@ public class FormConfigServiceImpl implements IFormConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comForm = (ComForm) JsonUtil.readValueAsObject(rowData, ComForm.class);
 				if (null != comForm) {
@@ -201,8 +201,8 @@ public class FormConfigServiceImpl implements IFormConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comFormRight = (ComFormRights) JsonUtil.readValueAsObject(rowData, ComFormRights.class);
 				if (null != comFormRight) {

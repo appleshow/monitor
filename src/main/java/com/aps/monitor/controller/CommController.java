@@ -29,9 +29,9 @@ public class CommController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/comm.referPPageShow", method = RequestMethod.POST)
+	@RequestMapping(value = "/comm.referPageShow", method = RequestMethod.POST)
 	@ResponseBody
-	public String referPPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		commService.referComPageShowByCondition(httpSession, inPar, responseData);

@@ -368,8 +368,8 @@ function menuDel() {
 			if (bok) {
 				var url = "menuConfig.modifyMenu";
 				var inf = {
-					parcnt : 1,
-					inpar : [ {
+					parCount : 1,
+					inPar : [ {
 						_type : modifytype,
 						menuId : menuid
 					} ]
@@ -442,8 +442,8 @@ function modifyOK() {
 
 		if (modifytype == "U" || modifytype == "D") {
 			inf = {
-				parcnt : 1,
-				inpar : [ {
+				parCount : 1,
+				inPar : [ {
 					_type : modifytype,
 					menuId : menuid,
 					menuName : menunamen,
@@ -452,8 +452,8 @@ function modifyOK() {
 			};
 		} else {
 			inf = {
-				parcnt : 1,
-				inpar : [ {
+				parCount : 1,
+				inPar : [ {
 					_type : modifytype,
 					farMenuId : menuid,
 					menuName : menunamen,

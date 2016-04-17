@@ -40,10 +40,10 @@ public class CodeConfigServiceImpl implements ICodeConfigService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referCode(HttpSession session, String inpar, ResponseData responseData) {
+	public void referCode(HttpSession httpSession, String inPar, ResponseData responseData) {
 		ComCode comCode = new ComCode();
 		List<?> comCodes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inpar);
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		try {
 			comCode.setCodeType(requestRefPar.getStringPar("codeType"));
@@ -84,8 +84,8 @@ public class CodeConfigServiceImpl implements ICodeConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inpar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comCode = (ComCode) JsonUtil.readValueAsObject(rowData, ComCode.class);
 				if (null != comCode) {

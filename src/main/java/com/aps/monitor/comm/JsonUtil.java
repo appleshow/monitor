@@ -124,17 +124,17 @@ public class JsonUtil {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	public static RequestRefPar readRequestRefPar(String inpar) {
+	public static RequestRefPar readRequestRefPar(String inPar) {
 		RequestRefPar requestRefPar = new RequestRefPar();
 
-		requestRefPar.setParcnt(0);
+		requestRefPar.setParCount(0);
 		try {
-			requestRefPar = jsonMapper.readValue(inpar, RequestRefPar.class);
+			requestRefPar = jsonMapper.readValue(inPar, RequestRefPar.class);
 		} catch (IOException e) {
 		}
 
 		System.out.println("--------------------------INPAR----------------------------------------");
-		System.out.println(inpar);
+		System.out.println(inPar);
 		System.out.println("--------------------------INPAR----------------------------------------");
 
 		return requestRefPar;
@@ -153,7 +153,7 @@ public class JsonUtil {
 	public static RequestMdyPar readRequestMdyPar(String inpar) {
 		RequestMdyPar requestMdyPar = new RequestMdyPar();
 
-		requestMdyPar.setParcnt(0);
+		requestMdyPar.setParCount(0);
 		try {
 			requestMdyPar = jsonMapper.readValue(inpar, RequestMdyPar.class);
 		} catch (IOException e) {

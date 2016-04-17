@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 public class RequestMdyPar {
-	private int parcnt;
-	private List<Map<String, String>> inpar;
+	private int parCount;
+	private List<Map<String, String>> inPar;
 
 	/**
 	 * 
@@ -53,45 +53,45 @@ public class RequestMdyPar {
 	}
 
 	/**
-	 * @Title: getParcnt
+	 * @Title: getParCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
 
-	public int getParcnt() {
-		return parcnt;
+	public int getParCount() {
+		return parCount;
 	}
 
 	/**
-	 * @Title: setParcnt
+	 * @Title: setParCount
 	 * @Description:
 	 * @return: int
 	 * @since 1.0.0
 	 */
-	public void setParcnt(int parcnt) {
-		this.parcnt = parcnt;
+	public void setParCount(int parCount) {
+		this.parCount = parCount;
 	}
 
 	/**
-	 * @Title: getInpar
+	 * @Title: getInPar
 	 * @Description:
 	 * @return: List<Map<String,String>>
 	 * @since 1.0.0
 	 */
 
-	public List<Map<String, String>> getInpar() {
-		return inpar;
+	public List<Map<String, String>> getInPar() {
+		return inPar;
 	}
 
 	/**
-	 * @Title: setInpar
+	 * @Title: setInPar
 	 * @Description:
 	 * @return: List<Map<String,String>>
 	 * @since 1.0.0
 	 */
-	public void setInpar(List<Map<String, String>> inpar) {
-		this.inpar = inpar;
+	public void setInPar(List<Map<String, String>> inPar) {
+		this.inPar = inPar;
 	}
 
 }

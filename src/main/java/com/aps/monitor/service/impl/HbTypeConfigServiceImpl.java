@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
+import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HbTypeMapper;
 import com.aps.monitor.model.HbType;
 import com.aps.monitor.service.IHbTypeConfigService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /***
  * 
@@ -50,11 +53,16 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 	@Override
 	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
 		HbType hbType = new HbType();
-		List<?> hbTypes;
+		List<HbType> hbTypes;
+		PageInfo<HbType> pageInfo;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		try {
+			PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
 			hbTypes = hbTypeMapper.selectByCondition(hbType);
+			pageInfo = new PageInfo<HbType>(hbTypes);
 
+			responseData.setTotalCount(pageInfo.getTotal());
 			responseData.setData(hbTypes);
 		} catch (Exception e) {
 			responseData.setData(e);
@@ -87,8 +95,8 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				hbType = (HbType) JsonUtil.readValueAsObject(rowData, HbType.class);
 				if (null != hbType) {

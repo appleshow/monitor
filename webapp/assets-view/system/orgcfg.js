@@ -125,8 +125,8 @@ function orgDel() {
 			if (bok) {
 				var url = "orgConfig.modifyOrg";
 				var inf = {
-					parcnt : 1,
-					inpar : [ {
+					parCount : 1,
+					inPar : [ {
 						_type : modifytype,
 						orgId : orgid
 					} ]
@@ -184,8 +184,8 @@ function modifyOK() {
 
 		if (modifytype == "U" || modifytype == "D") {
 			inf = {
-				parcnt : 1,
-				inpar : [ {
+				parCount : 1,
+				inPar : [ {
 					_type : modifytype,
 					orgId : orgid,
 					orgName : orgnamen,
@@ -194,8 +194,8 @@ function modifyOK() {
 			};
 		} else {
 			inf = {
-				parcnt : 1,
-				inpar : [ {
+				parCount : 1,
+				inPar : [ {
 					_type : modifytype,
 					farOrgId : orgid,
 					orgName : orgnamen,

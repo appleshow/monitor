@@ -118,8 +118,8 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comPerson = (ComPerson) JsonUtil.readValueAsObject(rowData, ComPerson.class);
 				if (null != comPerson) {

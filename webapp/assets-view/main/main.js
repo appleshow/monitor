@@ -597,8 +597,8 @@ function saveSetting() {
 
 	var url = "main.updatePersonPSW";
 	var inf = {
-		parcnt : 1,
-		inpar : [ {
+		parCount : 1,
+		inPar : [ {
 			pswo : $.md5($("#pwo").val()),
 			pswn : $("#pwn1").val()
 		} ]

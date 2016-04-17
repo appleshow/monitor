@@ -16,6 +16,16 @@
 <!--  -->
 <link rel="stylesheet" href="./assets/css/beyond.min.css">
 <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+<style type="text/css">
+.table>tbody>tr>td, .table>tbody>tr>th {
+	padding: 4px;
+}
+
+.table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th,
+	.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+	border: 1px solid black;
+}
+</style>
 </head>
 <body>
      <div class="row">
@@ -71,7 +81,7 @@
      <script src="./dataTables/Editor-1.5.5/js/dataTables.editor.min.js"></script>
      <script src="./dataTables/Editor-1.5.5/js/editor.bootstrap.min.js"></script>
      <!--  -->
-     <!-- Print Need -->
+     <!-- Print Script -->
      <script src="./dataTables/JSZip-2.5.0/jszip.min.js"></script>
      <script src="./dataTables/pdfmake-0.1.18/build/pdfmake.min.js"></script>
      <script src="./dataTables/pdfmake-0.1.18/build/vfs_fonts.js"></script>
@@ -83,7 +93,7 @@
      <script src="./assets-view/hb/hbtypecfg.js"></script>
      <script type="text/javascript">
 						jQuery(document).ready(function() {
-							pageIni();
+							iniPage();
 						});
 					</script>
 </body>

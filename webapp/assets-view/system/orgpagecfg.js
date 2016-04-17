@@ -77,8 +77,8 @@ function pageIni() {
 				var orgname = node.text;
 				var url = "orgFormConfig.referOrgForm";
 				var inf = {
-					parcnt : 1,
-					inpar : {
+					parCount : 1,
+					inPar : {
 						orgId : nodeid
 					}
 				};
@@ -189,8 +189,8 @@ function pageIni() {
 					// 查询窗体权限信息
 					var url = "orgFormConfig.referFormRights";
 					var inf = {
-						parcnt : 1,
-						inpar : {
+						parCount : 1,
+						inPar : {
 							formId : formid
 						}
 					};
@@ -344,8 +344,8 @@ function pageIni() {
 					// 查询窗体权限信息
 					var url = "orgFormConfig.referFormRights";
 					var inf = {
-						parcnt : 1,
-						inpar : {
+						parCount : 1,
+						inPar : {
 							formId : formid
 						}
 					};
@@ -483,8 +483,8 @@ function pageIni() {
 				// 查询构窗组织架体信息
 				var url = "orgFormConfig.referOrgForm";
 				var inf = {
-					parcnt : 1,
-					inpar : {
+					parCount : 1,
+					inPar : {
 						formId : formid
 					}
 				};
@@ -621,8 +621,8 @@ function pageIni() {
 				// ******
 				var url = "orgFormConfig.referOrgFormRights";
 				var inf = {
-					parcnt : 1,
-					inpar : {
+					parCount : 1,
+					inPar : {
 						formId : row.formId,
 						orgId : row.orgId
 					}
@@ -851,8 +851,8 @@ function pageIni() {
 				// ***
 				var url = "orgFormConfig.referOrgFormRights";
 				var inf = {
-					parcnt : 1,
-					inpar : {
+					parCount : 1,
+					inPar : {
 						formId : row.formId,
 						orgId : row.orgId
 					}

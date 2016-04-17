@@ -85,8 +85,8 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 
 		try {
 			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParcnt(); row++) {
-				rowData = requestMdyPar.getInpar().get(row);
+			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+				rowData = requestMdyPar.getInPar().get(row);
 				type = requestMdyPar.getType(rowData);
 				comMenu = (ComMenu) JsonUtil.readValueAsObject(rowData, ComMenu.class);
 				if (null != comMenu) {
