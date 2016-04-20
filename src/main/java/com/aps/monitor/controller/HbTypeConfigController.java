@@ -27,7 +27,7 @@ import com.aps.monitor.service.IHbTypeConfigService;
 public class HbTypeConfigController {
 	@Resource(name = "hbTypeConfigServiceImpl")
 	private IHbTypeConfigService hbTypeConfigService;
-	private final int formId = 9;
+	private final int formId = 10;
 
 	/**
 	 * 

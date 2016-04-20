@@ -1,4 +1,4 @@
-﻿var tableType = {
+﻿var tablePageShow = {
 	editor : function() {
 	},
 	table : function() {
@@ -14,14 +14,14 @@ jQuery(document).ready(function() {
 function iniPage() {
 	setTableHtmlColumn();
 	iniEditorType();
-	iniTableType();
+	initablePageShow();
 }
 
 function iniEditorType() {
 	// Initialized Editor
-	tableType.editor = new $.fn.dataTable.Editor({
-		table : "#table-type",
-		fields : getEditorFields(tableType.info),
+	tablePageShow.editor = new $.fn.dataTable.Editor({
+		table : "#table-pageshow",
+		fields : getEditorFields(tablePageShow.info),
 		i18n : {
 			create : {
 				button : '<i class="glyphicon glyphicon-plus green"></i> 新增',
@@ -66,7 +66,7 @@ function iniEditorType() {
 			} else if (rows.action === "remove") {
 				type = "D";
 			} else {
-				tableType.editor.i18n.error.system = "操作失败，未知的处理类型！";
+				tablePageShow.editor.i18n.error.system = "操作失败，未知的处理类型！";
 				callError();
 				return;
 			}
@@ -80,32 +80,32 @@ function iniEditorType() {
 			$.ajax({
 				async : false,
 				type : "POST",
-				url : "hbTypeConfig.modifyHbType",
+				url : "pageShow.modifyPageShow",
 				cache : false,
 				data : "inf=" + JSON.stringify(inf),
 				dataType : "json",
 				success : function(res) {
 					if (res.code != 0) {
-						tableType.editor.i18n.error.system = res.message;
+						tablePageShow.editor.i18n.error.system = res.message;
 						callError();
 					} else {
-						callSuccess(tableType.data);
+						callSuccess(tablePageShow.data);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					tableType.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
+					tablePageShow.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
 					callError();
 				}
 			});
 		}
 	});
 
-	tableType.editor.on('initCreate', function() {
+	tablePageShow.editor.on('initCreate', function() {
 		// Enable order for create
-		$.each(tableType.editor.fields(), function(index, value) {
-			var field = tableType.editor.field(value);
+		$.each(tablePageShow.editor.fields(), function(index, value) {
+			var field = tablePageShow.editor.field(value);
 
-			if (tableType.info[value].edit == 1) {
+			if (tablePageShow.info[value].edit == 1) {
 				field.enable();
 			} else {
 				field.disable();
@@ -113,19 +113,19 @@ function iniEditorType() {
 		});
 	}).on('initEdit', function() {
 		// Disable for edit
-		$.each(tableType.editor.fields(), function(index, value) {
-			var field = tableType.editor.field(value);
+		$.each(tablePageShow.editor.fields(), function(index, value) {
+			var field = tablePageShow.editor.field(value);
 
-			if (tableType.info[value].edit == 1 && tableType.info[value].primary == 0) {
+			if (tablePageShow.info[value].edit == 1 && tablePageShow.info[value].primary == 0) {
 				field.enable();
 			} else {
 				field.disable();
 			}
 		});
 	}).on('preSubmit', function() {
-		for ( var columId in tableType.info) {
-			if (tableType.info[columId].update === 1 && this.val(columId) === "") {
-				this.error("操作失败，请录入项目：<strong>" + tableType.info[columId].name + "</strong>");
+		for ( var columId in tablePageShow.info) {
+			if (tablePageShow.info[columId].update === 1 && this.val(columId) === "") {
+				this.error("操作失败，请录入项目：<strong>" + tablePageShow.info[columId].name + "</strong>");
 				return false;
 			}
 		}
@@ -134,9 +134,9 @@ function iniEditorType() {
 	});
 }
 
-function iniTableType() {
+function initablePageShow() {
 	// Initialized DataTable
-	tableType.table = $('#table-type').DataTable({
+	tablePageShow.table = $('#table-pageshow').DataTable({
 		dom : "<'row'<'col-sm-10'B><'col-sm-2'l>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-3'i><'col-sm-9'p>>",
 		language : {
 			loadingRecords : "加载中...",
@@ -159,21 +159,21 @@ function iniTableType() {
 		serverSide : true,
 		scrollY : '80vh',
 		scrollCollapse : true,
-		columns : getTableColumns(tableType.info),
+		columns : getTableColumns(tablePageShow.info),
 		buttons : [ {
 			text : '<i class="glyphicon glyphicon-search blueberry"></i> 查询',
 			action : function(e, dt, node, config) {
-				tableType.table.ajax.reload(null, false);
+				tablePageShow.table.ajax.reload(null, false);
 			}
 		}, {
 			extend : "create",
-			editor : tableType.editor
+			editor : tablePageShow.editor
 		}, {
 			extend : "edit",
-			editor : tableType.editor
+			editor : tablePageShow.editor
 		}, {
 			extend : "remove",
-			editor : tableType.editor
+			editor : tablePageShow.editor
 		}, {
 			extend : 'collection',
 			text : '<i class="glyphicon glyphicon-download-alt"></i> 导出',
@@ -199,6 +199,7 @@ function iniTableType() {
 			var inf = {
 				parCount : 2,
 				inPar : {
+					pageId : $("#pageId").val(),
 					pageNumber : displayLength == -1 ? 0 : parseInt(displayStart / displayLength) + 1,
 					pageSize : displayLength == -1 ? 0 : displayLength
 				}
@@ -207,7 +208,7 @@ function iniTableType() {
 			$.ajax({
 				async : false,
 				type : "POST",
-				url : "hbTypeConfig.referHbType",
+				url : "pageShow.referPageShow",
 				cache : false,
 				data : "inf=" + JSON.stringify(inf),
 				dataType : "json",
@@ -231,8 +232,8 @@ function iniTableType() {
 						$.each(res.data, function(index, valueRow) {
 							var DT_RowId = "";
 
-							for ( var columnId in tableType.info) {
-								if (tableType.info[columnId].primary === 1) {
+							for ( var columnId in tablePageShow.info) {
+								if (tablePageShow.info[columnId].primary === 1) {
 									DT_RowId += "_" + valueRow[columnId];
 								}
 							}
@@ -242,7 +243,7 @@ function iniTableType() {
 						});
 					}
 
-					tableType.data = tableData;
+					tablePageShow.data = tableData;
 					callback(tableData);
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -269,7 +270,7 @@ function setTableHtmlColumn() {
 	var inf = {
 		parCount : 1,
 		inPar : {
-			pageId : 10
+			pageId : 9
 		}
 	};
 
@@ -302,7 +303,7 @@ function setTableHtmlColumn() {
 					columnInfo.hide = value.columnHide === undefined ? 0 : value.columnHide;
 					columnInfo.width = value.columnWidth === undefined ? 0 : value.columnWidth;
 
-					tableType.info[value.columnId] = columnInfo;
+					tablePageShow.info[value.columnId] = columnInfo;
 
 					for (var len = 1; len <= value.columnWidth; len++) {
 						addWidth += "&nbsp;"
@@ -310,7 +311,7 @@ function setTableHtmlColumn() {
 					innerHtml += "<th>" + value.columnName + addWidth + "</th>";
 				});
 
-				$("#table-type-columns").html(innerHtml);
+				$("#table-pageshow-columns").html(innerHtml);
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -335,6 +336,19 @@ function getTableColumns(columnInfo) {
 		}
 		column.sortable = false;
 		column.defaultContent = "";
+		if (columnInfo[columnId].type === "checkbox") {
+			column.render = function(data, type, row) {
+				if (type === 'display') {
+					if (data === 1) {
+						return '√';
+					} else {
+						return '✖';
+					}
+				}
+				return data;
+			};
+			column.className = "text-center"
+		}
 
 		tableColumns.push(column);
 	}
@@ -356,6 +370,13 @@ function getEditorFields(columnInfo) {
 			}
 			field.name = columnId;
 			field.type = columnInfo[columnId].type;
+			if (field.type === "checkbox") {
+				field.separator = "|";
+				field.options = [ {
+					label : '',
+					value : 1
+				} ]
+			}
 
 			editorFiels.push(field);
 		}
