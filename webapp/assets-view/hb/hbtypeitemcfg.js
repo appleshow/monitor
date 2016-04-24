@@ -1,6 +1,11 @@
 ﻿var tableTypeItem, CombTypeData = [];
 
 jQuery(document).ready(function() {
+	$("#typeId").select2({
+		placeholder : "选择一个类型",
+		allowClear : true,
+		language : "zh-CN"
+	});
 	getHbTypeComb();
 	tableTypeItem = new CommDataTables("#table-typeitem", "#table-typeitem-columns", 11, callError);
 	tableTypeItem.serverInfo.referUrl = "hbTypeItemConfig.referHbTypeItem";
@@ -42,6 +47,13 @@ function getHbTypeComb() {
 				callError(res.code, res.message);
 			} else {
 				CombTypeData = res.data;
+
+				var html = "";
+				$.each(res.data, function(index, value) {
+					html += "<option value='" + value.typeId + "'>" + value.typeName + "</option>";
+				});
+
+				$("#typeId").append(html);
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {

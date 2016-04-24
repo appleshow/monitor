@@ -115,11 +115,13 @@
 		parameterType="com.aps.monitor.model.ComForm">
 		select
 		FORM_ID,
-		FORM_NAME
+		FORM_NAME,
+		PRGROUP
 		from
 		com_form
 		order
 		by
+		prgroup,
 		form_id
 	
 	</select>

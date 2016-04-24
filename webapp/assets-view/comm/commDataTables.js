@@ -172,7 +172,8 @@ function DataTablesFields(columnInfo) {
 			field.name = columnId;
 			field.type = columnInfo[columnId].type;
 			if (field.type === "checkbox") {
-				field.separator = "|";
+				field.def = "0";
+				field.separator = " ";
 				field.options = [ {
 					label : '',
 					value : 1
@@ -268,6 +269,11 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				}
 
 				for ( var primaryValue in rows.data) {
+					for ( var item in rows.data[primaryValue]) {
+						if (table.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
+							rows.data[primaryValue][item] = 0;
+						}
+					}
 					rows.data[primaryValue]["_type"] = type;
 					inPars.push(rows.data[primaryValue]);
 					parCount++;

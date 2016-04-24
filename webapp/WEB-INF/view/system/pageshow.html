@@ -17,14 +17,30 @@
 <link rel="stylesheet" href="./dataTables/Select-1.1.2/css/select.bootstrap.min.css">
 <link rel="stylesheet" href="./dataTables/Editor-1.5.5/css/editor.bootstrap.min.css">
 <!--  -->
+<link rel="stylesheet" href="./assets-view/comm/select2-4.0.2/css/select2.min.css" />
 <style type="text/css">
 .table>tbody>tr>td, .table>tbody>tr>th {
-	padding: 4px;
+	padding: 3px;
 }
 
 .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th,
 	.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
 	border: 1px solid black;
+}
+
+.select2-container .select2-selection--single {
+	height: 34px !important;
+	line-height: 34px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+	line-height: 34px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+	{
+	height: 34px;
 }
 </style>
 </head>
@@ -38,8 +54,11 @@
                                    <div class="form-group" style="margin-bottom: 6px;">
                                         <div class="controls">
                                              <div class="input-group">
-                                                  <span class="input-group-addon" style="width: 60px;">界面代码</span>
-                                                  <input type="text" class="form-control" style="width: 200px;" id="pageId" />
+                                                  <span class="input-group-btn">
+                                                       <button class="btn btn-default" type="button">界面代码</button>
+                                                  </span> <select class="form-control" style="width: 200px;" id="pageId">
+                                                       <option></option>
+                                                  </select>
                                              </div>
                                         </div>
                                    </div>
@@ -111,6 +130,8 @@
      <script src="./dataTables/Buttons-1.1.2/js/buttons.html5.min.js"></script>
      <script src="./dataTables/Buttons-1.1.2/js/buttons.print.min.js"></script>
      <!--  -->
+     <script src="./assets-view/comm/select2-4.0.2/js/select2.full.min.js"></script>
+     <script src="./assets-view/comm/select2-4.0.2/js/i18n/zh-CN.js"></script>
      <script src="./assets-view/comm/commDataTables.js"></script>
      <script src="./assets-view/system/pageshow.js"></script>
 </body>
