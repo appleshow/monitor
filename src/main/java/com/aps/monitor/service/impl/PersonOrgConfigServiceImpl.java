@@ -60,13 +60,8 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 		ComPerson comPerson = new ComPerson();
 		List<ComPerson> comPersons;
 
-		try {
-			comPersons = comPersonMapper.selectByCondition(comPerson);
-			responseData.setData(comPersons);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comPersons = comPersonMapper.selectByCondition(comPerson);
+		responseData.setData(comPersons);
 	}
 
 	/**
@@ -89,13 +84,8 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
-		try {
-			comOrgs = comOrgMapper.selectByCondition(comOrg);
-			responseData.setData(comOrgs);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comOrgs = comOrgMapper.selectByCondition(comOrg);
+		responseData.setData(comOrgs);
 	}
 
 	/**
@@ -119,15 +109,10 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 		List<ComPersonOrg> comPersonOrgs;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comPerson.setUserId(requestRefPar.getStringPar("userId"));
-			comPerson.setUserName(requestRefPar.getStringPar("userName"));
-			comPersonOrgs = comPeronOrgMapper.selectByCondition(comPerson);
-			responseData.setData(comPersonOrgs);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comPerson.setUserId(requestRefPar.getStringPar("userId"));
+		comPerson.setUserName(requestRefPar.getStringPar("userName"));
+		comPersonOrgs = comPeronOrgMapper.selectByCondition(comPerson);
+		responseData.setData(comPersonOrgs);
 	}
 
 	/**
@@ -148,48 +133,51 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 	@Override
 	public void modifyPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComPersonOrg comPersonOrg;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comPersonOrg = (ComPersonOrg) JsonUtil.readValueAsObject(rowData, ComPersonOrg.class);
-				if (null != comPersonOrg) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							comPersonOrg.setPrtype("1");
-							comPersonOrg.setItime(now);
-							comPersonOrg.setIperson(personId);
-							comPersonOrg.setUtime(now);
-							comPersonOrg.setUperson(personId);
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			comPersonOrg = (ComPersonOrg) JsonUtil.readValueAsObject(rowData, ComPersonOrg.class);
+			if (null != comPersonOrg) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						comPersonOrg.setPrtype("1");
+						comPersonOrg.setItime(now);
+						comPersonOrg.setIperson(personId);
+						comPersonOrg.setUtime(now);
+						comPersonOrg.setUperson(personId);
 
-							comPeronOrgMapper.insertSelective(comPersonOrg);
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							comPersonOrg.setUtime(now);
-							comPersonOrg.setUperson(personId);
-							comPeronOrgMapper.updateByPrimaryKeySelective(comPersonOrg);
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
-							comPeronOrgMapper.deleteByPrimaryKey(comPersonOrg);
-							break;
-						default:
-							break;
-					}
+						comPeronOrgMapper.insertSelective(comPersonOrg);
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						comPersonOrg.setUtime(now);
+						comPersonOrg.setUperson(personId);
+						comPeronOrgMapper.updateByPrimaryKeySelective(comPersonOrg);
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						comPeronOrgMapper.deleteByPrimaryKey(comPersonOrg);
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
-
 }

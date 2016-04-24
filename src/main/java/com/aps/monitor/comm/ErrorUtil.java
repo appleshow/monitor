@@ -16,7 +16,7 @@ public class ErrorUtil {
 		int code = -800;
 		String message;
 
-		if (null == e.getMessage() || "".equals(e.getMessage())) {
+		if (StringUtil.isNullOrEmpty(e.getMessage())) {
 			message = "未来知异常:" + e.getClass().getName();
 		} else {
 			message = e.getMessage();

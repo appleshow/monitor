@@ -24,7 +24,7 @@ import com.aps.monitor.service.IMainViewService;
  * @since 1.0.0
  */
 @Controller
-public class MainController {
+public class MainController extends BaseController {
 	@Resource(name = "mainViewServiceImpl")
 	private IMainViewService mainViewService;
 

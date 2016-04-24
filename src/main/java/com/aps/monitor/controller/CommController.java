@@ -14,7 +14,7 @@ import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.ICommService;
 
 @Controller
-public class CommController {
+public class CommController extends BaseController {
 	@Resource(name = "commServiceImpl")
 	private ICommService commService;
 

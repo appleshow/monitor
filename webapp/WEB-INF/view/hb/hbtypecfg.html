@@ -10,12 +10,11 @@
 <!--DataTables Styles-->
 <link rel="stylesheet" href="./dataTables/Bootstrap-3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="./dataTables/DataTables-1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="./dataTables/Responsive-2.0.2/css/responsive.bootstrap.css">
 <link rel="stylesheet" href="./dataTables/Buttons-1.1.2/css/buttons.bootstrap.min.css">
 <link rel="stylesheet" href="./dataTables/Select-1.1.2/css/select.bootstrap.min.css">
 <link rel="stylesheet" href="./dataTables/Editor-1.5.5/css/editor.bootstrap.min.css">
 <!--  -->
-<link rel="stylesheet" href="./assets/css/beyond.min.css">
-<link rel="stylesheet" href="./assets/css/font-awesome.min.css">
 <style type="text/css">
 .table>tbody>tr>td, .table>tbody>tr>th {
 	padding: 4px;
@@ -28,11 +27,11 @@
 </style>
 </head>
 <body>
-     <div class="row">
+     <div class="row" style="margin-right: 0px; margin-bottom: 0px;">
           <div class="col-lg-12 col-sm-12 col-xs-12">
                <div class="widget flat radius-bordered">
                     <div class="widget-body">
-                         <table id="table-type" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                         <table id="table-type" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%">
                               <thead>
                                    <tr id="table-type-columns">
                                    </tr>
@@ -42,28 +41,36 @@
                </div>
           </div>
      </div>
-     <div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog">
+     <div class="modal fade" role="dialog" aria-labelledby="msTitle" id="modal-success">
+          <div class="modal-dialog" role="document">
                <div class="modal-content">
                     <div class="modal-header">
-                         <i class="glyphicon glyphicon-check"></i>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-success" id="msTitle"></span>
+                         </h3>
                     </div>
-                    <div class="modal-title" id="msTitle"></div>
-                    <div class="modal-body" id="msMessage"></div>
+                    <div class="modal-body text-center" id="msMessage"></div>
                     <div class="modal-footer">
                          <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
                     </div>
                </div>
           </div>
      </div>
-     <div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog">
+     <div class="modal fade" role="dialog" aria-labelledby="mwTitle" id="modal-warning">
+          <div class="modal-dialog" role="document">
                <div class="modal-content">
                     <div class="modal-header">
-                         <i class="fa fa-warning"></i>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-warning" id="mwTitle"></span>
+                         </h3>
                     </div>
-                    <div class="modal-title" id="mwTitle"></div>
-                    <div class="modal-body" id="mwMessage"></div>
+                    <div class="modal-body text-center" id="mwMessage"></div>
                     <div class="modal-footer">
                          <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
                     </div>
@@ -75,6 +82,8 @@
      <script src="./dataTables/Bootstrap-3.3.6/js/bootstrap.min.js"></script>
      <script src="./dataTables/DataTables-1.10.11/js/jquery.dataTables.min.js "></script>
      <script src="./dataTables/DataTables-1.10.11/js/dataTables.bootstrap.min.js"></script>
+     <script src="./dataTables/Responsive-2.0.2/js/dataTables.responsive.min.js"></script>
+     <script src="./dataTables/Responsive-2.0.2/js/responsive.bootstrap.min.js"></script>
      <script src="./dataTables/Buttons-1.1.2/js/dataTables.buttons.min.js"></script>
      <script src="./dataTables/Buttons-1.1.2/js/buttons.bootstrap.min.js"></script>
      <script src="./dataTables/Select-1.1.2/js/dataTables.select.min.js"></script>
@@ -88,8 +97,7 @@
      <script src="./dataTables/Buttons-1.1.2/js/buttons.html5.min.js"></script>
      <script src="./dataTables/Buttons-1.1.2/js/buttons.print.min.js"></script>
      <!--  -->
-     <script src="./assets/js/beyond.js"></script>
-     <script src="./assets/js/bootbox/bootbox.js"></script>
+     <script src="./assets-view/comm/commDataTables.js"></script>
      <script src="./assets-view/hb/hbtypecfg.js"></script>
 </body>
 </html>

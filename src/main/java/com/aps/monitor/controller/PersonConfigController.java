@@ -25,7 +25,7 @@ import com.aps.monitor.service.IPersonConfigService;
  * @since 1.0.0
  */
 @Controller
-public class PersonConfigController {
+public class PersonConfigController extends BaseController {
 	@Resource(name = "personConfigServiceImpl")
 	private IPersonConfigService personConfigService;
 	private final int formId = 3;

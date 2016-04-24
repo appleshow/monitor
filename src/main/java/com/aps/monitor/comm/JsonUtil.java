@@ -73,9 +73,9 @@ public class JsonUtil {
 			jsonString = ErrorUtil.nomarlException(e);
 		}
 
-		System.out.println("--------------------------REF----------------------------------------");
+		System.out.println("--------------------------RESPONSE----------------------------------------");
 		System.out.println(jsonString);
-		System.out.println("--------------------------REF----------------------------------------");
+		System.out.println("--------------------------RESPONSE----------------------------------------");
 
 		return jsonString;
 	}
@@ -88,6 +88,7 @@ public class JsonUtil {
 	 * @param: @param object
 	 * @param: @return
 	 * @return: Object
+	 * @throws JsonProcessingException
 	 * @throws
 	 * @since 1.0.0
 	 */
@@ -97,7 +98,7 @@ public class JsonUtil {
 
 		try {
 			jsonData = jsonMapper.writeValueAsString(data);
-		} catch (JsonProcessingException e) {
+		} catch (JsonProcessingException e1) {
 			jsonData = null;
 		}
 
@@ -184,7 +185,7 @@ public class JsonUtil {
 		} catch (IllegalArgumentException e) {
 			return null;
 		}
-		
+
 		return arrayNode;
 	}
 }

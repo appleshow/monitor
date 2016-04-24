@@ -48,16 +48,11 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 		List<ComMenu> comMenus;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comMenu.setFarMenuId(requestRefPar.getIntegerPar("farMenuId"));
-			comMenu.setMenuName(requestRefPar.getStringPar("menuName"));
-			comMenus = comMenuMapper.selectByCondition(comMenu);
+		comMenu.setFarMenuId(requestRefPar.getIntegerPar("farMenuId"));
+		comMenu.setMenuName(requestRefPar.getStringPar("menuName"));
+		comMenus = comMenuMapper.selectByCondition(comMenu);
 
-			responseData.setData(comMenus);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		responseData.setData(comMenus);
 	}
 
 	/**
@@ -78,43 +73,47 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 	@Override
 	public void modifyMenu(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComMenu comMenu;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comMenu = (ComMenu) JsonUtil.readValueAsObject(rowData, ComMenu.class);
-				if (null != comMenu) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							comMenu.setItime(now);
-							comMenu.setIperson(personId);
-							comMenu.setUtime(now);
-							comMenu.setUperson(personId);
-							comMenuMapper.insertSelective(comMenu);
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							comMenuMapper.updateByPrimaryKeySelective(comMenu);
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
-							comMenuMapper.deleteByPrimaryKey(comMenu.getMenuId());
-							break;
-						default:
-							break;
-					}
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			comMenu = (ComMenu) JsonUtil.readValueAsObject(rowData, ComMenu.class);
+			if (null != comMenu) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						comMenu.setItime(now);
+						comMenu.setIperson(personId);
+						comMenu.setUtime(now);
+						comMenu.setUperson(personId);
+						comMenuMapper.insertSelective(comMenu);
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						comMenuMapper.updateByPrimaryKeySelective(comMenu);
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						comMenuMapper.deleteByPrimaryKey(comMenu.getMenuId());
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
 
@@ -138,15 +137,7 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 		ComForm comForm = new ComForm();
 		List<ComForm> comForms;
 
-		try {
-			comForms = comFormMapper.selectCombData(comForm);
-
-			responseData.setData(comForms);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
-
+		comForms = comFormMapper.selectCombData(comForm);
+		responseData.setData(comForms);
 	}
-
 }

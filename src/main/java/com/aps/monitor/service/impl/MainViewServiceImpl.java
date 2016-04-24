@@ -42,19 +42,13 @@ public class MainViewServiceImpl implements IMainViewService {
 	@Override
 	public void referPersonMenu(HttpSession httpSession, String inPar, ResponseData responseData) {
 
-		try {
-			int personId = (int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID);
-			ObjectNode personInf = JsonUtil.getObjectNodeInstance();
+		int personId = (int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID);
+		ObjectNode personInf = JsonUtil.getObjectNodeInstance();
 
-			responseData.setData(comMenuMapper.selectPersonMenu(personId));
-			personInf.put(CommUtil.SESSION_USER_NAME, (String) httpSession.getAttribute(CommUtil.SESSION_USER_NAME));
-			personInf.put(CommUtil.SESSION_USER_ID, (String) httpSession.getAttribute(CommUtil.SESSION_USER_ID));
-			responseData.setSubJoin(personInf);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
-
+		responseData.setData(comMenuMapper.selectPersonMenu(personId));
+		personInf.put(CommUtil.SESSION_USER_NAME, (String) httpSession.getAttribute(CommUtil.SESSION_USER_NAME));
+		personInf.put(CommUtil.SESSION_USER_ID, (String) httpSession.getAttribute(CommUtil.SESSION_USER_ID));
+		responseData.setSubJoin(personInf);
 	}
 
 	/**
@@ -75,37 +69,30 @@ public class MainViewServiceImpl implements IMainViewService {
 	@Override
 	public void modifyPersonPassword(HttpSession httpSession, String inPar, ResponseData responseData) {
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			ComPerson person = comPersonMapper.selectByPrimaryKey((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
-			String pswo = requestMdyPar.getInPar().get(0).get("pswo");
-			String pswn = requestMdyPar.getInPar().get(0).get("pswn");
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		ComPerson person = comPersonMapper.selectByPrimaryKey((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		String pswo = requestMdyPar.getInPar().get(0).get("pswo");
+		String pswn = requestMdyPar.getInPar().get(0).get("pswn");
 
-			if (null == person) {
-				responseData.setCode(-100);
-				responseData.setMessage("登陆超时，请重新登入!!");
-				return;
-			}
-
-			if (!pswo.equals(MD5Util.getMD5String(StringUtil.desDecryptStr(person.getUserPsw(), CommUtil.LOCK_WORD)))) {
-				responseData.setCode(-100);
-				responseData.setMessage("您录入旧密码有误!!");
-				return;
-			}
-			person.setUserPsw(StringUtil.desEncryptStr(pswn, CommUtil.LOCK_WORD));
-
-			if (comPersonMapper.updateByPrimaryKeySelective(person) == 0) {
-				responseData.setCode(-100);
-				responseData.setMessage("用户已不存在!!");
-				return;
-			};
-
-			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
+		if (null == person) {
+			responseData.setCode(-100);
+			responseData.setMessage("登陆超时，请重新登入!!");
+			return;
 		}
 
-	}
+		if (!pswo.equals(MD5Util.getMD5String(StringUtil.desDecryptStr(person.getUserPsw(), CommUtil.LOCK_WORD)))) {
+			responseData.setCode(-100);
+			responseData.setMessage("您录入旧密码有误!!");
+			return;
+		}
+		person.setUserPsw(StringUtil.desEncryptStr(pswn, CommUtil.LOCK_WORD));
 
+		if (comPersonMapper.updateByPrimaryKeySelective(person) == 0) {
+			responseData.setCode(-100);
+			responseData.setMessage("用户已不存在!!");
+			return;
+		};
+
+		responseData.setCode(0);
+	}
 }

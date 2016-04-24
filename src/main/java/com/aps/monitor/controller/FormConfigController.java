@@ -25,7 +25,7 @@ import com.aps.monitor.service.IFormConfigService;
  * @since 1.0.0
  */
 @Controller
-public class FormConfigController {
+public class FormConfigController extends BaseController {
 	@Resource(name = "formConfigServiceImpl")
 	private IFormConfigService formConfigService;
 	private final int formId = 4;
@@ -141,7 +141,7 @@ public class FormConfigController {
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormCtlType", responseData)) {
 			formConfigService.referFormCtlType(httpSession, inPar, responseData);
 		}
-		
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 }

@@ -75,6 +75,7 @@ $(window).load(function() {
 				$("#modal-warning").modal("show");
 			} else {
 				$obj("lblUserName").innerHTML = "&nbsp;您好，" + res.subJoin.userName + " &nbsp;&nbsp;&nbsp; ";
+				$obj("lblUserNameHide").innerHTML = res.subJoin.userName;
 				$obj("lblUserId").innerHTML = "登入帐号: " + res.subJoin.userId;
 
 				menus = res.data;

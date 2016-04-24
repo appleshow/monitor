@@ -52,13 +52,8 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
-		try {
-			comOrgs = comOrgMapper.selectByCondition(comOrg);
-			responseData.setData(comOrgs);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comOrgs = comOrgMapper.selectByCondition(comOrg);
+		responseData.setData(comOrgs);
 	}
 
 	/**
@@ -82,15 +77,10 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 		List<ComPerson> comPersons;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comPerson.setUserId(requestRefPar.getStringPar("userId"));
-			comPerson.setUserName(requestRefPar.getStringPar("userName"));
-			comPersons = comPersonMapper.selectByCondition(comPerson);
-			responseData.setData(comPersons);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comPerson.setUserId(requestRefPar.getStringPar("userId"));
+		comPerson.setUserName(requestRefPar.getStringPar("userName"));
+		comPersons = comPersonMapper.selectByCondition(comPerson);
+		responseData.setData(comPersons);
 	}
 
 	/**
@@ -111,69 +101,72 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 	@Override
 	public void modifyPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId, returnValue = 0;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComPerson comPerson;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comPerson = (ComPerson) JsonUtil.readValueAsObject(rowData, ComPerson.class);
-				if (null != comPerson) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), CommUtil.LOCK_WORD));
-							comPerson.setItime(now);
-							comPerson.setIperson(personId);
-							comPerson.setUtime(now);
-							comPerson.setUperson(personId);
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			comPerson = (ComPerson) JsonUtil.readValueAsObject(rowData, ComPerson.class);
+			if (null != comPerson) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), CommUtil.LOCK_WORD));
+						comPerson.setItime(now);
+						comPerson.setIperson(personId);
+						comPerson.setUtime(now);
+						comPerson.setUperson(personId);
 
-							returnValue = comPersonMapper.insertSelective(comPerson);
-							if (returnValue > 0) {
-								ComPersonOrg comPersonOrg = new ComPersonOrg();
-
-								comPersonOrg.setPersonId(comPerson.getPersonId());
-								comPersonOrg.setOrgId(comPerson.getUserOrg());
-								comPersonOrg.setPrflag(1);
-								comPersonOrg.setPrtype("0");
-								comPersonOrg.setIperson(comPerson.getIperson());
-								comPersonOrg.setItime(comPerson.getItime());
-								comPersonOrg.setIperson(comPerson.getIperson());
-								comPersonOrg.setUtime(comPerson.getUtime());
-
-								comPersonOrgMapper.insertSelective(comPersonOrg);
-							}
-
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							if ("1".equals(rowData.get("resPsw"))) {
-								comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), CommUtil.LOCK_WORD));
-							}
-							comPersonMapper.updateByPrimaryKeySelective(comPerson);
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
+						returnValue = comPersonMapper.insertSelective(comPerson);
+						if (returnValue > 0) {
 							ComPersonOrg comPersonOrg = new ComPersonOrg();
 
 							comPersonOrg.setPersonId(comPerson.getPersonId());
-							comPersonOrgMapper.deleteByPrimaryKey(comPersonOrg);
-							comPersonMapper.deleteByPrimaryKey(comPerson.getPersonId());
+							comPersonOrg.setOrgId(comPerson.getUserOrg());
+							comPersonOrg.setPrflag(1);
+							comPersonOrg.setPrtype("0");
+							comPersonOrg.setIperson(comPerson.getIperson());
+							comPersonOrg.setItime(comPerson.getItime());
+							comPersonOrg.setIperson(comPerson.getIperson());
+							comPersonOrg.setUtime(comPerson.getUtime());
 
-							break;
-						default:
-							break;
-					}
+							comPersonOrgMapper.insertSelective(comPersonOrg);
+						}
+
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						if ("1".equals(rowData.get("resPsw"))) {
+							comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), CommUtil.LOCK_WORD));
+						}
+						comPersonMapper.updateByPrimaryKeySelective(comPerson);
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						ComPersonOrg comPersonOrg = new ComPersonOrg();
+
+						comPersonOrg.setPersonId(comPerson.getPersonId());
+						comPersonOrgMapper.deleteByPrimaryKey(comPersonOrg);
+						comPersonMapper.deleteByPrimaryKey(comPerson.getPersonId());
+
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
-
 }

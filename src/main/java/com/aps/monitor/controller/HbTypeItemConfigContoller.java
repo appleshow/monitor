@@ -12,27 +12,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.service.IMenuConfigService;
+import com.aps.monitor.service.IHbTypeItemConfigService;
 
 /**
- * 菜单管理
  * 
- * @ClassName: MenuConfigController
+ * @ClassName: HbTypeItemConfigContoller
  * @Description:TODO
  * @author: AppleShow
- * @date: 2016年4月7日 下午8:32:48
+ * @date: 2016年4月23日 下午7:49:50
  * 
  * @since 1.0.0
  */
 @Controller
-public class MenuConfigController extends BaseController {
-	@Resource(name = "menuConfigServiceImpl")
-	private IMenuConfigService menuConfigService;
-	private final int formId = 5;
+public class HbTypeItemConfigContoller extends BaseController {
+	@Resource(name = "hbTypeItemConfigServiceImpl")
+	private IHbTypeItemConfigService hbTypeItemConfigService;
+	private final int formId = 11;
 
 	/**
 	 * 
-	 * @Title: referMenu
+	 * @Title: referHbType
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -41,35 +40,13 @@ public class MenuConfigController extends BaseController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/menuConfig.referMenu", method = RequestMethod.POST)
+	@RequestMapping(value = "/hbTypeItemConfig.referHbType", method = RequestMethod.POST)
 	@ResponseBody
-	public String referMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		if (CommUtil.isPermissoned(httpSession, formId, "referMenu", responseData)) {
-			menuConfigService.referMenu(httpSession, inPar, responseData);
-		}
-		return JsonUtil.writeResponseAsString(responseData);
-	}
-
-	/**
-	 * 
-	 * @Title: modifyMenu
-	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws
-	 * @since 1.0.0
-	 */
-	@RequestMapping(value = "/menuConfig.modifyMenu", method = RequestMethod.POST)
-	@ResponseBody
-	public String modifyMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
-		ResponseData responseData = new ResponseData();
-
-		if (CommUtil.isPermissoned(httpSession, formId, "modifyMenu", responseData)) {
-			menuConfigService.modifyMenu(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
+			hbTypeItemConfigService.referHbType(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);
@@ -77,7 +54,7 @@ public class MenuConfigController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: referAllForms
+	 * @Title: referHbTypeItem
 	 * @Description: TODO
 	 * @param: @param httpSession
 	 * @param: @param inPar
@@ -86,13 +63,36 @@ public class MenuConfigController extends BaseController {
 	 * @throws
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/menuConfig.referAllForms", method = RequestMethod.POST)
+	@RequestMapping(value = "/hbTypeItemConfig.referHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
-	public String referAllForms(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String referHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
-		if (CommUtil.isPermissoned(httpSession, formId, "referAllForms", responseData)) {
-			menuConfigService.referAllForms(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "referHbTypeItem", responseData)) {
+			hbTypeItemConfigService.referHbTypeItem(httpSession, inPar, responseData);
+		}
+
+		return JsonUtil.writeResponseAsString(responseData);
+	}
+
+	/**
+	 * 
+	 * @Title: modifyHbTypeItem
+	 * @Description: TODO
+	 * @param: @param httpSession
+	 * @param: @param inPar
+	 * @param: @return
+	 * @return: String
+	 * @throws
+	 * @since 1.0.0
+	 */
+	@RequestMapping(value = "/hbTypeItemConfig.modifyHbTypeItem", method = RequestMethod.POST)
+	@ResponseBody
+	public String modifyHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
+
+		if (CommUtil.isPermissoned(httpSession, formId, "modifyHbTypeItem", responseData)) {
+			hbTypeItemConfigService.modifyHbTypeItem(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);

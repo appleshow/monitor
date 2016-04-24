@@ -25,7 +25,7 @@ import com.aps.monitor.service.IPersonOrgConfigService;
  * @since 1.0.0
  */
 @Controller
-public class PersonOrgConfigController {
+public class PersonOrgConfigController extends BaseController {
 	@Resource(name = "personOrgConfigServiceImpl")
 	private IPersonOrgConfigService personOrgConfigService;
 	private final int formId = 7;
@@ -49,7 +49,7 @@ public class PersonOrgConfigController {
 		if (CommUtil.isPermissoned(httpSession, formId, "referPerson", responseData)) {
 			personOrgConfigService.referPerson(httpSession, inPar, responseData);
 		}
-		
+
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 

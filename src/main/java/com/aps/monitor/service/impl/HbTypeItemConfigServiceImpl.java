@@ -14,45 +14,20 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.dao.ComFormMapper;
-import com.aps.monitor.dao.ComPageShowMapper;
-import com.aps.monitor.model.ComForm;
-import com.aps.monitor.model.ComPageShow;
-import com.aps.monitor.service.IPageShowService;
+import com.aps.monitor.dao.HbTypeItemMapper;
+import com.aps.monitor.dao.HbTypeMapper;
+import com.aps.monitor.model.HbType;
+import com.aps.monitor.model.HbTypeItem;
+import com.aps.monitor.service.IHbTypeItemConfigService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
-public class PageShowServiceImpl implements IPageShowService {
+public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 	@Resource
-	private ComFormMapper comFormMapper;
+	HbTypeMapper hbTypeMapper;
 	@Resource
-	private ComPageShowMapper comPageShowMapper;
-
-	/**
-	 * 
-	 * <p>
-	 * Title: referAllForms
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
-	 * @param httpSession
-	 * @param inPar
-	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#referAllForms(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
-	 */
-	@Override
-	public void referAllForms(HttpSession httpSession, String inPar, ResponseData responseData) {
-		ComForm comForm = new ComForm();
-		List<ComForm> comForms;
-
-		comForms = comFormMapper.selectCombData(comForm);
-
-		responseData.setData(comForms);
-	}
+	HbTypeItemMapper hbTypeItemMapper;
 
 	/**
 	 * 
@@ -66,29 +41,22 @@ public class PageShowServiceImpl implements IPageShowService {
 	 * @param httpSession
 	 * @param inPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#referHbType(javax.servlet.http.HttpSession,
+	 * @see com.aps.monitor.service.IHbTypeItemConfigService#referHbType(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referPageShow(HttpSession httpSession, String inPar, ResponseData responseData) {
-		ComPageShow comPageShow = new ComPageShow();
-		List<ComPageShow> comPageShows;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
-		PageInfo<ComPageShow> pageInfo;
+	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+		HbType hbType = new HbType();
+		List<HbType> hbTypes;
 
-		comPageShow.setPageId(requestRefPar.getIntegerPar("pageId"));
-		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
-		comPageShows = comPageShowMapper.selectByCondition(comPageShow);
-		pageInfo = new PageInfo<ComPageShow>(comPageShows);
-
-		responseData.setTotalCount(pageInfo.getTotal());
-		responseData.setData(comPageShows);
+		hbTypes = hbTypeMapper.selectByCondition(hbType);
+		responseData.setData(hbTypes);
 	}
 
 	/**
 	 * 
 	 * <p>
-	 * Title: modifyHbType
+	 * Title: referHbTypeItem
 	 * </p>
 	 * <p>
 	 * Description:
@@ -97,38 +65,72 @@ public class PageShowServiceImpl implements IPageShowService {
 	 * @param httpSession
 	 * @param inPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#modifyHbType(javax.servlet.http.HttpSession,
+	 * @see com.aps.monitor.service.IHbTypeItemConfigService#referHbTypeItem(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyPageShow(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbTypeItem(HttpSession httpSession, String inPar, ResponseData responseData) {
+		HbTypeItem hbTypeItem = new HbTypeItem();
+		List<HbTypeItem> hbTypeItems;
+		PageInfo<HbTypeItem> pageInfo;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
+
+		hbTypeItem.setTypeId(requestRefPar.getIntegerPar("typeId"));
+		hbTypeItem.setItemId(requestRefPar.getStringPar("itemId"));
+		hbTypeItem.setItemName(requestRefPar.getStringPar("itemName"));
+		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
+		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
+		pageInfo = new PageInfo<HbTypeItem>(hbTypeItems);
+
+		responseData.setTotalCount(pageInfo.getTotal());
+		responseData.setData(hbTypeItems);
+	}
+
+	/**
+	 * 
+	 * <p>
+	 * Title: modifyHbTypeItem
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param httpSession
+	 * @param inPar
+	 * @param responseData
+	 * @see com.aps.monitor.service.IHbTypeItemConfigService#modifyHbTypeItem(javax.servlet.http.HttpSession,
+	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 */
+	@Override
+	public void modifyHbTypeItem(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
-		ComPageShow comPageShow;
+		HbTypeItem hbTypeItem;
 
 		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
-			comPageShow = (ComPageShow) JsonUtil.readValueAsObject(rowData, ComPageShow.class);
-			if (null != comPageShow) {
+			hbTypeItem = (HbTypeItem) JsonUtil.readValueAsObject(rowData, HbTypeItem.class);
+			if (null != hbTypeItem) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
 					case CommUtil.MODIFY_TYPE_INSERT:
-						comPageShow.setItime(now);
-						comPageShow.setIperson(personId);
-						comPageShow.setUtime(now);
-						comPageShow.setUperson(personId);
-						comPageShowMapper.insertSelective(comPageShow);
+						hbTypeItem.setItime(now);
+						hbTypeItem.setIperson(personId);
+						hbTypeItem.setUtime(now);
+						hbTypeItem.setUperson(personId);
+						hbTypeItemMapper.insertSelective(hbTypeItem);
 						break;
 					case CommUtil.MODIFY_TYPE_UPDATE:
-						comPageShowMapper.updateByPrimaryKeySelective(comPageShow);
+						hbTypeItemMapper.updateByPrimaryKeySelective(hbTypeItem);
 						break;
 					case CommUtil.MODIFY_TYPE_DELETE:
-						comPageShowMapper.deleteByPrimaryKey(comPageShow);
+						hbTypeItemMapper.deleteByPrimaryKey(hbTypeItem);
+
 						break;
 					default:
 						break;
@@ -141,7 +143,7 @@ public class PageShowServiceImpl implements IPageShowService {
 
 		if (jsonParseException) {
 			responseData.setCode(-108);
-			responseData.setMessage("数据处理异常，请检查输入数据！");
+			responseData.setMessage("数据处理异常[jsonParseException]，请检查输入数据！");
 		} else {
 			responseData.setCode(0);
 		}

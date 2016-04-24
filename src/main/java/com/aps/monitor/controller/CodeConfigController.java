@@ -25,7 +25,7 @@ import com.aps.monitor.service.ICodeConfigService;
  * @since 1.0.0
  */
 @Controller
-public class CodeConfigController {
+public class CodeConfigController extends BaseController {
 	@Resource(name = "codeConfigServiceImpl")
 	private ICodeConfigService codeConfigService;
 

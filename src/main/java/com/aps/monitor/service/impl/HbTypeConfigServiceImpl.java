@@ -57,17 +57,12 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 		PageInfo<HbType> pageInfo;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
-			hbTypes = hbTypeMapper.selectByCondition(hbType);
-			pageInfo = new PageInfo<HbType>(hbTypes);
+		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
+		hbTypes = hbTypeMapper.selectByCondition(hbType);
+		pageInfo = new PageInfo<HbType>(hbTypes);
 
-			responseData.setTotalCount(pageInfo.getTotal());
-			responseData.setData(hbTypes);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		responseData.setTotalCount(pageInfo.getTotal());
+		responseData.setData(hbTypes);
 	}
 
 	/**
@@ -88,45 +83,48 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 	@Override
 	public void modifyHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		HbType hbType;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				hbType = (HbType) JsonUtil.readValueAsObject(rowData, HbType.class);
-				if (null != hbType) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							hbType.setItime(now);
-							hbType.setIperson(personId);
-							hbType.setUtime(now);
-							hbType.setUperson(personId);
-							hbTypeMapper.insertSelective(hbType);
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							hbTypeMapper.updateByPrimaryKeySelective(hbType);
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
-							hbTypeMapper.deleteByPrimaryKey(hbType.getTypeId());
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			hbType = (HbType) JsonUtil.readValueAsObject(rowData, HbType.class);
+			if (null != hbType) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						hbType.setItime(now);
+						hbType.setIperson(personId);
+						hbType.setUtime(now);
+						hbType.setUperson(personId);
+						hbTypeMapper.insertSelective(hbType);
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						hbTypeMapper.updateByPrimaryKeySelective(hbType);
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						hbTypeMapper.deleteByPrimaryKey(hbType.getTypeId());
 
-							break;
-						default:
-							break;
-					}
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
-
 }

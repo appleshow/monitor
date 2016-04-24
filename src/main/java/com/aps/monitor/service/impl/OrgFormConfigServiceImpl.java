@@ -63,13 +63,8 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
-		try {
-			comOrgs = comOrgMapper.selectByCondition(comOrg);
-			responseData.setData(comOrgs);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comOrgs = comOrgMapper.selectByCondition(comOrg);
+		responseData.setData(comOrgs);
 	}
 
 	/**
@@ -92,13 +87,8 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		ComForm comForm = new ComForm();
 		List<ComForm> comForms;
 
-		try {
-			comForms = comFormMapper.selectByCondition(comForm);
-			responseData.setData(comForms);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comForms = comFormMapper.selectByCondition(comForm);
+		responseData.setData(comForms);
 	}
 
 	/**
@@ -122,15 +112,10 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		List<ComOrgForm> comOrgForms;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comOrgForm.setOrgId(requestRefPar.getIntegerPar("orgId"));
-			comOrgForm.setFormId(requestRefPar.getIntegerPar("formId"));
-			comOrgForms = comOrgFormMapper.selectByCondition(comOrgForm);
-			responseData.setData(comOrgForms);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comOrgForm.setOrgId(requestRefPar.getIntegerPar("orgId"));
+		comOrgForm.setFormId(requestRefPar.getIntegerPar("formId"));
+		comOrgForms = comOrgFormMapper.selectByCondition(comOrgForm);
+		responseData.setData(comOrgForms);
 	}
 
 	/**
@@ -154,14 +139,9 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		List<ComFormRights> comFormRightss;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
-			comFormRightss = comFormRightsMapper.selectByCondition(comFormRights);
-			responseData.setData(comFormRightss);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
+		comFormRightss = comFormRightsMapper.selectByCondition(comFormRights);
+		responseData.setData(comFormRightss);
 	}
 
 	/**
@@ -185,15 +165,10 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		List<ComOrgFormRights> comOrgFormRightss;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comOrgFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
-			comOrgFormRights.setOrgId(requestRefPar.getIntegerPar("orgId"));
-			comOrgFormRightss = comOrgFormRightsMapper.selectByCondition(comOrgFormRights);
-			responseData.setData(comOrgFormRightss);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comOrgFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
+		comOrgFormRights.setOrgId(requestRefPar.getIntegerPar("orgId"));
+		comOrgFormRightss = comOrgFormRightsMapper.selectByCondition(comOrgFormRights);
+		responseData.setData(comOrgFormRightss);
 	}
 
 	/**
@@ -216,14 +191,9 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		ComCode comCode = new ComCode();
 		List<ComCode> comCodes;
 
-		try {
-			comCode.setCodeType("C0001");
-			comCodes = comCodemapper.selectByCondition(comCode);
-			responseData.setData(comCodes);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
+		comCode.setCodeType("C0001");
+		comCodes = comCodemapper.selectByCondition(comCode);
+		responseData.setData(comCodes);
 	}
 
 	/**
@@ -244,49 +214,53 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	@Override
 	public void modifyOrgForm(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComOrgForm comOrgForm;
 		ComOrgFormRights comOrgFormRights;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comOrgForm = (ComOrgForm) JsonUtil.readValueAsObject(rowData, ComOrgForm.class);
-				if (null != comOrgForm) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							comOrgForm.setItime(now);
-							comOrgForm.setIperson(personId);
-							comOrgForm.setUtime(now);
-							comOrgForm.setUperson(personId);
-							comOrgFormMapper.insertSelective(comOrgForm);
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
-							comOrgFormMapper.deleteByPrimaryKey(comOrgForm);
-							comOrgFormRights = new ComOrgFormRights();
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			comOrgForm = (ComOrgForm) JsonUtil.readValueAsObject(rowData, ComOrgForm.class);
+			if (null != comOrgForm) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						comOrgForm.setItime(now);
+						comOrgForm.setIperson(personId);
+						comOrgForm.setUtime(now);
+						comOrgForm.setUperson(personId);
+						comOrgFormMapper.insertSelective(comOrgForm);
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						comOrgFormMapper.deleteByPrimaryKey(comOrgForm);
+						comOrgFormRights = new ComOrgFormRights();
 
-							comOrgFormRights.setOrgId(comOrgForm.getOrgId());
-							comOrgFormRights.setFormId(comOrgForm.getFormId());
+						comOrgFormRights.setOrgId(comOrgForm.getOrgId());
+						comOrgFormRights.setFormId(comOrgForm.getFormId());
 
-							comOrgFormRightsMapper.deleteByPrimaryKey(comOrgFormRights);
-							break;
-						default:
-							break;
-					}
+						comOrgFormRightsMapper.deleteByPrimaryKey(comOrgFormRights);
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
 
@@ -308,56 +282,60 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 	@Override
 	public void modifyOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
 		int personId;
+		boolean jsonParseException = false;
 		String type;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComOrgFormRights comOrgFormRights;
 
-		try {
-			RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
-			for (int row = 0; row < requestMdyPar.getParCount(); row++) {
-				rowData = requestMdyPar.getInPar().get(row);
-				type = requestMdyPar.getType(rowData);
-				comOrgFormRights = (ComOrgFormRights) JsonUtil.readValueAsObject(rowData, ComOrgFormRights.class);
-				if (null != comOrgFormRights) {
-					personId = requestMdyPar.getPersonId(httpSession, now, rowData);
-					switch (type) {
-						case CommUtil.MODIFY_TYPE_INSERT:
-							comOrgFormRights.setItime(now);
-							comOrgFormRights.setIperson(personId);
-							comOrgFormRights.setUtime(now);
-							comOrgFormRights.setUperson(personId);
-							if (null == comOrgFormRights.getRea()) {
-								comOrgFormRights.setRea(0);
-							}
-							if (null == comOrgFormRights.getR1()) {
-								comOrgFormRights.setR1(0);
-							}
-							if (null == comOrgFormRights.getR2()) {
-								comOrgFormRights.setR2(0);
-							}
-							if (null == comOrgFormRights.getR3()) {
-								comOrgFormRights.setR3(0);
-							}
-							comOrgFormRightsMapper.insertSelective(comOrgFormRights);
-							break;
-						case CommUtil.MODIFY_TYPE_UPDATE:
-							comOrgFormRights.setUtime(now);
-							comOrgFormRights.setUperson(personId);
-							comOrgFormRightsMapper.updateByPrimaryKeySelective(comOrgFormRights);
-							break;
-						case CommUtil.MODIFY_TYPE_DELETE:
-							break;
-						default:
-							break;
-					}
+		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
+		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
+			rowData = requestMdyPar.getInPar().get(row);
+			type = requestMdyPar.getType(rowData);
+			comOrgFormRights = (ComOrgFormRights) JsonUtil.readValueAsObject(rowData, ComOrgFormRights.class);
+			if (null != comOrgFormRights) {
+				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
+				switch (type) {
+					case CommUtil.MODIFY_TYPE_INSERT:
+						comOrgFormRights.setItime(now);
+						comOrgFormRights.setIperson(personId);
+						comOrgFormRights.setUtime(now);
+						comOrgFormRights.setUperson(personId);
+						if (null == comOrgFormRights.getRea()) {
+							comOrgFormRights.setRea(0);
+						}
+						if (null == comOrgFormRights.getR1()) {
+							comOrgFormRights.setR1(0);
+						}
+						if (null == comOrgFormRights.getR2()) {
+							comOrgFormRights.setR2(0);
+						}
+						if (null == comOrgFormRights.getR3()) {
+							comOrgFormRights.setR3(0);
+						}
+						comOrgFormRightsMapper.insertSelective(comOrgFormRights);
+						break;
+					case CommUtil.MODIFY_TYPE_UPDATE:
+						comOrgFormRights.setUtime(now);
+						comOrgFormRights.setUperson(personId);
+						comOrgFormRightsMapper.updateByPrimaryKeySelective(comOrgFormRights);
+						break;
+					case CommUtil.MODIFY_TYPE_DELETE:
+						break;
+					default:
+						break;
 				}
+			} else {
+				jsonParseException = true;
+				break;
 			}
+		}
 
+		if (jsonParseException) {
+			responseData.setCode(-108);
+			responseData.setMessage("数据处理异常，请检查输入数据！");
+		} else {
 			responseData.setCode(0);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
 		}
 	}
 }

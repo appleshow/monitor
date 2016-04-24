@@ -15,7 +15,7 @@ import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IPageShowService;
 
 @Controller
-public class PageShowController {
+public class PageShowController extends BaseController {
 	@Resource(name = "pageShowServiceImpl")
 	private IPageShowService pageShowService;
 	private int formId = 9;

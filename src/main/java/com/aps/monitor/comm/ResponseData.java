@@ -2,6 +2,10 @@ package com.aps.monitor.comm;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
+
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ResponseData {
@@ -20,13 +24,12 @@ public class ResponseData {
 	}
 
 	public ResponseData(Exception e) {
-		setCode(-100);
-		setMessage(e.getMessage());
+		setData(e);
 	}
 
 	public ResponseData(int errorCode, Exception e) {
+		setData(e);
 		setCode(errorCode);
-		setMessage(e.getMessage());
 	}
 
 	public ResponseData(int code, String message) {
@@ -230,8 +233,24 @@ public class ResponseData {
 	 * @since 1.0.0
 	 */
 	public void setData(Exception e) {
-		setCode(-100);
-		setMessage(e.getMessage());
+		if (e instanceof DuplicateKeyException) {
+			setCode(-101);
+			setMessage("违反唯一性约束条件[DuplicateKeyException]，请检查输入数据！" + e.getMessage());
+		} else if (e instanceof DataIntegrityViolationException) {
+			setCode(-101);
+			setMessage("字段超出了最大长度[DataIntegrityViolationException]，请检查输入数据！" + e.getMessage());
+		} else if (e instanceof JsonParseException) {
+			setCode(-102);
+			setMessage("数据处理异常[JsonParseException]，请检查输入数据！" + e.getMessage());
+		} else {
+			if (StringUtil.isNullOrEmpty(e.getMessage())) {
+				setCode(-109);
+				setMessage("数据处理异常，请检查输入数据！");
+			} else {
+				setCode(-100);
+				setMessage(e.getMessage());
+			}
+		}
 	}
 
 	/**
@@ -245,8 +264,8 @@ public class ResponseData {
 	 * @since 1.0.0
 	 */
 	public void setData(int code, Exception e) {
+		setData(e);
 		setCode(code);
-		setMessage(e.getMessage());
 	}
 
 	/**

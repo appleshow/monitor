@@ -33,7 +33,7 @@ import com.aps.monitor.service.IPreLoginHandler;
  * @since 1.0.0
  */
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
 	private Logger logger = LogManager.getLogger(LoginController.class.getName());
 
 	@Resource(name = "loginViewServiceImpl")

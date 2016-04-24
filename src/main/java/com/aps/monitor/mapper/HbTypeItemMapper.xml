@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.aps.monitor.dao.HbTypeMapper">
-	<resultMap id="BaseResultMap" type="com.aps.monitor.model.HbType">
+<mapper namespace="com.aps.monitor.dao.HbTypeItemMapper">
+	<resultMap id="BaseResultMap" type="com.aps.monitor.model.HbTypeItem">
+		<id column="ITEM_ID" property="itemId" jdbcType="VARCHAR"/>
 		<id column="TYPE_ID" property="typeId" jdbcType="INTEGER"/>
-		<result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR"/>
+		<result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR"/>
+		<result column="ITEM_UNIT" property="itemUnit" jdbcType="VARCHAR"/>
+		<result column="ITEM_VMIN" property="itemVmin" jdbcType="DECIMAL"/>
+		<result column="ITEM_VMAX" property="itemVmax" jdbcType="DECIMAL"/>
 		<result column="PRFLAG" property="prflag" jdbcType="INTEGER"/>
 		<result column="PRGROUP" property="prgroup" jdbcType="VARCHAR"/>
 		<result column="PRTYPE" property="prtype" jdbcType="VARCHAR"/>
@@ -34,48 +38,62 @@
 		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
 		<result column="UFROM" property="ufrom" jdbcType="VARCHAR"/>
 	</resultMap>
-	<sql id="Base_Column_List"> TYPE_ID, TYPE_NAME, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4,
-		PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14,
-		PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM
+	<sql id="Base_Column_List"> ITEM_ID, TYPE_ID, ITEM_NAME, ITEM_UNIT, ITEM_VMIN, ITEM_VMAX, PRFLAG, PRGROUP, PRTYPE, PROPERTY0,
+		PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10,
+		PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP,
+		UPERSON, UFROM
 	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HbTypeItemKey">
 		select
 		<include refid="Base_Column_List"/>
-		from hb_type where TYPE_ID = #{typeId,jdbcType=INTEGER}
+		from hb_typeitem where ITEM_ID = #{itemId,jdbcType=VARCHAR} and TYPE_ID = #{typeId,jdbcType=INTEGER}
 	</select>
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HbType">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HbTypeItem">
 		select
 		<include refid="Base_Column_List"></include>
-		from hb_type
+		from hb_typeitem
 		<where>
 			<if test="typeId != null"> TYPE_ID = #{typeId,jdbcType=INTEGER}
 			</if>
-			<if test="typeName != null"> TYPE_NAME like CONCAT('%',#{typeName,jdbcType=VARCHAR},'%')
+			<if test="itemId != null"> ITEM_ID = #{itemId,jdbcType=VARCHAR}
+			</if>
+			<if test="itemName != null"> ITEM_NAME like CONCAT('%',#{itemName,jdbcType=VARCHAR},'%')
 			</if>
 		</where>
-		order by type_id
+		order by type_id,item_id
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer"> delete from hb_type where TYPE_ID = #{typeId,jdbcType=INTEGER}
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HbTypeItemKey"> delete from hb_typeitem where ITEM_ID =
+		#{itemId,jdbcType=VARCHAR} and TYPE_ID = #{typeId,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.aps.monitor.model.HbType"> insert into hb_type (TYPE_ID, TYPE_NAME, PRFLAG, PRGROUP, PRTYPE, PROPERTY0,
-		PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10,
-		PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP,
-		UPERSON, UFROM) values (#{typeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER},
-		#{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=VARCHAR}, #{property1,jdbcType=VARCHAR},
-		#{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR}, #{property4,jdbcType=VARCHAR},
-		#{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR}, #{property7,jdbcType=VARCHAR},
-		#{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR}, #{property10,jdbcType=DECIMAL},
-		#{property11,jdbcType=DECIMAL}, #{property12,jdbcType=DECIMAL}, #{property13,jdbcType=DECIMAL},
-		#{property14,jdbcType=DECIMAL}, #{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP},
-		#{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP},
-		#{ushift,jdbcType=VARCHAR}, #{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
+	<insert id="insert" parameterType="com.aps.monitor.model.HbTypeItem"> insert into hb_typeitem (ITEM_ID, TYPE_ID, ITEM_NAME, ITEM_UNIT, ITEM_VMIN,
+		ITEM_VMAX, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6,
+		PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME,
+		ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values (#{itemId,jdbcType=VARCHAR},
+		#{typeId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemUnit,jdbcType=VARCHAR}, #{itemVmin,jdbcType=DECIMAL},
+		#{itemVmax,jdbcType=DECIMAL}, #{prflag,jdbcType=INTEGER}, #{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR},
+		#{property0,jdbcType=VARCHAR}, #{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR},
+		#{property3,jdbcType=VARCHAR}, #{property4,jdbcType=VARCHAR}, #{property5,jdbcType=VARCHAR},
+		#{property6,jdbcType=VARCHAR}, #{property7,jdbcType=VARCHAR}, #{property8,jdbcType=VARCHAR},
+		#{property9,jdbcType=VARCHAR}, #{property10,jdbcType=DECIMAL}, #{property11,jdbcType=DECIMAL},
+		#{property12,jdbcType=DECIMAL}, #{property13,jdbcType=DECIMAL}, #{property14,jdbcType=DECIMAL},
+		#{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP}, #{ishift,jdbcType=VARCHAR},
+		#{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP}, #{ushift,jdbcType=VARCHAR},
+		#{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbType">
-		insert into hb_type
+	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbTypeItem">
+		insert into hb_typeitem
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="itemId != null"> ITEM_ID,
+			</if>
 			<if test="typeId != null"> TYPE_ID,
 			</if>
-			<if test="typeName != null"> TYPE_NAME,
+			<if test="itemName != null"> ITEM_NAME,
+			</if>
+			<if test="itemUnit != null"> ITEM_UNIT,
+			</if>
+			<if test="itemVmin != null"> ITEM_VMIN,
+			</if>
+			<if test="itemVmax != null"> ITEM_VMAX,
 			</if>
 			<if test="prflag != null"> PRFLAG,
 			</if>
@@ -137,9 +155,17 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="itemId != null"> #{itemId,jdbcType=VARCHAR},
+			</if>
 			<if test="typeId != null"> #{typeId,jdbcType=INTEGER},
 			</if>
-			<if test="typeName != null"> #{typeName,jdbcType=VARCHAR},
+			<if test="itemName != null"> #{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="itemUnit != null"> #{itemUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="itemVmin != null"> #{itemVmin,jdbcType=DECIMAL},
+			</if>
+			<if test="itemVmax != null"> #{itemVmax,jdbcType=DECIMAL},
 			</if>
 			<if test="prflag != null"> #{prflag,jdbcType=INTEGER},
 			</if>
@@ -201,10 +227,16 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.HbType">
-		update hb_type
+	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.HbTypeItem">
+		update hb_typeitem
 		<set>
-			<if test="typeName != null"> TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+			<if test="itemName != null"> ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="itemUnit != null"> ITEM_UNIT = #{itemUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="itemVmin != null"> ITEM_VMIN = #{itemVmin,jdbcType=DECIMAL},
+			</if>
+			<if test="itemVmax != null"> ITEM_VMAX = #{itemVmax,jdbcType=DECIMAL},
 			</if>
 			<if test="prflag != null"> PRFLAG = #{prflag,jdbcType=INTEGER},
 			</if>
@@ -265,20 +297,21 @@
 			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where TYPE_ID = #{typeId,jdbcType=INTEGER}
+		where ITEM_ID = #{itemId,jdbcType=VARCHAR} and TYPE_ID = #{typeId,jdbcType=INTEGER}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HbType"> update hb_type set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
-		PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR},
-		PROPERTY0 = #{property0,jdbcType=VARCHAR}, PROPERTY1 = #{property1,jdbcType=VARCHAR}, PROPERTY2 =
-		#{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 = #{property4,jdbcType=VARCHAR},
-		PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR}, PROPERTY7 =
-		#{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 = #{property9,jdbcType=VARCHAR},
-		PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 = #{property11,jdbcType=DECIMAL}, PROPERTY12 =
-		#{property12,jdbcType=DECIMAL}, PROPERTY13 = #{property13,jdbcType=DECIMAL}, PROPERTY14 =
-		#{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP = #{prexp,jdbcType=VARCHAR}, ITIME =
-		#{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP = #{igroup,jdbcType=VARCHAR}, IPERSON =
-		#{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT = #{ushift,jdbcType=VARCHAR}, UGROUP =
-		#{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM = #{ufrom,jdbcType=VARCHAR} where TYPE_ID =
-		#{typeId,jdbcType=INTEGER}
+	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HbTypeItem"> update hb_typeitem set ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+		ITEM_UNIT = #{itemUnit,jdbcType=VARCHAR}, ITEM_VMIN = #{itemVmin,jdbcType=DECIMAL}, ITEM_VMAX =
+		#{itemVmax,jdbcType=DECIMAL}, PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE =
+		#{prtype,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=VARCHAR}, PROPERTY1 = #{property1,jdbcType=VARCHAR},
+		PROPERTY2 = #{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 =
+		#{property4,jdbcType=VARCHAR}, PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR},
+		PROPERTY7 = #{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 =
+		#{property9,jdbcType=VARCHAR}, PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 =
+		#{property11,jdbcType=DECIMAL}, PROPERTY12 = #{property12,jdbcType=DECIMAL}, PROPERTY13 =
+		#{property13,jdbcType=DECIMAL}, PROPERTY14 = #{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP
+		= #{prexp,jdbcType=VARCHAR}, ITIME = #{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP =
+		#{igroup,jdbcType=VARCHAR}, IPERSON = #{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT =
+		#{ushift,jdbcType=VARCHAR}, UGROUP = #{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM =
+		#{ufrom,jdbcType=VARCHAR} where ITEM_ID = #{itemId,jdbcType=VARCHAR} and TYPE_ID = #{typeId,jdbcType=INTEGER}
 	</update>
 </mapper>

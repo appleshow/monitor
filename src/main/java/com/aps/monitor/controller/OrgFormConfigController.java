@@ -25,7 +25,7 @@ import com.aps.monitor.service.IOrgFormConfigService;
  * @since 1.0.0
  */
 @Controller
-public class OrgFormConfigController {
+public class OrgFormConfigController extends BaseController {
 	@Resource(name = "orgFormConfigServiceImpl")
 	private IOrgFormConfigService orgFormConfigService;
 	private final int formId = 6;

@@ -49,16 +49,10 @@ public class CommServiceImpl implements ICommService {
 		List<?> comPageShows;
 		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
-		try {
-			comPageShow.setPageId(requestRefPar.getIntegerPar("pageId"));
-			comPageShows = comPageShowMapper.selectByCondition(comPageShow);
+		comPageShow.setPageId(requestRefPar.getIntegerPar("pageId"));
+		comPageShows = comPageShowMapper.selectByCondition(comPageShow);
 
-			responseData.setData(comPageShows);
-		} catch (Exception e) {
-			responseData.setData(e);
-			throw (e);
-		}
-
+		responseData.setData(comPageShows);
 	}
 
 }
