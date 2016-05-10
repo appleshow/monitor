@@ -52,6 +52,7 @@ jQuery(document).ready(function() {
 	};
 	// *********************************
 	// ***** Add information to Field *****
+	tablePageShow.fields["pageId"].options = TransToOptions(CombFormData, "formId", "formName");
 	tablePageShow.fields["columnAlign"].options = [ {
 		label : "左对齐",
 		value : 0

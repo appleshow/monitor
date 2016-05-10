@@ -19,5 +19,6 @@
 		<mapper resource="com/aps/monitor/mapper/ComPageShowMapper.xml"/>
 		<mapper resource="com/aps/monitor/mapper/HbTypeMapper.xml"/>
 		<mapper resource="com/aps/monitor/mapper/HbTypeItemMapper.xml"/>
+		<mapper resource="com/aps/monitor/mapper/HbNodeMapper.xml"/>
 	</mappers>
 </configuration>

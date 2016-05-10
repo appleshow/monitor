@@ -1,3 +1,4 @@
+var canshow = true;
 !
 function(n) {
 	var t = function(t, i) {
@@ -47,7 +48,7 @@ function(n) {
 			var i = n(t),
 				u = this.$element.find(".tree-selected"),
 				r = [],
-				f,itemid,itemname;
+				f;
 			(this.options.multiSelect ? n.each(u, function(t, u) {
 				var f = n(u);
 				f[0] !== i[0] && r.push(n(u).data())
@@ -59,28 +60,19 @@ function(n) {
 				info: r,
 				item: i,
 				eventType: f
-			});
-			
-			itemid=r[0].id;
-			itemname = r[0].name;
-			itemname = itemname.substr(0,itemname.indexOf("<"));
-			treeClick(itemid,itemname);
+			})
 		},
 		selectFolder: function(t) {
+			if(!canshow){
+				return;
+			}
 			var r, u, f, i = n(t),
 				o = i.parent(),
 				s = o.find(".tree-folder-content"),
-				e = s.eq(0),itemid,itemname;
+				e = s.eq(0);
 			i.find(".fa.fa-folder").length ? (r = "opened", u = ".fa.fa-folder", f = "fa fa-folder-open", e.show(), s.children().length || this.populate(i)) : (r = "closed", u = ".fa.fa-folder-open", f = "fa fa-folder", e.hide(), this.options.cacheItems || e.empty());
 			o.find(u).eq(0).removeClass("fa fa-folder fa-folder-open").addClass(f);
-			this.$element.trigger(r, i.data());
-			
-			itemid=i.data().id;
-			if(itemid>2){
-				itemname = i.data().name;
-				itemname = itemname.substr(0,itemname.indexOf("<"));
-				refFileAll(itemid,itemname);
-			}
+			this.$element.trigger(r, i.data())
 		},
 		selectedItems: function() {
 			var i = this.$element.find(".tree-selected"),

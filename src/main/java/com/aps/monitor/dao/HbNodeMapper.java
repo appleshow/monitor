@@ -1,17 +1,21 @@
 package com.aps.monitor.dao;
 
+import java.util.List;
+
 import com.aps.monitor.model.HbNode;
 
 public interface HbNodeMapper {
-    int deleteByPrimaryKey(Integer nodeId);
+	int deleteByPrimaryKey(Integer nodeId);
 
-    int insert(HbNode record);
+	int insert(HbNode record);
 
-    int insertSelective(HbNode record);
+	int insertSelective(HbNode record);
 
-    HbNode selectByPrimaryKey(Integer nodeId);
+	HbNode selectByPrimaryKey(Integer nodeId);
 
-    int updateByPrimaryKeySelective(HbNode record);
+	List<HbNode> selectByCondition(HbNode record);
 
-    int updateByPrimaryKey(HbNode record);
+	int updateByPrimaryKeySelective(HbNode record);
+
+	int updateByPrimaryKey(HbNode record);
 }

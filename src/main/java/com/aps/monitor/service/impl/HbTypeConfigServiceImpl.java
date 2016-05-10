@@ -31,7 +31,6 @@ import com.github.pagehelper.PageInfo;
  */
 @Service
 public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
-
 	@Resource
 	private HbTypeMapper hbTypeMapper;
 
@@ -105,6 +104,8 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 						hbTypeMapper.insertSelective(hbType);
 						break;
 					case CommUtil.MODIFY_TYPE_UPDATE:
+						hbType.setUtime(now);
+						hbType.setUperson(personId);
 						hbTypeMapper.updateByPrimaryKeySelective(hbType);
 						break;
 					case CommUtil.MODIFY_TYPE_DELETE:

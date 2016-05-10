@@ -3,6 +3,9 @@ package com.aps.monitor.comm;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonUtil {
+	private static Logger logger = LogManager.getLogger(JsonUtil.class.getName());
 	private static ObjectMapper jsonMapper = new ObjectMapper();
 
 	static {
@@ -98,7 +102,8 @@ public class JsonUtil {
 
 		try {
 			jsonData = jsonMapper.writeValueAsString(data);
-		} catch (JsonProcessingException e1) {
+		} catch (JsonProcessingException e) {
+			logger.debug(e);
 			jsonData = null;
 		}
 
@@ -106,6 +111,7 @@ public class JsonUtil {
 			try {
 				instance = jsonMapper.readValue(jsonData, object);
 			} catch (IOException e) {
+				logger.debug(e);
 				instance = null;
 			}
 		} else {

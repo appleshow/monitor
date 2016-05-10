@@ -269,7 +269,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				}
 
 				for ( var primaryValue in rows.data) {
-					for ( var item in rows.data[primaryValue]) {
+					for ( var item in table.columnsInfo) {
 						if (table.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
 							rows.data[primaryValue][item] = 0;
 						}
@@ -342,7 +342,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				if (table.columnsInfo[columnId].prtype === "N" && table.columnsInfo[columnId].type === "text" && !(this.val(columnId) === "")) {
 					if (isNaN(this.val(columnId).replace(" ", "a"))) {
 						table.editor.field(columnId).focus();
-						table.editor.field(columnId).message("<font color='red'>请录入一个数字</font>");
+						table.editor.field(columnId).message("<font color='red'>此项必须为数字</font>");
 						this.error("操作失败，录入项目：<strong>" + table.columnsInfo[columnId].name + "</strong> 有误!");
 						return false;
 					} else {
