@@ -49,6 +49,62 @@ function ControlPar(type, name, value, control) {
 		control : control
 	};
 }
+function DataTablesButtons(table, button) {
+	var buttons = [];
+
+	if (!(button === undefined || button === null)) {
+		if (button.indexOf("R") >= 0) {
+			buttons.push({
+				text : '<i class="glyphicon glyphicon-search blueberry"></i> 查询',
+				action : function(e, dt, node, config) {
+					table.table.ajax.reload(null, false);
+				}
+			});
+		}
+		if (button.indexOf("N") >= 0) {
+			buttons.push({
+				extend : "create",
+				editor : table.editor
+			});
+		}
+		if (button.indexOf("E") >= 0) {
+			buttons.push({
+				extend : "edit",
+				editor : table.editor
+			});
+		}
+		if (button.indexOf("D") >= 0) {
+			buttons.push({
+				extend : "remove",
+				editor : table.editor
+			});
+		}
+		if (button.indexOf("P") >= 0) {
+			buttons.push({
+				extend : 'collection',
+				text : '<i class="glyphicon glyphicon-download-alt"></i> 导出',
+				buttons : [ {
+					extend : "copy",
+					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-clipboard"></i> 复制</a>'
+				}, {
+					extend : "print",
+					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-print"></i> 打印</a>'
+				}, {
+					extend : "excel",
+					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-table"></i> 另存为Excel</a>'
+				}, {
+					extend : "csv",
+					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-table"></i> 另存为CSV</a>'
+				}, {
+					extend : "pdf",
+					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-file-text"></i> 另存为PDF</a>'
+				} ]
+			});
+		}
+	}
+
+	return buttons;
+}
 /**
  * 
  * @param pageId
@@ -203,13 +259,16 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 		modifyUrl : ""
 	};
 	this.lengthInfo = {
-		lengthMenu : [ [ 25, 100, 300, -1 ], [ "25条", "100条", "300条", "全部" ] ],
-		pageLength : 25
+		lengthMenu : [ [ 50, 100, 300, -1 ], [ "50条", "100条", "300条", "全部" ] ],
+		pageLength : 50
 	};
+	this.scrollY = 80;
+	this.scrollX = false;
+	this.buttons = "RNEDP";
 	this.columnsInfo = DataTablesColumnInfo(pageId, columnHeadName, callError);
 	this.columns = DataTablesColumns(this.columnsInfo);
 	this.fields = DataTablesFields(this.columnsInfo);
-	this.create = function() {
+	this.create = function(editorAjax, dataTableAjax) {
 		var table = this, tableServerInfo = this.serverInfo;
 		var tableColumns = [], tableFields = [];
 
@@ -254,53 +313,57 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				}
 			},
 			ajax : function(method, url, rows, callSuccess, callError) {
-				var type = "", parCount = 0, inPars = [];
-
-				if (rows.action === "create") {
-					type = "I";
-				} else if (rows.action === "edit") {
-					type = "U";
-				} else if (rows.action === "remove") {
-					type = "D";
+				if (!(editorAjax == undefined || editorAjax === null)) {
+					editorAjax(method, url, rows, callSuccess, callError);
 				} else {
-					table.editor.i18n.error.system = "操作失败，未知的处理类型！";
-					callError();
-					return;
-				}
+					var type = "", parCount = 0, inPars = [];
 
-				for ( var primaryValue in rows.data) {
-					for ( var item in table.columnsInfo) {
-						if (table.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
-							rows.data[primaryValue][item] = 0;
-						}
-					}
-					rows.data[primaryValue]["_type"] = type;
-					inPars.push(rows.data[primaryValue]);
-					parCount++;
-				}
-
-				$.ajax({
-					async : false,
-					type : "POST",
-					url : tableServerInfo.modifyUrl,
-					cache : false,
-					data : ServerRequestPar(parCount, inPars),
-					dataType : "json",
-					success : function(res) {
-						if (res.code != 0) {
-							table.editor.i18n.error.system = res.message;
-							callError();
-						} else {
-							callSuccess({
-								data : inPars
-							});
-						}
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						table.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
+					if (rows.action === "create") {
+						type = "I";
+					} else if (rows.action === "edit") {
+						type = "U";
+					} else if (rows.action === "remove") {
+						type = "D";
+					} else {
+						table.editor.i18n.error.system = "操作失败，未知的处理类型！";
 						callError();
+						return;
 					}
-				});
+
+					for ( var primaryValue in rows.data) {
+						for ( var item in table.columnsInfo) {
+							if (table.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
+								rows.data[primaryValue][item] = 0;
+							}
+						}
+						rows.data[primaryValue]["_type"] = type;
+						inPars.push(rows.data[primaryValue]);
+						parCount++;
+					}
+
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : tableServerInfo.modifyUrl,
+						cache : false,
+						data : ServerRequestPar(parCount, inPars),
+						dataType : "json",
+						success : function(res) {
+							if (res.code != 0) {
+								table.editor.i18n.error.system = res.message;
+								callError();
+							} else {
+								callSuccess({
+									data : inPars
+								});
+							}
+						},
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							table.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
+							callError();
+						}
+					});
+				}
 			}
 		});
 
@@ -372,113 +435,87 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 			},
 			lengthMenu : table.lengthInfo.lengthMenu,
 			pageLength : table.lengthInfo.pageLength,
+			scrollY : table.scrollY + "vh",
+			scrollX : table.scrollX,
+			scrollCollapse : true,
 			select : true,
 			processing : true,
 			serverSide : true,
 			columns : tableColumns,
-			buttons : [ {
-				text : '<i class="glyphicon glyphicon-search blueberry"></i> 查询',
-				action : function(e, dt, node, config) {
-					table.table.ajax.reload(null, false);
-				}
-			}, {
-				extend : "create",
-				editor : table.editor
-			}, {
-				extend : "edit",
-				editor : table.editor
-			}, {
-				extend : "remove",
-				editor : table.editor
-			}, {
-				extend : 'collection',
-				text : '<i class="glyphicon glyphicon-download-alt"></i> 导出',
-				buttons : [ {
-					extend : "copy",
-					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-clipboard"></i> 复制</a>'
-				}, {
-					extend : "print",
-					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-print"></i> 打印</a>'
-				}, {
-					extend : "excel",
-					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-table"></i> 另存为Excel</a>'
-				}, {
-					extend : "csv",
-					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-table"></i> 另存为CSV</a>'
-				}, {
-					extend : "pdf",
-					text : '<a class="btn btn-default purple" href="javascript:void(0);" style="width:100%;text-align:left;"><i class="fa fa-file-text"></i> 另存为PDF</a>'
-				} ]
-			} ],
+			buttons : DataTablesButtons(table, table.buttons),
 			ajax : function(data, callback, settings) {
-				var parCount = 2;
-				var displayStart = data.start, displayLength = data.length;
-				var inPar = {
-					pageNumber : displayLength == -1 ? 0 : parseInt(displayStart / displayLength) + 1,
-					pageSize : displayLength == -1 ? 0 : displayLength
-				};
-				var tableData = {
-					draw : settings.iDraw,
-					recordsTotal : 0,
-					recordsFiltered : 0,
-					data : []
-				};
+				if (!(dataTableAjax === undefined || dataTableAjax === null)) {
+					dataTableAjax(data, callback, settings);
+				} else {
+					var parCount = 2;
+					var displayStart = data.start, displayLength = data.length;
+					var inPar = {
+						pageNumber : displayLength == -1 ? 0 : parseInt(displayStart / displayLength) + 1,
+						pageSize : displayLength == -1 ? 0 : displayLength
+					};
+					var tableData = {
+						draw : settings.iDraw,
+						recordsTotal : 0,
+						recordsFiltered : 0,
+						data : []
+					};
 
-				for (var icnt = 0; icnt < tableServerInfo.referControls.length; icnt++) {
-					if (tableServerInfo.referControls[icnt].type == "text") {
-						if (tableServerInfo.referControls[icnt].control.val() != "") {
-							parCount++;
-							inPar[tableServerInfo.referControls[icnt].name] = tableServerInfo.referControls[icnt].control.val();
-						}
-					} else if (tableServerInfo.referControls[icnt].type == "real") {
-						if (tableServerInfo.referControls[icnt].value != "") {
-							parCount++;
-							inPar[tableServerInfo.referControls[icnt].name] = tableServerInfo.referControls[icnt].value;
-						}
-					} else {
-					}
-				}
-
-				$.ajax({
-					async : false,
-					type : "POST",
-					url : tableServerInfo.referUrl,
-					cache : false,
-					data : ServerRequestPar(parCount, inPar),
-					dataType : "json",
-					success : function(res) {
-						if (res.code != 0) {
-							if (callError != undefined && callError != null) {
-								callError(res.code, res.message);
+					for (var icnt = 0; icnt < tableServerInfo.referControls.length; icnt++) {
+						if (tableServerInfo.referControls[icnt].type == "text") {
+							if (tableServerInfo.referControls[icnt].control.val() != "") {
+								parCount++;
+								inPar[tableServerInfo.referControls[icnt].name] = tableServerInfo.referControls[icnt].control.val();
+							}
+						} else if (tableServerInfo.referControls[icnt].type == "real") {
+							if (tableServerInfo.referControls[icnt].value != "") {
+								parCount++;
+								inPar[tableServerInfo.referControls[icnt].name] = tableServerInfo.referControls[icnt].value;
 							}
 						} else {
-							tableData.recordsTotal = res.totalCount;
-							tableData.recordsFiltered = res.totalCount;
-
-							$.each(res.data, function(index, valueRow) {
-								var DT_RowId = "";
-
-								for ( var columnId in table.columnsInfo) {
-									if (table.columnsInfo[columnId].primary === 1) {
-										DT_RowId += "_" + valueRow[columnId];
-									}
-								}
-
-								valueRow.DT_RowId = DT_RowId;
-								tableData.data.push(valueRow);
-							});
 						}
-						callback(tableData);
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						if (callError != undefined && callError != null) {
-							callError(-900, "操作未完成，向服务器请求失败...");
-						}
-
-						callback(tableData);
 					}
-				});
-			},
+
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : tableServerInfo.referUrl,
+						cache : false,
+						data : ServerRequestPar(parCount, inPar),
+						dataType : "json",
+						success : function(res) {
+							if (res.code != 0) {
+								if (callError != undefined && callError != null) {
+									callError(res.code, res.message);
+								}
+							} else {
+								tableData.recordsTotal = res.totalCount;
+								tableData.recordsFiltered = res.totalCount;
+
+								$.each(res.data, function(index, valueRow) {
+									var DT_RowId = "";
+
+									for ( var columnId in table.columnsInfo) {
+										if (table.columnsInfo[columnId].primary === 1) {
+											DT_RowId += "_" + valueRow[columnId];
+										}
+									}
+
+									valueRow.DT_RowId = DT_RowId;
+									tableData.data.push(valueRow);
+								});
+							}
+							callback(tableData);
+						},
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							if (callError != undefined && callError != null) {
+								callError(-900, "操作未完成，向服务器请求失败...");
+							}
+
+							callback(tableData);
+						}
+					});
+				}
+			}
 		});
 	}
 }

@@ -45,6 +45,9 @@ function(n) {
 			})
 		},
 		selectItem: function(t) {
+			if(!canshow){
+				return;
+			}
 			var i = n(t),
 				u = this.$element.find(".tree-selected"),
 				r = [],
@@ -61,6 +64,10 @@ function(n) {
 				item: i,
 				eventType: f
 			})
+			
+			selectTypeId = r[0].typeId;
+			selectNodeId = r[0].nodeId;
+			tableTypeItem.table.ajax.reload(null, false);
 		},
 		selectFolder: function(t) {
 			if(!canshow){

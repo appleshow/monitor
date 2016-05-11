@@ -1,4 +1,4 @@
-﻿var tableTypeItem, CombTypeData = [], CombNodeData = [];
+﻿var tableTypeItem, combTypeData = [], combTypeItemData = [], combNodeData = [], selectTypeId = 0, selectNodeId = 0;
 var DataSourceTree = function(options) {
 	this._data = options.data;
 	this._delay = options.delay
@@ -31,15 +31,17 @@ DataSourceTree.prototype = {
 							} else {
 								var treeData = [];
 
-								CombNodeData = res.data;
+								$.merge(combNodeData, res.data);
 								$.each(res.data, function(index, value) {
 									var item = {};
 
 									item.id = "node" + value.nodeId;
 									item.name = value.nodeName + "<div class='tree-actions'><i onclick=showNodeModal(" + value.typeId + "," + value.nodeId
-											+ ",'U') class='glyphicon glyphicon-pencil blue' title='编辑站点'></i> <i onclick=deleteNode(" + value.nodeId
-											+ ") class='glyphicon glyphicon-minus red' title='删除站点'></i> </div>";
+											+ ",'U') class='glyphicon glyphicon-pencil blue' title='编辑站点'></i> <i onclick=deleteNode(" + value.nodeId + ",'" + value.nodeName
+											+ "') class='glyphicon glyphicon-minus red' title='删除站点'></i> </div>";
 									item.type = 'item';
+									item.typeId = value.typeId;
+									item.nodeId = value.nodeId;
 
 									treeData.push(item);
 								});
@@ -78,7 +80,12 @@ DataSourceTree.prototype = {
 						} else {
 							var treeData = [];
 
-							CombTypeData = res.data;
+							combTypeData = res.data;
+							if (!(res.subJoin === undefined || res.subJoin === null)) {
+								if (!(res.subJoin["typeItems"] === undefined || res.subJoin["typeItems"] === null)) {
+									combTypeItemData = res.subJoin["typeItems"];
+								}
+							}
 							$.each(res.data, function(index, value) {
 								var item = {};
 
@@ -121,38 +128,22 @@ jQuery(document).ready(function() {
 		loadingHTML : '<div class="tree-loading"><i class="fa fa-rotate-right fa-spin"></i></div>'
 	});
 
-	$("#typeId").select2({
-		placeholder : "选择一个类型",
-		allowClear : true,
-		language : "zh-CN"
-	});
-
-	getHbTypeComb();
-	tableTypeItem = new CommDataTables("#table-typeitem", "#table-typeitem-columns", 11, callError);
+	tableTypeItem = new CommDataTables("#table-typeitem", "#table-typeitem-columns", 12, callError);
 	tableTypeItem.serverInfo.referUrl = "hbTypeItemConfig.referHbTypeItem";
-	tableTypeItem.serverInfo.referControls.push(ControlPar("text", "typeId", "", $("#typeId")));
 	tableTypeItem.serverInfo.modifyUrl = "hbTypeItemConfig.modifyHbTypeItem";
-
+	tableTypeItem.lengthInfo = {
+		lengthMenu : [ [ -1 ], [ "全部" ] ],
+		pageLength : -1
+	};
+	tableTypeItem.scrollY = 75;
+	tableTypeItem.buttons = "EP";
+	
 	// ***** Add information to Column *****
-	tableTypeItem.columns["typeId"].render = function(data, type, row) {
-		var fixData = data;
-
-		if (type === 'display') {
-			$.each(CombTypeData, function(index, value) {
-				if (value["typeId"] === data) {
-					fixData = value["typeName"];
-				}
-			});
-		}
-
-		return fixData;
-	}
 	// *********************************
 	// ***** Add information to Field *****
-	tableTypeItem.fields["typeId"].options = TransToOptions(CombTypeData, "typeId", "typeName");
 	// *********************************
 
-	tableTypeItem.create();
+	tableTypeItem.create(null, dataTableAjax);
 })
 
 function getHbTypeComb() {
@@ -167,7 +158,7 @@ function getHbTypeComb() {
 			if (res.code != 0) {
 				callError(res.code, res.message);
 			} else {
-				CombTypeData = res.data;
+				combTypeData = res.data;
 
 				var html = "";
 				$.each(res.data, function(index, value) {
@@ -186,7 +177,7 @@ function getHbTypeComb() {
 function showNodeModal(typeId, nodeId, type) {
 	canshow = false;
 
-	$.each(CombTypeData, function(index, value) {
+	$.each(combTypeData, function(index, value) {
 		if (value["typeId"] === typeId) {
 			$("#type-name").val(value["typeName"]);
 		}
@@ -203,7 +194,8 @@ function showNodeModal(typeId, nodeId, type) {
 	$("#node-ly").val("");
 
 	if (type === "U") {
-		$.each(CombNodeData, function(index, value) {
+		$("#node-modal-title").html("&nbsp;&nbsp;&nbsp;更新站点信息");
+		$.each(combNodeData, function(index, value) {
 			if (value["nodeId"] === nodeId) {
 				$("#node-name").val(value["nodeName"]);
 				$("#node-mn").val(value["nodeMn"]);
@@ -215,6 +207,8 @@ function showNodeModal(typeId, nodeId, type) {
 				}
 			}
 		});
+	} else {
+		$("#node-modal-title").html("&nbsp;&nbsp;&nbsp;新增一个站点");
 	}
 	$('#node-modal').modal({
 		backdrop : 'static',
@@ -232,63 +226,111 @@ function showNodeModal(typeId, nodeId, type) {
  * 
  * @param nodeId
  */
-function deleteNode(nodeId) {
+function deleteNode(nodeId, nodeName) {
+	canshow = false;
 
+	$("#action-type").val("D");
+	$("#node-id").val(nodeId);
+	$("#labl-delete-body").html("&nbsp;确定要删除站点【" + nodeName + "】？");
+	$('#node-modal-delete').modal({
+		backdrop : 'static',
+		keyboard : true
+	});
+	canshow = true;
 }
 
 /**
  * 
  */
 function modifyNode() {
-	if ($("#node-name").val() === "") {
-		$("#node-name").attr('placeholder', '此项不能为空');
-		$("#node-name").focus();
-	} else if ($("#node-mn").val() === "") {
-		$("#node-mn").attr('placeholder', '此项不能为空');
-		$("#node-mn").focus();
-	} else if (isNaN(($("#node-lx").val()).replace(" ", "a"))) {
-		$("#node-lx").val("");
-		$("#node-lx").attr('placeholder', '此项必须为数字');
-		$("#node-lx").focus();
-	} else if (isNaN(($("#node-ly").val()).replace(" ", "a"))) {
-		$("#node-ly").val("");
-		$("#node-ly").attr('placeholder', '此项必须为数字');
-		$("#node-ly").focus();
-	} else {
-		var nodeAtr = {
-			lx : $("#node-lx").val(),
-			ly : $("#node-ly").val()
-		};
+	var type = $("#action-type").val(), serverRequestPar;
 
-		$.ajax({
-			async : false,
-			type : "POST",
-			url : "hbNodeConfig.modifyHbNode",
-			cache : false,
-			data : ServerRequestPar(1, [ {
-				_type : $("#action-type").val(),
+	if (type === "D") {
+		serverRequestPar = ServerRequestPar(1, [ {
+			_type : type,
+			nodeId : $("#node-id").val(),
+		} ]);
+	} else if (type === "I" || type == "U") {
+		if ($("#node-name").val() === "") {
+			$("#node-name").attr('placeholder', '此项不能为空');
+			$("#node-name").focus();
+			return;
+		} else if ($("#node-mn").val() === "") {
+			$("#node-mn").attr('placeholder', '此项不能为空');
+			$("#node-mn").focus();
+			return;
+		} else if (isNaN(($("#node-lx").val()).replace(" ", "a"))) {
+			$("#node-lx").val("");
+			$("#node-lx").attr('placeholder', '此项必须为数字');
+			$("#node-lx").focus();
+			return;
+		} else if (isNaN(($("#node-ly").val()).replace(" ", "a"))) {
+			$("#node-ly").val("");
+			$("#node-ly").attr('placeholder', '此项必须为数字');
+			$("#node-ly").focus();
+			return;
+		} else {
+			var nodeAtr = {
+				lx : $("#node-lx").val(),
+				ly : $("#node-ly").val()
+			};
+
+			serverRequestPar = ServerRequestPar(1, [ {
+				_type : type,
 				typeId : $("#type-id").val(),
 				nodeId : $("#node-id").val(),
 				nodeName : $("#node-name").val(),
 				nodeMn : $("#node-mn").val(),
 				nodeAtr : JSON.stringify(nodeAtr)
-			} ]),
-			dataType : "json",
-			success : function(res) {
-				if (res.code != 0) {
-					$("#node-message").html(res.message);
-					$("#node-message-label").show();
-				} else {
-					$('#node-modal').modal('hide');
-					parent.refreshPage();
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				$("#node-message").html("服务器请求异常！");
+			} ]);
+		}
+	} else {
+		return;
+	}
+
+	$.ajax({
+		async : false,
+		type : "POST",
+		url : "hbNodeConfig.modifyHbNode",
+		cache : false,
+		data : serverRequestPar,
+		dataType : "json",
+		success : function(res) {
+			if (res.code != 0) {
+				$("#node-message").html(res.message);
 				$("#node-message-label").show();
+			} else {
+				$('#node-modal').modal('hide');
+				parent.refreshPage();
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$("#node-message").html("服务器请求异常！");
+			$("#node-message-label").show();
+		}
+	});
+}
+
+function dataTableAjax(data, callback, settings) {
+	var tableData = {
+		draw : settings.iDraw,
+		recordsTotal : 0,
+		recordsFiltered : 0,
+		data : []
+	};
+
+	if (selectTypeId != 0 && selectNodeId != 0) {
+		$.each(combTypeItemData, function(index, value) {
+			if (value["typeId"] === selectTypeId) {
+				value.DT_RowId = "_" + value.itemId;
+				tableData.data.push(value);
+				tableData.recordsTotal++;
+				tableData.recordsFiltered++;
 			}
 		});
 	}
+
+	callback(tableData);
 }
 
 function callError(code, message) {

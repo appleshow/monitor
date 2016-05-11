@@ -21,6 +21,7 @@ import com.aps.monitor.model.HbNode;
 import com.aps.monitor.model.HbType;
 import com.aps.monitor.model.HbTypeItem;
 import com.aps.monitor.service.IHbNodeConfigService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -52,9 +53,16 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
+		HbTypeItem hbTypeItem = new HbTypeItem();
+		List<HbTypeItem> hbTypeItems;
 
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
+		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
 		responseData.setData(hbTypes);
+
+		ObjectNode subJoin = JsonUtil.getObjectNodeInstance();
+		subJoin.putArray("typeItems").addAll(JsonUtil.valueToArrayNode(hbTypeItems));
+		responseData.setSubJoin(subJoin);
 	}
 
 	/**
