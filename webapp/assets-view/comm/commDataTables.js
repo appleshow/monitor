@@ -52,7 +52,7 @@ function ControlPar(type, name, value, control) {
 function DataTablesButtons(table, button) {
 	var buttons = [];
 
-	if (!(button === undefined || button === null)) {
+	if (!(typeof (button) === "undefined" || button === null)) {
 		if (button.indexOf("R") >= 0) {
 			buttons.push({
 				text : '<i class="glyphicon glyphicon-search blueberry"></i> 查询',
@@ -126,7 +126,7 @@ function DataTablesColumnInfo(pageId, columnHeadName, callError) {
 		dataType : "json",
 		success : function(res) {
 			if (res.code != 0) {
-				if (callError != undefined && callError != null) {
+				if (typeof (callError) != "undefined" && callError != null) {
 					callError(res.code, res.message);
 				}
 			} else {
@@ -136,15 +136,15 @@ function DataTablesColumnInfo(pageId, columnHeadName, callError) {
 					var columnInfo = {};
 
 					columnInfo.name = value.columnName;
-					columnInfo.primary = value.columnPrimary === undefined ? 0 : value.columnPrimary;
-					columnInfo.update = value.columnUpdate === undefined ? 0 : value.columnUpdate;
-					columnInfo.edit = value.columnEdit === undefined ? 0 : value.columnEdit;
-					columnInfo.type = value.columnType === undefined ? "text" : value.columnType;
-					columnInfo.lock = value.columnLock === undefined ? 0 : value.columnLock;
-					columnInfo.sort = value.columnSort === undefined ? 0 : value.columnSort;
-					columnInfo.hide = value.columnHide === undefined ? 0 : value.columnHide;
-					columnInfo.align = value.columnAlign === undefined ? 0 : value.columnAlign;
-					columnInfo.prtype = value.prtype === undefined ? "T" : value.prtype;
+					columnInfo.primary = typeof (value.columnPrimary) === "undefined" ? 0 : value.columnPrimary;
+					columnInfo.update = typeof (value.columnUpdate) === "undefined" ? 0 : value.columnUpdate;
+					columnInfo.edit = typeof (value.columnEdit) === "undefined" ? 0 : value.columnEdit;
+					columnInfo.type = typeof (value.columnType) === "undefined" ? "text" : value.columnType;
+					columnInfo.lock = typeof (value.columnLock) === "undefined" ? 0 : value.columnLock;
+					columnInfo.sort = typeof (value.columnSort) === "undefined" ? 0 : value.columnSort;
+					columnInfo.hide = typeof (value.columnHide) === "undefined" ? 0 : value.columnHide;
+					columnInfo.align = typeof (value.columnAlign) === "undefined" ? 0 : value.columnAlign;
+					columnInfo.prtype = typeof (value.prtype) === "undefined" ? "T" : value.prtype;
 
 					tableColumnInfo[value.columnId] = columnInfo;
 
@@ -155,7 +155,7 @@ function DataTablesColumnInfo(pageId, columnHeadName, callError) {
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			if (callError != undefined && callError != null) {
+			if (typeof (callError) != "undefined" && callError != null) {
 				callError(-900, "操作未完成，向服务器请求失败...");
 			}
 
@@ -313,7 +313,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				}
 			},
 			ajax : function(method, url, rows, callSuccess, callError) {
-				if (!(editorAjax == undefined || editorAjax === null)) {
+				if (!(typeof (editorAjax) === "undefined" || editorAjax === null)) {
 					editorAjax(method, url, rows, callSuccess, callError);
 				} else {
 					var type = "", parCount = 0, inPars = [];
@@ -394,13 +394,15 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 				return true;
 			}
 			for ( var columnId in table.columnsInfo) {
-				if (table.columnsInfo[columnId].update === 1 && this.val(columnId) === "") {
-					table.editor.field(columnId).focus();
-					table.editor.field(columnId).message("<font color='red'>此项不能为空</font>");
-					this.error("操作失败，请录入项目：<strong>" + table.columnsInfo[columnId].name + "</strong>!");
-					return false;
-				} else {
-					table.editor.field(columnId).message("");
+				if (!(table.columnsInfo[columnId].hide === 1)) {
+					if (table.columnsInfo[columnId].update === 1 && this.val(columnId) === "") {
+						table.editor.field(columnId).focus();
+						table.editor.field(columnId).message("<font color='red'>此项不能为空</font>");
+						this.error("操作失败，请录入项目：<strong>" + table.columnsInfo[columnId].name + "</strong>!");
+						return false;
+					} else {
+						table.editor.field(columnId).message("");
+					}
 				}
 				if (table.columnsInfo[columnId].prtype === "N" && table.columnsInfo[columnId].type === "text" && !(this.val(columnId) === "")) {
 					if (isNaN(this.val(columnId).replace(" ", "a"))) {
@@ -444,7 +446,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 			columns : tableColumns,
 			buttons : DataTablesButtons(table, table.buttons),
 			ajax : function(data, callback, settings) {
-				if (!(dataTableAjax === undefined || dataTableAjax === null)) {
+				if (!(typeof (dataTableAjax) === "undefined" || dataTableAjax === null)) {
 					dataTableAjax(data, callback, settings);
 				} else {
 					var parCount = 2;
@@ -484,7 +486,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 						dataType : "json",
 						success : function(res) {
 							if (res.code != 0) {
-								if (callError != undefined && callError != null) {
+								if (typeof (callError) != "undefined" && callError != null) {
 									callError(res.code, res.message);
 								}
 							} else {
@@ -507,7 +509,7 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 							callback(tableData);
 						},
 						error : function(XMLHttpRequest, textStatus, errorThrown) {
-							if (callError != undefined && callError != null) {
+							if (typeof (callError) != "undefined" && callError != null) {
 								callError(-900, "操作未完成，向服务器请求失败...");
 							}
 

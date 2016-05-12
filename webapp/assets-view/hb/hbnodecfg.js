@@ -31,6 +31,14 @@ DataSourceTree.prototype = {
 							} else {
 								var treeData = [];
 
+								$.each(res.data, function(index, value) {
+									var nodeItem = value["nodeItem"];
+
+									if (!(typeof (nodeItem) === "undefined" || nodeItem === null)) {
+										res.data[index]["nodeItem"] = $.parseJSON(nodeItem);
+									}
+								});
+
 								$.merge(combNodeData, res.data);
 								$.each(res.data, function(index, value) {
 									var item = {};
@@ -81,8 +89,8 @@ DataSourceTree.prototype = {
 							var treeData = [];
 
 							combTypeData = res.data;
-							if (!(res.subJoin === undefined || res.subJoin === null)) {
-								if (!(res.subJoin["typeItems"] === undefined || res.subJoin["typeItems"] === null)) {
+							if (!(typeof (res.subJoin) === "undefined" || res.subJoin === null)) {
+								if (!(typeof (res.subJoin["typeItems"]) === "undefined" || res.subJoin["typeItems"] === null)) {
 									combTypeItemData = res.subJoin["typeItems"];
 								}
 							}
@@ -129,21 +137,19 @@ jQuery(document).ready(function() {
 	});
 
 	tableTypeItem = new CommDataTables("#table-typeitem", "#table-typeitem-columns", 12, callError);
-	tableTypeItem.serverInfo.referUrl = "hbTypeItemConfig.referHbTypeItem";
-	tableTypeItem.serverInfo.modifyUrl = "hbTypeItemConfig.modifyHbTypeItem";
 	tableTypeItem.lengthInfo = {
 		lengthMenu : [ [ -1 ], [ "全部" ] ],
 		pageLength : -1
 	};
 	tableTypeItem.scrollY = 75;
 	tableTypeItem.buttons = "EP";
-	
+
 	// ***** Add information to Column *****
 	// *********************************
 	// ***** Add information to Field *****
 	// *********************************
 
-	tableTypeItem.create(null, dataTableAjax);
+	tableTypeItem.create(editorAjax, dataTableAjax);
 })
 
 function getHbTypeComb() {
@@ -199,7 +205,7 @@ function showNodeModal(typeId, nodeId, type) {
 			if (value["nodeId"] === nodeId) {
 				$("#node-name").val(value["nodeName"]);
 				$("#node-mn").val(value["nodeMn"]);
-				if (!(value["nodeAtr"] === undefined || value["nodeAtr"] === null || value["nodeAtr"] === "")) {
+				if (!(typeof (value["nodeAtr"]) === "undefined" || value["nodeAtr"] === null || value["nodeAtr"] === "")) {
 					var nodeAtr = $.parseJSON(value["nodeAtr"]);
 
 					$("#node-lx").val(nodeAtr["lx"]);
@@ -311,6 +317,84 @@ function modifyNode() {
 	});
 }
 
+function editorAjax(method, url, rows, callSuccess, callError) {
+	var type = "", parCount = 0, inPar = {}, inPars = [], nodeItem = {}, nodeItems = [];
+	var oldCombNodeData = jQuery.extend(true, {}, combNodeData);
+
+	if (rows.action === "create") {
+		type = "I";
+	} else if (rows.action === "edit") {
+		type = "U";
+	} else if (rows.action === "remove") {
+		type = "D";
+	} else {
+		tableTypeItem.editor.i18n.error.system = "操作失败，未知的处理类型！";
+		callError();
+		return;
+	}
+
+	for ( var primaryValue in rows.data) {
+		for ( var item in tableTypeItem.columnsInfo) {
+			if (tableTypeItem.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
+				rows.data[primaryValue][item] = 0;
+			}
+		}
+		inPars.push(rows.data[primaryValue]);
+	}
+
+	$.each(combNodeData, function(index, nodeData) {
+		if (nodeData["nodeId"] === selectNodeId) {
+			if (!(typeof (nodeData["nodeItem"]) === "undefined" || nodeData["nodeItem"] === null)) {
+				nodeItem = nodeData["nodeItem"];
+			}
+		}
+	});
+	$.each(inPars, function(index, item) {
+		var tmp = {};
+
+		tmp["itemUnit"] = item["itemUnit"];
+		tmp["itemVmin"] = item["itemVmin"];
+		tmp["itemVmax"] = item["itemVmax"];
+		tmp["select"] = item["select"];
+		tmp["alarm"] = item["alarm"];
+		tmp["main"] = item["main"];
+
+		nodeItem["" + item["itemId"]] = tmp;
+	});
+
+	inPar["_type"] = type;
+	inPar["nodeId"] = selectNodeId;
+	inPar["nodeItem"] = JSON.stringify(nodeItem);
+
+	nodeItems.push(inPar);
+
+	$.ajax({
+		async : false,
+		type : "POST",
+		url : "hbNodeConfig.modifyHbNode",
+		cache : false,
+		data : ServerRequestPar(1, nodeItems),
+		dataType : "json",
+		success : function(res) {
+			if (res.code != 0) {
+				combNodeData = oldCombNodeData;
+				tableTypeItem.editor.i18n.error.system = res.message;
+				callError();
+			} else {
+				callSuccess({
+					data : inPars
+				});
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			combNodeData = oldCombNodeData;
+			tableTypeItem.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
+			callError();
+		}
+	});
+
+}
+
 function dataTableAjax(data, callback, settings) {
 	var tableData = {
 		draw : settings.iDraw,
@@ -320,10 +404,28 @@ function dataTableAjax(data, callback, settings) {
 	};
 
 	if (selectTypeId != 0 && selectNodeId != 0) {
-		$.each(combTypeItemData, function(index, value) {
-			if (value["typeId"] === selectTypeId) {
-				value.DT_RowId = "_" + value.itemId;
-				tableData.data.push(value);
+		var oldCombTypeItemData = jQuery.extend(true, {}, combTypeItemData);
+		$.each(oldCombTypeItemData, function(defaultIndex, defaultItem) {
+			if (defaultItem["typeId"] === selectTypeId) {
+				defaultItem.DT_RowId = "_" + defaultItem.itemId;
+				$.each(combNodeData, function(nodeIndex, nodeData) {
+					if (nodeData["nodeId"] === selectNodeId) {
+						var nodeItems = nodeData["nodeItem"];
+
+						defaultItem["nodeName"] = nodeData["nodeName"];
+						if (!(typeof (nodeItems) === "undefined" || nodeItems === null)) {
+							var itemId = "" + defaultItem.itemId;
+							var nodeItem = nodeItems[itemId];
+
+							if (!(typeof (nodeItem) === "undefined" || nodeItem === null)) {
+								for ( var item in nodeItem) {
+									defaultItem[item] = nodeItem[item];
+								}
+							}
+						}
+					}
+				});
+				tableData.data.push(defaultItem);
 				tableData.recordsTotal++;
 				tableData.recordsFiltered++;
 			}
