@@ -244,11 +244,11 @@ function DataTablesFields(columnInfo) {
 /**
  * @param tableName
  * @param columnHeadName
- * @param pageId
+ * @param column
  * @param callError
  * @returns {___anonymous3244_3245}
  */
-function CommDataTables(tableName, columnHeadName, pageId, callError) {
+function CommDataTables(tableName, columnHeadName, column, callError) {
 	this.table = function() {
 	};
 	this.editor = function() {
@@ -265,7 +265,11 @@ function CommDataTables(tableName, columnHeadName, pageId, callError) {
 	this.scrollY = 80;
 	this.scrollX = false;
 	this.buttons = "RNEDP";
-	this.columnsInfo = DataTablesColumnInfo(pageId, columnHeadName, callError);
+	if (!isNaN(column)) {
+		this.columnsInfo = DataTablesColumnInfo(column, columnHeadName, callError);
+	} else {
+		this.columnsInfo = column;
+	}
 	this.columns = DataTablesColumns(this.columnsInfo);
 	this.fields = DataTablesFields(this.columnsInfo);
 	this.create = function(editorAjax, dataTableAjax) {
