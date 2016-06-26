@@ -17,7 +17,8 @@ public class ResponseData {
 	private int pageSize;
 	private int pageNumber;
 	private List<?> data;
-	private ObjectNode subJoin;
+	private ResponseData subJoinResponseData;
+	private ObjectNode subJoinJson;
 
 	public ResponseData() {
 
@@ -227,10 +228,11 @@ public class ResponseData {
 	 * 
 	 * @Title: setData
 	 * @Description: TODO
-	 * @param: @param e
+	 * @param: @param
+	 *             e
 	 * @return: void
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public void setData(Exception e) {
 		if (e instanceof DuplicateKeyException) {
@@ -257,11 +259,13 @@ public class ResponseData {
 	 * 
 	 * @Title: setData
 	 * @Description: TODO
-	 * @param: @param code
-	 * @param: @param e
+	 * @param: @param
+	 *             code
+	 * @param: @param
+	 *             e
 	 * @return: void
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public void setData(int code, Exception e) {
 		setData(e);
@@ -269,23 +273,44 @@ public class ResponseData {
 	}
 
 	/**
-	 * @Title: getSubJoin
+	 * @Title: getSubJoinJson
 	 * @Description:
 	 * @return: ObjectNode
 	 * @since 1.0.0
 	 */
-	public ObjectNode getSubJoin() {
-		return subJoin;
+	public ObjectNode getSubJoinJson() {
+		return subJoinJson;
 	}
 
 	/**
-	 * @Title: setSubJoin
+	 * @Title: setSubJoinJson
 	 * @Description:
 	 * @return: ObjectNode
 	 * @since 1.0.0
 	 */
-	public void setSubJoin(ObjectNode subJoin) {
-		this.subJoin = subJoin;
+	public void setSubJoinJson(ObjectNode subJoinJson) {
+		this.subJoinJson = subJoinJson;
+	}
+
+	/**
+	 * @Title: getSubJoinResponseData
+	 * @Description:
+	 * @return: ResponseData
+	 * @since 1.0.0
+	 */
+
+	public ResponseData getSubJoinResponseData() {
+		return subJoinResponseData;
+	}
+
+	/**
+	 * @Title: setSubJoinResponseData
+	 * @Description:
+	 * @return: ResponseData
+	 * @since 1.0.0
+	 */
+	public void setSubJoinResponseData(ResponseData subJoinResponseData) {
+		this.subJoinResponseData = subJoinResponseData;
 	}
 
 }

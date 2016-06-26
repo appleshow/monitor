@@ -24,6 +24,9 @@ public class CommUtil {
 	public final static String MODIFY_TYPE_UPDATE = "U";
 	public final static String MODIFY_TYPE_DELETE = "D";
 
+	public final static String HB_DATA_CUR = "HB_DATA_CUR";
+	public final static String HB_DATA_HIS = "HB_DATA_HIS";
+
 	/**
 	 * 
 	 * @Title: updatePermissoned

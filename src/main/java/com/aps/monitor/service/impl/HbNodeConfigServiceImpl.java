@@ -14,9 +14,11 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.dao.HbDataTableMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
 import com.aps.monitor.dao.HbTypeMapper;
+import com.aps.monitor.model.HbDataTable;
 import com.aps.monitor.model.HbNode;
 import com.aps.monitor.model.HbType;
 import com.aps.monitor.model.HbTypeItem;
@@ -33,6 +35,13 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	private HbTypeItemMapper hbTypeItemMapper;
 	@Resource
 	private HbNodeMapper hbNodeMapper;
+	@Resource
+	private HbDataTableMapper hbDataTableMapper;
+	private final String tableSQL1 = "CREATE TABLE - ( NODE_MN VARCHAR(40) NOT NULL, DATA_TYPE  VARCHAR(20) NOT NULL, DATA_TIME  DATETIME NOT NULL, NODE_DATA  VARCHAR(4000) NULL, RECORD_ID  INTEGER NULL, PRFLAG  INTEGER NULL, PRGROUP VARCHAR(10) NULL, PRTYPE  VARCHAR(10) NULL, PROPERTY0  VARCHAR(100) NULL, PROPERTY1  VARCHAR(100) NULL, PROPERTY2  VARCHAR(20) NULL, PROPERTY3  VARCHAR(20) NULL, PROPERTY4  VARCHAR(20) NULL, PROPERTY5  VARCHAR(20) NULL, PROPERTY6  VARCHAR(20) NULL, PROPERTY7  VARCHAR(20) NULL, PROPERTY8  VARCHAR(20) NULL, PROPERTY9  VARCHAR(20) NULL, PROPERTY10 NUMERIC(15,3) NULL, PROPERTY11 NUMERIC(15,3) NULL, PROPERTY12 NUMERIC(15,3) NULL, PROPERTY13 NUMERIC(15,3) NULL, PROPERTY14 NUMERIC(15,3) NULL, PRINF   VARCHAR(20) NULL, PREXP   VARCHAR(100) NULL, ITIME   DATETIME NULL, ISHIFT  VARCHAR(4) NULL, IGROUP  VARCHAR(20) NULL, IPERSON INTEGER NULL, UTIME   DATETIME NULL, USHIFT  VARCHAR(4) NULL, UGROUP  VARCHAR(20) NULL, UPERSON INTEGER NULL, UFROM   VARCHAR(20) NULL)";
+	private final String tableSQL2 = "CREATE UNIQUE INDEX XPK- ON - ( NODE_MN, DATA_TYPE, DATA_TIME)";
+	private final String tableSQL3 = "ALTER TABLE - ADD PRIMARY KEY (NODE_MN,DATA_TYPE,DATA_TIME);";
+
+	//private final String tableSQL4 = "drop table -";
 
 	/**
 	 * 
@@ -62,7 +71,7 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 
 		ObjectNode subJoin = JsonUtil.getObjectNodeInstance();
 		subJoin.putArray("typeItems").addAll(JsonUtil.valueToArrayNode(hbTypeItems));
-		responseData.setSubJoin(subJoin);
+		responseData.setSubJoinJson(subJoin);
 	}
 
 	/**
@@ -147,6 +156,7 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 		Date now = new Date();
 		Map<String, String> rowData;
 		HbNode hbNode;
+		HbDataTable hbDataTable = new HbDataTable();
 
 		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
@@ -162,6 +172,19 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 						hbNode.setUtime(now);
 						hbNode.setUperson(personId);
 						hbNodeMapper.insertSelective(hbNode);
+
+						hbDataTable.setDataPar(tableSQL1.replace("-", CommUtil.HB_DATA_CUR + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
+						hbDataTable.setDataPar(tableSQL2.replace("-", CommUtil.HB_DATA_CUR + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
+						hbDataTable.setDataPar(tableSQL3.replace("-", CommUtil.HB_DATA_CUR + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
+						hbDataTable.setDataPar(tableSQL1.replace("-", CommUtil.HB_DATA_HIS + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
+						hbDataTable.setDataPar(tableSQL2.replace("-", CommUtil.HB_DATA_HIS + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
+						hbDataTable.setDataPar(tableSQL3.replace("-", CommUtil.HB_DATA_HIS + hbNode.getNodeId()));
+						hbDataTableMapper.create(hbDataTable);
 						break;
 					case CommUtil.MODIFY_TYPE_UPDATE:
 						hbNode.setUtime(now);
@@ -170,6 +193,11 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 						break;
 					case CommUtil.MODIFY_TYPE_DELETE:
 						hbNodeMapper.deleteByPrimaryKey(hbNode.getNodeId());
+
+						//hbDataTable.setDataPar(tableSQL4.replace("-", CommUtil.HB_DATA_CUR + hbNode.getNodeId()));
+						//hbDataTableMapper.delete(hbDataTable);
+						//hbDataTable.setDataPar(tableSQL4.replace("-", CommUtil.HB_DATA_HIS + hbNode.getNodeId()));
+						//hbDataTableMapper.delete(hbDataTable);
 						break;
 					default:
 						break;

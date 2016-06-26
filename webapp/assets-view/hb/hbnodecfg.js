@@ -89,9 +89,9 @@ DataSourceTree.prototype = {
 							var treeData = [];
 
 							combTypeData = res.data;
-							if (!(typeof (res.subJoin) === "undefined" || res.subJoin === null)) {
-								if (!(typeof (res.subJoin["typeItems"]) === "undefined" || res.subJoin["typeItems"] === null)) {
-									combTypeItemData = res.subJoin["typeItems"];
+							if (!(typeof (res.subJoinJson) === "undefined" || res.subJoinJson === null)) {
+								if (!(typeof (res.subJoinJson["typeItems"]) === "undefined" || res.subJoinJson["typeItems"] === null)) {
+									combTypeItemData = res.subJoinJson["typeItems"];
 								}
 							}
 							$.each(res.data, function(index, value) {
@@ -344,9 +344,10 @@ function editorAjax(method, url, rows, callSuccess, callError) {
 
 	$.each(combNodeData, function(index, nodeData) {
 		if (nodeData["nodeId"] === selectNodeId) {
-			if (!(typeof (nodeData["nodeItem"]) === "undefined" || nodeData["nodeItem"] === null)) {
-				nodeItem = nodeData["nodeItem"];
+			if (!nodeData.hasOwnProperty("nodeItem")) {
+				nodeData.nodeItem = {};
 			}
+			nodeItem = nodeData.nodeItem;
 		}
 	});
 	$.each(inPars, function(index, item) {

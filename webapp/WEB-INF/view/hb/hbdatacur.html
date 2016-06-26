@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>监测参数管理</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--DataTables Styles-->
+<link rel="stylesheet" href="./dataTables/Bootstrap-3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./dataTables/DataTables-1.10.11/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="./dataTables/Responsive-2.0.2/css/responsive.bootstrap.css" />
+<link rel="stylesheet" href="./dataTables/Buttons-1.1.2/css/buttons.bootstrap.min.css" />
+<link rel="stylesheet" href="./dataTables/Buttons-1.1.2/css/buttons.bootstrap.min.css" />
+<link rel="stylesheet" href="./dataTables/Select-1.1.2/css/select.bootstrap.min.css" />
+<link rel="stylesheet" href="./dataTables/Editor-1.5.5/css/editor.bootstrap.min.css" />
+<!--  -->
+<link rel="stylesheet" href="./assets-view/comm/color.css" />
+<link rel="stylesheet" href="./assets-view/comm/select2-4.0.2/css/select2.min.css" />
+<style type="text/css">
+.table>tbody>tr>td, .table>tbody>tr>th {
+	padding: 3px;
+}
+
+.table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th,
+	.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+	border: 1px solid black;
+}
+
+.select2-container .select2-selection--single {
+	height: 34px !important;
+	line-height: 34px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+	line-height: 34px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+	{
+	height: 34px;
+}
+
+.box {
+	position: absolute;
+	overflow: auto;
+	width: 100%;
+	height: 95%;
+	background: #fafafa;
+	border: 0px solid #ccc;
+}
+
+.subbox {
+	margin: 10px;
+	width: 520px;
+	height: 250px;
+	background: #fff;
+	border: 1px solid #ccc;
+	float: left;
+}
+
+.line {
+	position: absolute;
+	margin: 5px;
+	width: 510px;
+	height: 195px;
+	background: #fff;
+	border: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+     <div>
+          <ul class="nav nav-tabs" role="tablist">
+               <li role="presentation" class="active"><a href="#lineCur" aria-controls="lineCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-random" aria-hidden="true"></span> 实时数据曲线</a></li>
+               <li role="presentation"><a href="#dataCur" aria-controls="dataCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 实时监测数据</a></li>
+          </ul>
+          <div class="tab-content">
+               <div role="tabpanel" class="tab-pane active" id="lineCur">
+                    <div class="box" id="lineCurBox"></div>
+               </div>
+               <div role="tabpanel" class="tab-pane" id="dataCur">2222...</div>
+          </div>
+     </div>
+     <div class="modal fade" role="dialog" aria-labelledby="msTitle" id="modal-success">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-success" id="msTitle"></span>
+                         </h3>
+                    </div>
+                    <div class="modal-body text-center" id="msMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="modal fade" role="dialog" aria-labelledby="mwTitle" id="modal-warning">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-warning" id="mwTitle"></span>
+                         </h3>
+                    </div>
+                    <div class="modal-body text-center" id="mwMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <!-- DataTables Script -->
+     <script src="./dataTables/jQuery-2.2.0/jquery-2.2.0.min.js"></script>
+     <script src="./dataTables/Bootstrap-3.3.6/js/bootstrap.min.js"></script>
+     <script src="./dataTables/DataTables-1.10.11/js/jquery.dataTables.min.js "></script>
+     <script src="./dataTables/DataTables-1.10.11/js/dataTables.bootstrap.min.js"></script>
+     <script src="./dataTables/Responsive-2.0.2/js/dataTables.responsive.min.js"></script>
+     <script src="./dataTables/Responsive-2.0.2/js/responsive.bootstrap.min.js"></script>
+     <script src="./dataTables/Buttons-1.1.2/js/dataTables.buttons.min.js"></script>
+     <script src="./dataTables/Buttons-1.1.2/js/buttons.bootstrap.min.js"></script>
+     <script src="./dataTables/Select-1.1.2/js/dataTables.select.min.js"></script>
+     <script src="./dataTables/Editor-1.5.5/js/dataTables.editor.min.js"></script>
+     <script src="./dataTables/Editor-1.5.5/js/editor.bootstrap.min.js"></script>
+     <!--  -->
+     <!-- Print Script -->
+     <script src="./dataTables/JSZip-2.5.0/jszip.min.js"></script>
+     <script src="./dataTables/pdfmake-0.1.18/build/pdfmake.min.js"></script>
+     <script src="./dataTables/pdfmake-0.1.18/build/vfs_fonts.js"></script>
+     <script src="./dataTables/Buttons-1.1.2/js/buttons.html5.min.js"></script>
+     <script src="./dataTables/Buttons-1.1.2/js/buttons.print.min.js"></script>
+     <!--  -->
+     <script src="./assets-view/comm/select2-4.0.2/js/select2.full.min.js"></script>
+     <script src="./assets-view/comm/highcharts/js/highcharts.js"></script>
+     <script src="./assets-view/comm/highcharts/js/exporting.js"></script>
+     <script src="./assets-view/comm/commDataTables.js"></script>
+     <script src="./assets-view/hb/hbdatacur.js"></script>
+</body>
+</html>

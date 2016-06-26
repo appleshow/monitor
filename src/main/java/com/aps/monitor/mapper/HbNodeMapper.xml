@@ -64,7 +64,7 @@
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer"> delete from hb_node where NODE_ID = #{nodeId,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.aps.monitor.model.HbNode"> insert into hb_node (NODE_ID, TYPE_ID, NODE_NAME, NODE_MN, NODE_ATR,
+	<insert id="insert" parameterType="com.aps.monitor.model.HbNode" useGeneratedKeys="true" keyProperty="nodeId"> insert into hb_node (NODE_ID, TYPE_ID, NODE_NAME, NODE_MN, NODE_ATR,
 		NODE_ITEM, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6,
 		PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME,
 		ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values (#{nodeId,jdbcType=INTEGER},
@@ -79,7 +79,7 @@
 		#{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP}, #{ushift,jdbcType=VARCHAR},
 		#{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbNode">
+	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbNode" useGeneratedKeys="true" keyProperty="nodeId">
 		insert into hb_node
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="nodeId != null"> NODE_ID,

@@ -48,7 +48,7 @@ public class MainViewServiceImpl implements IMainViewService {
 		responseData.setData(comMenuMapper.selectPersonMenu(personId));
 		personInf.put(CommUtil.SESSION_USER_NAME, (String) httpSession.getAttribute(CommUtil.SESSION_USER_NAME));
 		personInf.put(CommUtil.SESSION_USER_ID, (String) httpSession.getAttribute(CommUtil.SESSION_USER_ID));
-		responseData.setSubJoin(personInf);
+		responseData.setSubJoinJson(personInf);
 	}
 
 	/**
