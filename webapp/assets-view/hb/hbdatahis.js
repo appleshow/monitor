@@ -4,8 +4,11 @@ var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [], nodeDataCur
 var tableDataCur, combNode, selectNode = "";
 
 jQuery( document ).ready( function() {
+	selectNode = "";
+	$( '#dateStr' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 00:00:00" );
+	$( '#dateEnd' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 23:59:59" );
+
 	refHbNode();
-	refDataCur();
 
 	combNode = $( "#nodeMN" ).select2( {
 		placeholder : "选择一个类型",
@@ -15,10 +18,24 @@ jQuery( document ).ready( function() {
 	getCombNodeData();
 	$( '#nodeMN' ).on( 'select2:select', function(evt) {
 		selectNode = evt.params.data.id;
-		createTableCur();
+		refDataCur();
 	} );
 
-	setInterval( "refDataCur()", 80000 );
+	dateTimeDefualt();
+
+	$( '#dateTimeStr' ).datetimepicker( {
+		format : 'YYYY-MM-DD HH:mm:ss',
+	} );
+	$( '#dateTimeEnd' ).datetimepicker( {
+		format : 'YYYY-MM-DD HH:mm:ss',
+	} );
+	$( "#dateTimeStr" ).on( "dp.change", function(e) {
+		$( '#dateTimeEnd' ).data( "DateTimePicker" ).minDate( e.date );
+	} );
+	$( "#dateTimeEnd" ).on( "dp.change", function(e) {
+		$( '#dateTimeStr' ).data( "DateTimePicker" ).maxDate( e.date );
+	} );
+
 } )
 
 /**
@@ -29,27 +46,19 @@ function refHbNode() {
 	$.ajax( {
 		async : false,
 		type : "POST",
-		url : "hbDataCurController.refHbNode",
+		url : "HbDataHisController.refHbNode",
 		cache : false,
-		data : ServerRequestPar( 0, {} ),
+		data : ServerRequestPar( 1, {
+			nodeMn : selectNode
+		} ),
 		dataType : "json",
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
 			} else {
-				var html = "";
-
 				nodeInfo = res.data;
 				nodeType = res.subJoinResponseData.data;
 				nodeTypeItem = res.subJoinResponseData.subJoinResponseData.data;
-				$.each( res.data, function(index, value) {
-					html += '<div class="panel panel-default subbox">';
-					html += '<div class="panel-heading"><a href=# title="点击查看详细数据" onclick=showNodeDetail("' + value.nodeMn + '")>' + value.nodeName + '</a></div>';
-					html += '<div class="panel-body line" id = "line' + value.nodeId + '"></div>';
-					html += '</div>';
-				} );
-
-				$( "#lineCurBox" ).html( html );
 
 				$.each( res.data, function(index, value) {
 					if ( value.hasOwnProperty( "nodeMn" ) ) {
@@ -111,50 +120,17 @@ function refHbNode() {
 							}
 						}
 
-						var chart = new Highcharts.Chart( {
-							credits : {
-								text : '嘉臣光电科技有限公司',
-								href : 'http://www.grasun-opt.com/'
-							},
-							chart : {
-								renderTo : "line" + value.nodeId,
-								zoomType : 'xy'
-							},
-							title : {
-								text : '-实时曲线-'
-							},
-							legend : {
-								layout : 'vertical',
-								align : 'right',
-								verticalAlign : 'middle',
-								borderWidth : 0
-							},
-							xAxis : [ {
-								title : {
-									text : '',
-									style : {
-										color : colors[10]
-									}
-								},
-								type : 'datetime',
-								tickInterval : 200,
-								categories : []
-							} ],
-							yAxis : yAxis,
-							tooltip : {
-								crosshairs : true,
-								shared : true
-							},
-							series : series,
-						} );
-
-						nodeLines[value.nodeMn].chart = chart;
+						nodeLines[value.nodeMn].chart = null;
 						nodeLines[value.nodeMn].par = pars;
 						nodeLines[value.nodeMn].parName = parNames;
 						nodeLines[value.nodeMn].parUnit = parUnits;
 						nodeLines[value.nodeMn].parCount = parCount + 1;
+						nodeLines[value.nodeMn].yAxis = yAxis;
+						nodeLines[value.nodeMn].series = series;
+
 					}
 				} );
+
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -169,6 +145,62 @@ function refHbNode() {
  * @returns
  */
 function refDataCur() {
+	if ( selectNode === "" ) {
+		return;
+	}
+	$( "#lineCurBox" ).empty();
+	for ( var node in nodeLines ) {
+		if ( node === selectNode ) {
+			var html = "";
+
+			html += '<div class="panel panel-default subbox">';
+			html += '<div class="panel-heading"><a href=# title="点击查看详细数据" onclick=showNodeDetail("' + node + '")>' + nodeLines[node].nodeName + '</a></div>';
+			html += '<div class="panel-body line" id = "line' + nodeLines[node].nodeId + '"></div>';
+			html += '</div>';
+
+			$( "#lineCurBox" ).html( html );
+
+			nodeLines[node].chart = new Highcharts.Chart( {
+				credits : {
+					text : '嘉臣光电科技有限公司',
+					href : 'http://www.grasun-opt.com/'
+				},
+				chart : {
+					renderTo : "line" + nodeLines[node].nodeId,
+					zoomType : 'xy'
+				},
+				title : {
+					text : '-实时曲线-'
+				},
+				legend : {
+					layout : 'vertical',
+					align : 'right',
+					verticalAlign : 'middle',
+					borderWidth : 0
+				},
+				xAxis : [ {
+					title : {
+						text : '',
+						style : {
+							color : colors[10]
+						}
+					},
+					type : 'datetime',
+					tickInterval : 200,
+					categories : []
+				} ],
+				yAxis : nodeLines[node].yAxis,
+				tooltip : {
+					crosshairs : true,
+					shared : true
+				},
+				series : nodeLines[node].series,
+			} );
+
+			break;
+		}
+	}
+
 	for ( var node in nodeLines ) {
 		nodeLines[node].label = [];
 		$.each( nodeLines[node].par, function(index, value) {
@@ -179,9 +211,14 @@ function refDataCur() {
 	$.ajax( {
 		async : false,
 		type : "POST",
-		url : "hbDataCurController.refHbDataLatest",
+		url : "HbDataHisController.refHbDataHis",
 		cache : false,
-		data : ServerRequestPar( 0, {} ),
+		data : ServerRequestPar( 1, {
+			nodeId : nodeLines[selectNode].nodeId,
+			nodeMn : selectNode,
+			dateStr : $( '#dateStr' ).val(),
+			dateEnd : $( '#dateEnd' ).val()
+		} ),
 		dataType : "json",
 		success : function(res) {
 			if ( res.code != 0 ) {
@@ -206,12 +243,11 @@ function refDataCur() {
 					}
 				} );
 
-				for ( var node in nodeLines ) {
-					nodeLines[node].chart.xAxis[0].setCategories( nodeLines[node].label );
-					$.each( nodeLines[node].par, function(index, par) {
-						nodeLines[node].chart.series[index].setData( nodeLines[node][par] );
-					} );
-				}
+				nodeLines[selectNode].chart.xAxis[0].setCategories( nodeLines[selectNode].label );
+				$.each( nodeLines[selectNode].par, function(index, par) {
+					nodeLines[selectNode].chart.series[index].setData( nodeLines[selectNode][par] );
+				} );
+
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -463,4 +499,117 @@ function callError(code, message) {
 	$( "#mwTitle" ).html( '<span class="glyphicon glyphicon-bullhorn" aria-hidden="true">&nbsp;警告</span>' );
 	$( "#mwMessage" ).html( message );
 	$( "#modal-warning" ).modal( "show" );
+}
+
+function dateTimeDefualt() {
+	moment.locale( 'en', {
+		months : '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split( '_' ),
+		monthsShort : '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split( '_' ),
+		weekdays : '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split( '_' ),
+		weekdaysShort : '周日_周一_周二_周三_周四_周五_周六'.split( '_' ),
+		weekdaysMin : '日_一_二_三_四_五_六'.split( '_' ),
+		longDateFormat : {
+			LT : 'Ah点mm分',
+			LTS : 'Ah点m分s秒',
+			L : 'YYYY-MM-DD',
+			LL : 'YYYY年MMMD日',
+			LLL : 'YYYY年MMMD日Ah点mm分',
+			LLLL : 'YYYY年MMMD日ddddAh点mm分',
+			l : 'YYYY-MM-DD',
+			ll : 'YYYY年MMMD日',
+			lll : 'YYYY年MMMD日Ah点mm分',
+			llll : 'YYYY年MMMD日ddddAh点mm分'
+		},
+		meridiemParse : /凌晨|早上|上午|中午|下午|晚上/,
+		meridiemHour : function(hour, meridiem) {
+			if ( hour === 12 ) {
+				hour = 0;
+			}
+			if ( meridiem === '凌晨' || meridiem === '早上' || meridiem === '上午' ) {
+				return hour;
+			} else if ( meridiem === '下午' || meridiem === '晚上' ) {
+				return hour + 12;
+			} else {
+				// '中午'
+				return hour >= 11 ? hour : hour + 12;
+			}
+		},
+		meridiem : function(hour, minute, isLower) {
+			var hm = hour * 100 + minute;
+			if ( hm < 600 ) {
+				return '凌晨';
+			} else if ( hm < 900 ) {
+				return '早上';
+			} else if ( hm < 1130 ) {
+				return '上午';
+			} else if ( hm < 1230 ) {
+				return '中午';
+			} else if ( hm < 1800 ) {
+				return '下午';
+			} else {
+				return '晚上';
+			}
+		},
+		calendar : {
+			sameDay : function() {
+				return this.minutes() === 0 ? '[今天]Ah[点整]' : '[今天]LT';
+			},
+			nextDay : function() {
+				return this.minutes() === 0 ? '[明天]Ah[点整]' : '[明天]LT';
+			},
+			lastDay : function() {
+				return this.minutes() === 0 ? '[昨天]Ah[点整]' : '[昨天]LT';
+			},
+			nextWeek : function() {
+				var startOfWeek, prefix;
+				startOfWeek = moment__default().startOf( 'week' );
+				prefix = this.diff( startOfWeek, 'days' ) >= 7 ? '[下]' : '[本]';
+				return this.minutes() === 0 ? prefix + 'dddAh点整' : prefix + 'dddAh点mm';
+			},
+			lastWeek : function() {
+				var startOfWeek, prefix;
+				startOfWeek = moment__default().startOf( 'week' );
+				prefix = this.unix() < startOfWeek.unix() ? '[上]' : '[本]';
+				return this.minutes() === 0 ? prefix + 'dddAh点整' : prefix + 'dddAh点mm';
+			},
+			sameElse : 'LL'
+		},
+		ordinalParse : /\d{1,2}(日|月|周)/,
+		ordinal : function(number, period) {
+			switch ( period ) {
+				case 'd' :
+				case 'D' :
+				case 'DDD' :
+					return number + '日';
+				case 'M' :
+					return number + '月';
+				case 'w' :
+				case 'W' :
+					return number + '周';
+				default :
+					return number;
+			}
+		},
+		relativeTime : {
+			future : '%s内',
+			past : '%s前',
+			s : '几秒',
+			m : '1 分钟',
+			mm : '%d 分钟',
+			h : '1 小时',
+			hh : '%d 小时',
+			d : '1 天',
+			dd : '%d 天',
+			M : '1 个月',
+			MM : '%d 个月',
+			y : '1 年',
+			yy : '%d 年'
+		},
+		week : {
+			// GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
+			dow : 1, // Monday is the first day of the week.
+			doy : 4
+		// The week that contains Jan 4th is the first week of the year.
+		}
+	} );
 }

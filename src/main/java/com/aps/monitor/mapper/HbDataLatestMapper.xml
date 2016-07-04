@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.aps.monitor.dao.HbNodeMapper">
-	<resultMap id="BaseResultMap" type="com.aps.monitor.model.HbNode">
-		<id column="NODE_ID" property="nodeId" jdbcType="INTEGER"/>
-		<result column="TYPE_ID" property="typeId" jdbcType="INTEGER"/>
-		<result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR"/>
-		<result column="NODE_MN" property="nodeMn" jdbcType="VARCHAR"/>
-		<result column="NODE_ATR" property="nodeAtr" jdbcType="VARCHAR"/>
-		<result column="NODE_ITEM" property="nodeItem" jdbcType="VARCHAR"/>
+<mapper namespace="com.aps.monitor.dao.HBDataLatestMapper">
+	<resultMap id="BaseResultMap" type="com.aps.monitor.model.HBDataLatest">
+		<id column="DATA_TIME" property="dataTime" jdbcType="TIMESTAMP"/>
+		<id column="NODE_MN" property="nodeMn" jdbcType="VARCHAR"/>
+		<result column="DATA_INDEX" property="dataIndex" jdbcType="INTEGER"/>
+		<result column="RECORD_ID" property="recordId" jdbcType="INTEGER"/>
+		<result column="NODE_DATA" property="nodeData" jdbcType="VARCHAR"/>
 		<result column="PRFLAG" property="prflag" jdbcType="INTEGER"/>
 		<result column="PRGROUP" property="prgroup" jdbcType="VARCHAR"/>
 		<result column="PRTYPE" property="prtype" jdbcType="VARCHAR"/>
-		<result column="PROPERTY0" property="property0" jdbcType="VARCHAR"/>
+		<result column="PROPERTY0" property="property0" jdbcType="INTEGER"/>
 		<result column="PROPERTY1" property="property1" jdbcType="VARCHAR"/>
 		<result column="PROPERTY2" property="property2" jdbcType="VARCHAR"/>
 		<result column="PROPERTY3" property="property3" jdbcType="VARCHAR"/>
@@ -38,41 +37,35 @@
 		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
 		<result column="UFROM" property="ufrom" jdbcType="VARCHAR"/>
 	</resultMap>
-	<sql id="Base_Column_List"> NODE_ID, TYPE_ID, NODE_NAME, NODE_MN, NODE_ATR, NODE_ITEM, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1,
-		PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11,
-		PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON,
-		UFROM
+	<sql id="Base_Column_List"> DATA_TIME, NODE_MN, DATA_INDEX, RECORD_ID, NODE_DATA, PRFLAG, PRGROUP, PRTYPE,
+		PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9,
+		PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME,
+		USHIFT, UGROUP, UPERSON, UFROM
 	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey">
 		select
 		<include refid="Base_Column_List"/>
-		from hb_node where NODE_ID = #{nodeId,jdbcType=INTEGER}
+		from hb_data_latest where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</select>
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HbNode">
-		select
-		<include refid="Base_Column_List"></include>
-		from hb_node
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey">
+		select a.* from hb_data_latest a, hb_node b
 		<where>
-			<if test="nodeId != null"> NODE_ID = #{nodeId,jdbcType=INTEGER}
-			</if>
-			<if test="typeId != null"> TYPE_ID = #{typeId,jdbcType=INTEGER}
-			</if>
-			<if test="nodeMn != null"> NODE_MN = #{nodeMn,jdbcType=VARCHAR}
-			</if>
-			<if test="nodeName != null"> NODE_NAME like CONCAT('%',#{nodeName,jdbcType=VARCHAR},'%')
+			a.node_mn = b.node_mn
+			<if test="nodeMn != null"> and b.NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 			</if>
 		</where>
-		order by type_id,node_id
+		order by a.NODE_MN,a.DATA_TIME
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer"> delete from hb_node where NODE_ID = #{nodeId,jdbcType=INTEGER}
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from
+		hb_data_latest where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.aps.monitor.model.HbNode" useGeneratedKeys="true" keyProperty="nodeId"> insert
-		into hb_node (NODE_ID, TYPE_ID, NODE_NAME, NODE_MN, NODE_ATR, NODE_ITEM, PRFLAG, PRGROUP, PRTYPE, PROPERTY0,
-		PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10,
-		PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP,
-		UPERSON, UFROM) values (#{nodeId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{nodeName,jdbcType=VARCHAR},
-		#{nodeMn,jdbcType=VARCHAR}, #{nodeAtr,jdbcType=VARCHAR}, #{nodeItem,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER},
-		#{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=VARCHAR}, #{property1,jdbcType=VARCHAR},
+	<insert id="insert" parameterType="com.aps.monitor.model.HBDataLatest"> insert into hb_data_latest (DATA_TIME,
+		NODE_MN, DATA_INDEX, RECORD_ID, NODE_DATA, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3,
+		PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13,
+		PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values
+		(#{dataTime,jdbcType=TIMESTAMP}, #{nodeMn,jdbcType=VARCHAR}, #{dataIndex,jdbcType=INTEGER},
+		#{recordId,jdbcType=INTEGER}, #{nodeData,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER}, #{prgroup,jdbcType=VARCHAR},
+		#{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=INTEGER}, #{property1,jdbcType=VARCHAR},
 		#{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR}, #{property4,jdbcType=VARCHAR},
 		#{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR}, #{property7,jdbcType=VARCHAR},
 		#{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR}, #{property10,jdbcType=DECIMAL},
@@ -81,20 +74,18 @@
 		#{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP},
 		#{ushift,jdbcType=VARCHAR}, #{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbNode" useGeneratedKeys="true" keyProperty="nodeId">
-		insert into hb_node
+	<insert id="insertSelective" parameterType="com.aps.monitor.model.HBDataLatest">
+		insert into hb_data_latest
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="nodeId != null"> NODE_ID,
-			</if>
-			<if test="typeId != null"> TYPE_ID,
-			</if>
-			<if test="nodeName != null"> NODE_NAME,
+			<if test="dataTime != null"> DATA_TIME,
 			</if>
 			<if test="nodeMn != null"> NODE_MN,
 			</if>
-			<if test="nodeAtr != null"> NODE_ATR,
+			<if test="dataIndex != null"> DATA_INDEX,
 			</if>
-			<if test="nodeItem != null"> NODE_ITEM,
+			<if test="recordId != null"> RECORD_ID,
+			</if>
+			<if test="nodeData != null"> NODE_DATA,
 			</if>
 			<if test="prflag != null"> PRFLAG,
 			</if>
@@ -156,17 +147,15 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="nodeId != null"> #{nodeId,jdbcType=INTEGER},
-			</if>
-			<if test="typeId != null"> #{typeId,jdbcType=INTEGER},
-			</if>
-			<if test="nodeName != null"> #{nodeName,jdbcType=VARCHAR},
+			<if test="dataTime != null"> #{dataTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="nodeMn != null"> #{nodeMn,jdbcType=VARCHAR},
 			</if>
-			<if test="nodeAtr != null"> #{nodeAtr,jdbcType=VARCHAR},
+			<if test="dataIndex != null"> #{dataIndex,jdbcType=INTEGER},
 			</if>
-			<if test="nodeItem != null"> #{nodeItem,jdbcType=VARCHAR},
+			<if test="recordId != null"> #{recordId,jdbcType=INTEGER},
+			</if>
+			<if test="nodeData != null"> #{nodeData,jdbcType=VARCHAR},
 			</if>
 			<if test="prflag != null"> #{prflag,jdbcType=INTEGER},
 			</if>
@@ -174,7 +163,7 @@
 			</if>
 			<if test="prtype != null"> #{prtype,jdbcType=VARCHAR},
 			</if>
-			<if test="property0 != null"> #{property0,jdbcType=VARCHAR},
+			<if test="property0 != null"> #{property0,jdbcType=INTEGER},
 			</if>
 			<if test="property1 != null"> #{property1,jdbcType=VARCHAR},
 			</if>
@@ -228,18 +217,14 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.HbNode">
-		update hb_node
+	<update id="updateByPrimaryKeySelective" parameterType="com.aps.monitor.model.HBDataLatest">
+		update hb_data_latest
 		<set>
-			<if test="typeId != null"> TYPE_ID = #{typeId,jdbcType=INTEGER},
+			<if test="dataIndex != null"> DATA_INDEX = #{dataIndex,jdbcType=INTEGER},
 			</if>
-			<if test="nodeName != null"> NODE_NAME = #{nodeName,jdbcType=VARCHAR},
+			<if test="recordId != null"> RECORD_ID = #{recordId,jdbcType=INTEGER},
 			</if>
-			<if test="nodeMn != null"> NODE_MN = #{nodeMn,jdbcType=VARCHAR},
-			</if>
-			<if test="nodeAtr != null"> NODE_ATR = #{nodeAtr,jdbcType=VARCHAR},
-			</if>
-			<if test="nodeItem != null"> NODE_ITEM = #{nodeItem,jdbcType=VARCHAR},
+			<if test="nodeData != null"> NODE_DATA = #{nodeData,jdbcType=VARCHAR},
 			</if>
 			<if test="prflag != null"> PRFLAG = #{prflag,jdbcType=INTEGER},
 			</if>
@@ -247,7 +232,7 @@
 			</if>
 			<if test="prtype != null"> PRTYPE = #{prtype,jdbcType=VARCHAR},
 			</if>
-			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=VARCHAR},
+			<if test="property0 != null"> PROPERTY0 = #{property0,jdbcType=INTEGER},
 			</if>
 			<if test="property1 != null"> PROPERTY1 = #{property1,jdbcType=VARCHAR},
 			</if>
@@ -300,21 +285,21 @@
 			<if test="ufrom != null"> UFROM = #{ufrom,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where NODE_ID = #{nodeId,jdbcType=INTEGER}
+		where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HbNode"> update hb_node set TYPE_ID = #{typeId,jdbcType=INTEGER},
-		NODE_NAME = #{nodeName,jdbcType=VARCHAR}, NODE_MN = #{nodeMn,jdbcType=VARCHAR}, NODE_ATR =
-		#{nodeAtr,jdbcType=VARCHAR}, NODE_ITEM = #{nodeItem,jdbcType=VARCHAR}, PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP =
-		#{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=VARCHAR}, PROPERTY1
-		= #{property1,jdbcType=VARCHAR}, PROPERTY2 = #{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR},
-		PROPERTY4 = #{property4,jdbcType=VARCHAR}, PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 =
-		#{property6,jdbcType=VARCHAR}, PROPERTY7 = #{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR},
-		PROPERTY9 = #{property9,jdbcType=VARCHAR}, PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 =
+	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatest"> update hb_data_latest set
+		DATA_INDEX = #{dataIndex,jdbcType=INTEGER}, RECORD_ID = #{recordId,jdbcType=INTEGER}, NODE_DATA =
+		#{nodeData,jdbcType=VARCHAR}, PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE =
+		#{prtype,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=INTEGER}, PROPERTY1 = #{property1,jdbcType=VARCHAR},
+		PROPERTY2 = #{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 =
+		#{property4,jdbcType=VARCHAR}, PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR},
+		PROPERTY7 = #{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 =
+		#{property9,jdbcType=VARCHAR}, PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 =
 		#{property11,jdbcType=DECIMAL}, PROPERTY12 = #{property12,jdbcType=DECIMAL}, PROPERTY13 =
 		#{property13,jdbcType=DECIMAL}, PROPERTY14 = #{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP
 		= #{prexp,jdbcType=VARCHAR}, ITIME = #{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP =
 		#{igroup,jdbcType=VARCHAR}, IPERSON = #{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT =
 		#{ushift,jdbcType=VARCHAR}, UGROUP = #{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM =
-		#{ufrom,jdbcType=VARCHAR} where NODE_ID = #{nodeId,jdbcType=INTEGER}
+		#{ufrom,jdbcType=VARCHAR} where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</update>
 </mapper>

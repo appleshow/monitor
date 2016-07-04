@@ -1,11 +1,13 @@
 package com.aps.monitor.service;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpSession;
 
 import com.aps.monitor.comm.ResponseData;
 
-public interface IHbDataCurService {
+public interface IHbDataHisService {
 	void refHbNode(HttpSession httpSession, String inPar, ResponseData responseData);
 
-	void refHbDataLatest(HttpSession httpSession, String inPar, ResponseData responseData);
+	void refHbDataHis(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
 }

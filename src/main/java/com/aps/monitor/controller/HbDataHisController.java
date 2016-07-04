@@ -1,5 +1,7 @@
 package com.aps.monitor.controller;
 
+import java.text.ParseException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -12,22 +14,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.service.IHbDataCurService;
+import com.aps.monitor.service.IHbDataHisService;
 
 /**
  * 
- * @ClassName: HbDataCurController
+ * @ClassName: HbDataHisController
  * @Description:TODO
  * @author: AppleShow
- * @date: 2016年6月25日 下午12:57:47
+ * @date: 2016年7月4日 下午10:52:27
  * 
  * @since 1.0.0
  */
 @Controller
-public class HbDataCurController {
-	@Resource(name = "hbDataCurServiceImpl")
-	private IHbDataCurService hbDataCurService;
-	private final int formId = 13;
+public class HbDataHisController {
+	@Resource(name = "hbDataHisServiceImpl")
+	private IHbDataHisService hbDataHisService;
+	private final int formId = 14;
 
 	/**
 	 * 
@@ -42,13 +44,13 @@ public class HbDataCurController {
 	 * @throws @since
 	 *             1.0.0
 	 */
-	@RequestMapping(value = "/hbDataCurController.refHbNode", method = RequestMethod.POST)
+	@RequestMapping(value = "/HbDataHisController.refHbNode", method = RequestMethod.POST)
 	@ResponseBody
 	public String refHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbNode", responseData)) {
-			hbDataCurService.refHbNode(httpSession, inPar, responseData);
+			hbDataHisService.refHbNode(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);
@@ -64,18 +66,20 @@ public class HbDataCurController {
 	 *             inPar
 	 * @param: @return
 	 * @return: String
+	 * @throws ParseException
 	 * @throws @since
 	 *             1.0.0
 	 */
-	@RequestMapping(value = "/hbDataCurController.refHbDataLatest", method = RequestMethod.POST)
+	@RequestMapping(value = "/HbDataHisController.refHbDataHis", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbDataLatest(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public String refHbDataHis(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
-		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataLatest", responseData)) {
-			hbDataCurService.refHbDataLatest(httpSession, inPar, responseData);
+		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHis", responseData)) {
+			hbDataHisService.refHbDataHis(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);
 	}
+
 }

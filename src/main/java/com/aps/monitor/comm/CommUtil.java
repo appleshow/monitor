@@ -31,11 +31,13 @@ public class CommUtil {
 	 * 
 	 * @Title: updatePermissoned
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param personPermissions
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             personPermissions
 	 * @return: void
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static void updatePermissoned(HttpSession httpSession, List<ComOrgFormRights> personPermissions) {
 		httpSession.removeAttribute(SESSION_USER_PERMISSIONS);
@@ -48,14 +50,18 @@ public class CommUtil {
 	 * 
 	 * @Title: isPermissoned
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param formId
-	 * @param: @param action
-	 * @param: @param responseData
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             formId
+	 * @param: @param
+	 *             action
+	 * @param: @param
+	 *             responseData
 	 * @param: @return
 	 * @return: boolean
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static boolean isPermissoned(HttpSession httpSession, int formId, String action, ResponseData responseData) {
 		int permissionedCount = 0;
@@ -105,12 +111,14 @@ public class CommUtil {
 	 * 
 	 * @Title: nvl
 	 * @Description: TODO
-	 * @param: @param value
-	 * @param: @param defaule
+	 * @param: @param
+	 *             value
+	 * @param: @param
+	 *             defaule
 	 * @param: @return
 	 * @return: int
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static int nvl(Integer value, int defaule) {
 		return null == value ? defaule : value;
@@ -120,11 +128,12 @@ public class CommUtil {
 	 * 
 	 * @Title: nvl
 	 * @Description: TODO
-	 * @param: @param value
+	 * @param: @param
+	 *             value
 	 * @param: @return
 	 * @return: int
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static int nvl(Integer value) {
 		return nvl(value, 0);
@@ -134,12 +143,14 @@ public class CommUtil {
 	 * 
 	 * @Title: nvl
 	 * @Description: TODO
-	 * @param: @param value
-	 * @param: @param defaule
+	 * @param: @param
+	 *             value
+	 * @param: @param
+	 *             defaule
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static String nvl(String value, String defaule) {
 		return null == value ? defaule : value;
@@ -149,11 +160,12 @@ public class CommUtil {
 	 * 
 	 * @Title: nvl
 	 * @Description: TODO
-	 * @param: @param value
+	 * @param: @param
+	 *             value
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static String nvl(String value) {
 		return nvl(value, "");

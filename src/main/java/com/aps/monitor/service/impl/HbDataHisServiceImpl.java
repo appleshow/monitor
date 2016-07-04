@@ -1,5 +1,8 @@
 package com.aps.monitor.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,28 +10,31 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.JsonUtil;
+import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.dao.HBDataLatestMapper;
+import com.aps.monitor.dao.HbDataModeMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
 import com.aps.monitor.dao.HbTypeMapper;
-import com.aps.monitor.model.HBDataLatest;
+import com.aps.monitor.model.HbDataMode;
+import com.aps.monitor.model.HbDataTable;
 import com.aps.monitor.model.HbNode;
 import com.aps.monitor.model.HbType;
 import com.aps.monitor.model.HbTypeItem;
-import com.aps.monitor.service.IHbDataCurService;
+import com.aps.monitor.service.IHbDataHisService;
 
 /**
  * 
- * @ClassName: HbDataCurServiceImpl
+ * @ClassName: HbDataHisServiceImpl
  * @Description:TODO
  * @author: AppleShow
- * @date: 2016年6月25日 下午12:48:09
+ * @date: 2016年7月2日 下午11:11:22
  * 
  * @since 1.0.0
  */
 @Service
-public class HbDataCurServiceImpl implements IHbDataCurService {
+public class HbDataHisServiceImpl implements IHbDataHisService {
 	@Resource
 	private HbTypeMapper hbTypeMapper;
 	@Resource
@@ -36,7 +42,7 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 	@Resource
 	private HbNodeMapper hbNodeMapper;
 	@Resource
-	private HBDataLatestMapper hbDatalatestMapper;
+	private HbDataModeMapper hbDataModeMapper;
 
 	/**
 	 * 
@@ -62,9 +68,11 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 		List<HbTypeItem> hbTypeItems;
 		List<HbNode> hbNodes;
 		ResponseData responseDataJoin = new ResponseData();
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
 		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
+		hbNode.setNodeMn(requestRefPar.getStringPar("nodeMN"));
 		hbNodes = hbNodeMapper.selectByCondition(hbNode);
 
 		responseDataJoin.setData(hbTypes);
@@ -76,7 +84,7 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 	/**
 	 * 
 	 * <p>
-	 * Title: refNbDataLatest
+	 * Title: refHbDataHis
 	 * </p>
 	 * <p>
 	 * Description:
@@ -85,16 +93,25 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 	 * @param httpSession
 	 * @param inPar
 	 * @param responseData
+	 * @throws ParseException
 	 * @see com.aps.monitor.service.IHbDataCurService#refHbDataLatest(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void refHbDataLatest(HttpSession httpSession, String inPar, ResponseData responseData) {
-		HBDataLatest hbDataLatest = new HBDataLatest();
-		List<HBDataLatest> hbDataLatests;
+	public void refHbDataHis(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+		HbDataTable hbDataTable = new HbDataTable();
+		List<HbDataMode> hbDataModes;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		hbDataLatests = hbDatalatestMapper.selectByCondition(hbDataLatest);
-		responseData.setData(hbDataLatests);
+		hbDataTable.setNodeId(requestRefPar.getIntegerPar("nodeId"));
+		hbDataTable.setNodeMn(requestRefPar.getStringPar("nodeMn"));
+		hbDataTable.setDataType("2011");
+		hbDataTable.setDateStr(dateFormat.parse(requestRefPar.getStringPar("dateStr")));
+		hbDataTable.setDateEnd(dateFormat.parse(requestRefPar.getStringPar("dateEnd")));
+		hbDataTable.setProperty0("hb_data_cur" + requestRefPar.getStringPar("nodeId"));
+		hbDataModes = hbDataModeMapper.selectByCondition(hbDataTable);
+		responseData.setData(hbDataModes);
 	}
 
 }
