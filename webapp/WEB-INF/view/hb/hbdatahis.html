@@ -49,7 +49,7 @@
 	position: absolute;
 	overflow: auto;
 	width: 100%;
-	height: 95%;
+	height: 90%;
 	background: #fafafa;
 	border: 0px solid #ccc;
 }
@@ -99,18 +99,18 @@
                     </div>
                </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" id="refChart">
                <div class="input-group">
-                    <button type="button" class="btn btn-primary">
-                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+                    <button type="button" class="btn btn-primary" onclick="refData()">
+                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查 询
                     </button>
                </div>
           </div>
      </form>
      <div>
           <ul class="nav nav-tabs" role="tablist" id="mainTabs">
-               <li role="presentation" class="active"><a href="#lineCur" aria-controls="lineCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-random" aria-hidden="true"></span> 实时数据曲线</a></li>
-               <li role="presentation"><a href="#dataCur" aria-controls="dataCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 实时监测数据</a></li>
+               <li role="presentation" class="active"><a href="#lineCur" aria-controls="lineCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-random" aria-hidden="true"></span> 历史数据曲线</a></li>
+               <li role="presentation"><a href="#dataCur" aria-controls="dataCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 历史监测数据</a></li>
           </ul>
           <div class="tab-content">
                <div role="tabpanel" class="tab-pane active" id="lineCur">

@@ -82,4 +82,30 @@ public class HbDataHisController {
 		return JsonUtil.writeResponseAsString(responseData);
 	}
 
+	/**
+	 * 
+	 * @Title: refHbDataHisGrid
+	 * @Description: TODO
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
+	 * @param: @return
+	 * @param: @throws
+	 *             ParseException
+	 * @return: String
+	 * @throws @since
+	 *             1.0.0
+	 */
+	@RequestMapping(value = "/HbDataHisController.refHbDataHisGrid", method = RequestMethod.POST)
+	@ResponseBody
+	public String refHbDataHisGrid(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
+		ResponseData responseData = new ResponseData();
+
+		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHisGrid", responseData)) {
+			hbDataHisService.refHbDataHisGrid(httpSession, inPar, responseData);
+		}
+
+		return JsonUtil.writeResponseAsString(responseData);
+	}
 }

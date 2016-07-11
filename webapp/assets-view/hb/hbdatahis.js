@@ -1,10 +1,9 @@
 ﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E",
 		"#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
-var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [], nodeDataCur = [];
-var tableDataCur, combNode, selectNode = "";
+var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [];
+var tableDataCur, combNode, selectNode = "", selectTab = "", gridChanged = true;
 
 jQuery( document ).ready( function() {
-	selectNode = "";
 	$( '#dateStr' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 00:00:00" );
 	$( '#dateEnd' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 23:59:59" );
 
@@ -18,9 +17,12 @@ jQuery( document ).ready( function() {
 	getCombNodeData();
 	$( '#nodeMN' ).on( 'select2:select', function(evt) {
 		selectNode = evt.params.data.id;
-		refDataCur();
+		gridChanged = true;
 	} );
 
+	$( 'a[data-toggle="tab"]' ).on( 'shown.bs.tab', function(e) {
+		selectTab = e.target.hash;
+	} );
 	dateTimeDefualt();
 
 	$( '#dateTimeStr' ).datetimepicker( {
@@ -140,11 +142,23 @@ function refHbNode() {
 
 }
 
+function refData() {
+	if ( selectTab === "#dataCur" ) {
+		if ( gridChanged ) {
+			gridChanged = false;
+			createTableHis();
+		} else {
+			tableDataCur.table.ajax.reload( null, false );
+		}
+	} else {
+		refDataHis();
+	}
+}
 /**
  * 
  * @returns
  */
-function refDataCur() {
+function refDataHis() {
 	if ( selectNode === "" ) {
 		return;
 	}
@@ -170,13 +184,10 @@ function refDataCur() {
 					zoomType : 'xy'
 				},
 				title : {
-					text : '-实时曲线-'
+					text : nodeLines[node].nodeName + ' - 历史曲线'
 				},
-				legend : {
-					layout : 'vertical',
-					align : 'right',
-					verticalAlign : 'middle',
-					borderWidth : 0
+				subtitle : {
+					text : "【" + $( '#dateStr' ).val() + " ~ " + $( '#dateEnd' ).val() + "】"
 				},
 				xAxis : [ {
 					title : {
@@ -186,7 +197,7 @@ function refDataCur() {
 						}
 					},
 					type : 'datetime',
-					tickInterval : 200,
+					tickInterval : 15,
 					categories : []
 				} ],
 				yAxis : nodeLines[node].yAxis,
@@ -216,6 +227,7 @@ function refDataCur() {
 		data : ServerRequestPar( 1, {
 			nodeId : nodeLines[selectNode].nodeId,
 			nodeMn : selectNode,
+			dataType : '2051',
 			dateStr : $( '#dateStr' ).val(),
 			dateEnd : $( '#dateEnd' ).val()
 		} ),
@@ -224,14 +236,12 @@ function refDataCur() {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
 			} else {
-				nodeDataCur = [];
 				$.each( res.data, function(index, value) {
 					nodeLines[value.nodeMn].label.push( value.dataTime );
 					if ( value.hasOwnProperty( "nodeData" ) ) {
 						var nodeData = $.parseJSON( value.nodeData );
 
 						value.nodeData = nodeData;
-						nodeDataCur.push( value );
 						$.each( nodeLines[value.nodeMn].par, function(index, par) {
 							// nodeLines[value.nodeMn][par].push(Math.random()*10);
 							if ( nodeData.hasOwnProperty( par ) ) {
@@ -261,13 +271,14 @@ function refDataCur() {
  * 
  * @returns
  */
-function createTableCur() {
+function createTableHis() {
 	$( "#table" ).empty();
 	$( "#table" ).html( ' <table id="tbDataCur" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbDataCurHC"></thead></table>' );
 
 	tableDataCur = new CommDataTables( "#tbDataCur", "#tbDataCurHC", createColumnInfo( selectNode ), callError );
 	tableDataCur.scrollY = 72;
-	tableDataCur.buttons = "RP";
+	tableDataCur.buttons = "P";
+
 	// ***** Add information to Column *****
 	// *********************************
 	// ***** Add information to Field *****
@@ -386,40 +397,70 @@ function dataTableAjax(data, callback, settings) {
 		recordsFiltered : 0,
 		data : []
 	};
+	if ( selectNode === "" ) {
+		callback( tableData );
+	}
+	$.ajax( {
+		async : false,
+		type : "POST",
+		url : "HbDataHisController.refHbDataHisGrid",
+		cache : false,
+		data : ServerRequestPar( 1, {
+			nodeId : nodeLines[selectNode].nodeId,
+			nodeMn : selectNode,
+			dataType : '2011',
+			dateStr : $( '#dateStr' ).val(),
+			dateEnd : $( '#dateEnd' ).val(),
+			pageNumber : data.length == -1 ? 0 : data.start / data.length + 1,
+			pageSize : data.length == -1 ? 0 : data.length
+		} ),
+		dataType : "json",
+		success : function(res) {
+			if ( res.code != 0 ) {
+				callError( res.code, res.message );
+			} else {
+				tableData.recordsTotal = res.totalCount;
+				tableData.recordsFiltered = res.totalCount;
 
-	$.each( nodeDataCur, function(index, dataCur) {
-		if ( dataCur.nodeMn == selectNode ) {
-			var lineData = dataCur.nodeData;
+				$.each( res.data, function(index, dataHis) {
+					if ( dataHis.hasOwnProperty( "nodeData" ) ) {
+						var lineData = $.parseJSON( dataHis.nodeData );
 
-			$.each( nodeInfo, function(index, node) {
-				if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
-					for ( var item in node.nodeItem ) {
-						if ( node.nodeItem[item].select == 1 ) {
-							if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
-								if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
-									lineData[item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
-								} else {
-									if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
-										lineData[item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
+						$.each( nodeInfo, function(index, node) {
+							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
+								for ( var item in node.nodeItem ) {
+									if ( node.nodeItem[item].select == 1 ) {
+										if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
+												lineData[item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+											} else {
+												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
+													lineData[item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
+												}
+											}
+										}
 									}
 								}
 							}
-						}
+						} );
+
+						lineData.DT_RowId = "_" + index;
+						lineData.nodeName = nodeLines[dataHis.nodeMn].nodeName;
+						lineData.dataTime = dataHis.dataTime;
+
+						tableData.data.push( lineData );
 					}
-				}
-			} );
-
-			lineData.DT_RowId = "_" + index;
-			lineData.nodeName = nodeLines[dataCur.nodeMn].nodeName;
-			lineData.dataTime = dataCur.dataTime;
-
-			tableData.data.push( lineData );
-			tableData.recordsTotal++;
-			tableData.recordsFiltered++;
+				} );
+			}
+			callback( tableData );
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			callError( -900, "操作未完成，向服务器请求失败..." );
+			callback( tableData );
 		}
+
 	} );
 
-	callback( tableData );
 }
 
 /**
@@ -483,10 +524,7 @@ function getCombNodeData() {
  * @returns
  */
 function showNodeDetail(nodeMN) {
-	selectNode = nodeMN;
 	$( '#mainTabs a[href="#dataCur"]' ).tab( 'show' );
-	combNode.val( nodeMN ).trigger( "change" );
-	createTableCur();
 }
 
 /**

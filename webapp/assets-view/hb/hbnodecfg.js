@@ -6,41 +6,41 @@ var DataSourceTree = function(options) {
 
 DataSourceTree.prototype = {
 	data : function(options, callback) {
-		setTimeout(function() {
+		setTimeout( function() {
 			var url = "hbNodeConfig.referHbType", treeId = "";
 
-			if (options.id != null) {
-				if (options.type === "folder") {
+			if ( options.id != null ) {
+				if ( options.type === "folder" ) {
 					url = "hbNodeConfig.referHbNode";
-					treeId = options.id.replace("type", "");
+					treeId = options.id.replace( "type", "" );
 
-					$.ajax({
+					$.ajax( {
 						async : false,
 						type : "POST",
 						url : url,
 						cache : false,
-						data : ServerRequestPar(1, {
+						data : ServerRequestPar( 1, {
 							typeId : treeId
-						}),
+						} ),
 						dataType : "json",
 						success : function(res) {
-							if (res.code != 0) {
-								callback({
+							if ( res.code != 0 ) {
+								callback( {
 									data : []
-								});
+								} );
 							} else {
 								var treeData = [];
 
-								$.each(res.data, function(index, value) {
+								$.each( res.data, function(index, value) {
 									var nodeItem = value["nodeItem"];
 
-									if (!(typeof (nodeItem) === "undefined" || nodeItem === null)) {
-										res.data[index]["nodeItem"] = $.parseJSON(nodeItem);
+									if ( !( typeof ( nodeItem ) === "undefined" || nodeItem === null ) ) {
+										res.data[index]["nodeItem"] = $.parseJSON( nodeItem );
 									}
-								});
+								} );
 
-								$.merge(combNodeData, res.data);
-								$.each(res.data, function(index, value) {
+								$.merge( combNodeData, res.data );
+								$.each( res.data, function(index, value) {
 									var item = {};
 
 									item.id = "node" + value.nodeId;
@@ -51,21 +51,21 @@ DataSourceTree.prototype = {
 									item.typeId = value.typeId;
 									item.nodeId = value.nodeId;
 
-									treeData.push(item);
-								});
+									treeData.push( item );
+								} );
 
-								callback({
+								callback( {
 									data : treeData
-								});
+								} );
 
 							}
 						},
 						error : function(XMLHttpRequest, textStatus, errorThrown) {
-							callback({
+							callback( {
 								data : []
-							});
+							} );
 						}
-					});
+					} );
 
 				} else {
 
@@ -73,28 +73,28 @@ DataSourceTree.prototype = {
 			} else {
 				url = "hbNodeConfig.referHbType";
 
-				$.ajax({
+				$.ajax( {
 					async : false,
 					type : "POST",
 					url : url,
 					cache : false,
-					data : ServerRequestPar(0, {}),
+					data : ServerRequestPar( 0, {} ),
 					dataType : "json",
 					success : function(res) {
-						if (res.code != 0) {
-							callback({
+						if ( res.code != 0 ) {
+							callback( {
 								data : []
-							});
+							} );
 						} else {
 							var treeData = [];
 
 							combTypeData = res.data;
-							if (!(typeof (res.subJoinJson) === "undefined" || res.subJoinJson === null)) {
-								if (!(typeof (res.subJoinJson["typeItems"]) === "undefined" || res.subJoinJson["typeItems"] === null)) {
+							if ( !( typeof ( res.subJoinJson ) === "undefined" || res.subJoinJson === null ) ) {
+								if ( !( typeof ( res.subJoinJson["typeItems"] ) === "undefined" || res.subJoinJson["typeItems"] === null ) ) {
 									combTypeItemData = res.subJoinJson["typeItems"];
 								}
 							}
-							$.each(res.data, function(index, value) {
+							$.each( res.data, function(index, value) {
 								var item = {};
 
 								item.id = "type" + value.typeId;
@@ -102,41 +102,41 @@ DataSourceTree.prototype = {
 										+ ",'','I') class='glyphicon glyphicon-plus green' title='添加站点'></i></div>";
 								item.type = 'folder';
 
-								treeData.push(item);
-							});
+								treeData.push( item );
+							} );
 
-							callback({
+							callback( {
 								data : treeData
-							});
+							} );
 
 						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						callback({
+						callback( {
 							data : []
-						});
+						} );
 					}
-				});
+				} );
 			}
 
-		}, this._delay)
+		}, this._delay )
 	}
 };
 
-var treeDataNode = new DataSourceTree({
+var treeDataNode = new DataSourceTree( {
 	data : [],
 	delay : 400
-});
+} );
 
-jQuery(document).ready(function() {
-	$('#tree-node').tree({
+jQuery( document ).ready( function() {
+	$( '#tree-node' ).tree( {
 		cacheItems : true,
 		selectable : false,
 		dataSource : treeDataNode,
 		loadingHTML : '<div class="tree-loading"><i class="fa fa-rotate-right fa-spin"></i></div>'
-	});
+	} );
 
-	tableTypeItem = new CommDataTables("#table-typeitem", "#table-typeitem-columns", 12, callError);
+	tableTypeItem = new CommDataTables( "#table-typeitem", "#table-typeitem-columns", 12, callError );
 	tableTypeItem.lengthInfo = {
 		lengthMenu : [ [ -1 ], [ "全部" ] ],
 		pageLength : -1
@@ -149,82 +149,82 @@ jQuery(document).ready(function() {
 	// ***** Add information to Field *****
 	// *********************************
 
-	tableTypeItem.create(editorAjax, dataTableAjax);
-})
+	tableTypeItem.create( editorAjax, dataTableAjax );
+} )
 
 function getHbTypeComb() {
-	$.ajax({
+	$.ajax( {
 		async : false,
 		type : "POST",
 		url : "hbTypeItemConfig.referHbType",
 		cache : false,
-		data : ServerRequestPar(0, {}),
+		data : ServerRequestPar( 0, {} ),
 		dataType : "json",
 		success : function(res) {
-			if (res.code != 0) {
-				callError(res.code, res.message);
+			if ( res.code != 0 ) {
+				callError( res.code, res.message );
 			} else {
 				combTypeData = res.data;
 
 				var html = "";
-				$.each(res.data, function(index, value) {
+				$.each( res.data, function(index, value) {
 					html += "<option value='" + value.typeId + "'>" + value.typeName + "</option>";
-				});
+				} );
 
-				$("#typeId").append(html);
+				$( "#typeId" ).append( html );
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			callError(-900, "操作未完成，向服务器请求失败...");
+			callError( -900, "操作未完成，向服务器请求失败..." );
 		}
-	});
+	} );
 }
 
 function showNodeModal(typeId, nodeId, type) {
 	canshow = false;
 
-	$.each(combTypeData, function(index, value) {
-		if (value["typeId"] === typeId) {
-			$("#type-name").val(value["typeName"]);
+	$.each( combTypeData, function(index, value) {
+		if ( value["typeId"] === typeId ) {
+			$( "#type-name" ).val( value["typeName"] );
 		}
-	});
-	$("#type-id").val(typeId);
-	$("#node-id").val(nodeId);
-	$("#action-type").val(type);
-	$("#node-message-label").hide();
-	$("#node-name").val("");
-	$("#node-name").attr('placeholder', '');
-	$("#node-mn").val("");
-	$("#node-mn").attr('placeholder', '');
-	$("#node-lx").val("");
-	$("#node-ly").val("");
+	} );
+	$( "#type-id" ).val( typeId );
+	$( "#node-id" ).val( nodeId );
+	$( "#action-type" ).val( type );
+	$( "#node-message-label" ).hide();
+	$( "#node-name" ).val( "" );
+	$( "#node-name" ).attr( 'placeholder', '' );
+	$( "#node-mn" ).val( "" );
+	$( "#node-mn" ).attr( 'placeholder', '' );
+	$( "#node-lx" ).val( "" );
+	$( "#node-ly" ).val( "" );
 
-	if (type === "U") {
-		$("#node-modal-title").html("&nbsp;&nbsp;&nbsp;更新站点信息");
-		$.each(combNodeData, function(index, value) {
-			if (value["nodeId"] === nodeId) {
-				$("#node-name").val(value["nodeName"]);
-				$("#node-mn").val(value["nodeMn"]);
-				if (!(typeof (value["nodeAtr"]) === "undefined" || value["nodeAtr"] === null || value["nodeAtr"] === "")) {
-					var nodeAtr = $.parseJSON(value["nodeAtr"]);
+	if ( type === "U" ) {
+		$( "#node-modal-title" ).html( "&nbsp;&nbsp;&nbsp;更新站点信息" );
+		$.each( combNodeData, function(index, value) {
+			if ( value["nodeId"] === nodeId ) {
+				$( "#node-name" ).val( value["nodeName"] );
+				$( "#node-mn" ).val( value["nodeMn"] );
+				if ( !( typeof ( value["nodeAtr"] ) === "undefined" || value["nodeAtr"] === null || value["nodeAtr"] === "" ) ) {
+					var nodeAtr = $.parseJSON( value["nodeAtr"] );
 
-					$("#node-lx").val(nodeAtr["lx"]);
-					$("#node-ly").val(nodeAtr["ly"]);
+					$( "#node-lx" ).val( nodeAtr["lx"] );
+					$( "#node-ly" ).val( nodeAtr["ly"] );
 				}
 			}
-		});
+		} );
 	} else {
-		$("#node-modal-title").html("&nbsp;&nbsp;&nbsp;新增一个站点");
+		$( "#node-modal-title" ).html( "&nbsp;&nbsp;&nbsp;新增一个站点" );
 	}
-	$('#node-modal').modal({
+	$( '#node-modal' ).modal( {
 		backdrop : 'static',
 		keyboard : true
-	});
+	} );
 
-	$('#node-modal').on('shown.bs.modal', function(e) {
+	$( '#node-modal' ).on( 'shown.bs.modal', function(e) {
 		canshow = true;
-		$("#node-name").focus();
-	})
+		$( "#node-name" ).focus();
+	} )
 
 }
 
@@ -235,13 +235,13 @@ function showNodeModal(typeId, nodeId, type) {
 function deleteNode(nodeId, nodeName) {
 	canshow = false;
 
-	$("#action-type").val("D");
-	$("#node-id").val(nodeId);
-	$("#labl-delete-body").html("&nbsp;确定要删除站点【" + nodeName + "】？");
-	$('#node-modal-delete').modal({
+	$( "#action-type" ).val( "D" );
+	$( "#node-id" ).val( nodeId );
+	$( "#labl-delete-body" ).html( "&nbsp;确定要删除站点【" + nodeName + "】？" );
+	$( '#node-modal-delete' ).modal( {
 		backdrop : 'static',
 		keyboard : true
-	});
+	} );
 	canshow = true;
 }
 
@@ -249,52 +249,52 @@ function deleteNode(nodeId, nodeName) {
  * 
  */
 function modifyNode() {
-	var type = $("#action-type").val(), serverRequestPar;
+	var type = $( "#action-type" ).val(), serverRequestPar;
 
-	if (type === "D") {
-		serverRequestPar = ServerRequestPar(1, [ {
+	if ( type === "D" ) {
+		serverRequestPar = ServerRequestPar( 1, [ {
 			_type : type,
-			nodeId : $("#node-id").val(),
-		} ]);
-	} else if (type === "I" || type == "U") {
-		if ($("#node-name").val() === "") {
-			$("#node-name").attr('placeholder', '此项不能为空');
-			$("#node-name").focus();
+			nodeId : $( "#node-id" ).val(),
+		} ] );
+	} else if ( type === "I" || type == "U" ) {
+		if ( $( "#node-name" ).val() === "" ) {
+			$( "#node-name" ).attr( 'placeholder', '此项不能为空' );
+			$( "#node-name" ).focus();
 			return;
-		} else if ($("#node-mn").val() === "") {
-			$("#node-mn").attr('placeholder', '此项不能为空');
-			$("#node-mn").focus();
+		} else if ( $( "#node-mn" ).val() === "" ) {
+			$( "#node-mn" ).attr( 'placeholder', '此项不能为空' );
+			$( "#node-mn" ).focus();
 			return;
-		} else if (isNaN(($("#node-lx").val()).replace(" ", "a"))) {
-			$("#node-lx").val("");
-			$("#node-lx").attr('placeholder', '此项必须为数字');
-			$("#node-lx").focus();
+		} else if ( isNaN( ( $( "#node-lx" ).val() ).replace( " ", "a" ) ) ) {
+			$( "#node-lx" ).val( "" );
+			$( "#node-lx" ).attr( 'placeholder', '此项必须为数字' );
+			$( "#node-lx" ).focus();
 			return;
-		} else if (isNaN(($("#node-ly").val()).replace(" ", "a"))) {
-			$("#node-ly").val("");
-			$("#node-ly").attr('placeholder', '此项必须为数字');
-			$("#node-ly").focus();
+		} else if ( isNaN( ( $( "#node-ly" ).val() ).replace( " ", "a" ) ) ) {
+			$( "#node-ly" ).val( "" );
+			$( "#node-ly" ).attr( 'placeholder', '此项必须为数字' );
+			$( "#node-ly" ).focus();
 			return;
 		} else {
 			var nodeAtr = {
-				lx : $("#node-lx").val(),
-				ly : $("#node-ly").val()
+				lx : $( "#node-lx" ).val(),
+				ly : $( "#node-ly" ).val()
 			};
 
-			serverRequestPar = ServerRequestPar(1, [ {
+			serverRequestPar = ServerRequestPar( 1, [ {
 				_type : type,
-				typeId : $("#type-id").val(),
-				nodeId : $("#node-id").val(),
-				nodeName : $("#node-name").val(),
-				nodeMn : $("#node-mn").val(),
-				nodeAtr : JSON.stringify(nodeAtr)
-			} ]);
+				typeId : $( "#type-id" ).val(),
+				nodeId : $( "#node-id" ).val(),
+				nodeName : $( "#node-name" ).val(),
+				nodeMn : $( "#node-mn" ).val(),
+				nodeAtr : JSON.stringify( nodeAtr )
+			} ] );
 		}
 	} else {
 		return;
 	}
 
-	$.ajax({
+	$.ajax( {
 		async : false,
 		type : "POST",
 		url : "hbNodeConfig.modifyHbNode",
@@ -302,30 +302,30 @@ function modifyNode() {
 		data : serverRequestPar,
 		dataType : "json",
 		success : function(res) {
-			if (res.code != 0) {
-				$("#node-message").html(res.message);
-				$("#node-message-label").show();
+			if ( res.code != 0 ) {
+				$( "#node-message" ).html( res.message );
+				$( "#node-message-label" ).show();
 			} else {
-				$('#node-modal').modal('hide');
+				$( '#node-modal' ).modal( 'hide' );
 				parent.refreshPage();
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$("#node-message").html("服务器请求异常！");
-			$("#node-message-label").show();
+			$( "#node-message" ).html( "服务器请求异常！" );
+			$( "#node-message-label" ).show();
 		}
-	});
+	} );
 }
 
 function editorAjax(method, url, rows, callSuccess, callError) {
 	var type = "", parCount = 0, inPar = {}, inPars = [], nodeItem = {}, nodeItems = [];
-	var oldCombNodeData = jQuery.extend(true, {}, combNodeData);
+	var oldCombNodeData = jQuery.extend( true, {}, combNodeData );
 
-	if (rows.action === "create") {
+	if ( rows.action === "create" ) {
 		type = "I";
-	} else if (rows.action === "edit") {
+	} else if ( rows.action === "edit" ) {
 		type = "U";
-	} else if (rows.action === "remove") {
+	} else if ( rows.action === "remove" ) {
 		type = "D";
 	} else {
 		tableTypeItem.editor.i18n.error.system = "操作失败，未知的处理类型！";
@@ -333,24 +333,24 @@ function editorAjax(method, url, rows, callSuccess, callError) {
 		return;
 	}
 
-	for ( var primaryValue in rows.data) {
-		for ( var item in tableTypeItem.columnsInfo) {
-			if (tableTypeItem.columnsInfo[item].type === "checkbox" && !(rows.data[primaryValue][item] === 1)) {
+	for ( var primaryValue in rows.data ) {
+		for ( var item in tableTypeItem.columnsInfo ) {
+			if ( tableTypeItem.columnsInfo[item].type === "checkbox" && !( rows.data[primaryValue][item] === 1 ) ) {
 				rows.data[primaryValue][item] = 0;
 			}
 		}
-		inPars.push(rows.data[primaryValue]);
+		inPars.push( rows.data[primaryValue] );
 	}
 
-	$.each(combNodeData, function(index, nodeData) {
-		if (nodeData["nodeId"] === selectNodeId) {
-			if (!nodeData.hasOwnProperty("nodeItem")) {
+	$.each( combNodeData, function(index, nodeData) {
+		if ( nodeData["nodeId"] === selectNodeId ) {
+			if ( !nodeData.hasOwnProperty( "nodeItem" ) ) {
 				nodeData.nodeItem = {};
 			}
 			nodeItem = nodeData.nodeItem;
 		}
-	});
-	$.each(inPars, function(index, item) {
+	} );
+	$.each( inPars, function(index, item) {
 		var tmp = {};
 
 		tmp["itemUnit"] = item["itemUnit"];
@@ -361,30 +361,30 @@ function editorAjax(method, url, rows, callSuccess, callError) {
 		tmp["main"] = item["main"];
 
 		nodeItem["" + item["itemId"]] = tmp;
-	});
+	} );
 
 	inPar["_type"] = type;
 	inPar["nodeId"] = selectNodeId;
-	inPar["nodeItem"] = JSON.stringify(nodeItem);
+	inPar["nodeItem"] = JSON.stringify( nodeItem );
 
-	nodeItems.push(inPar);
+	nodeItems.push( inPar );
 
-	$.ajax({
+	$.ajax( {
 		async : false,
 		type : "POST",
 		url : "hbNodeConfig.modifyHbNode",
 		cache : false,
-		data : ServerRequestPar(1, nodeItems),
+		data : ServerRequestPar( 1, nodeItems ),
 		dataType : "json",
 		success : function(res) {
-			if (res.code != 0) {
+			if ( res.code != 0 ) {
 				combNodeData = oldCombNodeData;
 				tableTypeItem.editor.i18n.error.system = res.message;
 				callError();
 			} else {
-				callSuccess({
+				callSuccess( {
 					data : inPars
-				});
+				} );
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -392,7 +392,7 @@ function editorAjax(method, url, rows, callSuccess, callError) {
 			tableTypeItem.editor.i18n.error.system = "操作未完成，向服务器请求失败...";
 			callError();
 		}
-	});
+	} );
 
 }
 
@@ -404,40 +404,40 @@ function dataTableAjax(data, callback, settings) {
 		data : []
 	};
 
-	if (selectTypeId != 0 && selectNodeId != 0) {
-		var oldCombTypeItemData = jQuery.extend(true, {}, combTypeItemData);
-		$.each(oldCombTypeItemData, function(defaultIndex, defaultItem) {
-			if (defaultItem["typeId"] === selectTypeId) {
+	if ( selectTypeId != 0 && selectNodeId != 0 ) {
+		var oldCombTypeItemData = jQuery.extend( true, {}, combTypeItemData );
+		$.each( oldCombTypeItemData, function(defaultIndex, defaultItem) {
+			if ( defaultItem["typeId"] === selectTypeId ) {
 				defaultItem.DT_RowId = "_" + defaultItem.itemId;
-				$.each(combNodeData, function(nodeIndex, nodeData) {
-					if (nodeData["nodeId"] === selectNodeId) {
+				$.each( combNodeData, function(nodeIndex, nodeData) {
+					if ( nodeData["nodeId"] === selectNodeId ) {
 						var nodeItems = nodeData["nodeItem"];
 
 						defaultItem["nodeName"] = nodeData["nodeName"];
-						if (!(typeof (nodeItems) === "undefined" || nodeItems === null)) {
+						if ( !( typeof ( nodeItems ) === "undefined" || nodeItems === null ) ) {
 							var itemId = "" + defaultItem.itemId;
 							var nodeItem = nodeItems[itemId];
 
-							if (!(typeof (nodeItem) === "undefined" || nodeItem === null)) {
-								for ( var item in nodeItem) {
+							if ( !( typeof ( nodeItem ) === "undefined" || nodeItem === null ) ) {
+								for ( var item in nodeItem ) {
 									defaultItem[item] = nodeItem[item];
 								}
 							}
 						}
 					}
-				});
-				tableData.data.push(defaultItem);
+				} );
+				tableData.data.push( defaultItem );
 				tableData.recordsTotal++;
 				tableData.recordsFiltered++;
 			}
-		});
+		} );
 	}
 
-	callback(tableData);
+	callback( tableData );
 }
 
 function callError(code, message) {
-	$("#mwTitle").html('<span class="glyphicon glyphicon-bullhorn" aria-hidden="true">&nbsp;警告</span>');
-	$("#mwMessage").html(message);
-	$("#modal-warning").modal("show");
+	$( "#mwTitle" ).html( '<span class="glyphicon glyphicon-bullhorn" aria-hidden="true">&nbsp;警告</span>' );
+	$( "#mwMessage" ).html( message );
+	$( "#modal-warning" ).modal( "show" );
 }

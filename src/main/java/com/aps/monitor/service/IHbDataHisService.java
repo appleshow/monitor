@@ -10,4 +10,6 @@ public interface IHbDataHisService {
 	void refHbNode(HttpSession httpSession, String inPar, ResponseData responseData);
 
 	void refHbDataHis(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
+
+	void refHbDataHisGrid(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
 }
