@@ -1,7 +1,7 @@
 ﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E",
 		"#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [];
-var tableDataCur, combNode, selectNode = "", selectTab = "", gridChanged = true;
+var tabledataCurM, tabledataCurH, combNode, selectNode = "", selectTab = "", gridChangedM = true, gridChangedH = true;
 
 jQuery( document ).ready( function() {
 	$( '#dateStr' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 00:00:00" );
@@ -17,7 +17,8 @@ jQuery( document ).ready( function() {
 	getCombNodeData();
 	$( '#nodeMN' ).on( 'select2:select', function(evt) {
 		selectNode = evt.params.data.id;
-		gridChanged = true;
+		gridChangedM = true;
+		gridChangedH = true;
 	} );
 
 	$( 'a[data-toggle="tab"]' ).on( 'shown.bs.tab', function(e) {
@@ -143,12 +144,31 @@ function refHbNode() {
 }
 
 function refData() {
-	if ( selectTab === "#dataCur" ) {
-		if ( gridChanged ) {
-			gridChanged = false;
-			createTableHis();
+	if ( selectNode === "" ) {
+		callError( 100, "请先选择一个【站点名称】...!!" );
+		return;
+	}
+	if ( selectTab === "#dataCurM" ) {
+		if ( gridChangedM ) {
+			gridChangedM = false;
+			createTableMHis();
 		} else {
-			tableDataCur.table.ajax.reload( null, false );
+			tabledataCurM.table.ajax.reload( null, false );
+		}
+	} else if ( selectTab === "#dataCurH" ) {
+		var momentStr = moment( $( '#dateStr' ).val() );
+		var momentEnd = moment( $( '#dateEnd' ).val() );
+		var timeLength = momentEnd.diff( momentStr, 'days' ) + 1;
+
+		if ( timeLength > 31 ) {
+			callError( 100, "时间区间最大为【31天】，当前查询区间为：" + timeLength + "天...!!" );
+			return;
+		}
+		if ( gridChangedH ) {
+			gridChangedH = false;
+			createTableHHis();
+		} else {
+			tabledataCurH.table.ajax.reload( null, false );
 		}
 	} else {
 		refDataHis();
@@ -159,66 +179,31 @@ function refData() {
  * @returns
  */
 function refDataHis() {
-	if ( selectNode === "" ) {
+	var momentStr = moment( $( '#dateStr' ).val() );
+	var momentEnd = moment( $( '#dateEnd' ).val() );
+	var timeLength = momentEnd.diff( momentStr, 'days' );
+	var dataType = "", parTag = "";
+
+	if ( timeLength < 0 ) {
+		callError( 100, "录入参数【起止时间】有误...!!" );
 		return;
-	}
-	$( "#lineCurBox" ).empty();
-	for ( var node in nodeLines ) {
-		if ( node === selectNode ) {
-			var html = "";
-
-			html += '<div class="panel panel-default subbox">';
-			html += '<div class="panel-heading"><a href=# title="点击查看详细数据" onclick=showNodeDetail("' + node + '")>' + nodeLines[node].nodeName + '</a></div>';
-			html += '<div class="panel-body line" id = "line' + nodeLines[node].nodeId + '"></div>';
-			html += '</div>';
-
-			$( "#lineCurBox" ).html( html );
-
-			nodeLines[node].chart = new Highcharts.Chart( {
-				credits : {
-					text : '嘉臣光电科技有限公司',
-					href : 'http://www.grasun-opt.com/'
-				},
-				chart : {
-					renderTo : "line" + nodeLines[node].nodeId,
-					zoomType : 'xy'
-				},
-				title : {
-					text : nodeLines[node].nodeName + ' - 历史曲线'
-				},
-				subtitle : {
-					text : "【" + $( '#dateStr' ).val() + " ~ " + $( '#dateEnd' ).val() + "】"
-				},
-				xAxis : [ {
-					title : {
-						text : '',
-						style : {
-							color : colors[10]
-						}
-					},
-					type : 'datetime',
-					tickInterval : 15,
-					categories : []
-				} ],
-				yAxis : nodeLines[node].yAxis,
-				tooltip : {
-					crosshairs : true,
-					shared : true
-				},
-				series : nodeLines[node].series,
-			} );
-
-			break;
+	} else if ( timeLength == 0 ) {
+		if ( momentEnd.diff( momentStr, 'hours' ) == 0 ) {
+			dataType = "2011";
+			parTag = "-Rtd";
+		} else {
+			dataType = "2051";
+			parTag = "-Avg";
 		}
+	} else if ( timeLength <= 2 ) {
+		dataType = "2051";
+		parTag = "-Avg";
+	} else {
+		dataType = "2061";
+		parTag = "-Avg";
 	}
 
-	for ( var node in nodeLines ) {
-		nodeLines[node].label = [];
-		$.each( nodeLines[node].par, function(index, value) {
-			nodeLines[node][value] = [];
-		} );
-	}
-
+	$( "#lineCurBox" ).empty();
 	$.ajax( {
 		async : false,
 		type : "POST",
@@ -227,7 +212,7 @@ function refDataHis() {
 		data : ServerRequestPar( 1, {
 			nodeId : nodeLines[selectNode].nodeId,
 			nodeMn : selectNode,
-			dataType : '2051',
+			dataType : dataType,
 			dateStr : $( '#dateStr' ).val(),
 			dateEnd : $( '#dateEnd' ).val()
 		} ),
@@ -236,16 +221,71 @@ function refDataHis() {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
 			} else {
+				for ( var node in nodeLines ) {
+					if ( node === selectNode ) {
+						var html = "";
+
+						html += '<div class="panel panel-default subbox">';
+						html += '<div class="panel-heading"><a href=# title="点击查看详细数据" onclick=showNodeDetail("' + node + '")>' + nodeLines[node].nodeName + '</a></div>';
+						html += '<div class="panel-body line" id = "line' + nodeLines[node].nodeId + '"></div>';
+						html += '</div>';
+
+						$( "#lineCurBox" ).html( html );
+
+						nodeLines[node].chart = new Highcharts.Chart( {
+							credits : {
+								text : '嘉臣光电科技有限公司',
+								href : 'http://www.grasun-opt.com/'
+							},
+							chart : {
+								renderTo : "line" + nodeLines[node].nodeId,
+								zoomType : 'xy'
+							},
+							title : {
+								text : nodeLines[node].nodeName + ' - 历史曲线'
+							},
+							subtitle : {
+								text : "【" + $( '#dateStr' ).val() + " ~ " + $( '#dateEnd' ).val() + "】"
+							},
+							xAxis : [ {
+								title : {
+									text : '',
+									style : {
+										color : colors[10]
+									}
+								},
+								type : 'datetime',
+								tickInterval : res.rowCount / 6,
+								categories : []
+							} ],
+							yAxis : nodeLines[node].yAxis,
+							tooltip : {
+								crosshairs : true,
+								shared : true
+							},
+							series : nodeLines[node].series,
+						} );
+
+						break;
+					}
+				}
+
+				for ( var node in nodeLines ) {
+					nodeLines[node].label = [];
+					$.each( nodeLines[node].par, function(index, value) {
+						nodeLines[node][value] = [];
+					} );
+				}
+
 				$.each( res.data, function(index, value) {
 					nodeLines[value.nodeMn].label.push( value.dataTime );
 					if ( value.hasOwnProperty( "nodeData" ) ) {
 						var nodeData = $.parseJSON( value.nodeData );
 
-						value.nodeData = nodeData;
 						$.each( nodeLines[value.nodeMn].par, function(index, par) {
 							// nodeLines[value.nodeMn][par].push(Math.random()*10);
-							if ( nodeData.hasOwnProperty( par ) ) {
-								nodeLines[value.nodeMn][par].push( parseFloat( nodeData[par] ) );
+							if ( nodeData.hasOwnProperty( par + parTag ) ) {
+								nodeLines[value.nodeMn][par].push( parseFloat( nodeData[par + parTag] ) );
 							} else {
 								nodeLines[value.nodeMn][par].push( 0 );
 							}
@@ -271,27 +311,51 @@ function refDataHis() {
  * 
  * @returns
  */
-function createTableHis() {
-	$( "#table" ).empty();
-	$( "#table" ).html( ' <table id="tbDataCur" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbDataCurHC"></thead></table>' );
+function createTableMHis() {
+	$( "#tableM" ).empty();
+	$( "#tableM" ).html( ' <table id="tbdataCurM" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurMHC"></thead></table>' );
 
-	tableDataCur = new CommDataTables( "#tbDataCur", "#tbDataCurHC", createColumnInfo( selectNode ), callError );
-	tableDataCur.scrollY = 72;
-	tableDataCur.buttons = "P";
+	tabledataCurM = new CommDataTables( "#tbdataCurM", "#tbdataCurMHC", createColumnInfoM( selectNode ), callError );
+	tabledataCurM.scrollY = 72;
+	tabledataCurM.buttons = "P";
+	tabledataCurM.lengthInfo = {
+		lengthMenu : [ [ 50, 100, 300 ], [ "50条", "100条", "300条" ] ],
+		pageLength : 50
+	};
+	// ***** Add information to Column *****
+	// *********************************
+	// ***** Add information to Field *****
+	// *********************************
+
+	tabledataCurM.create( null, dataTableMAjax );
+}
+
+/**
+ * 
+ * @returns
+ */
+function createTableHHis() {
+	$( "#tableH" ).empty();
+	$( "#tableH" ).html( ' <table id="tbdataCurH" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurHHC"></thead></table>' );
+
+	tabledataCurH = new CommDataTables( "#tbdataCurH", "#tbdataCurHHC", createColumnInfoH( selectNode ), callError );
+	tabledataCurH.scrollY = 72;
+	tabledataCurH.buttons = "P";
 
 	// ***** Add information to Column *****
 	// *********************************
 	// ***** Add information to Field *****
 	// *********************************
 
-	tableDataCur.create( null, dataTableAjax );
+	tabledataCurH.create( null, dataTableHAjax );
 }
+
 /**
  * 
  * @param nodeMN
  * @returns
  */
-function createColumnInfo(nodeMN) {
+function createColumnInfoM(nodeMN) {
 	var tableColumnInfo = {};
 	var innerHtml = "";
 
@@ -371,14 +435,111 @@ function createColumnInfo(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo[nodeLines[nodeMN]["par"][index]] = columnInfo;
+			tableColumnInfo[nodeLines[nodeMN]["par"][index] + "-Rtd"] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}
 		innerHtml += "</tr>";
 	}
 
-	$( "#tbDataCurHC" ).html( innerHtml );
+	$( "#tbdataCurMHC" ).html( innerHtml );
+
+	return tableColumnInfo;
+}
+
+/**
+ * 
+ * @param nodeMN
+ * @returns
+ */
+function createColumnInfoH(nodeMN) {
+	var tableColumnInfo = {};
+	var innerHtml = "";
+
+	innerHtml = "<tr>";
+	tableColumnInfo.nodeName = {
+		name : "站点名称",
+		primary : 0,
+		update : 0,
+		edit : 0,
+		type : "text",
+		lock : 0,
+		sort : 0,
+		hide : 0,
+		align : 0,
+		prtype : "T"
+	};
+	innerHtml += "<th>站点名称</th>";
+	tableColumnInfo.dataTime = {
+		name : "监测时间",
+		primary : 0,
+		update : 0,
+		edit : 0,
+		type : "text",
+		lock : 0,
+		sort : 0,
+		hide : 0,
+		align : 0,
+		prtype : "T"
+	};
+	innerHtml += "<th>监测时间</th>";
+	innerHtml += "</tr>";
+
+	if ( nodeMN != null && nodeLines.hasOwnProperty( nodeMN ) && nodeLines[nodeMN].par.length > 0 ) {
+		// innerHtml = "<tr>";
+		// innerHtml += "<th rowspan='2'>站点名称</th>";
+		// innerHtml += "<th rowspan='2'>监测时间</th>";
+		//
+		// var innerHtmlUnit = "<tr>";
+		// for (var index = 0; index < nodeLines[nodeMN].parCount; index++) {
+		// var columnInfo = {};
+		//
+		// columnInfo.name = nodeLines[nodeMN]["parName"][index];
+		// columnInfo.primary = 0;
+		// columnInfo.update = 0;
+		// columnInfo.edit = 0;
+		// columnInfo.type = "text";
+		// columnInfo.lock = 0;
+		// columnInfo.sort = 0;
+		// columnInfo.hide = 0;
+		// columnInfo.align = 2;
+		// columnInfo.prtype = "T";
+		//
+		// tableColumnInfo[nodeLines[nodeMN]["par"][index]] = columnInfo;
+		//
+		// innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + "</th>";
+		// innerHtmlUnit += "<th>" + nodeLines[nodeMN]["parUnit"][index] + "</th>";
+		// }
+		// innerHtml += "</tr>";
+		// innerHtmlUnit += "</tr>";
+		// innerHtml += innerHtmlUnit;
+
+		innerHtml = "<tr>";
+		innerHtml += "<th>站点名称</th>";
+		innerHtml += "<th>监测时间</th>";
+
+		for ( var index = 0; index < nodeLines[nodeMN].parCount; index++ ) {
+			var columnInfo = {};
+
+			columnInfo.name = nodeLines[nodeMN]["parName"][index];
+			columnInfo.primary = 0;
+			columnInfo.update = 0;
+			columnInfo.edit = 0;
+			columnInfo.type = "text";
+			columnInfo.lock = 0;
+			columnInfo.sort = 0;
+			columnInfo.hide = 0;
+			columnInfo.align = 2;
+			columnInfo.prtype = "T";
+
+			tableColumnInfo[nodeLines[nodeMN]["par"][index] + "-Avg"] = columnInfo;
+
+			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
+		}
+		innerHtml += "</tr>";
+	}
+
+	$( "#tbdataCurHHC" ).html( innerHtml );
 
 	return tableColumnInfo;
 }
@@ -390,7 +551,7 @@ function createColumnInfo(nodeMN) {
  * @param settings
  * @returns
  */
-function dataTableAjax(data, callback, settings) {
+function dataTableMAjax(data, callback, settings) {
 	var tableData = {
 		draw : settings.iDraw,
 		recordsTotal : 0,
@@ -430,12 +591,13 @@ function dataTableAjax(data, callback, settings) {
 							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
 								for ( var item in node.nodeItem ) {
 									if ( node.nodeItem[item].select == 1 ) {
-										if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
-											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
-												lineData[item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+										var dataItem = item + "-Rtd";
+										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
+												lineData[dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
 											} else {
-												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
-													lineData[item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
+												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
+													lineData[dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
 												}
 											}
 										}
@@ -463,6 +625,86 @@ function dataTableAjax(data, callback, settings) {
 
 }
 
+/**
+ * 
+ * @param data
+ * @param callback
+ * @param settings
+ * @returns
+ */
+function dataTableHAjax(data, callback, settings) {
+	var tableData = {
+		draw : settings.iDraw,
+		recordsTotal : 0,
+		recordsFiltered : 0,
+		data : []
+	};
+	if ( selectNode === "" ) {
+		callback( tableData );
+	}
+	$.ajax( {
+		async : false,
+		type : "POST",
+		url : "HbDataHisController.refHbDataHisGrid",
+		cache : false,
+		data : ServerRequestPar( 1, {
+			nodeId : nodeLines[selectNode].nodeId,
+			nodeMn : selectNode,
+			dataType : '2061',
+			dateStr : $( '#dateStr' ).val(),
+			dateEnd : $( '#dateEnd' ).val(),
+			pageNumber : data.length == -1 ? 0 : data.start / data.length + 1,
+			pageSize : data.length == -1 ? 0 : data.length
+		} ),
+		dataType : "json",
+		success : function(res) {
+			if ( res.code != 0 ) {
+				callError( res.code, res.message );
+			} else {
+				tableData.recordsTotal = res.totalCount;
+				tableData.recordsFiltered = res.totalCount;
+
+				$.each( res.data, function(index, dataHis) {
+					if ( dataHis.hasOwnProperty( "nodeData" ) ) {
+						var lineData = $.parseJSON( dataHis.nodeData );
+
+						$.each( nodeInfo, function(index, node) {
+							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
+								for ( var item in node.nodeItem ) {
+									if ( node.nodeItem[item].select == 1 ) {
+										var dataItem = item + "-Avg";
+										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
+												lineData[dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
+											} else {
+												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
+													lineData[dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
+												}
+											}
+										}
+									}
+								}
+							}
+						} );
+
+						lineData.DT_RowId = "_" + index;
+						lineData.nodeName = nodeLines[dataHis.nodeMn].nodeName;
+						lineData.dataTime = dataHis.dataTime;
+
+						tableData.data.push( lineData );
+					}
+				} );
+			}
+			callback( tableData );
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			callError( -900, "操作未完成，向服务器请求失败..." );
+			callback( tableData );
+		}
+
+	} );
+
+}
 /**
  * 
  * @param typeId
@@ -524,7 +766,7 @@ function getCombNodeData() {
  * @returns
  */
 function showNodeDetail(nodeMN) {
-	$( '#mainTabs a[href="#dataCur"]' ).tab( 'show' );
+	$( '#mainTabs a[href="#dataCurM"]' ).tab( 'show' );
 }
 
 /**
