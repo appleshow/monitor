@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>实时数据</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="./dataTables/Bootstrap-3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./assets-view/comm/color.css" />
+<style type="text/css">
+body, html, #allmap {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+</style>
+</head>
+<body>
+     <div id="allmap"></div>
+     <div class="modal fade" role="dialog" aria-labelledby="msTitle" id="modal-success">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-success" id="msTitle"></span>
+                         </h3>
+                    </div>
+                    <div class="modal-body text-center" id="msMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="modal fade" role="dialog" aria-labelledby="mwTitle" id="modal-warning">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                         <h3 class="modal-title text-center">
+                              <span class="label label-warning" id="mwTitle"></span>
+                         </h3>
+                    </div>
+                    <div class="modal-body text-center" id="mwMessage"></div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <script src="./dataTables/jQuery-2.2.0/jquery-2.2.0.min.js"></script>
+     <script src="./dataTables/Bootstrap-3.3.6/js/bootstrap.min.js"></script>
+     <script src="./assets-view/hb/hbnodemap.js"></script>
+</body>
+</html>
