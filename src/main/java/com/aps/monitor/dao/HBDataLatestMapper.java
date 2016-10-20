@@ -6,17 +6,19 @@ import com.aps.monitor.model.HBDataLatest;
 import com.aps.monitor.model.HBDataLatestKey;
 
 public interface HBDataLatestMapper {
-    int deleteByPrimaryKey(HBDataLatestKey key);
+	int deleteByPrimaryKey(HBDataLatestKey key);
 
-    int insert(HBDataLatest record);
+	int insert(HBDataLatest record);
 
-    int insertSelective(HBDataLatest record);
+	int insertSelective(HBDataLatest record);
 
-    HBDataLatest selectByPrimaryKey(HBDataLatestKey key);
+	HBDataLatest selectByPrimaryKey(HBDataLatestKey key);
 
-    List<HBDataLatest> selectByCondition(HBDataLatest record);
-    
-    int updateByPrimaryKeySelective(HBDataLatest record);
+	List<HBDataLatest> selectByCondition(HBDataLatest record);
 
-    int updateByPrimaryKey(HBDataLatest record);
+	List<HBDataLatest> selectAllLastOne(HBDataLatest record);
+
+	int updateByPrimaryKeySelective(HBDataLatest record);
+
+	int updateByPrimaryKey(HBDataLatest record);
 }

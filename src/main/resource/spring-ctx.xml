@@ -14,7 +14,7 @@
 	<!-- dataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<property name="jdbcUrl" value="jdbc:mysql://192.168.91.129:3306/monitor"/>
+		<property name="jdbcUrl" value="jdbc:mysql://192.168.0.105:3306/monitor"/>
 		<property name="user" value="admin"/>
 		<property name="password" value="soaring"/>
 		<property name="initialPoolSize" value="1"/>

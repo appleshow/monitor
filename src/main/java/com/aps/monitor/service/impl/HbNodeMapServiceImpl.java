@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HBDataLatestMapper;
 import com.aps.monitor.dao.HbNodeMapper;
-import com.aps.monitor.dao.HbTypeMapper;
+import com.aps.monitor.dao.HbTypeItemMapper;
 import com.aps.monitor.model.HBDataLatest;
 import com.aps.monitor.model.HbNode;
-import com.aps.monitor.model.HbType;
+import com.aps.monitor.model.HbTypeItem;
 import com.aps.monitor.service.IHbNodeMapService;
 
 @Service
 public class HbNodeMapServiceImpl implements IHbNodeMapService {
 	@Resource
-	private HbTypeMapper hbTypeMapper;
+	private HbTypeItemMapper hbTypeItemMapper;
 	@Resource
 	private HbNodeMapper hbNodeMapper;
 	@Resource
@@ -42,18 +42,24 @@ public class HbNodeMapServiceImpl implements IHbNodeMapService {
 	 */
 	@Override
 	public void refHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
-		HbType hbType = new HbType();
+		HbTypeItem hbTypeItem = new HbTypeItem();
 		HbNode hbNode = new HbNode();
-		List<HbType> hbTypes;
+		HBDataLatest hbDataLatest = new HBDataLatest();
+		List<HbTypeItem> hbTypeItems;
 		List<HbNode> hbNodes;
-		ResponseData responseDataJoin = new ResponseData();
+		List<HBDataLatest> hbDataLatests;
+		ResponseData responseHbTypeItem = new ResponseData();
+		ResponseData responseDataLatest = new ResponseData();
 
-		hbTypes = hbTypeMapper.selectByCondition(hbType);
+		hbDataLatests = hbDatalatestMapper.selectAllLastOne(hbDataLatest);
+		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
 		hbNodes = hbNodeMapper.selectByCondition(hbNode);
 
-		responseDataJoin.setData(hbTypes);
+		responseDataLatest.setData(hbDataLatests);
+		responseHbTypeItem.setData(hbTypeItems);
+		responseHbTypeItem.setSubJoinResponseData(responseDataLatest);
 		responseData.setData(hbNodes);
-		responseData.setSubJoinResponseData(responseDataJoin);
+		responseData.setSubJoinResponseData(responseHbTypeItem);
 	}
 
 	/**
