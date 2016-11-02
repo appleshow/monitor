@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+
 import com.aps.monitor.model.ComOrgFormRights;
 
 public class CommUtil {
@@ -26,6 +29,8 @@ public class CommUtil {
 
 	public final static String HB_DATA_CUR = "HB_DATA_CUR";
 	public final static String HB_DATA_HIS = "HB_DATA_HIS";
+	public final static String SYS_PATH = CommUtil.class.getResource("/").getPath();
+	private static WebApplicationContext webApplicationContext;
 
 	/**
 	 * 
@@ -171,4 +176,11 @@ public class CommUtil {
 		return nvl(value, "");
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String bean, Class<T> type) {
+		if (webApplicationContext == null) {
+			webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		}
+		return (T) webApplicationContext.getBean(bean);
+	}
 }

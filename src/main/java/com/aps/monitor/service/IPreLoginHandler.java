@@ -9,5 +9,5 @@ public interface IPreLoginHandler {
 	/**
 	 * 前置处理
 	 */
-	public Map<?, ?> handle(HttpSession session) throws Exception;
+	Map<?, ?> handle(HttpSession session) throws Exception;
 }

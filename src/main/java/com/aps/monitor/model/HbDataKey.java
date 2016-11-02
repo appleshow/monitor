@@ -2,34 +2,49 @@ package com.aps.monitor.model;
 
 import java.util.Date;
 
+import com.aps.monitor.comm.DateUtil;
+
 public class HbDataKey {
-    private Date dataTime;
+	private Date dataTime;
 
-    private String dataType;
+	private String dataType;
 
-    private String nodeMn;
+	private String nodeMn;
 
-    public Date getDataTime() {
-        return dataTime;
-    }
+	public Date getDataTime() {
+		return dataTime;
+	}
 
-    public void setDataTime(Date dataTime) {
-        this.dataTime = dataTime;
-    }
+	public void setDataTime(Date dataTime) {
+		this.dataTime = dataTime;
+	}
 
-    public String getDataType() {
-        return dataType;
-    }
+	/**
+	 * 
+	 * @Title: setDataTime
+	 * @Description: TODO
+	 * @param DataTimeStr
+	 *            void
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public void setDataTime(String DataTimeStr) {
+		this.dataTime = DateUtil.fromString(DataTimeStr);
+	}
 
-    public void setDataType(String dataType) {
-        this.dataType = dataType == null ? null : dataType.trim();
-    }
+	public String getDataType() {
+		return dataType;
+	}
 
-    public String getNodeMn() {
-        return nodeMn;
-    }
+	public void setDataType(String dataType) {
+		this.dataType = dataType == null ? null : dataType.trim();
+	}
 
-    public void setNodeMn(String nodeMn) {
-        this.nodeMn = nodeMn == null ? null : nodeMn.trim();
-    }
+	public String getNodeMn() {
+		return nodeMn;
+	}
+
+	public void setNodeMn(String nodeMn) {
+		this.nodeMn = nodeMn == null ? null : nodeMn.trim();
+	}
 }

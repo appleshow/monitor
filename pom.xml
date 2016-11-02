@@ -131,6 +131,18 @@
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
+		<!-- Mina 3.0 -->
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>3.0.0-M2</version>
+		</dependency>
+		<!-- Cache -->
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.1.3</version>
+		</dependency>
 		<!--  -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>

@@ -23,5 +23,6 @@
 		<mapper resource="com/aps/monitor/mapper/HbDataTableMapper.xml"/>
 		<mapper resource="com/aps/monitor/mapper/HbDataLatestMapper.xml"/>
 		<mapper resource="com/aps/monitor/mapper/HbDataModeMapper.xml"/>
+		<mapper resource="com/aps/monitor/mapper/HbDataRecordMapper.xml"/>
 	</mappers>
 </configuration>

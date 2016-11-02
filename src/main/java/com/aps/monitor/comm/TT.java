@@ -11,6 +11,8 @@ public class TT {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		System.out.println(System.currentTimeMillis());
+		System.out.println(Integer.MAX_VALUE);
 		System.out.println(MD5Util.getMD5String(MD5Util.getMD5String("admin") + "2196"));
 		String s = "{\"parcnt\":2,\"inpar\":{\"codeType\":\"C\",\"codeName\":\"1\"}}";
 		
