@@ -37,10 +37,10 @@
 		<result column="UPERSON" property="uperson" jdbcType="INTEGER"/>
 		<result column="UFROM" property="ufrom" jdbcType="VARCHAR"/>
 	</resultMap>
-	<sql id="Base_Column_List"> DATA_TIME, NODE_MN, DATA_INDEX, RECORD_ID, NODE_DATA, PRFLAG, PRGROUP, PRTYPE,
-		PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9,
-		PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME,
-		USHIFT, UGROUP, UPERSON, UFROM
+	<sql id="Base_Column_List"> DATA_TIME, NODE_MN, DATA_INDEX, RECORD_ID, NODE_DATA, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1,
+		PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11,
+		PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON,
+		UFROM
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey">
 		select
@@ -56,28 +56,29 @@
 		</where>
 		order by a.NODE_MN,a.DATA_TIME
 	</select>
-	<select id="selectAllLastOne" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey">
-		select a.* from hb_data_latest a, hb_node b
-		where a.node_mn = b.node_mn
-			    and a.data_index = 30
+	<select id="selectAllLastOne" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey"> select a.* from hb_data_latest a, hb_node
+		b where a.node_mn = b.node_mn and a.data_index = 30
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from
-		hb_data_latest where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
+	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from hb_data_latest where DATA_TIME =
+		#{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.aps.monitor.model.HBDataLatest"> insert into hb_data_latest (DATA_TIME,
-		NODE_MN, DATA_INDEX, RECORD_ID, NODE_DATA, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3,
-		PROPERTY4, PROPERTY5, PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13,
-		PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values
-		(#{dataTime,jdbcType=TIMESTAMP}, #{nodeMn,jdbcType=VARCHAR}, #{dataIndex,jdbcType=INTEGER},
-		#{recordId,jdbcType=INTEGER}, #{nodeData,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER}, #{prgroup,jdbcType=VARCHAR},
-		#{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=INTEGER}, #{property1,jdbcType=VARCHAR},
-		#{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR}, #{property4,jdbcType=VARCHAR},
-		#{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR}, #{property7,jdbcType=VARCHAR},
-		#{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR}, #{property10,jdbcType=DECIMAL},
-		#{property11,jdbcType=DECIMAL}, #{property12,jdbcType=DECIMAL}, #{property13,jdbcType=DECIMAL},
-		#{property14,jdbcType=DECIMAL}, #{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR}, #{itime,jdbcType=TIMESTAMP},
-		#{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER}, #{utime,jdbcType=TIMESTAMP},
-		#{ushift,jdbcType=VARCHAR}, #{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER}, #{ufrom,jdbcType=VARCHAR})
+	<delete id="deleteOldestOne" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from hb_data_latest where DATA_INDEX = 1 and NODE_MN =
+		#{nodeMn,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.aps.monitor.model.HBDataLatest"> insert into hb_data_latest (DATA_TIME, NODE_MN, DATA_INDEX, RECORD_ID,
+		NODE_DATA, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5, PROPERTY6,
+		PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME,
+		ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values (#{dataTime,jdbcType=TIMESTAMP},
+		#{nodeMn,jdbcType=VARCHAR}, #{dataIndex,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{nodeData,jdbcType=VARCHAR},
+		#{prflag,jdbcType=INTEGER}, #{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=INTEGER},
+		#{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR},
+		#{property4,jdbcType=VARCHAR}, #{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR},
+		#{property7,jdbcType=VARCHAR}, #{property8,jdbcType=VARCHAR}, #{property9,jdbcType=VARCHAR},
+		#{property10,jdbcType=DECIMAL}, #{property11,jdbcType=DECIMAL}, #{property12,jdbcType=DECIMAL},
+		#{property13,jdbcType=DECIMAL}, #{property14,jdbcType=DECIMAL}, #{prinf,jdbcType=VARCHAR}, #{prexp,jdbcType=VARCHAR},
+		#{itime,jdbcType=TIMESTAMP}, #{ishift,jdbcType=VARCHAR}, #{igroup,jdbcType=VARCHAR}, #{iperson,jdbcType=INTEGER},
+		#{utime,jdbcType=TIMESTAMP}, #{ushift,jdbcType=VARCHAR}, #{ugroup,jdbcType=VARCHAR}, #{uperson,jdbcType=INTEGER},
+		#{ufrom,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.aps.monitor.model.HBDataLatest">
 		insert into hb_data_latest
@@ -292,19 +293,22 @@
 		</set>
 		where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatest"> update hb_data_latest set
-		DATA_INDEX = #{dataIndex,jdbcType=INTEGER}, RECORD_ID = #{recordId,jdbcType=INTEGER}, NODE_DATA =
-		#{nodeData,jdbcType=VARCHAR}, PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE =
-		#{prtype,jdbcType=VARCHAR}, PROPERTY0 = #{property0,jdbcType=INTEGER}, PROPERTY1 = #{property1,jdbcType=VARCHAR},
-		PROPERTY2 = #{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 =
-		#{property4,jdbcType=VARCHAR}, PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR},
-		PROPERTY7 = #{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 =
-		#{property9,jdbcType=VARCHAR}, PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 =
-		#{property11,jdbcType=DECIMAL}, PROPERTY12 = #{property12,jdbcType=DECIMAL}, PROPERTY13 =
-		#{property13,jdbcType=DECIMAL}, PROPERTY14 = #{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP
-		= #{prexp,jdbcType=VARCHAR}, ITIME = #{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP =
-		#{igroup,jdbcType=VARCHAR}, IPERSON = #{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT =
-		#{ushift,jdbcType=VARCHAR}, UGROUP = #{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM =
-		#{ufrom,jdbcType=VARCHAR} where DATA_TIME = #{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
+	<update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatest"> update hb_data_latest set DATA_INDEX =
+		#{dataIndex,jdbcType=INTEGER}, RECORD_ID = #{recordId,jdbcType=INTEGER}, NODE_DATA = #{nodeData,jdbcType=VARCHAR},
+		PRFLAG = #{prflag,jdbcType=INTEGER}, PRGROUP = #{prgroup,jdbcType=VARCHAR}, PRTYPE = #{prtype,jdbcType=VARCHAR},
+		PROPERTY0 = #{property0,jdbcType=INTEGER}, PROPERTY1 = #{property1,jdbcType=VARCHAR}, PROPERTY2 =
+		#{property2,jdbcType=VARCHAR}, PROPERTY3 = #{property3,jdbcType=VARCHAR}, PROPERTY4 = #{property4,jdbcType=VARCHAR},
+		PROPERTY5 = #{property5,jdbcType=VARCHAR}, PROPERTY6 = #{property6,jdbcType=VARCHAR}, PROPERTY7 =
+		#{property7,jdbcType=VARCHAR}, PROPERTY8 = #{property8,jdbcType=VARCHAR}, PROPERTY9 = #{property9,jdbcType=VARCHAR},
+		PROPERTY10 = #{property10,jdbcType=DECIMAL}, PROPERTY11 = #{property11,jdbcType=DECIMAL}, PROPERTY12 =
+		#{property12,jdbcType=DECIMAL}, PROPERTY13 = #{property13,jdbcType=DECIMAL}, PROPERTY14 =
+		#{property14,jdbcType=DECIMAL}, PRINF = #{prinf,jdbcType=VARCHAR}, PREXP = #{prexp,jdbcType=VARCHAR}, ITIME =
+		#{itime,jdbcType=TIMESTAMP}, ISHIFT = #{ishift,jdbcType=VARCHAR}, IGROUP = #{igroup,jdbcType=VARCHAR}, IPERSON =
+		#{iperson,jdbcType=INTEGER}, UTIME = #{utime,jdbcType=TIMESTAMP}, USHIFT = #{ushift,jdbcType=VARCHAR}, UGROUP =
+		#{ugroup,jdbcType=VARCHAR}, UPERSON = #{uperson,jdbcType=INTEGER}, UFROM = #{ufrom,jdbcType=VARCHAR} where DATA_TIME =
+		#{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
+	</update>
+	<update id="updateIndexReduce" parameterType="com.aps.monitor.model.HBDataLatestKey"> update hb_data_latest set DATA_INDEX = DATA_INDEX - 1 where
+		NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</update>
 </mapper>

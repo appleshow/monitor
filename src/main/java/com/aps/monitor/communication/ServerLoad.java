@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.aps.monitor.cache.Cache;
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.schedule.Schedule;
 
 /**
@@ -28,6 +29,7 @@ public class ServerLoad implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		NioServer.start();
 		Schedule.start();
+		CommUtil.initHbNodeCache();
 	}
 
 }

@@ -83,16 +83,16 @@ public class TT2 {
 		System.out.println("******Finished【" + count + "】******");
 	}
 
-	public static Optional<KeyValue> format2KeyValue(String data) {
-		Optional<KeyValue> optional;
+	public static Optional<TKeyValue> format2KeyValue(String data) {
+		Optional<TKeyValue> optional;
 
 		if (data.indexOf("=") > 0) {
 			String[] array = data.split("=");
-			KeyValue keyValue;
+			TKeyValue keyValue;
 			if (array.length >= 2) {
-				keyValue = new KeyValue(array[0], array[1]);
+				keyValue = new TKeyValue(array[0], array[1]);
 			} else {
-				keyValue = new KeyValue(array[0], "");
+				keyValue = new TKeyValue(array[0], "");
 			}
 			optional = Optional.of(keyValue);
 		} else {
@@ -104,11 +104,11 @@ public class TT2 {
 
 }
 
-class KeyValue {
+class TKeyValue {
 	private String key;
 	private String value;
 
-	public KeyValue(String key, String value) {
+	public TKeyValue(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}

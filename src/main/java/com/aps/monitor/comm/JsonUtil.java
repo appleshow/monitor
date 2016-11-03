@@ -20,7 +20,7 @@ public class JsonUtil {
 	static {
 		jsonMapper.setSerializationInclusion(Include.NON_NULL);
 		jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		jsonMapper.setDateFormat(DateUtil.getSimpleDateFormat());
+		jsonMapper.setDateFormat(DateUtil.SIMPLE_DATE_FORMAT1);
 	}
 
 	/**
@@ -29,8 +29,8 @@ public class JsonUtil {
 	 * @Description: TODO
 	 * @param: @return
 	 * @return: ObjectNode
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static ObjectNode getObjectNodeInstance() {
 		return jsonMapper.createObjectNode();
@@ -40,11 +40,12 @@ public class JsonUtil {
 	 * 
 	 * @Title: writeValueAsString
 	 * @Description: TODO
-	 * @param: @param object
+	 * @param: @param
+	 *             object
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static String writeValueAsString(Object object) {
 		String jsonString;
@@ -62,11 +63,12 @@ public class JsonUtil {
 	 * @param <T>
 	 * @Title: writeResponsAsString
 	 * @Description: TODO
-	 * @param: @param object
+	 * @param: @param
+	 *             object
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static String writeResponseAsString(ResponseData responseData) {
 		String jsonString;
@@ -88,13 +90,15 @@ public class JsonUtil {
 	 * 
 	 * @Title: readValueAsObject
 	 * @Description: TODO
-	 * @param: @param data
-	 * @param: @param object
+	 * @param: @param
+	 *             data
+	 * @param: @param
+	 *             object
 	 * @param: @return
 	 * @return: Object
 	 * @throws JsonProcessingException
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static Object readValueAsObject(Map<String, String> data, Class<?> object) {
 		String jsonData;
@@ -125,11 +129,12 @@ public class JsonUtil {
 	 * 
 	 * @Title: readRequestPar
 	 * @Description: TODO
-	 * @param: @param inpar
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: RequestPar
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static RequestRefPar readRequestRefPar(String inPar) {
 		RequestRefPar requestRefPar = new RequestRefPar();
@@ -151,11 +156,12 @@ public class JsonUtil {
 	 * 
 	 * @Title: readRequestMdyPar
 	 * @Description: TODO
-	 * @param: @param inpar
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: RequestMdyPar
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static RequestMdyPar readRequestMdyPar(String inpar) {
 		RequestMdyPar requestMdyPar = new RequestMdyPar();
@@ -177,11 +183,12 @@ public class JsonUtil {
 	 * 
 	 * @Title: valueToArrayNode
 	 * @Description: TODO
-	 * @param: @param object
+	 * @param: @param
+	 *             object
 	 * @param: @return
 	 * @return: ArrayNode
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static ArrayNode valueToArrayNode(Object object) {
 		ArrayNode arrayNode;

@@ -85,7 +85,7 @@ public class Message implements Serializable {
 	}
 
 	public void setLastTryDate() {
-		lastTryDate = DateUtil.formatString(new Date());
+		lastTryDate = DateUtil.formatString(new Date(), DateUtil.SIMPLE_DATE_FORMAT1);
 	}
 
 	/**

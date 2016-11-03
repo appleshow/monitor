@@ -8,24 +8,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DateUtil {
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	/**
+	 * Format string: <b>yyyy-MM-dd HH:mm:ss</b>
+	 */
+	public final static String FORMAT1 = "yyyy-MM-dd HH:mm:ss";
+	/**
+	 * Format string: <b>yyyyMMddHHmmss</b>
+	 */
+	public final static String FORMAT2 = "yyyyMMddHHmmss";
+	/**
+	 * Format like: <b>yyyy-MM-dd HH:mm:ss</b>
+	 */
+	public final static SimpleDateFormat SIMPLE_DATE_FORMAT1 = new SimpleDateFormat(FORMAT1);
+	/**
+	 * Format like: <b>yyyyMMddHHmmss</b>
+	 */
+	public final static SimpleDateFormat SIMPLE_DATE_FORMAT2 = new SimpleDateFormat(FORMAT2);
 	private static final Logger LOG = LogManager.getLogger(DateUtil.class);
 
 	private DateUtil() {
 
-	}
-
-	/**
-	 * 
-	 * @Title: getSimpleDateFormat
-	 * @Description: TODO
-	 * @param: @return
-	 * @return: SimpleDateFormat
-	 * @throws @since
-	 *             1.0.0
-	 */
-	public static SimpleDateFormat getSimpleDateFormat() {
-		return simpleDateFormat;
 	}
 
 	/**
@@ -39,7 +41,7 @@ public class DateUtil {
 	 * @throws @since
 	 *             1.0.0
 	 */
-	public static String formatString(Date date) {
+	public static String formatString(Date date, SimpleDateFormat simpleDateFormat) {
 		return simpleDateFormat.format(date);
 	}
 
@@ -52,7 +54,7 @@ public class DateUtil {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	public static Date fromString(String dateStr) {
+	public static Date fromString(String dateStr, SimpleDateFormat simpleDateFormat) {
 		Date date = null;
 		try {
 			date = simpleDateFormat.parse(dateStr);

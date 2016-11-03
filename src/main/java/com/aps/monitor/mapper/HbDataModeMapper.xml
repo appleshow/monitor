@@ -51,12 +51,12 @@
 		    and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByCondition" parameterType="com.aps.monitor.model.HbDataTable">
-	 delete from ${property0,jdbcType=VARCHAR}  
+	 delete from ${property0}  
 	 where DATA_TIME between  #{dateStr,jdbcType=TIMESTAMP}  and #{dateEnd,jdbcType=TIMESTAMP}
 	     and DATA_TYPE = #{dataType,jdbcType=VARCHAR} 
 	     and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.aps.monitor.model.HbDataMode"> insert into ${property0,jdbcType=VARCHAR} (DATA_TIME, DATA_TYPE, NODE_MN,
+	<insert id="insert" parameterType="com.aps.monitor.model.HbDataMode"> insert into ${property0} (DATA_TIME, DATA_TYPE, NODE_MN,
 		NODE_DATA, RECORD_ID, PRFLAG, PRGROUP, PRTYPE, PROPERTY0, PROPERTY1, PROPERTY2, PROPERTY3, PROPERTY4, PROPERTY5,
 		PROPERTY6, PROPERTY7, PROPERTY8, PROPERTY9, PROPERTY10, PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP,
 		ITIME, ISHIFT, IGROUP, IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM) values (#{dataTime,jdbcType=TIMESTAMP},
@@ -72,7 +72,7 @@
 		#{ufrom,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.aps.monitor.model.HbDataMode">
-		insert into ${property0,jdbcType=VARCHAR}
+		insert into ${property0}
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="dataTime != null"> DATA_TIME,
 			</if>

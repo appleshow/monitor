@@ -29,7 +29,7 @@ public class HbDataKey {
 	 * @since 1.0.0
 	 */
 	public void setDataTime(String DataTimeStr) {
-		this.dataTime = DateUtil.fromString(DataTimeStr);
+		this.dataTime = DateUtil.fromString(DataTimeStr, DateUtil.SIMPLE_DATE_FORMAT1);
 	}
 
 	public String getDataType() {

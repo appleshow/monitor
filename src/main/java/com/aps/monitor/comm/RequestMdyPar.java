@@ -14,11 +14,12 @@ public class RequestMdyPar {
 	 * 
 	 * @Title: getType
 	 * @Description: TODO
-	 * @param: @param rowData
+	 * @param: @param
+	 *             rowData
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public String getType(Map<String, String> rowData) {
 		String type = "";
@@ -35,18 +36,21 @@ public class RequestMdyPar {
 	 * 
 	 * @Title: getPersonId
 	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param now
-	 * @param: @param rowData
+	 * @param: @param
+	 *             session
+	 * @param: @param
+	 *             now
+	 * @param: @param
+	 *             rowData
 	 * @param: @return
 	 * @return: int
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public int getPersonId(HttpSession session, Date now, Map<String, String> rowData) {
 		int personId = (int) session.getAttribute(CommUtil.SESSION_PERSON_ID);
 
-		rowData.put("utime", DateUtil.formatString(now));
+		rowData.put("utime", DateUtil.formatString(now, DateUtil.SIMPLE_DATE_FORMAT1));
 		rowData.put("uperson", String.valueOf(personId));
 
 		return personId;

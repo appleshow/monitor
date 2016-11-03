@@ -45,7 +45,7 @@ public class NioServer {
 			NIOTCPSERVER.setIoHandler(new NioServerIoHandler());
 			NIOTCPSERVER.bind(socketAddress);
 
-			serverStartTime = DateUtil.formatString(new Date());
+			serverStartTime = DateUtil.formatString(new Date(), DateUtil.SIMPLE_DATE_FORMAT1);
 			LOG.info("Server started: " + port.get());
 			return true;
 		} else {

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class HbDataRecord {
-    private Integer recordId;
+    private String recordId;
 
     private String recordData;
 
@@ -66,12 +66,12 @@ public class HbDataRecord {
 
     private String ufrom;
 
-    public Integer getRecordId() {
+    public String getRecordId() {
         return recordId;
     }
 
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId == null ? null : recordId.trim();
     }
 
     public String getRecordData() {

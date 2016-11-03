@@ -21,4 +21,8 @@ public interface HBDataLatestMapper {
 	int updateByPrimaryKeySelective(HBDataLatest record);
 
 	int updateByPrimaryKey(HBDataLatest record);
+
+	int deleteOldestOne(HBDataLatestKey key);
+
+	int updateIndexReduce(HBDataLatestKey key);
 }

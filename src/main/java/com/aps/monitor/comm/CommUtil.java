@@ -1,5 +1,6 @@
 package com.aps.monitor.comm;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,7 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.model.ComOrgFormRights;
+import com.aps.monitor.model.HbNode;
 
 public class CommUtil {
 
@@ -30,7 +33,8 @@ public class CommUtil {
 	public final static String HB_DATA_CUR = "HB_DATA_CUR";
 	public final static String HB_DATA_HIS = "HB_DATA_HIS";
 	public final static String SYS_PATH = CommUtil.class.getResource("/").getPath();
-	private static WebApplicationContext webApplicationContext;
+	private final static WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+	private final static HashMap<String, HbNode> hbNodeCache = new HashMap<>();;
 
 	/**
 	 * 
@@ -176,11 +180,45 @@ public class CommUtil {
 		return nvl(value, "");
 	}
 
+	/**
+	 * 
+	 * @Title: getBean
+	 * @Description: TODO
+	 * @param <T>
+	 * @param bean
+	 * @param type
+	 * @return T
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String bean, Class<T> type) {
-		if (webApplicationContext == null) {
-			webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-		}
 		return (T) webApplicationContext.getBean(bean);
+	}
+
+	/**
+	 * 
+	 * @Title: initHbNodeCache
+	 * @Description: TODO void
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static void initHbNodeCache() {
+		HbNodeMapper hbNodeMapper = getBean("hbNodeMapper", HbNodeMapper.class);
+		HbNode hbNode = new HbNode();
+		List<HbNode> hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNodes.forEach(node -> hbNodeCache.put(node.getNodeMn(), node));
+	}
+
+	/**
+	 * 
+	 * @Title: getHbNodeCache
+	 * @Description: TODO
+	 * @return HashMap<String,HbNode>
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static HashMap<String, HbNode> getHbNodeCache() {
+		return hbNodeCache;
 	}
 }

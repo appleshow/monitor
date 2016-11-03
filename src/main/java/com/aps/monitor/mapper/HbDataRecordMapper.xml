@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.aps.monitor.dao.HbDataRecordMapper" >
   <resultMap id="BaseResultMap" type="com.aps.monitor.model.HbDataRecord" >
-    <id column="RECORD_ID" property="recordId" jdbcType="INTEGER" />
+    <id column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
     <result column="RECORD_DATA" property="recordData" jdbcType="VARCHAR" />
     <result column="PRFLAG" property="prflag" jdbcType="INTEGER" />
     <result column="PRGROUP" property="prgroup" jdbcType="VARCHAR" />
@@ -40,15 +40,15 @@
     PROPERTY11, PROPERTY12, PROPERTY13, PROPERTY14, PRINF, PREXP, ITIME, ISHIFT, IGROUP, 
     IPERSON, UTIME, USHIFT, UGROUP, UPERSON, UFROM
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from hb_data_record
-    where RECORD_ID = #{recordId,jdbcType=INTEGER}
+    where RECORD_ID = #{recordId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from hb_data_record
-    where RECORD_ID = #{recordId,jdbcType=INTEGER}
+    where RECORD_ID = #{recordId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.aps.monitor.model.HbDataRecord" >
     insert into hb_data_record (RECORD_ID, RECORD_DATA, PRFLAG, 
@@ -62,7 +62,7 @@
       IGROUP, IPERSON, UTIME, 
       USHIFT, UGROUP, UPERSON, 
       UFROM)
-    values (#{recordId,jdbcType=INTEGER}, #{recordData,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER}, 
+    values (#{recordId,jdbcType=VARCHAR}, #{recordData,jdbcType=VARCHAR}, #{prflag,jdbcType=INTEGER}, 
       #{prgroup,jdbcType=VARCHAR}, #{prtype,jdbcType=VARCHAR}, #{property0,jdbcType=VARCHAR}, 
       #{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR}, 
       #{property4,jdbcType=VARCHAR}, #{property5,jdbcType=VARCHAR}, #{property6,jdbcType=VARCHAR}, 
@@ -173,7 +173,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="recordId != null" >
-        #{recordId,jdbcType=INTEGER},
+        #{recordId,jdbcType=VARCHAR},
       </if>
       <if test="recordData != null" >
         #{recordData,jdbcType=VARCHAR},
@@ -361,7 +361,7 @@
         UFROM = #{ufrom,jdbcType=VARCHAR},
       </if>
     </set>
-    where RECORD_ID = #{recordId,jdbcType=INTEGER}
+    where RECORD_ID = #{recordId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aps.monitor.model.HbDataRecord" >
     update hb_data_record
@@ -395,6 +395,6 @@
       UGROUP = #{ugroup,jdbcType=VARCHAR},
       UPERSON = #{uperson,jdbcType=INTEGER},
       UFROM = #{ufrom,jdbcType=VARCHAR}
-    where RECORD_ID = #{recordId,jdbcType=INTEGER}
+    where RECORD_ID = #{recordId,jdbcType=VARCHAR}
   </update>
 </mapper>
