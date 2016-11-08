@@ -110,7 +110,20 @@ public class DealMessage212 implements IDealMessage {
 					}
 					if (jsonPar.size() > 0) {
 						hbDataRecord.setPrflag(1);
-						hbDataMode.setNodeData(jsonPar.toString());
+						switch (hbDataMode.getDataType()) {
+							case "2011"://实时数据
+								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_RTD212, ""));
+								break;
+							case "2051"://分钟数据（5分钟或10分钟）
+								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
+								break;
+							case "2061"://小时数据
+								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
+								break;
+							default:
+								hbDataMode.setNodeData(jsonPar.toString());
+								break;
+						}
 						hbDataMode.setProperty0(CommUtil.HB_DATA_CUR + CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).getNodeId());
 						hbDataMode.setUfrom(recordId);
 						hbDataMode.setItime(nowDate);
@@ -151,6 +164,8 @@ public class DealMessage212 implements IDealMessage {
 					hbDataLatestMapper.updateIndexReduce(hbDataLatestKey);
 				}
 			} catch (Exception e) {
+				hbDataRecord.setPrflag(0);
+				hbDataRecord.setPrexp(CommUtil.getMessageFromException(e));
 				LOG.error(e);
 			}
 		}

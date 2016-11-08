@@ -57,7 +57,7 @@
 		order by a.NODE_MN,a.DATA_TIME
 	</select>
 	<select id="selectAllLastOne" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey"> select a.* from hb_data_latest a, hb_node
-		b where a.node_mn = b.node_mn and a.data_index = 30
+		b where a.node_mn = b.node_mn and a.data_index = 100
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from hb_data_latest where DATA_TIME =
 		#{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}

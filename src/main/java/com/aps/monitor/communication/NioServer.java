@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.mina.transport.nio.NioTcpServer;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.DateUtil;
 
 /**
@@ -22,7 +23,7 @@ import com.aps.monitor.comm.DateUtil;
  */
 public class NioServer {
 	private static String serverStartTime;
-	private static AtomicInteger port = new AtomicInteger(9123);
+	private static AtomicInteger port = new AtomicInteger(CommUtil.NIO_TCP_PORT);
 	private static final NioTcpServer NIOTCPSERVER = new NioTcpServer();
 	private static final Logger LOG = LogManager.getLogger(NioServer.class);
 

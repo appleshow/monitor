@@ -32,6 +32,11 @@ public class CommUtil {
 
 	public final static String HB_DATA_CUR = "HB_DATA_CUR";
 	public final static String HB_DATA_HIS = "HB_DATA_HIS";
+	public final static String HB_DATA_RTD212 = "-Rtd";
+	public final static String HB_DATA_AVG212 = "-Avg";
+
+	public final static int NIO_TCP_PORT = 9123;
+
 	public final static String SYS_PATH = CommUtil.class.getResource("/").getPath();
 	private final static WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
 	private final static HashMap<String, HbNode> hbNodeCache = new HashMap<>();;
@@ -220,5 +225,34 @@ public class CommUtil {
 	 */
 	public static HashMap<String, HbNode> getHbNodeCache() {
 		return hbNodeCache;
+	}
+
+	/**
+	 * 
+	 * @Title: getMessageFromException
+	 * @Description: TODO
+	 * @param e
+	 * @return String
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static String getMessageFromException(Exception e) {
+		String message = "";
+		int messageLength = 300;
+		if (e != null && !StringUtil.isNullOrEmpty(e.getMessage())) {
+			message = e.getMessage();
+			message.replace('\r', ' ');
+			String[] messages = message.split("\n");
+			for (int index = 0; index < message.length(); index++) {
+				if (!StringUtil.isNullOrEmpty(messages[index].trim())) {
+					message = messages[index];
+					break;
+				}
+			}
+			if (message.length() > messageLength) {
+				message = message.substring(0, messageLength);
+			}
+		}
+		return message;
 	}
 }

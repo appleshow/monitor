@@ -44,35 +44,37 @@ function init() {
 					var content = "";
 					var itemCount = 0;
 					for ( var itemId in nodeItems ) {
-						itemCount++;
-						var itemInfo = nodeItems[itemId];
-						var itemName = "-", itemUnit = "", itemValue = 0, itemValueMin = 0, itemValueMax = 0;
-						$.each( nodeItemsInfo, function(index, item) {
-							if ( item.typeId == nodeType && item.itemId == itemId ) {
-								itemName = item.itemName;
-							}
-						} );
-						itemUnit = itemInfo.itemUnit;
-						itemValueMin = parseFloat( itemInfo.itemVmin );
-						itemValueMax = parseFloat( itemInfo.itemVmax );
-						$.each( nodeDataLatstOne, function(index, data) {
-							if ( data.nodeMn == nodeMn ) {
-								nodeTime = data.dataTime;
-								var nodeData = $.parseJSON( data.nodeData );
-								for ( var _itemId in nodeData ) {
-									if ( _itemId == itemId ) {
-										itemValue = nodeData[_itemId];
-										break;
+						if ( nodeItems[itemId].select == "1" ) {
+							itemCount++;
+							var itemInfo = nodeItems[itemId];
+							var itemName = "-", itemUnit = "", itemValue = 0, itemValueMin = 0, itemValueMax = 0;
+							$.each( nodeItemsInfo, function(index, item) {
+								if ( item.typeId == nodeType && item.itemId == itemId ) {
+									itemName = item.itemName;
+								}
+							} );
+							itemUnit = itemInfo.itemUnit;
+							itemValueMin = parseFloat( itemInfo.itemVmin );
+							itemValueMax = parseFloat( itemInfo.itemVmax );
+							$.each( nodeDataLatstOne, function(index, data) {
+								if ( data.nodeMn == nodeMn ) {
+									nodeTime = data.dataTime;
+									var nodeData = $.parseJSON( data.nodeData );
+									for ( var _itemId in nodeData ) {
+										if ( _itemId == itemId ) {
+											itemValue = nodeData[_itemId];
+											break;
+										}
 									}
 								}
+							} );
+							if ( itemValue < itemValueMin ) {
+								content += "<button class='btn btn-success' type='button' style='width:200px' title='参数下限:" + itemValueMin + "'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
+							} else if ( itemValue > itemValueMax ) {
+								content += "<button class='btn btn-danger' type='button' style='width:200px' title='参数上限:" + itemValueMax + "'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
+							} else {
+								content += "<button class='btn btn-default' type='button' style='width:200px'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
 							}
-						} );
-						if ( itemValue < itemValueMin ) {
-							content += "<button class='btn btn-success' type='button' style='width:200px' title='参数下限:" + itemValueMin + "'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
-						} else if ( itemValue > itemValueMax ) {
-							content += "<button class='btn btn-danger' type='button' style='width:200px' title='参数上限:" + itemValueMax + "'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
-						} else {
-							content += "<button class='btn btn-default' type='button' style='width:200px'>" + itemName + " <span class='badge'>" + itemValue + itemUnit + "</span></button>";
 						}
 					}
 					if ( itemCount < 3 ) {

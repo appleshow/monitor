@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.aps.monitor.cache.Cache;
 import com.aps.monitor.comm.CommUtil;
+import com.aps.monitor.communication.NioClient;
+import com.aps.monitor.communication.NioServer;
 import com.aps.monitor.service.IDealMessage;
 
 /**
@@ -30,6 +32,14 @@ public class Schedule {
 
 	}
 
+	/**
+	 * 
+	 * @Title: start
+	 * @Description: TODO
+	 * @return boolean
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	public static boolean start() {
 		if (status.get()) {
 			LOG.error("Schedule has been started!");
@@ -38,11 +48,20 @@ public class Schedule {
 		status.set(true);
 
 		pullCacheData();
+		checkNioServer();
 		LOG.info("Schedule is started!");
 
 		return true;
 	}
 
+	/**
+	 * 
+	 * @Title: stop
+	 * @Description: TODO
+	 * @return boolean
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	public static boolean stop() {
 		if (status.get()) {
 			LOG.info("Schedule is stopping...");
@@ -70,5 +89,30 @@ public class Schedule {
 				Cache.Consume(CommUtil.getBean("dealMessage212", IDealMessage.class));
 			}
 		}, 30, 10, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 
+	 * @Title: checkNIOServer
+	 * @Description: TODO void
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	private static void checkNioServer() {
+		schedule.scheduleAtFixedRate(new Runnable() {
+
+			@Override
+			public void run() {
+				NioClient nioClient = new NioClient();
+				if (!nioClient.tryToConnectServer()) {
+					LOG.info("Try to connect server failed! Restart server ...");
+					NioServer.start();
+					LOG.info("Server has been restated!");
+				} else {
+					LOG.info("Server's status check successed!");
+				}
+			}
+		}, 60, 120, TimeUnit.SECONDS);
+
 	}
 }

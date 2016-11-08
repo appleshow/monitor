@@ -1,5 +1,4 @@
-﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E",
-		"#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
+﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E", "#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [], nodeDataCur = [];
 var tableDataCur, combNode, selectNode = "";
 
@@ -324,7 +323,7 @@ function createColumnInfo(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo[nodeLines[nodeMN]["par"][index]] = columnInfo;
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index]] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}
@@ -332,7 +331,6 @@ function createColumnInfo(nodeMN) {
 	}
 
 	$( "#tbDataCurHC" ).html( innerHtml );
-
 	return tableColumnInfo;
 }
 
@@ -361,11 +359,11 @@ function dataTableAjax(data, callback, settings) {
 						if ( node.nodeItem[item].select == 1 ) {
 							if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
 								if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
-									lineData[item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+									lineData["_" + item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+								} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
+									lineData["_" + item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
 								} else {
-									if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
-										lineData[item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
-									}
+									lineData["_" + item] = lineData[item];
 								}
 							}
 						}

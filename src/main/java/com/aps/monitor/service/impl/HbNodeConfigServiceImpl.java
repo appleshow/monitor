@@ -185,14 +185,17 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 						hbDataTableMapper.create(hbDataTable);
 						hbDataTable.setDataPar(tableSQL3.replace("-", CommUtil.HB_DATA_HIS + hbNode.getNodeId()));
 						hbDataTableMapper.create(hbDataTable);
+						CommUtil.getHbNodeCache().put(hbNode.getNodeMn(), hbNode);
 						break;
 					case CommUtil.MODIFY_TYPE_UPDATE:
 						hbNode.setUtime(now);
 						hbNode.setUperson(personId);
 						hbNodeMapper.updateByPrimaryKeySelective(hbNode);
+						CommUtil.getHbNodeCache().put(hbNode.getNodeMn(), hbNode);
 						break;
 					case CommUtil.MODIFY_TYPE_DELETE:
 						hbNodeMapper.deleteByPrimaryKey(hbNode.getNodeId());
+						CommUtil.getHbNodeCache().remove(hbNode.getNodeMn());
 
 						//hbDataTable.setDataPar(tableSQL4.replace("-", CommUtil.HB_DATA_CUR + hbNode.getNodeId()));
 						//hbDataTableMapper.delete(hbDataTable);

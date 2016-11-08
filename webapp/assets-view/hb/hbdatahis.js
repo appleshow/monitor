@@ -1,5 +1,4 @@
-﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E",
-		"#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
+﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E", "#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [];
 var tabledataCurM, tabledataCurH, combNode, selectNode = "", selectTab = "", gridChangedM = true, gridChangedH = true;
 
@@ -182,7 +181,7 @@ function refDataHis() {
 	var momentStr = moment( $( '#dateStr' ).val() );
 	var momentEnd = moment( $( '#dateEnd' ).val() );
 	var timeLength = momentEnd.diff( momentStr, 'days' );
-	var dataType = "", parTag = "";
+	var dataType = "";
 
 	if ( timeLength < 0 ) {
 		callError( 100, "录入参数【起止时间】有误...!!" );
@@ -190,17 +189,13 @@ function refDataHis() {
 	} else if ( timeLength == 0 ) {
 		if ( momentEnd.diff( momentStr, 'hours' ) == 0 ) {
 			dataType = "2011";
-			parTag = "-Rtd";
 		} else {
 			dataType = "2051";
-			parTag = "-Avg";
 		}
 	} else if ( timeLength <= 2 ) {
 		dataType = "2051";
-		parTag = "-Avg";
 	} else {
 		dataType = "2061";
-		parTag = "-Avg";
 	}
 
 	$( "#lineCurBox" ).empty();
@@ -284,8 +279,8 @@ function refDataHis() {
 
 						$.each( nodeLines[value.nodeMn].par, function(index, par) {
 							// nodeLines[value.nodeMn][par].push(Math.random()*10);
-							if ( nodeData.hasOwnProperty( par + parTag ) ) {
-								nodeLines[value.nodeMn][par].push( parseFloat( nodeData[par + parTag] ) );
+							if ( nodeData.hasOwnProperty( par ) ) {
+								nodeLines[value.nodeMn][par].push( parseFloat( nodeData[par] ) );
 							} else {
 								nodeLines[value.nodeMn][par].push( 0 );
 							}
@@ -435,7 +430,7 @@ function createColumnInfoM(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo[nodeLines[nodeMN]["par"][index] + "-Rtd"] = columnInfo;
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index] + ""] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}
@@ -532,7 +527,7 @@ function createColumnInfoH(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo[nodeLines[nodeMN]["par"][index] + "-Avg"] = columnInfo;
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index] + "-Avg"] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}
@@ -591,14 +586,15 @@ function dataTableMAjax(data, callback, settings) {
 							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
 								for ( var item in node.nodeItem ) {
 									if ( node.nodeItem[item].select == 1 ) {
-										var dataItem = item + "-Rtd";
+										// var dataItem = item + "-Rtd";
+										var dataItem = item;
 										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
 											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
-												lineData[dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
+												lineData["_" + dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
+											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
+												lineData["_" + dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
 											} else {
-												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
-													lineData[dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
-												}
+												lineData["_" + dataItem] = lineData[dataItem];
 											}
 										}
 									}
@@ -675,11 +671,11 @@ function dataTableHAjax(data, callback, settings) {
 										var dataItem = item + "-Avg";
 										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
 											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
-												lineData[dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
+												lineData["_" + dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
+											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
+												lineData["_" + dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
 											} else {
-												if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
-													lineData[dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
-												}
+												lineData["_" + dataItem] = lineData[dataItem];
 											}
 										}
 									}
