@@ -1,12 +1,10 @@
 package com.aps.monitor.data;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
 import com.aps.monitor.comm.DateUtil;
+import com.google.common.base.Strings;
 
 /**
  * 
@@ -24,32 +22,87 @@ public class Message implements Serializable {
 	 *
 	 * @since 1.0.0
 	 */
-
-	private static final long serialVersionUID = 1L;
-	private long tryTimes;
-	private String message;
+	private static final long serialVersionUID = -7044588105720013576L;
+	private int tryTimes;
+	private String messageBody;
 	private String fromHost;
 	private String lastTryDate;
 
 	public Message() {
-		this.message = null;
-		this.fromHost = null;
-		this.tryTimes = 0;
-		this.lastTryDate = "";
 	}
 
-	public Message(String message) {
-		this.message = message;
-		this.tryTimes = 0;
-		this.lastTryDate = "";
+	/**
+	 * @Title: getTryTimes
+	 * @Description:
+	 * @return: int
+	 * @since 1.0.0
+	 */
+
+	public int getTryTimes() {
+		return tryTimes;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	/**
+	 * @Title: getMessageBody
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+
+	public String getMessageBody() {
+		return messageBody;
 	}
 
-	public String getMessage() {
-		return message;
+	/**
+	 * @Title: setMessageBody
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+	public void setMessageBody(String messageBody) {
+		this.messageBody = messageBody;
+	}
+
+	/**
+	 * @Title: getFromHost
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+
+	public String getFromHost() {
+		return fromHost;
+	}
+
+	/**
+	 * @Title: setFromHost
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+	public void setFromHost(String fromHost) {
+		this.fromHost = fromHost;
+	}
+
+	/**
+	 * @Title: getLastTryDate
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+
+	public String getLastTryDate() {
+		return lastTryDate;
+	}
+
+	/**
+	 * @Title: setLastTryDate
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+	public void setLastTryDate(String lastTryDate) {
+		this.lastTryDate = lastTryDate;
 	}
 
 	/**
@@ -60,65 +113,45 @@ public class Message implements Serializable {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	public String getMessageTailor() {
-		return message.trim().replaceAll("[\\n\\r]", "");
+	public String getMessageBodyTailor() {
+		return messageBody.trim().replaceAll("[\\n\\r]", "");
 	}
 
-	public long getTryTimes() {
-		return tryTimes;
-	}
-
-	public void setFromHost(String fromHost) {
-		this.fromHost = fromHost;
-	}
-
-	public String getFromHost() {
-		return fromHost;
-	}
-
-	public String getLastTryDate() {
-		return lastTryDate;
-	}
-
+	/**
+	 * 
+	 * @Title: increaseTryTimes
+	 * @Description: TODO void
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	public void increaseTryTimes() {
 		tryTimes++;
 	}
 
-	public void setLastTryDate() {
+	/**
+	 * 
+	 * @Title: setLastTryDate
+	 * @Description: TODO void
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public void setLastTryDateDefault() {
 		lastTryDate = DateUtil.formatString(new Date(), DateUtil.SIMPLE_DATE_FORMAT1);
 	}
 
 	/**
-	 * For Serializable readObject
 	 * 
-	 * @Title: readObject
-	 * @Description: TODO
-	 * @param in
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 *             void
-	 * @throws:
-	 * @since 1.0.0
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		message = in.readUTF();
-	}
-
-	/**
-	 * For writeObject readObject
+	 * <p>
+	 * Title: equals
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
 	 * 
-	 * @Title: writeObject
-	 * @Description: TODO
-	 * @param out
-	 * @throws IOException
-	 *             void
-	 * @throws:
-	 * @since 1.0.0
+	 * @param object
+	 * @return
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.writeUTF(message);
-	}
-
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
@@ -129,15 +162,29 @@ public class Message implements Serializable {
 			return false;
 
 		Message other = (Message) object;
-		if (getMessage().equals(other.getMessage())) {
+		if (messageBody.equals(other.getMessageBody()) && fromHost.equals(other.getFromHost()) && lastTryDate.equals(other.getLastTryDate())
+				&& tryTimes == other.getTryTimes()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	/**
+	 * 
+	 * <p>
+	 * Title: hashCode
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @return
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		return message.hashCode();
+		return messageBody.hashCode() + (Strings.isNullOrEmpty(fromHost) ? 0 : fromHost.hashCode())
+				+ (Strings.isNullOrEmpty(lastTryDate) ? 0 : lastTryDate.hashCode()) + tryTimes;
 	}
 }

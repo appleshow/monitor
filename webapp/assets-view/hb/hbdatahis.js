@@ -527,7 +527,7 @@ function createColumnInfoH(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index] + "-Avg"] = columnInfo;
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index]] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}

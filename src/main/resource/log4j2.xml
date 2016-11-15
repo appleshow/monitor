@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="off">
 	<properties>
-		<property name="LOG_HOME">logs</property>
+		<property name="LOG_HOME">d:/logs</property>
 		<property name="PATTENR">## 【%-5level】 %d{yyyy-MM-dd HH:mm:ss} %C.%M(L:%L)%n>>%msg%n</property>
 	</properties>
 	<appenders>
@@ -12,13 +12,11 @@
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
-		<RollingFile name="mybatis" fileName="${LOG_HOME}/mybatis/mybatis.log"
-			filePattern="${LOG_HOME}/mybatis/$${date:yyyy-MM}/mybatis-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="mybatis" fileName="${LOG_HOME}/mybatis/mybatis.log" filePattern="${LOG_HOME}/mybatis/$${date:yyyy-MM}/mybatis-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
-		<RollingFile name="service" fileName="${LOG_HOME}/service/service.log"
-			filePattern="${LOG_HOME}/service/$${date:yyyy-MM}/service-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="service" fileName="${LOG_HOME}/service/service.log" filePattern="${LOG_HOME}/service/$${date:yyyy-MM}/service-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
@@ -26,8 +24,11 @@
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
-		<RollingFile name="communication" fileName="${LOG_HOME}/communication/communication.log"
-			filePattern="${LOG_HOME}/communication/$${date:yyyy-MM}/communication-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="communication" fileName="${LOG_HOME}/communication/communication.log" filePattern="${LOG_HOME}/communication/$${date:yyyy-MM}/communication-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="${PATTENR}"/>
+			<SizeBasedTriggeringPolicy size="2 MB"/>
+		</RollingFile>
+		<RollingFile name="dealMessage212" fileName="${LOG_HOME}/dealMessage/dealMessage212.log" filePattern="${LOG_HOME}/dealMessage212/$${date:yyyy-MM}/communication-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
@@ -54,6 +55,9 @@
 		</logger>
 		<logger name="com.aps.monitor.communication" level="trace" additivity="true">
 			<appender-ref ref="communication"/>
+		</logger>
+		<logger name="com.aps.monitor.service.impl.DealMessage212" level="trace" additivity="true">
+			<appender-ref ref="dealMessage212"/>
 		</logger>
 		<logger name="com.aps.monitor.test" level="trace" additivity="true">
 			<appender-ref ref="test"/>

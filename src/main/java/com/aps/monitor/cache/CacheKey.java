@@ -1,8 +1,5 @@
 package com.aps.monitor.cache;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -21,53 +18,46 @@ public class CacheKey implements Serializable {
 	 *
 	 * @since 1.0.0
 	 */
-
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8206431909716276456L;
 	private Long key;
 
 	public CacheKey() {
 		this.key = System.currentTimeMillis();
 	}
 
+	/**
+	 * 
+	 * @Title: CacheKey @Description: TODO @param: @param key @throws
+	 */
 	public CacheKey(long key) {
 		this.key = key;
 	}
 
+	/**
+	 * 
+	 * @Title: getKey
+	 * @Description: TODO
+	 * @return long
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	public long getKey() {
 		return this.key;
 	}
 
 	/**
-	 * For Serializable readObject
 	 * 
-	 * @Title: readObject
-	 * @Description: TODO
-	 * @param in
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 *             void
-	 * @throws:
-	 * @since 1.0.0
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		key = in.readLong();
-	}
-
-	/**
-	 * For writeObject readObject
+	 * <p>
+	 * Title: equals
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
 	 * 
-	 * @Title: writeObject
-	 * @Description: TODO
-	 * @param out
-	 * @throws IOException
-	 *             void
-	 * @throws:
-	 * @since 1.0.0
+	 * @param object
+	 * @return
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.writeLong(key);
-	}
-
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
@@ -85,6 +75,18 @@ public class CacheKey implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * <p>
+	 * Title: hashCode
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @return
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		return key.hashCode();

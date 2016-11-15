@@ -109,19 +109,6 @@ public class Cache {
 	 * 
 	 * @Title: put
 	 * @Description: TODO
-	 * @param message
-	 *            void
-	 * @throws:
-	 * @since 1.0.0
-	 */
-	public static void put(String message) {
-		cache.put(new CacheKey(), new Message(message));
-	}
-
-	/**
-	 * 
-	 * @Title: put
-	 * @Description: TODO
 	 * @param cacheKey
 	 * @param message
 	 *            void
@@ -199,12 +186,12 @@ public class Cache {
 		}
 		consuming.set(true);
 		cache.forEach(item -> {
-			final CacheKey cacheKey = item.getKey();
-			final Message message = item.getValue();
-			if (dealMessage.save(message)) {
+			CacheKey cacheKey = item.getKey();
+			Message message = item.getValue();
+			if (dealMessage.saveMessage(cacheKey, message)) {
 				cache.remove(cacheKey);
 			} else {
-				message.setLastTryDate();
+				message.setLastTryDateDefault();
 				message.increaseTryTimes();
 				put(cacheKey, message);
 			}

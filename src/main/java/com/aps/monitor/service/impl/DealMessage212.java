@@ -10,8 +10,9 @@ import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import com.aps.monitor.cache.CacheKey;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.DateUtil;
 import com.aps.monitor.comm.JsonUtil;
@@ -36,7 +37,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * 
  * @since 1.0.0
  */
-@Component
+@Service
 public class DealMessage212 implements IDealMessage {
 	@Resource
 	private HbDataRecordMapper hbDataRecordMapper;
@@ -46,14 +47,24 @@ public class DealMessage212 implements IDealMessage {
 	private HBDataLatestMapper hbDataLatestMapper;
 	private static final Logger LOG = LogManager.getLogger(DealMessage212.class);
 
+	/**
+	 * 
+	 * <p>
+	 * Title: saveMessage
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param cacheKey
+	 * @param message
+	 * @return
+	 * @see com.aps.monitor.service.IDealMessage#saveMessage(com.aps.monitor.cache.CacheKey,
+	 *      com.aps.monitor.data.Message)
+	 */
 	@Override
-	public boolean save(Message message) {
-		try {
-			return insert(message);
-		} catch (Exception e) {
-			LOG.error(e);
-			return false;
-		}
+	public boolean saveMessage(CacheKey cacheKey, Message message) {
+		return insertMessage(cacheKey, message);
 	}
 
 	/**
@@ -66,12 +77,12 @@ public class DealMessage212 implements IDealMessage {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	private boolean insert(Message message) {
+	private boolean insertMessage(CacheKey cacheKey, Message message) {
 		final HbDataMode hbDataMode = new HbDataMode();
 		final HbDataRecord hbDataRecord = new HbDataRecord();
 		Date nowDate = new Date();
 		String recordId = String.valueOf(System.currentTimeMillis());
-		String nodeData = message.getMessageTailor();
+		String nodeData = message.getMessageBodyTailor();
 
 		hbDataRecord.setRecordId(recordId);
 		hbDataRecord.setRecordData(nodeData);
@@ -171,10 +182,16 @@ public class DealMessage212 implements IDealMessage {
 		}
 		try {
 			hbDataRecordMapper.insert(hbDataRecord);
+			LOG.info("Deal message successfully from " + message.getFromHost());
 			return true;
 		} catch (Exception e) {
-			LOG.error(e);
-			return false;
+			if (message.getTryTimes() >= 5) {
+				LOG.error("Deal the message failed 5 times, remove it. Message: " + message.getMessageBodyTailor());
+				return true;
+			} else {
+				LOG.error(e);
+				return false;
+			}
 		}
 	}
 

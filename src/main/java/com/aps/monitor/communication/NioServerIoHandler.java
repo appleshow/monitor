@@ -56,11 +56,12 @@ public class NioServerIoHandler implements IoHandler {
 			try {
 				CharBuffer charBuffer = charsetDecoder.decode((ByteBuffer) paramObject);
 				Message message = new Message();
-				message.setFromHost(paramIoSession.getRemoteAddress().toString());
-				message.setMessage(charBuffer.toString());
-				
+				message.setMessageBody(charBuffer.toString());
+				message.setFromHost("Host: " + paramIoSession.getRemoteAddress());
+				message.increaseTryTimes();
+
 				Cache.put(message);
-				LOG.debug("Received -> " + charBuffer.toString());
+				LOG.debug("Received " + message.getFromHost() + " -> " + charBuffer.toString());
 			} catch (CharacterCodingException e) {
 				LOG.error(e);
 			}
