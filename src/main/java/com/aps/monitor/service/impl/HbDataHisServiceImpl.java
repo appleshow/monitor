@@ -3,7 +3,9 @@ package com.aps.monitor.service.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -151,6 +153,51 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 		pageInfo = new PageInfo<HbDataMode>(hbDataModes);
 		responseData.setTotalCount(pageInfo.getTotal());
 		responseData.setData(hbDataModes);
+	}
+
+	/**
+	 * 
+	 * <p>
+	 * Title: refHbDataHisGridContrast
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param httpSession
+	 * @param inPar
+	 * @param responseData
+	 * @throws ParseException
+	 * @see com.aps.monitor.service.IHbDataHisService#refHbDataHisGridContrast(javax.servlet.http.HttpSession,
+	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 */
+	@Override
+	public void refHbDataHisGridContrast(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+		HbDataTable hbDataTable = new HbDataTable();
+		List<HbDataMode> hbDataModes = new ArrayList<>(), hbDataModesTmp;
+		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		PageInfo<HbDataMode> pageInfo;
+		String[] nodeIds = requestRefPar.getStringPar("nodeId").split(";");
+		String[] nodeMns = requestRefPar.getStringPar("nodeMn").split(";");
+		int totalCount = 0;
+
+		for (int index = 0; index < nodeIds.length; index++) {
+			hbDataTable.setNodeId(Integer.parseInt(nodeIds[index]));
+			hbDataTable.setNodeMn(nodeMns[index]);
+			hbDataTable.setDataType(requestRefPar.getStringPar("dataType"));
+			hbDataTable.setDateStr(dateFormat.parse(requestRefPar.getStringPar("dateStr")));
+			hbDataTable.setDateEnd(dateFormat.parse(requestRefPar.getStringPar("dateEnd")));
+			hbDataTable.setProperty0("hb_data_cur" + nodeIds[index]);
+			PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize") / nodeIds.length);
+			hbDataModesTmp = hbDataModeMapper.selectByCondition(hbDataTable);
+			pageInfo = new PageInfo<HbDataMode>(hbDataModesTmp);
+			totalCount += pageInfo.getTotal();
+			hbDataModes.addAll(hbDataModesTmp);
+		}
+		responseData.setTotalCount(totalCount);
+		responseData.setData(hbDataModes.stream().sorted((hbDataMode1, hbDataMode2) -> hbDataMode1.getDataTime().before(hbDataMode2.getDataTime()) ? -1 : 1)
+				.collect(Collectors.toList()));
 	}
 
 }

@@ -268,7 +268,7 @@ function createColumnInfo(nodeMN) {
 		edit : 0,
 		type : "text",
 		lock : 0,
-		sort : 0,
+		sort : 1,
 		hide : 0,
 		align : 0,
 		prtype : "T"

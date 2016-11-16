@@ -12,4 +12,6 @@ public interface IHbDataHisService {
 	void refHbDataHis(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
 
 	void refHbDataHisGrid(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
+
+	void refHbDataHisGridContrast(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException;
 }

@@ -375,7 +375,7 @@ function createColumnInfoM(nodeMN) {
 		edit : 0,
 		type : "text",
 		lock : 0,
-		sort : 0,
+		sort : 1,
 		hide : 0,
 		align : 0,
 		prtype : "T"
@@ -430,7 +430,7 @@ function createColumnInfoM(nodeMN) {
 			columnInfo.align = 2;
 			columnInfo.prtype = "T";
 
-			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index] + ""] = columnInfo;
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index]] = columnInfo;
 
 			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
 		}
@@ -472,7 +472,7 @@ function createColumnInfoH(nodeMN) {
 		edit : 0,
 		type : "text",
 		lock : 0,
-		sort : 0,
+		sort : 1,
 		hide : 0,
 		align : 0,
 		prtype : "T"
@@ -586,15 +586,14 @@ function dataTableMAjax(data, callback, settings) {
 							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
 								for ( var item in node.nodeItem ) {
 									if ( node.nodeItem[item].select == 1 ) {
-										// var dataItem = item + "-Rtd";
-										var dataItem = item;
-										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
-											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
-												lineData["_" + dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
-											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
-												lineData["_" + dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
+										var item = item;
+										if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
 											} else {
-												lineData["_" + dataItem] = lineData[dataItem];
+												lineData["_" + item] = lineData[item];
 											}
 										}
 									}
@@ -668,14 +667,13 @@ function dataTableHAjax(data, callback, settings) {
 							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
 								for ( var item in node.nodeItem ) {
 									if ( node.nodeItem[item].select == 1 ) {
-										var dataItem = item + "-Avg";
-										if ( lineData.hasOwnProperty( dataItem ) && lineData[dataItem] != "" ) {
-											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[dataItem] ) ) {
-												lineData["_" + dataItem] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[dataItem] + '</kbd>';
-											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[dataItem] ) ) {
-												lineData["_" + dataItem] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[dataItem] + '</kbd>';
+										if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
 											} else {
-												lineData["_" + dataItem] = lineData[dataItem];
+												lineData["_" + item] = lineData[item];
 											}
 										}
 									}

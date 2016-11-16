@@ -49,6 +49,7 @@
 		where DATA_TIME between  #{dateStr,jdbcType=TIMESTAMP}  and #{dateEnd,jdbcType=TIMESTAMP}
 		    and DATA_TYPE = #{dataType,jdbcType=VARCHAR} 
 		    and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
+		order by NODE_MN,DATA_TIME
 	</select>
 	<delete id="deleteByCondition" parameterType="com.aps.monitor.model.HbDataTable">
 	 delete from ${property0}  
