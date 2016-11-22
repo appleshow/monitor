@@ -97,6 +97,8 @@ public class DealMessage212 implements IDealMessage {
 					format2KeyValue(item).ifPresent(keyValue -> hbDataMode.setNodeMn(keyValue.getValue()));
 				});
 				if (CommUtil.getHbNodeCache().containsKey(hbDataMode.getNodeMn())) {
+					CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).setUfrom(hbDataRecord.getUfrom());
+					CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).setProperty9(message.getReceiveDate());;
 					Arrays.asList(dataList.get(0)).stream().filter(item -> item.startsWith("CN=")).findFirst().ifPresent(item -> {
 						format2KeyValue(item).ifPresent(keyValue -> hbDataMode.setDataType(keyValue.getValue()));
 					});

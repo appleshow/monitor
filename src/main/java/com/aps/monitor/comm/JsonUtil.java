@@ -25,6 +25,18 @@ public class JsonUtil {
 
 	/**
 	 * 
+	 * @Title: getObjectMapper
+	 * @Description: TODO
+	 * @return ObjectMapper
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static ObjectMapper getObjectMapper() {
+		return jsonMapper;
+	}
+
+	/**
+	 * 
 	 * @Title: getObjectNodeInstance
 	 * @Description: TODO
 	 * @param: @return

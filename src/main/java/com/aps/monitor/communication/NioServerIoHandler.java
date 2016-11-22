@@ -5,6 +5,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import org.apache.mina.api.IoService;
 import org.apache.mina.api.IoSession;
 
 import com.aps.monitor.cache.Cache;
+import com.aps.monitor.comm.DateUtil;
 import com.aps.monitor.data.Message;
 
 /**
@@ -57,6 +59,7 @@ public class NioServerIoHandler implements IoHandler {
 				CharBuffer charBuffer = charsetDecoder.decode((ByteBuffer) paramObject);
 				Message message = new Message();
 				message.setMessageBody(charBuffer.toString());
+				message.setReceiveDate(DateUtil.formatString(new Date(), DateUtil.SIMPLE_DATE_FORMAT1));
 				message.setFromHost("Host: " + paramIoSession.getRemoteAddress());
 				message.increaseTryTimes();
 

@@ -25,6 +25,7 @@ public class Message implements Serializable {
 	private static final long serialVersionUID = -7044588105720013576L;
 	private int tryTimes;
 	private String messageBody;
+	private String receiveDate;
 	private String fromHost;
 	private String lastTryDate;
 
@@ -61,6 +62,27 @@ public class Message implements Serializable {
 	 */
 	public void setMessageBody(String messageBody) {
 		this.messageBody = messageBody;
+	}
+
+	/**
+	 * @Title: getReceiveDate
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+
+	public String getReceiveDate() {
+		return receiveDate;
+	}
+
+	/**
+	 * @Title: setReceiveDate
+	 * @Description:
+	 * @return: String
+	 * @since 1.0.0
+	 */
+	public void setReceiveDate(String receiveDate) {
+		this.receiveDate = receiveDate;
 	}
 
 	/**

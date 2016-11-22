@@ -44,9 +44,7 @@ DataSourceTree.prototype = {
 									var item = {};
 
 									item.id = "node" + value.nodeId;
-									item.name = value.nodeName + "<div class='tree-actions'><i onclick=showNodeModal(" + value.typeId + "," + value.nodeId
-											+ ",'U') class='glyphicon glyphicon-pencil blue' title='编辑站点'></i> <i onclick=deleteNode(" + value.nodeId + ",'" + value.nodeName
-											+ "') class='glyphicon glyphicon-minus red' title='删除站点'></i> </div>";
+									item.name = value.nodeName + "<div class='tree-actions'><i onclick=showNodeModal(" + value.typeId + "," + value.nodeId + ",'U') class='glyphicon glyphicon-pencil blue' title='编辑站点'></i> <i onclick=deleteNode(" + value.nodeId + ",'" + value.nodeName + "') class='glyphicon glyphicon-minus red' title='删除站点'></i> </div>";
 									item.type = 'item';
 									item.typeId = value.typeId;
 									item.nodeId = value.nodeId;
@@ -98,8 +96,7 @@ DataSourceTree.prototype = {
 								var item = {};
 
 								item.id = "type" + value.typeId;
-								item.name = value.typeName + "<div class='tree-actions'><i onclick=showNodeModal(" + value.typeId
-										+ ",'','I') class='glyphicon glyphicon-plus green' title='添加站点'></i></div>";
+								item.name = value.typeName + "<div class='tree-actions'><i onclick=showNodeModal(" + value.typeId + ",'','I') class='glyphicon glyphicon-plus green' title='添加站点'></i></div>";
 								item.type = 'folder';
 
 								treeData.push( item );
@@ -210,6 +207,7 @@ function showNodeModal(typeId, nodeId, type) {
 
 					$( "#node-lx" ).val( nodeAtr["lx"] );
 					$( "#node-ly" ).val( nodeAtr["ly"] );
+					$( "#offline-time" ).val( nodeAtr["offline"] );
 				}
 			}
 		} );
@@ -275,10 +273,16 @@ function modifyNode() {
 			$( "#node-ly" ).attr( 'placeholder', '此项必须为数字' );
 			$( "#node-ly" ).focus();
 			return;
+		} else if ( isNaN( ( $( "#offline-time" ).val() ).replace( " ", "a" ) ) ) {
+			$( "#offline-time" ).val( "" );
+			$( "#offline-time" ).attr( 'placeholder', '此项必须为数字' );
+			$( "#offline-time" ).focus();
+			return;
 		} else {
 			var nodeAtr = {
 				lx : $( "#node-lx" ).val(),
-				ly : $( "#node-ly" ).val()
+				ly : $( "#node-ly" ).val(),
+				offline : $( "#offline-time" ).val() == "" ? 5 : $( "#offline-time" ).val(),
 			};
 
 			serverRequestPar = ServerRequestPar( 1, [ {
