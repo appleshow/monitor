@@ -14,6 +14,7 @@ import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestMdyPar;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.dao.HbDataTableMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
@@ -188,10 +189,26 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 						CommUtil.getHbNodeCache().put(hbNode.getNodeMn(), hbNode);
 						break;
 					case CommUtil.MODIFY_TYPE_UPDATE:
+						if (!StringUtil.isNullOrEmpty(hbNode.getNodeMn())) {
+							if (!CommUtil.getHbNodeCache().containsKey(hbNode.getNodeMn())) {
+								CommUtil.getHbNodeCache().remove(CommUtil.getHbNodeCacheMNfromID(hbNode.getNodeId()));
+								CommUtil.getHbNodeCache().put(hbNode.getNodeMn(), new HbNode());
+								CommUtil.getHbNodeCache().get(hbNode.getNodeMn()).setNodeId(hbNode.getNodeId());
+								CommUtil.getHbNodeCache().get(hbNode.getNodeMn()).setNodeMn(hbNode.getNodeMn());
+							}
+						}
+						if (!StringUtil.isNullOrEmpty(hbNode.getNodeName())) {
+							CommUtil.getHbNodeCache().get(CommUtil.getHbNodeCacheMNfromID(hbNode.getNodeId())).setNodeMn(hbNode.getNodeName());
+						}
+						if (!StringUtil.isNullOrEmpty(hbNode.getNodeAtr())) {
+							CommUtil.getHbNodeCache().get(CommUtil.getHbNodeCacheMNfromID(hbNode.getNodeId())).setNodeAtr(hbNode.getNodeAtr());
+						}
+						if (!StringUtil.isNullOrEmpty(hbNode.getNodeItem())) {
+							CommUtil.getHbNodeCache().get(CommUtil.getHbNodeCacheMNfromID(hbNode.getNodeId())).setNodeItem(hbNode.getNodeItem());
+						}
 						hbNode.setUtime(now);
 						hbNode.setUperson(personId);
 						hbNodeMapper.updateByPrimaryKeySelective(hbNode);
-						CommUtil.getHbNodeCache().put(hbNode.getNodeMn(), hbNode);
 						break;
 					case CommUtil.MODIFY_TYPE_DELETE:
 						hbNodeMapper.deleteByPrimaryKey(hbNode.getNodeId());

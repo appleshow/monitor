@@ -50,6 +50,18 @@ public class JsonUtil {
 
 	/**
 	 * 
+	 * @Title: getArrayNodeInstance
+	 * @Description: TODO
+	 * @return ArrayNode
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static ArrayNode getArrayNodeInstance() {
+		return jsonMapper.createArrayNode();
+	}
+
+	/**
+	 * 
 	 * @Title: writeValueAsString
 	 * @Description: TODO
 	 * @param: @param

@@ -1,5 +1,6 @@
 package com.aps.monitor.comm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -225,6 +226,29 @@ public class CommUtil {
 	 */
 	public static HashMap<String, HbNode> getHbNodeCache() {
 		return hbNodeCache;
+	}
+
+	/**
+	 * 
+	 * @Title: getHbNodeCacheMNfromID
+	 * @Description: TODO
+	 * @param nodeId
+	 * @return String
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	public static String getHbNodeCacheMNfromID(int nodeId) {
+		final List<String> findMn = new ArrayList<>();
+		hbNodeCache.forEach((mn, node) -> {
+			if (node.getNodeId() == nodeId) {
+				findMn.add(mn);
+			}
+		});
+		if (findMn.size() > 0) {
+			return findMn.get(0);
+		} else {
+			return "";
+		}
 	}
 
 	/**

@@ -164,7 +164,7 @@ public class DealMessage212 implements IDealMessage {
 					HBDataLatest hbDataLatest = new HBDataLatest();
 					hbDataLatest.setNodeMn(hbDataMode.getNodeMn());
 					hbDataLatest.setDataTime(hbDataMode.getDataTime());
-					hbDataLatest.setDataIndex(101);
+					hbDataLatest.setDataIndex(31);
 					hbDataLatest.setNodeData(hbDataMode.getNodeData());
 					hbDataLatest.setUfrom(recordId);
 					hbDataLatest.setItime(nowDate);
