@@ -24,11 +24,11 @@ var DataSourceTree = function(options) {
 DataSourceTree.prototype = {
 	data : function(options, callback) {
 		setTimeout( function() {
-			var url = "hbNodeConfig.referHbType", treeId = "";
+			var url = "hbDataContrastController.referHbType", treeId = "";
 
 			if ( options.id != null ) {
 				if ( options.type === "folder" ) {
-					url = "hbNodeConfig.referHbNode";
+					url = "hbDataContrastController.referHbNode";
 					treeId = options.id.replace( "type", "" );
 
 					$.ajax( {
@@ -86,7 +86,7 @@ DataSourceTree.prototype = {
 
 				}
 			} else {
-				url = "hbNodeConfig.referHbType";
+				url = "hbDataContrastController.referHbType";
 
 				$.ajax( {
 					async : false,
@@ -189,6 +189,7 @@ function refData(click) {
 		} else if ( HBDataContrast.selectTab === "#dataCurH" ) {
 			$( "#tableH" ).empty();
 		}
+
 		if ( click ) {
 			callError( 100, "请先选择一个站点...!!" );
 		}
@@ -375,7 +376,7 @@ function dataTableAjax(data, callback, settings) {
 	$.ajax( {
 		async : false,
 		type : "POST",
-		url : "HbDataContrastController.refHbDataHisGridContrast",
+		url : "hbDataContrastController.refHbData",
 		cache : false,
 		data : ServerRequestPar( 1, {
 			nodeId : nodeIds,

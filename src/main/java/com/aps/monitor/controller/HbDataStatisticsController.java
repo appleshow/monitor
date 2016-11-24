@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.service.IHbDataContrastService;
+import com.aps.monitor.service.IHbDataStatisticsService;
 
 /**
  * 
@@ -26,10 +26,10 @@ import com.aps.monitor.service.IHbDataContrastService;
  * @since 1.0.0
  */
 @Controller
-public class HbDataContrastController {
-	@Resource(name = "hbDataContrastServiceImpl")
-	private IHbDataContrastService hbDataContrastService;
-	private final int formId = 15;
+public class HbDataStatisticsController {
+	@Resource(name = "hbDataStatisticsServiceImpl")
+	private IHbDataStatisticsService hbDataStatisticsService;
+	private final int formId = 17;
 
 	/**
 	 * 
@@ -41,13 +41,13 @@ public class HbDataContrastController {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/hbDataContrastController.referHbType", method = RequestMethod.POST)
+	@RequestMapping(value = "/hbDataStatisticsController.referHbType", method = RequestMethod.POST)
 	@ResponseBody
 	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
-			hbDataContrastService.referHbType(httpSession, inPar, responseData);
+			hbDataStatisticsService.referHbType(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);
@@ -66,13 +66,13 @@ public class HbDataContrastController {
 	 * @throws @since
 	 *             1.0.0
 	 */
-	@RequestMapping(value = "/hbDataContrastController.referHbNode", method = RequestMethod.POST)
+	@RequestMapping(value = "/hbDataStatisticsController.referHbNode", method = RequestMethod.POST)
 	@ResponseBody
 	public String referHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbNode", responseData)) {
-			hbDataContrastService.referHbNode(httpSession, inPar, responseData);
+			hbDataStatisticsService.referHbNode(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);
@@ -90,13 +90,13 @@ public class HbDataContrastController {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	@RequestMapping(value = "/hbDataContrastController.refHbData", method = RequestMethod.POST)
+	@RequestMapping(value = "/hbDataStatisticsController.refHbData", method = RequestMethod.POST)
 	@ResponseBody
 	public String refHbData(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbData", responseData)) {
-			hbDataContrastService.refHbData(httpSession, inPar, responseData);
+			hbDataStatisticsService.refHbData(httpSession, inPar, responseData);
 		}
 
 		return JsonUtil.writeResponseAsString(responseData);

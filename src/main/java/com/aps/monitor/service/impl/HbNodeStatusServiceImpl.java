@@ -120,6 +120,17 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 		}
 	}
 
+	/**
+	 * 
+	 * @Title: findParName
+	 * @Description: TODO
+	 * @param hbTypeItems
+	 * @param hbNode
+	 * @param par
+	 * @return String
+	 * @throws:
+	 * @since 1.0.0
+	 */
 	private String findParName(List<HbTypeItem> hbTypeItems, HbNode hbNode, String par) {
 		Optional<HbTypeItem> hbTypeItemFind = hbTypeItems.stream().filter(typeItem -> {
 			return typeItem.getTypeId() == hbNode.getTypeId() && typeItem.getItemId().equals(par);
