@@ -212,9 +212,9 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 				checkParInfoTmp.put("avg", "");
 				checkParInfoTmp.put("minCount", "");
 				checkParInfoTmp.put("maxCount", "");
-				checkParInfoTmp.put("offlineCount", "");
-				checkParInfoTmp.put("offlineLength", "");
-				checkParInfoTmp.put("offlineLast", "");
+				checkParInfoTmp.put("offlineCount", hbNode.getPrflag());
+				checkParInfoTmp.put("onlineLast", hbNode.getProperty9());
+				checkParInfoTmp.put("offlineLast", hbNode.getProperty8());
 				nodeParValeInfo.add(checkParInfoTmp);
 
 				hbDataModes.stream().forEach(dataMode -> {

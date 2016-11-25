@@ -112,8 +112,10 @@ function refHbNode() {
 
 						var chart = new Highcharts.Chart( {
 							credits : {
-								text : '嘉臣光电科技有限公司',
-								href : 'http://www.grasun-opt.com/'
+								// text : '嘉臣光电科技有限公司',
+								// href : 'http://www.grasun-opt.com/'
+								text : '',
+								href : '#'
 							},
 							chart : {
 								renderTo : "line" + value.nodeId,

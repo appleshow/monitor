@@ -1,5 +1,7 @@
 package com.aps.monitor.schedule;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -10,9 +12,16 @@ import org.apache.logging.log4j.Logger;
 
 import com.aps.monitor.cache.Cache;
 import com.aps.monitor.comm.CommUtil;
+import com.aps.monitor.comm.DateUtil;
+import com.aps.monitor.comm.JsonUtil;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.communication.NioClient;
 import com.aps.monitor.communication.NioServer;
 import com.aps.monitor.service.IDealMessage;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Strings;
 
 /**
  * 
@@ -49,6 +58,7 @@ public class Schedule {
 
 		pullCacheData();
 		checkNioServer();
+		checkNodeStatus();
 		LOG.info("Schedule is started!");
 
 		return true;
@@ -113,6 +123,56 @@ public class Schedule {
 				}
 			}
 		}, 60, 120, TimeUnit.SECONDS);
+	}
 
+	/**
+	 * 
+	 * @Title: checkNodeStatus
+	 * @Description: TODO void
+	 * @throws:
+	 * @since 1.0.0
+	 */
+	private static void checkNodeStatus() {
+		schedule.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				final Date nowDate = new Date();
+				final String nowDateStr = DateUtil.formatString(nowDate, DateUtil.SIMPLE_DATE_FORMAT1);
+				CommUtil.getHbNodeCache().forEach((mn, node) -> {
+					if (!Strings.isNullOrEmpty(node.getProperty9())) {
+						final Date checkDate = DateUtil.fromString(node.getProperty9(), DateUtil.SIMPLE_DATE_FORMAT1);
+						final String checkDateStr = DateUtil.formatString(checkDate, DateUtil.SIMPLE_DATE_FORMAT1);
+						int offline = 5;
+						try {
+							ObjectNode nodeAtr = JsonUtil.getObjectMapper().readValue(node.getNodeAtr(), ObjectNode.class);
+							if (nodeAtr.has("offline")) {
+								offline = nodeAtr.get("offline").asInt();
+							}
+						} catch (JsonParseException e) {
+						} catch (JsonMappingException e) {
+						} catch (IOException e) {
+						}
+						if ((nowDate.getTime() - checkDate.getTime()) / (1000 * 60) >= offline) {
+							if (!StringUtil.isNullOrEmpty(node.getProperty8())) {
+								if (!checkDateStr.equals(node.getProperty8())) {
+									node.setPrflag(node.getPrflag() + 1);
+									node.setProperty8(checkDateStr);
+								}
+							} else {
+								node.setPrflag(1);
+								node.setProperty8(checkDateStr);
+							}
+						} else {
+
+						}
+					} else {
+						if (Strings.isNullOrEmpty(node.getProperty8())) {
+							node.setPrflag(1);
+							node.setProperty8(nowDateStr);
+						}
+					}
+				});
+			}
+		}, 10, 10, TimeUnit.MINUTES);
 	}
 }
