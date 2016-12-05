@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
@@ -103,7 +104,8 @@ public class HbDataContrastServiceImpl implements IHbDataContrastService {
 
 		hbNode.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbNode.setNodeId(requestRefPar.getIntegerPar("nodeId"));
-		hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		hbNodes = hbNodeMapper.selectByPerson(hbNode);
 
 		responseData.setData(hbNodes);
 	}

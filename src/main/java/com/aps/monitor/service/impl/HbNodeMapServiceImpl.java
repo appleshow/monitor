@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HBDataLatestMapper;
 import com.aps.monitor.dao.HbNodeMapper;
@@ -53,7 +54,8 @@ public class HbNodeMapServiceImpl implements IHbNodeMapService {
 
 		hbDataLatests = hbDatalatestMapper.selectAllLastOne(hbDataLatest);
 		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
-		hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		hbNodes = hbNodeMapper.selectByPerson(hbNode);
 
 		responseDataLatest.setData(hbDataLatests);
 		responseHbTypeItem.setData(hbTypeItems);

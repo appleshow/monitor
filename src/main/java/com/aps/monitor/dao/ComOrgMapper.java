@@ -16,6 +16,8 @@ public interface ComOrgMapper {
 
 	List<ComOrg> selectByCondition(ComOrg record);
 
+	List<ComOrg> selectByFarOrgId(ComOrg record);
+
 	int updateByPrimaryKeySelective(ComOrg record);
 
 	int updateByPrimaryKeyMap(Map<String, String> recode);

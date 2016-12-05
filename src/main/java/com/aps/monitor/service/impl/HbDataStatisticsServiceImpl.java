@@ -106,7 +106,8 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 
 		hbNode.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbNode.setNodeId(requestRefPar.getIntegerPar("nodeId"));
-		hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		hbNodes = hbNodeMapper.selectByPerson(hbNode);
 
 		responseData.setData(hbNodes);
 	}

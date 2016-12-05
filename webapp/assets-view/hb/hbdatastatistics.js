@@ -14,11 +14,11 @@ var DataSourceTree = function(options) {
 DataSourceTree.prototype = {
 	data : function(options, callback) {
 		setTimeout( function() {
-			var url = "hbNodeConfig.referHbType", treeId = "";
+			var url = "hbDataStatisticsController.referHbType", treeId = "";
 
 			if ( options.id != null ) {
 				if ( options.type === "folder" ) {
-					url = "hbNodeConfig.referHbNode";
+					url = "hbDataStatisticsController.referHbNode";
 					treeId = options.id.replace( "type", "" );
 
 					$.ajax( {
@@ -75,7 +75,7 @@ DataSourceTree.prototype = {
 
 				}
 			} else {
-				url = "hbNodeConfig.referHbType";
+				url = "hbDataStatisticsController.referHbType";
 
 				$.ajax( {
 					async : false,

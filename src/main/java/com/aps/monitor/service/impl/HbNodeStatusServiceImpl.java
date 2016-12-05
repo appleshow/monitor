@@ -77,23 +77,35 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 		//查询所有类型和参数
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		List<HbTypeItem> hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
+		//查询站点
+		HbNode hbNode = new HbNode();
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		List<HbNode> hbNodes = hbNodeMapper.selectByPerson(hbNode);
 		CommUtil.getHbNodeCache().forEach((nodeMn, hbNodeTmp) -> {
-			ObjectNode objectNode = JsonUtil.getObjectNodeInstance();
+			boolean personNode = false;
+			for (HbNode hbNodePerson : hbNodes) {
+				if (hbNodePerson.getNodeId() == hbNodeTmp.getNodeId()) {
+					personNode = true;
+					break;
+				}
+			}
+			if (personNode) {
+				ObjectNode objectNode = JsonUtil.getObjectNodeInstance();
 
-			objectNode.put("nodeId", hbNodeTmp.getNodeId());
-			objectNode.put("nodeMn", hbNodeTmp.getNodeMn());
-			objectNode.put("nodeName", hbNodeTmp.getNodeName());
-			objectNode.put("typeName", findNodeTypeName(hbTypes, hbNodeTmp.getTypeId()));
-			objectNode.put("nodeStatus", findNodeStatus(hbNodeTmp));
-			objectNode.put("dataFrom", hbNodeTmp.getUfrom());
-			objectNode.put("receiveTime", hbNodeTmp.getProperty9());
+				objectNode.put("nodeId", hbNodeTmp.getNodeId());
+				objectNode.put("nodeMn", hbNodeTmp.getNodeMn());
+				objectNode.put("nodeName", hbNodeTmp.getNodeName());
+				objectNode.put("typeName", findNodeTypeName(hbTypes, hbNodeTmp.getTypeId()));
+				objectNode.put("nodeStatus", findNodeStatus(hbNodeTmp));
+				objectNode.put("dataFrom", hbNodeTmp.getUfrom());
+				objectNode.put("receiveTime", hbNodeTmp.getProperty9());
 
-			List<String> dataInfo = findNodeDataInfo(hbTypeItems, hbNodeTmp, requestRefPar.getIntegerPar("hours"));
-			objectNode.put("latestTime", dataInfo.get(0));
-			objectNode.put("exceptionPars", dataInfo.get(1));
+				List<String> dataInfo = findNodeDataInfo(hbTypeItems, hbNodeTmp, requestRefPar.getIntegerPar("hours"));
+				objectNode.put("latestTime", dataInfo.get(0));
+				objectNode.put("exceptionPars", dataInfo.get(1));
 
-			objectNodes.add(objectNode);
-
+				objectNodes.add(objectNode);
+			}
 		});
 
 		responseData.setTotalCount(objectNodes.size());

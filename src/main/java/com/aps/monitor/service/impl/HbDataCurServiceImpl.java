@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HBDataLatestMapper;
 import com.aps.monitor.dao.HbNodeMapper;
@@ -63,9 +64,10 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 		List<HbNode> hbNodes;
 		ResponseData responseDataJoin = new ResponseData();
 
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
 		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
-		hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNodes = hbNodeMapper.selectByPerson(hbNode);
 
 		responseDataJoin.setData(hbTypes);
 		responseDataJoin.setSubJoinResponseData(new ResponseData(hbTypeItems));

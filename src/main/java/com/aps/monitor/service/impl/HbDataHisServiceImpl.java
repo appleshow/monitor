@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
+import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
@@ -77,7 +78,8 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
 		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
 		hbNode.setNodeMn(requestRefPar.getStringPar("nodeMN"));
-		hbNodes = hbNodeMapper.selectByCondition(hbNode);
+		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		hbNodes = hbNodeMapper.selectByPerson(hbNode);
 
 		responseDataJoin.setData(hbTypes);
 		responseDataJoin.setSubJoinResponseData(new ResponseData(hbTypeItems));

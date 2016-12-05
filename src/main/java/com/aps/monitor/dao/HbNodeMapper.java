@@ -15,6 +15,8 @@ public interface HbNodeMapper {
 
 	List<HbNode> selectByCondition(HbNode record);
 
+	List<HbNode> selectByPerson(HbNode record);
+
 	int updateByPrimaryKeySelective(HbNode record);
 
 	int updateByPrimaryKey(HbNode record);

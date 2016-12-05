@@ -181,12 +181,9 @@ function DataTablesColumns(columnInfo) {
 		} else {
 			column.visible = true;
 		}
-		/*if ( columnInfo[columnId].sort == 0 ) {
-			column.sortable = false;
-		} else {
-			column.sortable = true;
-		}
-		*/
+		/*
+		 * if ( columnInfo[columnId].sort == 0 ) { column.sortable = false; } else { column.sortable = true; }
+		 */
 		column.sortable = false;
 		column.defaultContent = "";
 		if ( columnInfo[columnId].type === "checkbox" ) {
@@ -225,24 +222,23 @@ function DataTablesFields(columnInfo) {
 	for ( var columnId in columnInfo ) {
 		var field = {};
 
-		if ( columnInfo[columnId].hide === 0 ) {
-			if ( columnInfo[columnId].update === 1 ) {
-				field.label = '<font color="red">*</font> ' + columnInfo[columnId].name + ":";
-			} else {
-				field.label = columnInfo[columnId].name + ":";
-			}
-			field.name = columnId;
-			field.type = columnInfo[columnId].type;
-			if ( field.type === "checkbox" ) {
-				field.def = "0";
-				field.separator = " ";
-				field.options = [ {
-					label : '',
-					value : 1
-				} ]
-			}
-			editorFiels[columnId] = field;
+		if ( columnInfo[columnId].update === 1 ) {
+			field.label = '<font color="red">*</font> ' + columnInfo[columnId].name + ":";
+		} else {
+			field.label = columnInfo[columnId].name + ":";
 		}
+		field.name = columnId;
+		field.type = columnInfo[columnId].type;
+		if ( field.type === "checkbox" ) {
+			field.def = "0";
+			field.separator = " ";
+			field.options = [ {
+				label : '',
+				value : 1
+			} ]
+		}
+		editorFiels[columnId] = field;
+
 	}
 
 	return editorFiels;
@@ -390,22 +386,28 @@ function CommDataTables(tableName, columnHeadName, column, callError) {
 			// Enable order for create
 			$.each( table.editor.fields(), function(index, value) {
 				var field = table.editor.field( value );
-
-				if ( table.columnsInfo[value].edit == 1 ) {
-					field.enable();
+				if ( table.columnsInfo[value].hide == 1 ) {
+					field.hide();
 				} else {
-					field.disable();
+					if ( table.columnsInfo[value].edit == 1 ) {
+						field.enable();
+					} else {
+						field.disable();
+					}
 				}
 			} );
 		} ).on( 'initEdit', function() {
 			// Disable for edit
 			$.each( table.editor.fields(), function(index, value) {
 				var field = table.editor.field( value );
-
-				if ( table.columnsInfo[value].edit == 1 && table.columnsInfo[value].primary == 0 ) {
-					field.enable();
+				if ( table.columnsInfo[value].hide == 1 ) {
+					field.hide();
 				} else {
-					field.disable();
+					if ( table.columnsInfo[value].edit == 1 && table.columnsInfo[value].primary == 0 ) {
+						field.enable();
+					} else {
+						field.disable();
+					}
 				}
 			} );
 		} ).on( 'preSubmit', function(e, data, action) {

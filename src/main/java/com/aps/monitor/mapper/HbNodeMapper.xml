@@ -64,6 +64,20 @@
 		</where>
 		order by type_id,node_id
 	</select>
+	<select id="selectByPerson" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HbNode">
+		SELECT node.* FROM hb_node node, com_resource resource, ( SELECT DISTINCT org_id FROM com_person_org WHERE PERSON_ID =
+		#{iperson,jdbcType=INTEGER} ) org WHERE node.NODE_ID = resource.RESOURCE_TYPE_C AND resource.PRFLAG = 1 AND
+		RESOURCE.RESOURCE_TYPE_B = org.org_id
+		<if test="nodeId != null"> AND node.NODE_ID = #{nodeId,jdbcType=INTEGER}
+		</if>
+		<if test="typeId != null"> AND node.TYPE_ID = #{typeId,jdbcType=INTEGER}
+		</if>
+		<if test="nodeMn != null"> AND node.NODE_MN = #{nodeMn,jdbcType=VARCHAR}
+		</if>
+		<if test="nodeName != null"> AND node.NODE_NAME like CONCAT('%',#{nodeName,jdbcType=VARCHAR},'%')
+		</if>
+		ORDER BY node.TYPE_ID, node.NODE_ID
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer"> delete from hb_node where NODE_ID = #{nodeId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.HbNode" useGeneratedKeys="true" keyProperty="nodeId"> insert
