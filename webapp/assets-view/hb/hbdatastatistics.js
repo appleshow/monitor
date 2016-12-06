@@ -3,7 +3,8 @@
  */
 var HBDataStatistics = {
 	// 当前Tab页
-	selectTab : "#dataCurM",
+	selectTab : "#dataCurR",
+	tableR : undefined,
 	tableM : undefined,
 	tableH : undefined,
 }
@@ -167,17 +168,7 @@ jQuery( document ).ready( function() {
 function refData(click) {
 	var selectNodes = $( '#tree-node' ).tree( 'selectedItems' );
 	if ( selectNodes.length == 0 ) {
-		if ( HBDataStatistics.selectTab === "#dataCurM" ) {
-			$( "#tableM" ).empty();
-			HBDataStatistics.tableM = undefined;
-		} else if ( HBDataStatistics.selectTab === "#dataCurH" ) {
-			$( "#tableH" ).empty();
-			HBDataStatistics.tableH = undefined;
-		}
-
-		if ( click ) {
-			callError( 100, "请先选择一个站点...!!" );
-		}
+		callError( 100, "请先选择一个站点...!!" );
 		return;
 	} else {
 		var momentStr = moment( $( '#dateStr' ).val() );
@@ -189,12 +180,26 @@ function refData(click) {
 			return;
 		}
 		$( "#nodeId" ).val( selectNodes[0].nodeId );
-		if ( HBDataStatistics.selectTab === "#dataCurM" ) {
+		if ( HBDataStatistics.selectTab === "#dataCurR" ) {
+			if ( HBDataStatistics.tableR == undefined ) {
+				HBDataStatistics.tableR = new CommDataTables( "#tbdataCurR", "#tbdataCurRHC", 17, callError );
+				HBDataStatistics.tableR.serverInfo.referUrl = "hbDataStatisticsController.refHbData";
+				HBDataStatistics.tableR.serverInfo.referControls.push( ControlPar( "text", "nodeId", "", $( "#nodeId" ) ) );
+				HBDataStatistics.tableR.serverInfo.referControls.push( ControlPar( "real", "dataType", "2011", "" ) );
+				HBDataStatistics.tableR.serverInfo.referControls.push( ControlPar( "text", "dateStr", "", $( "#dateStr" ) ) );
+				HBDataStatistics.tableR.serverInfo.referControls.push( ControlPar( "text", "dateEnd", "", $( "#dateEnd" ) ) );
+				HBDataStatistics.tableR.buttons = "P";
+				// *********************************
+				HBDataStatistics.tableR.create();
+			} else {
+				HBDataStatistics.tableR.table.ajax.reload( null, false );
+			}
+		} else if ( HBDataStatistics.selectTab === "#dataCurM" ) {
 			if ( HBDataStatistics.tableM == undefined ) {
 				HBDataStatistics.tableM = new CommDataTables( "#tbdataCurM", "#tbdataCurMHC", 17, callError );
 				HBDataStatistics.tableM.serverInfo.referUrl = "hbDataStatisticsController.refHbData";
 				HBDataStatistics.tableM.serverInfo.referControls.push( ControlPar( "text", "nodeId", "", $( "#nodeId" ) ) );
-				HBDataStatistics.tableM.serverInfo.referControls.push( ControlPar( "real", "dataType", "2011", "" ) );
+				HBDataStatistics.tableM.serverInfo.referControls.push( ControlPar( "real", "dataType", "2051", "" ) );
 				HBDataStatistics.tableM.serverInfo.referControls.push( ControlPar( "text", "dateStr", "", $( "#dateStr" ) ) );
 				HBDataStatistics.tableM.serverInfo.referControls.push( ControlPar( "text", "dateEnd", "", $( "#dateEnd" ) ) );
 				HBDataStatistics.tableM.buttons = "P";

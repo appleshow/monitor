@@ -59,6 +59,26 @@
 	<select id="selectAllLastOne" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey"> select a.* from hb_data_latest a, hb_node
 		b where a.node_mn = b.node_mn and a.data_index = 30
 	</select>
+	<select id="selectByPerson" resultMap="BaseResultMap" parameterType="com.aps.monitor.model.HBDataLatestKey">
+SELECT
+	latest.*
+FROM
+	hb_data_latest latest,
+	hb_node node,
+	(
+		SELECT DISTINCT
+			ORG_ID
+		FROM
+			com_person_org
+		WHERE
+			PERSON_ID = #{iperson,jdbcType=INTEGER}
+	) person,
+	com_resource resource
+WHERE
+	latest.NODE_MN = node.NODE_MN
+AND node.NODE_ID = resource.RESOURCE_TYPE_C
+AND resource.RESOURCE_TYPE_B = person.ORG_ID
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="com.aps.monitor.model.HBDataLatestKey"> delete from hb_data_latest where DATA_TIME =
 		#{dataTime,jdbcType=TIMESTAMP} and NODE_MN = #{nodeMn,jdbcType=VARCHAR}
 	</delete>

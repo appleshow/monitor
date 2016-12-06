@@ -1,6 +1,6 @@
 ﻿var colors = [ "#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", , "#514F78", "#42A07B", "#9B5E4A", "#72727F", "#1F949A", "#82914E", "#86777F", "#42A07B", "#DDDF0D", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee" ];
 var nodeLines = {}, nodeInfo = [], nodeType = [], nodeTypeItem = [];
-var tabledataCurM, tabledataCurH, combNode, selectNode = "", selectTab = "", gridChangedM = true, gridChangedH = true;
+var tabledataCurR, tabledataCurM, tabledataCurH, combNode, selectNode = "", selectTab = "", gridChangedR = true, gridChangedM = true, gridChangedH = true;
 
 jQuery( document ).ready( function() {
 	$( '#dateStr' ).val( ( new Date() ).format( "yyyy-MM-dd" ) + " 00:00:00" );
@@ -16,7 +16,7 @@ jQuery( document ).ready( function() {
 	getCombNodeData();
 	$( '#nodeMN' ).on( 'select2:select', function(evt) {
 		selectNode = evt.params.data.id;
-		gridChangedM = true;
+		gridChangedR = true;
 		gridChangedH = true;
 	} );
 
@@ -147,7 +147,14 @@ function refData() {
 		callError( 100, "请先选择一个【站点名称】...!!" );
 		return;
 	}
-	if ( selectTab === "#dataCurM" ) {
+	if ( selectTab === "#dataCurR" ) {
+		if ( gridChangedR ) {
+			gridChangedR = false;
+			createTableRHis();
+		} else {
+			tabledataCurR.table.ajax.reload( null, false );
+		}
+	} else if ( selectTab === "#dataCurM" ) {
 		if ( gridChangedM ) {
 			gridChangedM = false;
 			createTableMHis();
@@ -308,6 +315,28 @@ function refDataHis() {
  * 
  * @returns
  */
+function createTableRHis() {
+	$( "#tableR" ).empty();
+	$( "#tableR" ).html( ' <table id="tbdataCurR" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurRHC"></thead></table>' );
+
+	tabledataCurR = new CommDataTables( "#tbdataCurR", "#tbdataCurRHC", createColumnInfoR( selectNode ), callError );
+	tabledataCurR.scrollY = 72;
+	tabledataCurR.buttons = "P";
+	tabledataCurR.lengthInfo = {
+		lengthMenu : [ [ 50, 100, 300 ], [ "50条", "100条", "300条" ] ],
+		pageLength : 50
+	};
+	// ***** Add information to Column *****
+	// *********************************
+	// ***** Add information to Field *****
+	// *********************************
+
+	tabledataCurR.create( null, datatableRAjax );
+}
+/**
+ * 
+ * @returns
+ */
 function createTableMHis() {
 	$( "#tableM" ).empty();
 	$( "#tableM" ).html( ' <table id="tbdataCurM" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurMHC"></thead></table>' );
@@ -324,9 +353,8 @@ function createTableMHis() {
 	// ***** Add information to Field *****
 	// *********************************
 
-	tabledataCurM.create( null, dataTableMAjax );
+	tabledataCurM.create( null, datatableMAjax );
 }
-
 /**
  * 
  * @returns
@@ -347,6 +375,102 @@ function createTableHHis() {
 	tabledataCurH.create( null, dataTableHAjax );
 }
 
+/**
+ * 
+ * @param nodeMN
+ * @returns
+ */
+function createColumnInfoR(nodeMN) {
+	var tableColumnInfo = {};
+	var innerHtml = "";
+
+	innerHtml = "<tr>";
+	tableColumnInfo.nodeName = {
+		name : "站点名称",
+		primary : 0,
+		update : 0,
+		edit : 0,
+		type : "text",
+		lock : 0,
+		sort : 0,
+		hide : 0,
+		align : 0,
+		prtype : "T"
+	};
+	innerHtml += "<th>站点名称</th>";
+	tableColumnInfo.dataTime = {
+		name : "监测时间",
+		primary : 0,
+		update : 0,
+		edit : 0,
+		type : "text",
+		lock : 0,
+		sort : 1,
+		hide : 0,
+		align : 0,
+		prtype : "T"
+	};
+	innerHtml += "<th>监测时间</th>";
+	innerHtml += "</tr>";
+
+	if ( nodeMN != null && nodeLines.hasOwnProperty( nodeMN ) && nodeLines[nodeMN].par.length > 0 ) {
+		// innerHtml = "<tr>";
+		// innerHtml += "<th rowspan='2'>站点名称</th>";
+		// innerHtml += "<th rowspan='2'>监测时间</th>";
+		//
+		// var innerHtmlUnit = "<tr>";
+		// for (var index = 0; index < nodeLines[nodeMN].parCount; index++) {
+		// var columnInfo = {};
+		//
+		// columnInfo.name = nodeLines[nodeMN]["parName"][index];
+		// columnInfo.primary = 0;
+		// columnInfo.update = 0;
+		// columnInfo.edit = 0;
+		// columnInfo.type = "text";
+		// columnInfo.lock = 0;
+		// columnInfo.sort = 0;
+		// columnInfo.hide = 0;
+		// columnInfo.align = 2;
+		// columnInfo.prtype = "T";
+		//
+		// tableColumnInfo[nodeLines[nodeMN]["par"][index]] = columnInfo;
+		//
+		// innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + "</th>";
+		// innerHtmlUnit += "<th>" + nodeLines[nodeMN]["parUnit"][index] + "</th>";
+		// }
+		// innerHtml += "</tr>";
+		// innerHtmlUnit += "</tr>";
+		// innerHtml += innerHtmlUnit;
+
+		innerHtml = "<tr>";
+		innerHtml += "<th>站点名称</th>";
+		innerHtml += "<th>监测时间</th>";
+
+		for ( var index = 0; index < nodeLines[nodeMN].parCount; index++ ) {
+			var columnInfo = {};
+
+			columnInfo.name = nodeLines[nodeMN]["parName"][index];
+			columnInfo.primary = 0;
+			columnInfo.update = 0;
+			columnInfo.edit = 0;
+			columnInfo.type = "text";
+			columnInfo.lock = 0;
+			columnInfo.sort = 0;
+			columnInfo.hide = 0;
+			columnInfo.align = 2;
+			columnInfo.prtype = "T";
+
+			tableColumnInfo["_" + nodeLines[nodeMN]["par"][index]] = columnInfo;
+
+			innerHtml += "<th>" + nodeLines[nodeMN]["parName"][index] + " (<small>" + nodeLines[nodeMN]["parUnit"][index] + "</small>)</th>";
+		}
+		innerHtml += "</tr>";
+	}
+
+	$( "#tbdataCurRHC" ).html( innerHtml );
+
+	return tableColumnInfo;
+}
 /**
  * 
  * @param nodeMN
@@ -443,7 +567,6 @@ function createColumnInfoM(nodeMN) {
 
 	return tableColumnInfo;
 }
-
 /**
  * 
  * @param nodeMN
@@ -540,7 +663,6 @@ function createColumnInfoH(nodeMN) {
 
 	return tableColumnInfo;
 }
-
 /**
  * 
  * @param data
@@ -548,7 +670,7 @@ function createColumnInfoH(nodeMN) {
  * @param settings
  * @returns
  */
-function dataTableMAjax(data, callback, settings) {
+function datatableRAjax(data, callback, settings) {
 	var tableData = {
 		draw : settings.iDraw,
 		recordsTotal : 0,
@@ -621,7 +743,86 @@ function dataTableMAjax(data, callback, settings) {
 	} );
 
 }
+/**
+ * 
+ * @param data
+ * @param callback
+ * @param settings
+ * @returns
+ */
+function datatableMAjax(data, callback, settings) {
+	var tableData = {
+		draw : settings.iDraw,
+		recordsTotal : 0,
+		recordsFiltered : 0,
+		data : []
+	};
+	if ( selectNode === "" ) {
+		callback( tableData );
+	}
+	$.ajax( {
+		async : false,
+		type : "POST",
+		url : "HbDataHisController.refHbDataHisGrid",
+		cache : false,
+		data : ServerRequestPar( 1, {
+			nodeId : nodeLines[selectNode].nodeId,
+			nodeMn : selectNode,
+			dataType : '2051',
+			dateStr : $( '#dateStr' ).val(),
+			dateEnd : $( '#dateEnd' ).val(),
+			pageNumber : data.length == -1 ? 0 : data.start / data.length + 1,
+			pageSize : data.length == -1 ? 0 : data.length
+		} ),
+		dataType : "json",
+		success : function(res) {
+			if ( res.code != 0 ) {
+				callError( res.code, res.message );
+			} else {
+				tableData.recordsTotal = res.totalCount;
+				tableData.recordsFiltered = res.totalCount;
 
+				$.each( res.data, function(index, dataHis) {
+					if ( dataHis.hasOwnProperty( "nodeData" ) ) {
+						var lineData = $.parseJSON( dataHis.nodeData );
+
+						$.each( nodeInfo, function(index, node) {
+							if ( node.nodeMn === selectNode && node.hasOwnProperty( "nodeItem" ) ) {
+								for ( var item in node.nodeItem ) {
+									if ( node.nodeItem[item].select == 1 ) {
+										var item = item;
+										if ( lineData.hasOwnProperty( item ) && lineData[item] != "" ) {
+											if ( node.nodeItem[item].itemVmin != "" && parseFloat( node.nodeItem[item].itemVmin ) > parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:green" title="参数下限: ' + node.nodeItem[item].itemVmin + '">' + lineData[item] + '</kbd>';
+											} else if ( node.nodeItem[item].itemVmax != "" && parseFloat( node.nodeItem[item].itemVmax ) < parseFloat( lineData[item] ) ) {
+												lineData["_" + item] = '<kbd style="background:red" title="参数上限: ' + node.nodeItem[item].itemVmax + '">' + lineData[item] + '</kbd>';
+											} else {
+												lineData["_" + item] = lineData[item];
+											}
+										}
+									}
+								}
+							}
+						} );
+
+						lineData.DT_RowId = "_" + index;
+						lineData.nodeName = nodeLines[dataHis.nodeMn].nodeName;
+						lineData.dataTime = dataHis.dataTime;
+
+						tableData.data.push( lineData );
+					}
+				} );
+			}
+			callback( tableData );
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			callError( -900, "操作未完成，向服务器请求失败..." );
+			callback( tableData );
+		}
+
+	} );
+
+}
 /**
  * 
  * @param data
@@ -762,7 +963,7 @@ function getCombNodeData() {
  * @returns
  */
 function showNodeDetail(nodeMN) {
-	$( '#mainTabs a[href="#dataCurM"]' ).tab( 'show' );
+	$( '#mainTabs a[href="#dataCurR"]' ).tab( 'show' );
 }
 
 /**

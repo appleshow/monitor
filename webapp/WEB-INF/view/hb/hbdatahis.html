@@ -108,6 +108,7 @@
      <div>
           <ul class="nav nav-tabs" role="tablist" id="mainTabs">
                <li role="presentation" class="active"><a href="#lineCur" aria-controls="lineCur" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-random" aria-hidden="true"></span> 历史数据曲线</a></li>
+               <li role="presentation"><a href="#dataCurR" aria-controls="dataCurR" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 历史监测数据 - 实时</a></li>
                <li role="presentation"><a href="#dataCurM" aria-controls="dataCurM" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 历史监测数据 - 分钟</a></li>
                <li role="presentation"><a href="#dataCurH" aria-controls="dataCurH" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 历史监测数据 - 小时</a></li>
           </ul>
@@ -115,9 +116,19 @@
                <div role="tabpanel" class="tab-pane active" id="lineCur">
                     <div class="box" id="lineCurBox"></div>
                </div>
+               <div role="tabpanel" class="tab-pane" id="dataCurR">
+                    <div class="row" style="margin-right: 0px; margin-bottom: 0px;">
+                         <div class="col-lg-12 col-sm-12 col-xs-12" id="tableR">
+                              <table id="tbdataCurR" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%">
+                                   <thead id="tbdataCurRHC">
+                                   </thead>
+                              </table>
+                         </div>
+                    </div>
+               </div>
                <div role="tabpanel" class="tab-pane" id="dataCurM">
                     <div class="row" style="margin-right: 0px; margin-bottom: 0px;">
-                         <div class="col-lg-12 col-sm-12 col-xs-12" id="tableM">
+                         <div class="col-lg-12 col-sm-12 col-xs-12" id="tableR">
                               <table id="tbdataCurM" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%">
                                    <thead id="tbdataCurMHC">
                                    </thead>

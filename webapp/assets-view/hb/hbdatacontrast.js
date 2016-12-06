@@ -3,7 +3,12 @@
  */
 var HBDataContrast = {
 	// 当前Tab页
-	selectTab : "#dataCurM",
+	selectTab : "#dataCurR",
+	tabledataCurR : undefined,
+	tabledataCurM : undefined,
+	tabledataCurH : undefined,
+	// 是否需要重新生成实时数据表格
+	gridChangedR : true,
 	// 是否需要重新生成分钟数据表格
 	gridChangedM : true,
 	// 是否需要重新生成小时数据表格
@@ -13,6 +18,7 @@ var HBDataContrast = {
 	combNodeData : [],
 	// 重置表格状态
 	resetGridStatus : function() {
+		this.gridChangedR = true;
 		this.gridChangedM = true;
 		this.gridChangedH = true;
 	},
@@ -184,7 +190,9 @@ jQuery( document ).ready( function() {
 function refData(click) {
 	var selectNodes = $( '#tree-node' ).tree( 'selectedItems' );
 	if ( selectNodes.length == 0 ) {
-		if ( HBDataContrast.selectTab === "#dataCurM" ) {
+		if ( HBDataContrast.selectTab === "#dataCurR" ) {
+			$( "#tableR" ).empty();
+		} else if ( HBDataContrast.selectTab === "#dataCurM" ) {
 			$( "#tableM" ).empty();
 		} else if ( HBDataContrast.selectTab === "#dataCurH" ) {
 			$( "#tableH" ).empty();
@@ -195,12 +203,19 @@ function refData(click) {
 		}
 		return;
 	}
-	if ( HBDataContrast.selectTab === "#dataCurM" ) {
+	if ( HBDataContrast.selectTab === "#dataCurR" ) {
+		if ( HBDataContrast.gridChangedR ) {
+			HBDataContrast.gridChangedR = false;
+			createtableRHis( selectNodes );
+		} else {
+			HBDataContrast.tabledataCurR.table.ajax.reload( null, false );
+		}
+	} else if ( HBDataContrast.selectTab === "#dataCurM" ) {
 		if ( HBDataContrast.gridChangedM ) {
 			HBDataContrast.gridChangedM = false;
-			createTableMHis( selectNodes );
+			createtableMHis( selectNodes );
 		} else {
-			tabledataCurM.table.ajax.reload( null, false );
+			HBDataContrast.tabledataCurM.table.ajax.reload( null, false );
 		}
 	} else if ( HBDataContrast.selectTab === "#dataCurH" ) {
 		var momentStr = moment( $( '#dateStr' ).val() );
@@ -215,22 +230,22 @@ function refData(click) {
 			HBDataContrast.gridChangedH = false;
 			createTableHHis( selectNodes );
 		} else {
-			tabledataCurH.table.ajax.reload( null, false );
+			HBDataContrast.tabledataCurH.table.ajax.reload( null, false );
 		}
 	}
 }
 /*******************************************************************************************************************************************************************************************************
- * 生成表格 - 分钟数据
+ * 生成表格 - 实时数据
  ******************************************************************************************************************************************************************************************************/
-function createTableMHis(selectNodes) {
-	$( "#tableM" ).empty();
-	$( "#tableM" ).html( ' <table id="tbdataCurM" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurMHC"></thead></table>' );
+function createtableRHis(selectNodes) {
+	$( "#tableR" ).empty();
+	$( "#tableR" ).html( ' <table id="tbdataCurR" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurRHC"></thead></table>' );
 
-	tabledataCurM = new CommDataTables( "#tbdataCurM", "#tbdataCurMHC", createColumnInfo( selectNodes, "#tbdataCurMHC" ), callError );
-	tabledataCurM.scrollY = 65;
-	tabledataCurM.buttons = "P";
+	HBDataContrast.tabledataCurR = new CommDataTables( "#tbdataCurR", "#tbdataCurRHC", createColumnInfo( selectNodes, "#tbdataCurRHC" ), callError );
+	HBDataContrast.tabledataCurR.scrollY = 65;
+	HBDataContrast.tabledataCurR.buttons = "P";
 	var nodeCount = selectNodes.length;
-	tabledataCurM.lengthInfo = {
+	HBDataContrast.tabledataCurR.lengthInfo = {
 		lengthMenu : [ [ 10 * nodeCount, 20 * nodeCount, 30 * nodeCount ], [ 10 * nodeCount + "条", 20 * nodeCount + "条", 30 * nodeCount + "条" ] ],
 		pageLength : 10 * nodeCount
 	};
@@ -239,8 +254,32 @@ function createTableMHis(selectNodes) {
 	// ***** Add information to Field *****
 	// *********************************
 
-	tabledataCurM.create( null, dataTableAjax );
+	HBDataContrast.tabledataCurR.create( null, dataTableAjax );
 }
+
+/*******************************************************************************************************************************************************************************************************
+ * 生成表格 - 分钟数据
+ ******************************************************************************************************************************************************************************************************/
+function createtableMHis(selectNodes) {
+	$( "#tableM" ).empty();
+	$( "#tableM" ).html( ' <table id="tbdataCurM" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurMHC"></thead></table>' );
+
+	HBDataContrast.tabledataCurM = new CommDataTables( "#tbdataCurM", "#tbdataCurMHC", createColumnInfo( selectNodes, "#tbdataCurMHC" ), callError );
+	HBDataContrast.tabledataCurM.scrollY = 65;
+	HBDataContrast.tabledataCurM.buttons = "P";
+	var nodeCount = selectNodes.length;
+	HBDataContrast.tabledataCurM.lengthInfo = {
+		lengthMenu : [ [ 10 * nodeCount, 20 * nodeCount, 30 * nodeCount ], [ 10 * nodeCount + "条", 20 * nodeCount + "条", 30 * nodeCount + "条" ] ],
+		pageLength : 10 * nodeCount
+	};
+	// ***** Add information to Column *****
+	// *********************************
+	// ***** Add information to Field *****
+	// *********************************
+
+	HBDataContrast.tabledataCurM.create( null, dataTableAjax );
+}
+
 /*******************************************************************************************************************************************************************************************************
  * 生成表格 - 小时数据
  ******************************************************************************************************************************************************************************************************/
@@ -248,11 +287,11 @@ function createTableHHis(selectNodes) {
 	$( "#tableH" ).empty();
 	$( "#tableH" ).html( ' <table id="tbdataCurH" class="table table-striped table-bordered display responsive nowrap" cellspacing="0" width="100%"> <thead id="tbdataCurHHC"></thead></table>' );
 
-	tabledataCurH = new CommDataTables( "#tbdataCurH", "#tbdataCurHHC", createColumnInfo( selectNodes, "#tbdataCurHHC" ), callError );
-	tabledataCurH.scrollY = 65;
-	tabledataCurH.buttons = "P";
+	HBDataContrast.tabledataCurH = new CommDataTables( "#tbdataCurH", "#tbdataCurHHC", createColumnInfo( selectNodes, "#tbdataCurHHC" ), callError );
+	HBDataContrast.tabledataCurH.scrollY = 65;
+	HBDataContrast.tabledataCurH.buttons = "P";
 	var nodeCount = selectNodes.length;
-	tabledataCurH.lengthInfo = {
+	HBDataContrast.tabledataCurH.lengthInfo = {
 		lengthMenu : [ [ 10 * nodeCount, 20 * nodeCount, 30 * nodeCount ], [ 10 * nodeCount + "条", 20 * nodeCount + "条", 30 * nodeCount + "条" ] ],
 		pageLength : 10 * nodeCount
 	};
@@ -262,7 +301,7 @@ function createTableHHis(selectNodes) {
 	// ***** Add information to Field *****
 	// *********************************
 
-	tabledataCurH.create( null, dataTableAjax );
+	HBDataContrast.tabledataCurH.create( null, dataTableAjax );
 }
 /*******************************************************************************************************************************************************************************************************
  * 动态生成表格列信息
@@ -351,8 +390,10 @@ function dataTableAjax(data, callback, settings) {
 		data : []
 	};
 	var dataType = "2011";
-	if ( HBDataContrast.selectTab === "#dataCurM" ) {
+	if ( HBDataContrast.selectTab === "#dataCurR" ) {
 		dataType = "2011";
+	} else if ( HBDataContrast.selectTab === "#dataCurM" ) {
+		dataType = "2051";
 	} else if ( HBDataContrast.selectTab === "#dataCurH" ) {
 		dataType = "2061";
 	}

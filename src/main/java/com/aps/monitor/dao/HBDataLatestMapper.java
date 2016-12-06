@@ -18,6 +18,8 @@ public interface HBDataLatestMapper {
 
 	List<HBDataLatest> selectAllLastOne(HBDataLatest record);
 
+	List<HBDataLatest> selectByPerson(HBDataLatest record);
+
 	int updateByPrimaryKeySelective(HBDataLatest record);
 
 	int updateByPrimaryKey(HBDataLatest record);

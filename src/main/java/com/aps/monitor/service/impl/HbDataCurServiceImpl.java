@@ -95,7 +95,8 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 		HBDataLatest hbDataLatest = new HBDataLatest();
 		List<HBDataLatest> hbDataLatests;
 
-		hbDataLatests = hbDatalatestMapper.selectByCondition(hbDataLatest);
+		hbDataLatest.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
+		hbDataLatests = hbDatalatestMapper.selectByPerson(hbDataLatest);
 		responseData.setData(hbDataLatests);
 	}
 
