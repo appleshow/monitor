@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbTypeItemConfigService;
 
 /**
@@ -33,18 +34,21 @@ public class HbTypeItemConfigContoller extends BaseController {
 	 * 
 	 * @Title: referHbType
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.referHbType", method = RequestMethod.POST)
 	@ResponseBody
 	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
 			hbTypeItemConfigService.referHbType(httpSession, inPar, responseData);
 		}
@@ -56,18 +60,21 @@ public class HbTypeItemConfigContoller extends BaseController {
 	 * 
 	 * @Title: referHbTypeItem
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.referHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
 	public String referHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbTypeItem", responseData)) {
 			hbTypeItemConfigService.referHbTypeItem(httpSession, inPar, responseData);
 		}
@@ -79,18 +86,21 @@ public class HbTypeItemConfigContoller extends BaseController {
 	 * 
 	 * @Title: modifyHbTypeItem
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.modifyHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyHbTypeItem", responseData)) {
 			hbTypeItemConfigService.modifyHbTypeItem(httpSession, inPar, responseData);
 		}

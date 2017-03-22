@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.ICodeConfigService;
 
 /**
@@ -35,18 +36,21 @@ public class CodeConfigController extends BaseController {
 	 * 
 	 * @Title: referCode
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/codeConfig.referCode", method = RequestMethod.POST)
 	@ResponseBody
 	public String referCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referCode", responseData)) {
 			codeConfigService.referCode(httpSession, inPar, responseData);
 		}
@@ -58,12 +62,14 @@ public class CodeConfigController extends BaseController {
 	 * 
 	 * @Title: modifyCode
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inpar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/codeConfig.modifyCode", method = RequestMethod.POST)
 	@ResponseBody

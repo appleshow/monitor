@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataCurService;
 
 /**
@@ -47,6 +48,7 @@ public class HbDataCurController {
 	public String refHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbNode", responseData)) {
 			hbDataCurService.refHbNode(httpSession, inPar, responseData);
 		}
@@ -72,6 +74,7 @@ public class HbDataCurController {
 	public String refHbDataLatest(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataLatest", responseData)) {
 			hbDataCurService.refHbDataLatest(httpSession, inPar, responseData);
 		}

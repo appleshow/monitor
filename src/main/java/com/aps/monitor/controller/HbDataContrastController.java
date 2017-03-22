@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataContrastService;
 
 /**
@@ -46,6 +47,7 @@ public class HbDataContrastController {
 	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
 			hbDataContrastService.referHbType(httpSession, inPar, responseData);
 		}
@@ -71,6 +73,7 @@ public class HbDataContrastController {
 	public String referHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbNode", responseData)) {
 			hbDataContrastService.referHbNode(httpSession, inPar, responseData);
 		}
@@ -95,6 +98,7 @@ public class HbDataContrastController {
 	public String refHbData(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbData", responseData)) {
 			hbDataContrastService.refHbData(httpSession, inPar, responseData);
 		}

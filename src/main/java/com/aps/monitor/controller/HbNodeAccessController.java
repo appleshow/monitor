@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbNodeAccessService;
 
 /**
@@ -45,6 +46,7 @@ public class HbNodeAccessController {
 	public String refOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refOrg", responseData)) {
 			hbNodeAccessService.refOrg(httpSession, inPar, responseData);
 		}
@@ -67,9 +69,9 @@ public class HbNodeAccessController {
 	@ResponseBody
 	@RequestMapping(value = "hbNodeAccessController.refNode", method = RequestMethod.POST)
 	public String refNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
-
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refNode", responseData)) {
 			hbNodeAccessService.refNode(httpSession, inPar, responseData);
 		}
@@ -92,9 +94,9 @@ public class HbNodeAccessController {
 	@ResponseBody
 	@RequestMapping(value = "hbNodeAccessController.refNodeAccess", method = RequestMethod.POST)
 	public String refNodeAccess(HttpSession httpSession, @RequestParam("inf") String inPar) {
-
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refNodeAccess", responseData)) {
 			hbNodeAccessService.refNodeAccess(httpSession, inPar, responseData);
 		}
@@ -119,6 +121,7 @@ public class HbNodeAccessController {
 	public String modifyNodeAccess(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyNodeAccess", responseData)) {
 			hbNodeAccessService.modifyNodeAccess(httpSession, inPar, responseData);
 		}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.ICommService;
 
 @Controller
@@ -22,18 +23,21 @@ public class CommController extends BaseController {
 	 * 
 	 * @Title: referCode
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/comm.referPageShow", method = RequestMethod.POST)
 	@ResponseBody
 	public String referPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		commService.referComPageShowByCondition(httpSession, inPar, responseData);
 
 		return JsonUtil.writeResponseAsString(responseData);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbTypeConfigService;
 
 /**
@@ -33,18 +34,21 @@ public class HbTypeConfigController extends BaseController {
 	 * 
 	 * @Title: refForm
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/hbTypeConfig.referHbType", method = RequestMethod.POST)
 	@ResponseBody
 	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
 			hbTypeConfigService.referHbType(httpSession, inPar, responseData);
 		}
@@ -56,18 +60,21 @@ public class HbTypeConfigController extends BaseController {
 	 * 
 	 * @Title: modifyForm
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/hbTypeConfig.modifyHbType", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyHbType", responseData)) {
 			hbTypeConfigService.modifyHbType(httpSession, inPar, responseData);
 		}

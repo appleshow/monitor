@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IFormConfigService;
 
 /**
@@ -34,18 +35,21 @@ public class FormConfigController extends BaseController {
 	 * 
 	 * @Title: refForm
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/formConfig.referForm", method = RequestMethod.POST)
 	@ResponseBody
 	public String referForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referForm", responseData)) {
 			formConfigService.referForm(httpSession, inPar, responseData);
 		}
@@ -57,18 +61,21 @@ public class FormConfigController extends BaseController {
 	 * 
 	 * @Title: modifyForm
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/formConfig.modifyForm", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyForm", responseData)) {
 			formConfigService.modifyForm(httpSession, inPar, responseData);
 		}
@@ -80,18 +87,21 @@ public class FormConfigController extends BaseController {
 	 * 
 	 * @Title: refFormRight
 	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param inpar
+	 * @param: @param
+	 *             session
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/formConfig.referFormRight", method = RequestMethod.POST)
 	@ResponseBody
 	public String referFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormRight", responseData)) {
 			formConfigService.referFormRight(httpSession, inPar, responseData);
 		}
@@ -103,18 +113,21 @@ public class FormConfigController extends BaseController {
 	 * 
 	 * @Title: modifyFormRight
 	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param inpar
+	 * @param: @param
+	 *             session
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/formConfig.modifyFormRight", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyFormRight", responseData)) {
 			formConfigService.modifyFormRight(httpSession, inPar, responseData);
 		}
@@ -126,18 +139,21 @@ public class FormConfigController extends BaseController {
 	 * 
 	 * @Title: refFormCtlType
 	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param inpar
+	 * @param: @param
+	 *             session
+	 * @param: @param
+	 *             inpar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/formConfig.referFormCtlType", method = RequestMethod.POST)
 	@ResponseBody
 	public String referFormCtlType(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormCtlType", responseData)) {
 			formConfigService.referFormCtlType(httpSession, inPar, responseData);
 		}

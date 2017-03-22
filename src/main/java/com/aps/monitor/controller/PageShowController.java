@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IPageShowService;
 
 @Controller
@@ -24,18 +25,21 @@ public class PageShowController extends BaseController {
 	 * 
 	 * @Title: referAllForms
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/pageShow.referAllForms", method = RequestMethod.POST)
 	@ResponseBody
 	public String referAllForms(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referAllForms", responseData)) {
 			pageShowService.referAllForms(httpSession, inPar, responseData);
 		}
@@ -47,18 +51,21 @@ public class PageShowController extends BaseController {
 	 * 
 	 * @Title: referPageShow
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/pageShow.referPageShow", method = RequestMethod.POST)
 	@ResponseBody
 	public String referPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referPageShow", responseData)) {
 			pageShowService.referPageShow(httpSession, inPar, responseData);
 		}
@@ -70,18 +77,21 @@ public class PageShowController extends BaseController {
 	 * 
 	 * @Title: modifyPageShow
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/pageShow.modifyPageShow", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyPageShow", responseData)) {
 			pageShowService.modifyPageShow(httpSession, inPar, responseData);
 		}

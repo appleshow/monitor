@@ -21,11 +21,12 @@ public class StringUtil {
 	 * 
 	 * @Title: isNullOrEmpty
 	 * @Description: TODO
-	 * @param: @param value
+	 * @param: @param
+	 *             value
 	 * @param: @return
 	 * @return: boolean
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	public static boolean isNullOrEmpty(String value) {
 		return (null == value || "".equals(value));
@@ -130,6 +131,22 @@ public class StringUtil {
 	public static int getStringLen(String spar, Charset charset) {
 
 		return spar.getBytes(charset).length;
+	}
+
+	/**
+	 * 
+	 * @Title: getConversionString
+	 * @Description: TODO
+	 * @return String
+	 * @author LiuGuanbang
+	 * @date 2017年3月23日 上午12:36:15
+	 */
+	public static String getConversionString(String txt) {
+		if (isNullOrEmpty(txt)) {
+			return txt;
+		} else {
+			return txt.replace("%25", "%").replace("%26", "&").replace("%2B", "+");
+		}
 	}
 
 	/**

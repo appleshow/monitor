@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataHisService;
 
 /**
@@ -49,6 +50,7 @@ public class HbDataHisController {
 	public String refHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbNode", responseData)) {
 			hbDataHisService.refHbNode(httpSession, inPar, responseData);
 		}
@@ -75,6 +77,7 @@ public class HbDataHisController {
 	public String refHbDataHis(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHis", responseData)) {
 			hbDataHisService.refHbDataHis(httpSession, inPar, responseData);
 		}
@@ -102,6 +105,7 @@ public class HbDataHisController {
 	public String refHbDataHisGrid(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHisGrid", responseData)) {
 			hbDataHisService.refHbDataHisGrid(httpSession, inPar, responseData);
 		}

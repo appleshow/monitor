@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
+import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IPersonConfigService;
 
 /**
@@ -34,18 +35,21 @@ public class PersonConfigController extends BaseController {
 	 * 
 	 * @Title: referOrg
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/personConfig.referOrg", method = RequestMethod.POST)
 	@ResponseBody
 	public String referOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referOrg", responseData)) {
 			personConfigService.referOrg(httpSession, inPar, responseData);
 		}
@@ -57,18 +61,21 @@ public class PersonConfigController extends BaseController {
 	 * 
 	 * @Title: referPerson
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/personConfig.referPerson", method = RequestMethod.POST)
 	@ResponseBody
 	public String referPerson(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referPerson", responseData)) {
 			personConfigService.referPerson(httpSession, inPar, responseData);
 		}
@@ -80,18 +87,21 @@ public class PersonConfigController extends BaseController {
 	 * 
 	 * @Title: modifyPerson
 	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
+	 * @param: @param
+	 *             httpSession
+	 * @param: @param
+	 *             inPar
 	 * @param: @return
 	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @throws @since
+	 *             1.0.0
 	 */
 	@RequestMapping(value = "/personConfig.modifyPerson", method = RequestMethod.POST)
 	@ResponseBody
 	public String modifyPerson(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
+		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyPerson", responseData)) {
 			personConfigService.modifyPerson(httpSession, inPar, responseData);
 		}
