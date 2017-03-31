@@ -24,7 +24,7 @@ import com.aps.monitor.comm.DateUtil;
 public class NioServer {
 	private static String serverStartTime;
 	private static AtomicInteger port = new AtomicInteger(CommUtil.NIO_TCP_PORT);
-	private static final NioTcpServer NIOTCPSERVER = new NioTcpServer();
+	private static NioTcpServer NIOTCPSERVER = new NioTcpServer();
 	private static final Logger LOG = LogManager.getLogger(NioServer.class);
 
 	private NioServer() {
@@ -64,9 +64,16 @@ public class NioServer {
 	 * @since 1.0.0
 	 */
 	public static boolean stop() {
-		if (NIOTCPSERVER.isActive()) {
-			NIOTCPSERVER.unbind();
+		if (NIOTCPSERVER != null) {
+			try {
+				NIOTCPSERVER.unbind();
+			} catch (Exception e) {
+				LOG.info(e);
+			}
+			NIOTCPSERVER = null;
+			NIOTCPSERVER = new NioTcpServer();
 			LOG.info("Server stoped!");
+
 			return true;
 		} else {
 			LOG.info("Server has been stoped!");

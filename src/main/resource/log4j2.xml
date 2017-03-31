@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="off">
 	<properties>
-		<property name="LOG_HOME">c:/logs</property>
+		<property name="LOG_HOME">e:/logs</property>
 		<property name="PATTENR">## 【%-5level】 %d{yyyy-MM-dd HH:mm:ss} %C.%M(L:%L)%n>>%msg%n</property>
 	</properties>
 	<appenders>
@@ -28,6 +28,10 @@
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
+		<RollingFile name="schedule" fileName="${LOG_HOME}/schedule/schedule.log" filePattern="${LOG_HOME}/schedule/$${date:yyyy-MM}/schedule-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="${PATTENR}"/>
+			<SizeBasedTriggeringPolicy size="2 MB"/>
+		</RollingFile>
 		<RollingFile name="dealMessage212" fileName="${LOG_HOME}/dealMessage/dealMessage212.log" filePattern="${LOG_HOME}/dealMessage212/$${date:yyyy-MM}/communication-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
@@ -38,25 +42,28 @@
 		</RollingFile>
 	</appenders>
 	<loggers>
-		<root level="trace">
+		<root level="debug">
 			<appender-ref ref="Console"/>
 		</root>
-		<logger name="com.mchange.v2" level="trace" additivity="true">
+		<logger name="com.mchange.v2" level="debug" additivity="true">
 			<appender-ref ref="c3p0"/>
 		</logger>
 		<logger name="org.apache.ibatis" level="debug" additivity="true">
 			<appender-ref ref="mybatis"/>
 		</logger>
-		<logger name="com.aps.monitor.service.impl" level="trace" additivity="true">
+		<logger name="com.aps.monitor.service.impl" level="debug" additivity="true">
 			<appender-ref ref="service"/>
 		</logger>
-		<logger name="com.aps.monitor.data" level="trace" additivity="true">
+		<logger name="com.aps.monitor.data" level="debug" additivity="true">
 			<appender-ref ref="data"/>
 		</logger>
-		<logger name="com.aps.monitor.communication" level="trace" additivity="true">
+		<logger name="com.aps.monitor.communication" level="debug" additivity="true">
 			<appender-ref ref="communication"/>
 		</logger>
-		<logger name="com.aps.monitor.service.impl.DealMessage212" level="trace" additivity="true">
+		<logger name="com.aps.monitor.schedule" level="debug" additivity="true">
+			<appender-ref ref="schedule"/>
+		</logger>
+		<logger name="com.aps.monitor.service.impl.DealMessage212" level="debug" additivity="true">
 			<appender-ref ref="dealMessage212"/>
 		</logger>
 		<logger name="com.aps.monitor.test" level="trace" additivity="true">

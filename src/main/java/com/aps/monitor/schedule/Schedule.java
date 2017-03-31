@@ -116,6 +116,12 @@ public class Schedule {
 				NioClient nioClient = new NioClient();
 				if (!nioClient.tryToConnectServer()) {
 					LOG.info("Try to connect server failed! Restart server ...");
+					NioServer.stop();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					NioServer.start();
 					LOG.info("Server has been restated!");
 				} else {
