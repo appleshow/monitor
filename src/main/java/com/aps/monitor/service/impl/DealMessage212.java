@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.cache.CacheKey;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.comm.DateUtil;
 import com.aps.monitor.comm.JsonUtil;
@@ -56,28 +55,26 @@ public class DealMessage212 implements IDealMessage {
 	 * Description:
 	 * </p>
 	 * 
-	 * @param cacheKey
 	 * @param message
 	 * @return
 	 * @see com.aps.monitor.service.IDealMessage#saveMessage(com.aps.monitor.cache.CacheKey,
 	 *      com.aps.monitor.data.Message)
 	 */
 	@Override
-	public boolean saveMessage(CacheKey cacheKey, Message message) {
-		return insertMessage(cacheKey, message);
+	public void saveMessage(Message message) {
+		insertMessage(message);
 	}
 
 	/**
 	 * 
-	 * @Title: insertIntoHbDataMode
+	 * @Title: insertMessage
 	 * @Description: TODO
-	 * @param hbDataRecord
-	 * @param nowDate
+	 * @param message
 	 *            void
-	 * @throws:
-	 * @since 1.0.0
+	 * @author AppleShow
+	 * @date 2017年4月14日 上午9:49:25
 	 */
-	private boolean insertMessage(CacheKey cacheKey, Message message) {
+	private void insertMessage(Message message) {
 		final HbDataMode hbDataMode = new HbDataMode();
 		final HbDataRecord hbDataRecord = new HbDataRecord();
 		Date nowDate = new Date();
@@ -154,46 +151,46 @@ public class DealMessage212 implements IDealMessage {
 			hbDataRecord.setPrexp("Can not format data using DealMessage212!");
 		}
 
-		if (hbDataRecord.getPrflag() == 1) {
-			try {
-				hbDataModeMapper.insertSelective(hbDataMode);
-				hbDataMode.setProperty0(CommUtil.HB_DATA_HIS + CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).getNodeId());
-				hbDataModeMapper.insertSelective(hbDataMode);
-
-				if ("2011".equals(hbDataMode.getDataType())) {
-					HBDataLatest hbDataLatest = new HBDataLatest();
-					hbDataLatest.setNodeMn(hbDataMode.getNodeMn());
-					hbDataLatest.setDataTime(hbDataMode.getDataTime());
-					hbDataLatest.setDataIndex(31);
-					hbDataLatest.setNodeData(hbDataMode.getNodeData());
-					hbDataLatest.setUfrom(recordId);
-					hbDataLatest.setItime(nowDate);
-					hbDataLatest.setUtime(nowDate);
-					hbDataLatestMapper.insertSelective(hbDataLatest);
-
-					HBDataLatestKey hbDataLatestKey = new HBDataLatestKey();
-					hbDataLatestKey.setNodeMn(hbDataMode.getNodeMn());
-					hbDataLatestMapper.deleteOldestOne(hbDataLatestKey);
-					hbDataLatestMapper.updateIndexReduce(hbDataLatestKey);
-				}
-			} catch (Exception e) {
-				hbDataRecord.setPrflag(0);
-				hbDataRecord.setPrexp(CommUtil.getMessageFromException(e));
-				LOG.error(e);
-			}
-		}
 		try {
 			hbDataRecordMapper.insert(hbDataRecord);
 			LOG.info("Deal message successfully from " + message.getFromHost());
-			return true;
+
+			if (hbDataRecord.getPrflag() == 1) {
+				try {
+					hbDataModeMapper.insertSelective(hbDataMode);
+					hbDataMode.setProperty0(CommUtil.HB_DATA_HIS + CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).getNodeId());
+					hbDataModeMapper.insertSelective(hbDataMode);
+
+					if ("2011".equals(hbDataMode.getDataType())) {
+						HBDataLatest hbDataLatest = new HBDataLatest();
+						hbDataLatest.setNodeMn(hbDataMode.getNodeMn());
+						hbDataLatest.setDataTime(hbDataMode.getDataTime());
+						hbDataLatest.setDataIndex(31);
+						hbDataLatest.setNodeData(hbDataMode.getNodeData());
+						hbDataLatest.setUfrom(recordId);
+						hbDataLatest.setItime(nowDate);
+						hbDataLatest.setUtime(nowDate);
+						hbDataLatestMapper.insertSelective(hbDataLatest);
+
+						HBDataLatestKey hbDataLatestKey = new HBDataLatestKey();
+						hbDataLatestKey.setNodeMn(hbDataMode.getNodeMn());
+						hbDataLatestMapper.deleteOldestOne(hbDataLatestKey);
+						hbDataLatestMapper.updateIndexReduce(hbDataLatestKey);
+					}
+				} catch (Exception e) {
+					hbDataRecord.setPrflag(0);
+					hbDataRecord.setPrexp(CommUtil.getMessageFromException(e));
+					LOG.error(e);
+					throw e;
+				}
+			}
 		} catch (Exception e) {
 			if (message.getTryTimes() >= 5) {
 				LOG.error("Deal the message failed 5 times, remove it. Message: " + message.getMessageBodyTailor());
-				return true;
 			} else {
 				LOG.error(e);
-				return false;
 			}
+			throw e;
 		}
 	}
 

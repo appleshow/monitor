@@ -63,7 +63,7 @@ public class NioServerIoHandler implements IoHandler {
 				message.setFromHost("Host: " + paramIoSession.getRemoteAddress());
 				message.increaseTryTimes();
 
-				Cache.put(message);
+				Cache.getCache().offer(message);
 				LOG.debug("Received " + message.getFromHost() + " -> " + charBuffer.toString());
 			} catch (CharacterCodingException e) {
 				LOG.error(e);

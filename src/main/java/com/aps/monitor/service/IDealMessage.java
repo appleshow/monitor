@@ -1,6 +1,5 @@
 package com.aps.monitor.service;
 
-import com.aps.monitor.cache.CacheKey;
 import com.aps.monitor.data.Message;
 
 /**
@@ -14,5 +13,5 @@ import com.aps.monitor.data.Message;
  * @since 1.0.0
  */
 public interface IDealMessage {
-	boolean saveMessage(CacheKey cacheKey, Message message);
+	void saveMessage(Message message);
 }

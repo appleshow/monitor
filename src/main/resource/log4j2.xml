@@ -32,7 +32,7 @@
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>
-		<RollingFile name="dealMessage212" fileName="${LOG_HOME}/dealMessage/dealMessage212.log" filePattern="${LOG_HOME}/dealMessage212/$${date:yyyy-MM}/communication-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="dealMessage212" fileName="${LOG_HOME}/dealMessage212/dealMessage212.log" filePattern="${LOG_HOME}/dealMessage212/$${date:yyyy-MM}/dealMessage212-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="${PATTENR}"/>
 			<SizeBasedTriggeringPolicy size="2 MB"/>
 		</RollingFile>

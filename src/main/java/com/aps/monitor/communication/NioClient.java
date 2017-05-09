@@ -23,7 +23,7 @@ import com.aps.monitor.comm.CommUtil;
  */
 public class NioClient {
 	private static final Logger LOG = LogManager.getLogger(NioClient.class);
-	private final NioTcpClient nioTcpClient;
+	private NioTcpClient nioTcpClient;
 
 	public NioClient() {
 		nioTcpClient = new NioTcpClient();
@@ -48,6 +48,9 @@ public class NioClient {
 			IoSession ioSession = ioFuture.get();
 			Thread.sleep(1000);
 			ioSession.close(true);
+			ioFuture.cancel(true);
+			nioTcpClient.disconnect();
+			nioTcpClient = null;
 		} catch (Exception e) {
 			LOG.error(e);
 			return false;

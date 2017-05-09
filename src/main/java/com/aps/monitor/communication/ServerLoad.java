@@ -3,7 +3,6 @@ package com.aps.monitor.communication;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.aps.monitor.cache.Cache;
 import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.schedule.Schedule;
 
@@ -22,7 +21,6 @@ public class ServerLoad implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent arg0) {
 		NioServer.stop();
 		Schedule.stop();
-		Cache.close();
 	}
 
 	@Override
