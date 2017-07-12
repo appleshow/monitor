@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_monitor" default="compile.module.monitor">
+  <dirname property="module.monitor.basedir" file="${ant.file.module_monitor}"/>
+  
+  <property name="module.jdk.home.monitor" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.monitor" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.monitor" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.monitor" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="monitor.output.dir" value="${module.monitor.basedir}/target/classes"/>
+  <property name="monitor.testoutput.dir" value="${module.monitor.basedir}/target/test-classes"/>
+  
+  <path id="monitor.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="monitor.module.production.classpath">
+    <path refid="${module.jdk.classpath.monitor}"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.2.2.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.2.2.release.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.7.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-core:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-web:2.4.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.0.b2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.5.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.2.3.classpath"/>
+    <path refid="library.maven:_com.mchange:c3p0:0.9.5.1.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.10.classpath"/>
+    <path refid="library.maven:_com.oracle:ojdbc14:10.2.0.4.0.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:19.0.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-core:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-codec:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:4.1.3.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:0.9.4.classpath"/>
+    <path refid="library.tomcat_9.0.0.m15.classpath"/>
+  </path>
+  
+  <path id="monitor.runtime.production.module.classpath">
+    <pathelement location="${monitor.output.dir}"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.2.2.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.2.2.release.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.7.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-core:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-web:2.4.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.0.b2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.5.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.2.3.classpath"/>
+    <path refid="library.maven:_com.mchange:c3p0:0.9.5.1.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.10.classpath"/>
+    <path refid="library.maven:_com.oracle:ojdbc14:10.2.0.4.0.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:19.0.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-core:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-codec:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:4.1.3.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:0.9.4.classpath"/>
+  </path>
+  
+  <path id="monitor.module.classpath">
+    <path refid="${module.jdk.classpath.monitor}"/>
+    <pathelement location="${monitor.output.dir}"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.2.2.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.2.2.release.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.7.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-core:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-web:2.4.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.0.b2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.5.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.2.3.classpath"/>
+    <path refid="library.maven:_com.mchange:c3p0:0.9.5.1.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.10.classpath"/>
+    <path refid="library.maven:_com.oracle:ojdbc14:10.2.0.4.0.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:19.0.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-core:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-codec:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:4.1.3.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:0.9.4.classpath"/>
+    <path refid="library.tomcat_9.0.0.m15.classpath"/>
+  </path>
+  
+  <path id="monitor.runtime.module.classpath">
+    <pathelement location="${monitor.testoutput.dir}"/>
+    <pathelement location="${monitor.output.dir}"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.2.2.release.classpath"/>
+    <path refid="library.maven:_aopalliance:aopalliance:1.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.2.2.release.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-webmvc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aspects:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.aspectj:aspectjweaver:1.8.7.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.2.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-core:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.4.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-web:2.4.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_dom4j:dom4j:1.6.1.classpath"/>
+    <path refid="library.maven:_xml-apis:xml-apis:1.0.b2.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.5.3.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.5.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.2.3.classpath"/>
+    <path refid="library.maven:_com.mchange:c3p0:0.9.5.1.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.10.classpath"/>
+    <path refid="library.maven:_com.oracle:ojdbc14:10.2.0.4.0.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_javax.servlet:jstl:1.2.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:19.0.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-core:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.apache.mina:mina-codec:3.0.0-m2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:4.1.3.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:0.9.4.classpath"/>
+    <path refid="library.tomcat_9.0.0.m15.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.monitor">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.monitor">
+    <patternset refid="excluded.from.module.monitor"/>
+  </patternset>
+  
+  <path id="monitor.module.sourcepath">
+    <dirset dir="${module.monitor.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resource"/>
+    </dirset>
+  </path>
+  
+  <path id="monitor.module.test.sourcepath">
+    <dirset dir="${module.monitor.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.monitor" depends="compile.module.monitor.production,compile.module.monitor.tests" description="Compile module monitor"/>
+  
+  <target name="compile.module.monitor.production" depends="register.custom.compilers" description="Compile module monitor; production classes">
+    <mkdir dir="${monitor.output.dir}"/>
+    <javac2 destdir="${monitor.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.monitor}/javac">
+      <compilerarg line="${compiler.args.monitor}"/>
+      <bootclasspath refid="monitor.module.bootclasspath"/>
+      <classpath refid="monitor.module.production.classpath"/>
+      <src refid="monitor.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.monitor"/>
+    </javac2>
+    
+    <copy todir="${monitor.output.dir}">
+      <fileset dir="${module.monitor.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.monitor.basedir}/src/main/resource">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.monitor.tests" depends="register.custom.compilers,compile.module.monitor.production" description="compile module monitor; test classes" unless="skip.tests">
+    <mkdir dir="${monitor.testoutput.dir}"/>
+    <javac2 destdir="${monitor.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.monitor}/javac">
+      <compilerarg line="${compiler.args.monitor}"/>
+      <bootclasspath refid="monitor.module.bootclasspath"/>
+      <classpath refid="monitor.module.classpath"/>
+      <src refid="monitor.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.monitor"/>
+    </javac2>
+    
+    <copy todir="${monitor.testoutput.dir}">
+      <fileset dir="${module.monitor.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.monitor" description="cleanup module">
+    <delete dir="${monitor.output.dir}"/>
+    <delete dir="${monitor.testoutput.dir}"/>
+  </target>
+</project>

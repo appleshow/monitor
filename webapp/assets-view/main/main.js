@@ -570,7 +570,7 @@ function showPage(url, name, id, icon) {
  */
 function refreshPage() {
 	if (pageurl != "undefined" && pageurl != "") {
-		var localUrl = "main.showPage?url=" + pag;
+		var localUrl = "main.showPage?url=" + pageurl;
 		if ("index.html" == localUrl) {
 			location.href = localUrl;
 		} else {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EclipseCodeFormatterProjectSettings">
+    <option name="selectedGlobalProfile">
+      <Settings>
+        <option name="enableJSFormatting" value="true" />
+        <option name="formatter" value="ECLIPSE" />
+        <option name="id" value="1495517831660" />
+        <option name="name" value="default" />
+        <option name="pathToConfigFileJS" value="$PROJECT_DIR$/../../Eclipse JS Code Formatter.xml" />
+        <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../../Eclipse Java Code Formatter.xml" />
+        <option name="selectedJavaProfile" value="O" />
+        <option name="selectedJavaScriptProfile" value="JS" />
+      </Settings>
+    </option>
+  </component>
+</project>

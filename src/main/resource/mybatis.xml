@@ -6,24 +6,24 @@
 		<setting name="logImpl" value="LOG4J2"/>
 	</settings>
 	<mappers>
-		<mapper resource="com/aps/monitor/mapper/ComCodeMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComFormMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComFormRightsMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComMenuMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComOrgMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComOrgFormMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComOrgFormRightsMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComPersonMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComPersonOrgMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComFormMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComPageShowMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/ComResorceMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbTypeMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbTypeItemMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbNodeMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbDataTableMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbDataLatestMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbDataModeMapper.xml"/>
-		<mapper resource="com/aps/monitor/mapper/HbDataRecordMapper.xml"/>
+		<mapper resource="mapper/ComCodeMapper.xml"/>
+		<mapper resource="mapper/ComFormMapper.xml"/>
+		<mapper resource="mapper/ComFormRightsMapper.xml"/>
+		<mapper resource="mapper/ComMenuMapper.xml"/>
+		<mapper resource="mapper/ComOrgMapper.xml"/>
+		<mapper resource="mapper/ComOrgFormMapper.xml"/>
+		<mapper resource="mapper/ComOrgFormRightsMapper.xml"/>
+		<mapper resource="mapper/ComPersonMapper.xml"/>
+		<mapper resource="mapper/ComPersonOrgMapper.xml"/>
+		<mapper resource="mapper/ComFormMapper.xml"/>
+		<mapper resource="mapper/ComPageShowMapper.xml"/>
+		<mapper resource="mapper/ComResorceMapper.xml"/>
+		<mapper resource="mapper/HbTypeMapper.xml"/>
+		<mapper resource="mapper/HbTypeItemMapper.xml"/>
+		<mapper resource="mapper/HbNodeMapper.xml"/>
+		<mapper resource="mapper/HbDataTableMapper.xml"/>
+		<mapper resource="mapper/HbDataLatestMapper.xml"/>
+		<mapper resource="mapper/HbDataModeMapper.xml"/>
+		<mapper resource="mapper/HbDataRecordMapper.xml"/>
 	</mappers>
 </configuration>

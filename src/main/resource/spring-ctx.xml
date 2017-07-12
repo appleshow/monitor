@@ -12,20 +12,7 @@
        http://www.springframework.org/schema/aop  
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<!-- dataSource -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<!--  <property name="jdbcUrl" value="jdbc:mysql://16.178.149.168:3306/monitor"/> -->
-		<!-- <property name="jdbcUrl" value="jdbc:mysql://192.168.0.105:3306/monitor"/>  -->
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/monitor"/>
-		<property name="user" value="admin"/>
-		<property name="password" value="asdiop"/>
-		<property name="initialPoolSize" value="1"/>
-		<property name="minPoolSize" value="1"/>
-		<property name="maxPoolSize" value="10"/>
-		<property name="acquireIncrement" value="5"/>
-		<property name="maxIdleTime" value="10"/>
-		<property name="maxStatements" value="0"/>
-	</bean>
+	<import resource="classpath:dataSource-${ENV_NAME}.xml" />
 	<!-- 防止事务失效，此处对所有Service进行扫描 -->
 	<context:component-scan base-package="com.aps.monitor.service.impl">
 	</context:component-scan>

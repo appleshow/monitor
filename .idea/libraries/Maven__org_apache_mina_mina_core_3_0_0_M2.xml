@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.mina:mina-core:3.0.0-M2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../99Program/apache-maven-3.3.9/repository/org/apache/mina/mina-core/3.0.0-M2/mina-core-3.0.0-M2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../../99Program/apache-maven-3.3.9/repository/org/apache/mina/mina-core/3.0.0-M2/mina-core-3.0.0-M2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../99Program/apache-maven-3.3.9/repository/org/apache/mina/mina-core/3.0.0-M2/mina-core-3.0.0-M2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

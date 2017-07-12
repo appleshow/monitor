@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="off">
 	<properties>
-		<property name="LOG_HOME">e:/logs</property>
+		<property name="LOG_HOME">c:/logs</property>
 		<property name="PATTENR">## 【%-5level】 %d{yyyy-MM-dd HH:mm:ss} %C.%M(L:%L)%n>>%msg%n</property>
 	</properties>
 	<appenders>
