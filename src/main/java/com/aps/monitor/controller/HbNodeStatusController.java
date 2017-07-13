@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbNodeStatusService;
 
 /**
@@ -32,26 +26,20 @@ public class HbNodeStatusController {
 	private final int formId = 16;
 
 	/**
-	 * 查询站点状态
 	 * 
-	 * @Title: refNodeStatus
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
-	 * @return String
-	 * @throws:
-	 * @since 1.0.0
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbNodeStatusController.refNodeStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public String refNodeStatus(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData refNodeStatus(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refNodeStatus", responseData)) {
-			hbNodeStatusService.refNodeStatus(httpSession, inPar, responseData);
+			hbNodeStatusService.refNodeStatus(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

@@ -46,6 +46,9 @@ DataSourceTree.prototype = {
 							typeId : treeId
 						} ),
 						dataType : "json",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
 						success : function(res) {
 							if ( res.code != 0 ) {
 								callback( {
@@ -101,6 +104,9 @@ DataSourceTree.prototype = {
 					cache : false,
 					data : ServerRequestPar( 0, {} ),
 					dataType : "json",
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
 					success : function(res) {
 						if ( res.code != 0 ) {
 							callback( {
@@ -429,6 +435,9 @@ function dataTableAjax(data, callback, settings) {
 			pageSize : data.length == -1 ? 0 : data.length
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );

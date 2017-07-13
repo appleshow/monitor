@@ -53,22 +53,13 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 	private HbDataModeMapper hbDataModeMapper;
 
 	/**
-	 * 
-	 * <p>
-	 * Title: referHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
+	 *
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbDataContrastService#referHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbType(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
 		HbTypeItem hbTypeItem = new HbTypeItem();
@@ -85,24 +76,14 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referHbNode
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbDataContrastService#referHbNode(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbNode hbNode = new HbNode();
 		List<HbNode> hbNodes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbNode.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbNode.setNodeId(requestRefPar.getIntegerPar("nodeId"));
@@ -114,23 +95,13 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbData
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @throws ParseException
-	 * @see com.aps.monitor.service.IHbDataStatisticsService#refHbData(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void refHbData(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
-		final RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
+	public void refHbData(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) throws ParseException {
 		final Date dateFrom = DateUtil.fromString(requestRefPar.getStringPar("dateStr"), DateUtil.SIMPLE_DATE_FORMAT1);
 		final Date dateTo = DateUtil.fromString(requestRefPar.getStringPar("dateEnd"), DateUtil.SIMPLE_DATE_FORMAT1);
 		final HbNode hbNode = CommUtil.getHbNodeCache().get(CommUtil.getHbNodeCacheMNfromID(requestRefPar.getIntegerPar("nodeId")));
@@ -170,18 +141,13 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 	}
 
 	/**
-	 * 查询数据相关信息
-	 * 
-	 * @Title: findNodeDataInfo
-	 * @Description: TODO
+	 *
 	 * @param hbTypeItems
 	 * @param hbNode
 	 * @param dataType
-	 * @param fromDate
-	 * @param toDate
-	 * @return List<ObjectNode>
-	 * @throws:
-	 * @since 1.0.0
+	 * @param dateFrom
+	 * @param dateTo
+	 * @return
 	 */
 	private List<ObjectNode> findNodeDataInfo(List<HbTypeItem> hbTypeItems, HbNode hbNode, String dataType, Date dateFrom, Date dateTo) {
 		final HbDataTable hbDataTable = new HbDataTable();
@@ -229,7 +195,7 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 				nodeItems.fieldNames().forEachRemaining(parName -> {
 					final JsonNode parInfo = nodeItems.get(parName);
 					if (parInfo.get("select").asInt() == 1) {
-						//Find min and max value from setting
+						// Find min and max value from setting
 						final float minValue, maxValue;
 						if (!StringUtil.isNullOrEmpty(parInfo.get("itemVmin").asText())) {
 							minValue = (float) parInfo.get("itemVmin").asDouble();
@@ -241,7 +207,7 @@ public class HbDataStatisticsServiceImpl implements IHbDataStatisticsService {
 						} else {
 							maxValue = Float.MAX_VALUE;
 						}
-						//Check each row
+						// Check each row
 						final ObjectNode checkParInfo = JsonUtil.getObjectNodeInstance();
 						checkParInfo.put("itemId", parName);
 						checkParInfo.put("itemName", findParName(hbTypeItems, hbNode, parName));

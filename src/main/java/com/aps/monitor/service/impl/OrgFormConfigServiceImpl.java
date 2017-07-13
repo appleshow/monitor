@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComCodeMapper;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComFormRightsMapper;
@@ -45,21 +41,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
@@ -69,21 +56,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referForm
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referForm(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referForm(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referForm(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComForm comForm = new ComForm();
 		List<ComForm> comForms;
 
@@ -93,24 +71,14 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referOrgForm
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referOrgForm(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referOrgForm(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrgForm(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComOrgForm comOrgForm = new ComOrgForm();
 		List<ComOrgForm> comOrgForms;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comOrgForm.setOrgId(requestRefPar.getIntegerPar("orgId"));
 		comOrgForm.setFormId(requestRefPar.getIntegerPar("formId"));
@@ -120,24 +88,14 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referFormRights
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referFormRights(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referFormRights(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComFormRights comFormRights = new ComFormRights();
 		List<ComFormRights> comFormRightss;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
 		comFormRightss = comFormRightsMapper.selectByCondition(comFormRights);
@@ -146,24 +104,14 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referOrgFormRights
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referOrgFormRights(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrgFormRights(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComOrgFormRights comOrgFormRights = new ComOrgFormRights();
 		List<ComOrgFormRights> comOrgFormRightss;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comOrgFormRights.setFormId(requestRefPar.getIntegerPar("formId"));
 		comOrgFormRights.setOrgId(requestRefPar.getIntegerPar("orgId"));
@@ -173,21 +121,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referComCode
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#referComCode(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referCombCode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referCombCode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComCode comCode = new ComCode();
 		List<ComCode> comCodes;
 
@@ -198,21 +137,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyComOrgForm
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#modifyComOrgForm(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyOrgForm(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyOrgForm(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -221,7 +151,6 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		ComOrgForm comOrgForm;
 		ComOrgFormRights comOrgFormRights;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -229,26 +158,26 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 			if (null != comOrgForm) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comOrgForm.setItime(now);
-						comOrgForm.setIperson(personId);
-						comOrgForm.setUtime(now);
-						comOrgForm.setUperson(personId);
-						comOrgFormMapper.insertSelective(comOrgForm);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						comOrgFormMapper.deleteByPrimaryKey(comOrgForm);
-						comOrgFormRights = new ComOrgFormRights();
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comOrgForm.setItime(now);
+					comOrgForm.setIperson(personId);
+					comOrgForm.setUtime(now);
+					comOrgForm.setUperson(personId);
+					comOrgFormMapper.insertSelective(comOrgForm);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					comOrgFormMapper.deleteByPrimaryKey(comOrgForm);
+					comOrgFormRights = new ComOrgFormRights();
 
-						comOrgFormRights.setOrgId(comOrgForm.getOrgId());
-						comOrgFormRights.setFormId(comOrgForm.getFormId());
+					comOrgFormRights.setOrgId(comOrgForm.getOrgId());
+					comOrgFormRights.setFormId(comOrgForm.getFormId());
 
-						comOrgFormRightsMapper.deleteByPrimaryKey(comOrgFormRights);
-						break;
-					default:
-						break;
+					comOrgFormRightsMapper.deleteByPrimaryKey(comOrgFormRights);
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;
@@ -266,21 +195,12 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyComOrgFormRights
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgFormConfigService#modifyComOrgFormRights(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyOrgFormRights(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyOrgFormRights(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -288,7 +208,6 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 		Map<String, String> rowData;
 		ComOrgFormRights comOrgFormRights;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -296,34 +215,34 @@ public class OrgFormConfigServiceImpl implements IOrgFormConfigService {
 			if (null != comOrgFormRights) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comOrgFormRights.setItime(now);
-						comOrgFormRights.setIperson(personId);
-						comOrgFormRights.setUtime(now);
-						comOrgFormRights.setUperson(personId);
-						if (null == comOrgFormRights.getRea()) {
-							comOrgFormRights.setRea(0);
-						}
-						if (null == comOrgFormRights.getR1()) {
-							comOrgFormRights.setR1(0);
-						}
-						if (null == comOrgFormRights.getR2()) {
-							comOrgFormRights.setR2(0);
-						}
-						if (null == comOrgFormRights.getR3()) {
-							comOrgFormRights.setR3(0);
-						}
-						comOrgFormRightsMapper.insertSelective(comOrgFormRights);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						comOrgFormRights.setUtime(now);
-						comOrgFormRights.setUperson(personId);
-						comOrgFormRightsMapper.updateByPrimaryKeySelective(comOrgFormRights);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						break;
-					default:
-						break;
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comOrgFormRights.setItime(now);
+					comOrgFormRights.setIperson(personId);
+					comOrgFormRights.setUtime(now);
+					comOrgFormRights.setUperson(personId);
+					if (null == comOrgFormRights.getRea()) {
+						comOrgFormRights.setRea(0);
+					}
+					if (null == comOrgFormRights.getR1()) {
+						comOrgFormRights.setR1(0);
+					}
+					if (null == comOrgFormRights.getR2()) {
+						comOrgFormRights.setR2(0);
+					}
+					if (null == comOrgFormRights.getR3()) {
+						comOrgFormRights.setR3(0);
+					}
+					comOrgFormRightsMapper.insertSelective(comOrgFormRights);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					comOrgFormRights.setUtime(now);
+					comOrgFormRights.setUperson(personId);
+					comOrgFormRightsMapper.updateByPrimaryKeySelective(comOrgFormRights);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

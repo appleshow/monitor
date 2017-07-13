@@ -2,6 +2,8 @@ package com.aps.monitor.service;
 
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.RequestMdyPar;
+import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
 
 /**
@@ -14,11 +16,11 @@ import com.aps.monitor.comm.ResponseData;
  * @since 1.0.0
  */
 public interface IHbNodeAccessService {
-	void refOrg(HttpSession httpSession, String inPar, ResponseData responseData);
+	void refOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData);
 
-	void refNode(HttpSession httpSession, String inPar, ResponseData responseData);
+	void refNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData);
 
-	void refNodeAccess(HttpSession httpSession, String inPar, ResponseData responseData);
+	void refNodeAccess(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData);
 
-	void modifyNodeAccess(HttpSession httpSession, String inPar, ResponseData responseData);
+	void modifyNodeAccess(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData);
 }

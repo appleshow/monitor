@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbTypeItemConfigService;
 
 /**
@@ -32,79 +26,55 @@ public class HbTypeItemConfigContoller extends BaseController {
 
 	/**
 	 * 
-	 * @Title: referHbType
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.referHbType", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbType(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
-			hbTypeItemConfigService.referHbType(httpSession, inPar, responseData);
+			hbTypeItemConfigService.referHbType(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: referHbTypeItem
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.referHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbTypeItem(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbTypeItem", responseData)) {
-			hbTypeItemConfigService.referHbTypeItem(httpSession, inPar, responseData);
+			hbTypeItemConfigService.referHbTypeItem(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: modifyHbTypeItem
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbTypeItemConfig.modifyHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData modifyHbTypeItem(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyHbTypeItem", responseData)) {
-			hbTypeItemConfigService.modifyHbTypeItem(httpSession, inPar, responseData);
+			hbTypeItemConfigService.modifyHbTypeItem(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

@@ -875,6 +875,9 @@
 					url : vUrl,
 					type : 'POST',
 					dataType : 'json',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
 					data : $.extend({
 						key : vKey
 					}, extraData),
@@ -1157,6 +1160,9 @@
 				url : self.uploadUrl,
 				type : 'POST',
 				dataType : 'json',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
 				data : self.formdata,
 				cache : false,
 				processData : false,

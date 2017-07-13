@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComPageShowMapper;
 import com.aps.monitor.model.ComForm;
@@ -31,21 +27,12 @@ public class PageShowServiceImpl implements IPageShowService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referAllForms
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#referAllForms(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referAllForms(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referAllForms(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComForm comForm = new ComForm();
 		List<ComForm> comForms;
 
@@ -56,24 +43,14 @@ public class PageShowServiceImpl implements IPageShowService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#referHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referPageShow(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referPageShow(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComPageShow comPageShow = new ComPageShow();
 		List<ComPageShow> comPageShows;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		PageInfo<ComPageShow> pageInfo;
 
 		comPageShow.setPageId(requestRefPar.getIntegerPar("pageId"));
@@ -87,21 +64,12 @@ public class PageShowServiceImpl implements IPageShowService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPageShowService#modifyHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyPageShow(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyPageShow(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -109,7 +77,6 @@ public class PageShowServiceImpl implements IPageShowService {
 		Map<String, String> rowData;
 		ComPageShow comPageShow;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -117,21 +84,21 @@ public class PageShowServiceImpl implements IPageShowService {
 			if (null != comPageShow) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comPageShow.setItime(now);
-						comPageShow.setIperson(personId);
-						comPageShow.setUtime(now);
-						comPageShow.setUperson(personId);
-						comPageShowMapper.insertSelective(comPageShow);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						comPageShowMapper.updateByPrimaryKeySelective(comPageShow);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						comPageShowMapper.deleteByPrimaryKey(comPageShow);
-						break;
-					default:
-						break;
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comPageShow.setItime(now);
+					comPageShow.setIperson(personId);
+					comPageShow.setUtime(now);
+					comPageShow.setUperson(personId);
+					comPageShowMapper.insertSelective(comPageShow);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					comPageShowMapper.updateByPrimaryKeySelective(comPageShow);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					comPageShowMapper.deleteByPrimaryKey(comPageShow);
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

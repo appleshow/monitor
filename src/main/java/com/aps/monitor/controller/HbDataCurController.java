@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataCurService;
 
 /**
@@ -32,53 +26,37 @@ public class HbDataCurController {
 
 	/**
 	 * 
-	 * @Title: refHbNode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbDataCurController.refHbNode", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData refHbNode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbNode", responseData)) {
-			hbDataCurService.refHbNode(httpSession, inPar, responseData);
+			hbDataCurService.refHbNode(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refHbDataLatest
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbDataCurController.refHbDataLatest", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbDataLatest(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData refHbDataLatest(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataLatest", responseData)) {
-			hbDataCurService.refHbDataLatest(httpSession, inPar, responseData);
+			hbDataCurService.refHbDataLatest(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

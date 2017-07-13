@@ -27,8 +27,11 @@ function pageIni() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+        headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -78,15 +81,17 @@ function pageIni() {
 
 	dgPage.dbinf.query = {
 		url : "formConfig.referForm",
-		inpar : [ {
-			type : "jtext",
-			name : "prgroup",
-			crtl : $('#prgroup')
-		}, {
-			type : "jtext",
-			name : "formName",
-			crtl : $('#form_name')
-		}, ]
+		inpar : [
+				{
+					type : "jtext",
+					name : "prgroup",
+					crtl : $('#prgroup')
+				}, {
+					type : "jtext",
+					name : "formName",
+					crtl : $('#form_name')
+				},
+		]
 	};
 
 	dgPage.dbinf.modify = {
@@ -108,7 +113,9 @@ function pageIni() {
 		singleSelect : true,
 		// idField : 'ROWINDEX',
 		pagination : true,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -172,48 +179,50 @@ function pageIni() {
 			}
 		},
 
-		toolbar : [ {
-			text : '查询',
-			disabled : false,
-			iconCls : 'icon-reload',
-			handler : function() {
-				dgPage.doRefer();
-			}
-		}, '-', {
-			text : '保存',
-			disabled : false,
-			iconCls : 'icon-save',
-			handler : function() {
-				if (pageEERow(true)) {
-					dgPage.doModify();
+		toolbar : [
+				{
+					text : '查询',
+					disabled : false,
+					iconCls : 'icon-reload',
+					handler : function() {
+						dgPage.doRefer();
+					}
+				}, '-', {
+					text : '保存',
+					disabled : false,
+					iconCls : 'icon-save',
+					handler : function() {
+						if (pageEERow(true)) {
+							dgPage.doModify();
+						}
+					}
+				}, "-", {
+					text : '新增',
+					disabled : false,
+					iconCls : 'icon-add',
+					handler : function() {
+						if (pageEERow(true)) {
+							dgPage.doInsert(null, []);
+						}
+					}
+				}, '-', {
+					text : '删除',
+					disabled : false,
+					iconCls : 'icon-remove',
+					handler : function() {
+						if (pageEERow(true)) {
+							dgPage.doDelete(null);
+						}
+					}
+				}, '-', {
+					text : '撤销',
+					disabled : false,
+					iconCls : 'icon-undo',
+					handler : function() {
+						dgPage.doCancel(null);
+					}
 				}
-			}
-		}, "-", {
-			text : '新增',
-			disabled : false,
-			iconCls : 'icon-add',
-			handler : function() {
-				if (pageEERow(true)) {
-					dgPage.doInsert(null, []);
-				}
-			}
-		}, '-', {
-			text : '删除',
-			disabled : false,
-			iconCls : 'icon-remove',
-			handler : function() {
-				if (pageEERow(true)) {
-					dgPage.doDelete(null);
-				}
-			}
-		}, '-', {
-			text : '撤销',
-			disabled : false,
-			iconCls : 'icon-undo',
-			handler : function() {
-				dgPage.doCancel(null);
-			}
-		} ],
+		],
 	});
 
 	pg = dgPage.Grid.datagrid("getPager");
@@ -287,11 +296,13 @@ function pageIni() {
 
 	dgPageCTL.dbinf.query = {
 		url : "formConfig.referFormRight",
-		inpar : [ {
-			type : "text",
-			name : "formId",
-			crtl : $obj("form_id")
-		} ]
+		inpar : [
+			{
+				type : "text",
+				name : "formId",
+				crtl : $obj("form_id")
+			}
+		]
 	};
 
 	dgPageCTL.dbinf.modify = {
@@ -312,7 +323,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : true,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -377,70 +390,72 @@ function pageIni() {
 			}
 		},
 
-		toolbar : [ {
-			text : '查询',
-			disabled : false,
-			iconCls : 'icon-reload',
-			handler : function() {
-				var selectrows = dgPage.Grid.datagrid("getChecked");
+		toolbar : [
+				{
+					text : '查询',
+					disabled : false,
+					iconCls : 'icon-reload',
+					handler : function() {
+						var selectrows = dgPage.Grid.datagrid("getChecked");
 
-				if (selectrows.length == 0) {
-					$smsg("请先选择一个界面...!!", "I");
-				} else {
-					$obj("form_id").value = selectrows[0].formId;
-					$obj("form_name").value = selectrows[0].formName;
-					dgPageCTL.doRefer();
-				}
-			}
-		}, '-', {
-			text : '保存',
-			disabled : false,
-			iconCls : 'icon-save',
-			handler : function() {
-				if (pageCTLEERow(true)) {
-					dgPageCTL.doModify();
-				}
-			}
-		}, "-", {
-			text : '新增',
-			disabled : false,
-			iconCls : 'icon-add',
-			handler : function() {
-				if (pageCTLEERow(true)) {
-					var selectrows = dgPage.Grid.datagrid("getChecked");
+						if (selectrows.length == 0) {
+							$smsg("请先选择一个界面...!!", "I");
+						} else {
+							$obj("form_id").value = selectrows[0].formId;
+							$obj("form_name").value = selectrows[0].formName;
+							dgPageCTL.doRefer();
+						}
+					}
+				}, '-', {
+					text : '保存',
+					disabled : false,
+					iconCls : 'icon-save',
+					handler : function() {
+						if (pageCTLEERow(true)) {
+							dgPageCTL.doModify();
+						}
+					}
+				}, "-", {
+					text : '新增',
+					disabled : false,
+					iconCls : 'icon-add',
+					handler : function() {
+						if (pageCTLEERow(true)) {
+							var selectrows = dgPage.Grid.datagrid("getChecked");
 
-					if (selectrows.length == 0) {
-						$smsg("请先选择一个界面...!!", "I");
-					} else {
-						$obj("form_id").value = selectrows[0].formId;
-						$obj("form_name").value = selectrows[0].formName;
-						dgPageCTL.doInsert(null, {
-							formId : $obj("form_id").value,
-							formName : $obj("form_name").value
-						});
+							if (selectrows.length == 0) {
+								$smsg("请先选择一个界面...!!", "I");
+							} else {
+								$obj("form_id").value = selectrows[0].formId;
+								$obj("form_name").value = selectrows[0].formName;
+								dgPageCTL.doInsert(null, {
+									formId : $obj("form_id").value,
+									formName : $obj("form_name").value
+								});
 
-						// SetCellValue(dgPageCTL, dgPageCTL.crteditrow, "form_id", $obj("form_id").value);
-						// SetCellValue(dgPageCTL, dgPageCTL.crteditrow, "form_name", $obj("form_name").value);
+								// SetCellValue(dgPageCTL, dgPageCTL.crteditrow, "form_id", $obj("form_id").value);
+								// SetCellValue(dgPageCTL, dgPageCTL.crteditrow, "form_name", $obj("form_name").value);
+							}
+						}
+					}
+				}, '-', {
+					text : '删除',
+					disabled : false,
+					iconCls : 'icon-remove',
+					handler : function() {
+						if (pageCTLEERow(true)) {
+							dgPageCTL.doDelete(null);
+						}
+					}
+				}, '-', {
+					text : '撤销',
+					disabled : false,
+					iconCls : 'icon-undo',
+					handler : function() {
+						dgPageCTL.doCancel(null);
 					}
 				}
-			}
-		}, '-', {
-			text : '删除',
-			disabled : false,
-			iconCls : 'icon-remove',
-			handler : function() {
-				if (pageCTLEERow(true)) {
-					dgPageCTL.doDelete(null);
-				}
-			}
-		}, '-', {
-			text : '撤销',
-			disabled : false,
-			iconCls : 'icon-undo',
-			handler : function() {
-				dgPageCTL.doCancel(null);
-			}
-		} ],
+		],
 	});
 
 	pg = dgPageCTL.Grid.datagrid("getPager");

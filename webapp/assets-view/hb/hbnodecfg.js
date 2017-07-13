@@ -22,7 +22,10 @@ DataSourceTree.prototype = {
 						data : ServerRequestPar(1, {
 							typeId : treeId
 						}),
-						dataType : "json",
+                        dataType : "json",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
 						success : function(res) {
 							if (res.code != 0) {
 								callback({
@@ -79,7 +82,10 @@ DataSourceTree.prototype = {
 					url : url,
 					cache : false,
 					data : ServerRequestPar(0, {}),
-					dataType : "json",
+                    dataType : "json",
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
 					success : function(res) {
 						if (res.code != 0) {
 							callback({
@@ -165,7 +171,10 @@ function getHbTypeComb() {
 		url : "hbTypeItemConfig.referHbType",
 		cache : false,
 		data : ServerRequestPar(0, {}),
-		dataType : "json",
+        dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				callError(res.code, res.message);
@@ -316,7 +325,10 @@ function modifyNode() {
 		url : "hbNodeConfig.modifyHbNode",
 		cache : false,
 		data : serverRequestPar,
-		dataType : "json",
+        dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				$("#node-message").html(res.message);
@@ -391,7 +403,10 @@ function editorAjax(method, url, rows, callSuccess, callError) {
 		url : "hbNodeConfig.modifyHbNode",
 		cache : false,
 		data : ServerRequestPar(1, nodeItems),
-		dataType : "json",
+        dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				combNodeData = oldCombNodeData;

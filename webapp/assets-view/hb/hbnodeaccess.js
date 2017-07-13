@@ -30,6 +30,9 @@ DataSourceTree.prototype = {
 					farOrgId : farOrgId
 				} ),
 				dataType : "json",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
 				success : function(res) {
 					if ( res.code != 0 ) {
 						callback( {
@@ -92,6 +95,9 @@ jQuery( document ).ready( function() {
 			farOrgId : ''
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 			} else {
@@ -113,6 +119,9 @@ jQuery( document ).ready( function() {
 			nodeId : 0
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 			} else {
@@ -219,6 +228,9 @@ function dataTableAjax(data, callback, settings) {
 			pageSize : data.length == -1 ? 0 : data.length
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			var data = [];
 			tableData.recordsTotal = HBNodeAccess.hbNodes.length;

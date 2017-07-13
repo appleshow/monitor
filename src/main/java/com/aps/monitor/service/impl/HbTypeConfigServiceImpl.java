@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HbTypeMapper;
 import com.aps.monitor.model.HbType;
 import com.aps.monitor.service.IHbTypeConfigService;
@@ -36,25 +32,17 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbTypeConfigService#referHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.IHbTypeConfigService#referHbType(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbType(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
 		PageInfo<HbType> pageInfo;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
@@ -66,21 +54,14 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbTypeConfigService#modifyHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.IHbTypeConfigService#modifyHbType(HttpSession,
+	 *      RequestMdyPar, ResponseData)
 	 */
 	@Override
-	public void modifyHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyHbType(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -88,7 +69,6 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 		Map<String, String> rowData;
 		HbType hbType;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -96,24 +76,24 @@ public class HbTypeConfigServiceImpl implements IHbTypeConfigService {
 			if (null != hbType) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						hbType.setItime(now);
-						hbType.setIperson(personId);
-						hbType.setUtime(now);
-						hbType.setUperson(personId);
-						hbTypeMapper.insertSelective(hbType);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						hbType.setUtime(now);
-						hbType.setUperson(personId);
-						hbTypeMapper.updateByPrimaryKeySelective(hbType);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						hbTypeMapper.deleteByPrimaryKey(hbType.getTypeId());
+				case CommUtil.MODIFY_TYPE_INSERT:
+					hbType.setItime(now);
+					hbType.setIperson(personId);
+					hbType.setUtime(now);
+					hbType.setUperson(personId);
+					hbTypeMapper.insertSelective(hbType);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					hbType.setUtime(now);
+					hbType.setUperson(personId);
+					hbTypeMapper.updateByPrimaryKeySelective(hbType);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					hbTypeMapper.deleteByPrimaryKey(hbType.getTypeId());
 
-						break;
-					default:
-						break;
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

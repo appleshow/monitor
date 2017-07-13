@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HbTypeItemMapper;
 import com.aps.monitor.dao.HbTypeMapper;
 import com.aps.monitor.model.HbType;
@@ -31,21 +27,12 @@ public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referHbType
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbTypeItemConfigService#referHbType(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbType(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
 
@@ -55,25 +42,15 @@ public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referHbTypeItem
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbTypeItemConfigService#referHbTypeItem(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbTypeItem(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbTypeItem(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		List<HbTypeItem> hbTypeItems;
 		PageInfo<HbTypeItem> pageInfo;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbTypeItem.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbTypeItem.setItemId(requestRefPar.getStringPar("itemId"));
@@ -88,21 +65,12 @@ public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyHbTypeItem
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbTypeItemConfigService#modifyHbTypeItem(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyHbTypeItem(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyHbTypeItem(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -110,7 +78,6 @@ public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 		Map<String, String> rowData;
 		HbTypeItem hbTypeItem;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -118,24 +85,24 @@ public class HbTypeItemConfigServiceImpl implements IHbTypeItemConfigService {
 			if (null != hbTypeItem) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						hbTypeItem.setItime(now);
-						hbTypeItem.setIperson(personId);
-						hbTypeItem.setUtime(now);
-						hbTypeItem.setUperson(personId);
-						hbTypeItemMapper.insertSelective(hbTypeItem);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						hbTypeItem.setUtime(now);
-						hbTypeItem.setUperson(personId);
-						hbTypeItemMapper.updateByPrimaryKeySelective(hbTypeItem);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						hbTypeItemMapper.deleteByPrimaryKey(hbTypeItem);
+				case CommUtil.MODIFY_TYPE_INSERT:
+					hbTypeItem.setItime(now);
+					hbTypeItem.setIperson(personId);
+					hbTypeItem.setUtime(now);
+					hbTypeItem.setUperson(personId);
+					hbTypeItemMapper.insertSelective(hbTypeItem);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					hbTypeItem.setUtime(now);
+					hbTypeItem.setUperson(personId);
+					hbTypeItemMapper.updateByPrimaryKeySelective(hbTypeItem);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					hbTypeItemMapper.deleteByPrimaryKey(hbTypeItem);
 
-						break;
-					default:
-						break;
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

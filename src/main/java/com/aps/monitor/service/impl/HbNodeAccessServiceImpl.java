@@ -7,12 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.dao.ComResorceMapper;
 import com.aps.monitor.dao.HbNodeMapper;
@@ -48,20 +45,14 @@ public class HbNodeAccessServiceImpl implements IHbNodeAccessService {
 
 	/**
 	 * 
-	 * @Title: refOrg
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 *            void
-	 * @throws:
-	 * @since 1.0.0
 	 */
 	@Override
-	public void refOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		List<ComOrg> comOrgs;
 		ComOrg comOrg = new ComOrg();
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comOrg.setFarOrgId(requestRefPar.getIntegerPar("farOrgId"));
 		comOrgs = comOrgMapper.selectByFarOrgId(comOrg);
@@ -71,17 +62,12 @@ public class HbNodeAccessServiceImpl implements IHbNodeAccessService {
 
 	/**
 	 * 
-	 * @Title: refNode
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 *            void
-	 * @throws:
-	 * @since 1.0.0
 	 */
 	@Override
-	public void refNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		HbNode hbNode = new HbNode();
 		List<HbType> hbTypes;
@@ -96,22 +82,16 @@ public class HbNodeAccessServiceImpl implements IHbNodeAccessService {
 
 	/**
 	 * 
-	 * @Title: refNodeAccess
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 *            void
-	 * @throws:
-	 * @since 1.0.0
 	 */
 	@Override
-	public void refNodeAccess(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refNodeAccess(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		List<ComResorce> comResorces;
 		ComResorceExample comResorceExample = new ComResorceExample();
 		PageInfo<ComResorce> pageInfo;
 
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		comResorceExample.createCriteria().andResourceTypeAEqualTo("NODE").andResourceTypeBEqualTo(requestRefPar.getStringPar("resourceTypeB"));
 		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
 		comResorces = comResourceMapper.selectByExample(comResorceExample);
@@ -123,23 +103,17 @@ public class HbNodeAccessServiceImpl implements IHbNodeAccessService {
 
 	/**
 	 * 
-	 * @Title: modifyNodeAccess
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 *            void
-	 * @throws:
-	 * @since 1.0.0
 	 */
 	@Override
-	public void modifyNodeAccess(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyNodeAccess(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		Date now = new Date();
 		Map<String, String> rowData;
 		ComResorce comResorce;
 		boolean jsonParseException = false;
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);

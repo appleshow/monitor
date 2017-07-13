@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.ICodeConfigService;
 
 /**
@@ -34,52 +28,37 @@ public class CodeConfigController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: referCode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/codeConfig.referCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String referCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referCode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referCode", responseData)) {
-			codeConfigService.referCode(httpSession, inPar, responseData);
+			codeConfigService.referCode(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: modifyCode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inpar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/codeConfig.modifyCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyCode(HttpSession httpSession, @RequestParam("inf") String inpar) {
+	public ResponseData modifyCode(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyCode", responseData)) {
-			codeConfigService.modifyCode(httpSession, inpar, responseData);
+			codeConfigService.modifyCode(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

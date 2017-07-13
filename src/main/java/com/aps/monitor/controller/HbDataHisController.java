@@ -5,16 +5,10 @@ import java.text.ParseException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataHisService;
 
 /**
@@ -34,82 +28,57 @@ public class HbDataHisController {
 
 	/**
 	 * 
-	 * @Title: refHbNode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/HbDataHisController.refHbNode", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData refHbNode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbNode", responseData)) {
-			hbDataHisService.refHbNode(httpSession, inPar, responseData);
+			hbDataHisService.refHbNode(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refHbDataLatest
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 * @throws ParseException
-	 * @throws @since
-	 *             1.0.0
 	 */
 	@RequestMapping(value = "/HbDataHisController.refHbDataHis", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbDataHis(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
+	public ResponseData refHbDataHis(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHis", responseData)) {
-			hbDataHisService.refHbDataHis(httpSession, inPar, responseData);
+			hbDataHisService.refHbDataHis(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refHbDataHisGrid
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @param: @throws
-	 *             ParseException
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
+	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/HbDataHisController.refHbDataHisGrid", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbDataHisGrid(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
+	public ResponseData refHbDataHisGrid(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbDataHisGrid", responseData)) {
-			hbDataHisService.refHbDataHisGrid(httpSession, inPar, responseData);
+			hbDataHisService.refHbDataHisGrid(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

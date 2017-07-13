@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbNodeConfigService;
 
 @Controller
@@ -36,15 +30,15 @@ public class HbNodeConfigController {
 	 */
 	@RequestMapping(value = "/hbNodeConfig.referHbType", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbType(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
+		requestRefPar = StringUtil.conversionRequestReferData(requestRefPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
-			hbNodeConfigService.referHbType(httpSession, inPar, responseData);
+			hbNodeConfigService.referHbType(httpSession, requestRefPar, responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
@@ -62,15 +56,15 @@ public class HbNodeConfigController {
 	 */
 	@RequestMapping(value = "/hbNodeConfig.referHbTypeItem", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbTypeItem(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbTypeItem(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
+		requestRefPar = StringUtil.conversionRequestReferData(requestRefPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbTypeItem", responseData)) {
-			hbNodeConfigService.referHbTypeItem(httpSession, inPar, responseData);
+			hbNodeConfigService.referHbTypeItem(httpSession, requestRefPar, responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
@@ -88,15 +82,15 @@ public class HbNodeConfigController {
 	 */
 	@RequestMapping(value = "/hbNodeConfig.referHbNode", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbNode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
+		requestRefPar = StringUtil.conversionRequestReferData(requestRefPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbNode", responseData)) {
-			hbNodeConfigService.referHbNode(httpSession, inPar, responseData);
+			hbNodeConfigService.referHbNode(httpSession, requestRefPar, responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
@@ -114,14 +108,14 @@ public class HbNodeConfigController {
 	 */
 	@RequestMapping(value = "/hbNodeConfig.modifyHbNode", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData modifyHbNode(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
+		requestMdyPar = StringUtil.conversionRequestMdyData(requestMdyPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyHbNode", responseData)) {
-			hbNodeConfigService.modifyHbNode(httpSession, inPar, responseData);
+			hbNodeConfigService.modifyHbNode(httpSession, requestMdyPar, responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

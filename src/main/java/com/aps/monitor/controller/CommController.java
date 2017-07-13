@@ -3,11 +3,9 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.RequestRefPar;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.aps.monitor.comm.JsonUtil;
 import com.aps.monitor.comm.ResponseData;
@@ -21,25 +19,17 @@ public class CommController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: referCode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/comm.referPageShow", method = RequestMethod.POST)
 	@ResponseBody
-	public String referPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referPageShow(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
-		commService.referComPageShowByCondition(httpSession, inPar, responseData);
+		commService.referComPageShowByCondition(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

@@ -9,8 +9,9 @@ function ServerRequestPar(parCount, inPars) {
 		inPar : inPars
 	};
 
-	return "inf=" + JSON.stringify(par).replace(/%/g, "%25").replace(/\&/g, "%26").replace(/\+/g, "%2B");
+	return JSON.stringify(par).replace(/%/g, "%25").replace(/\&/g, "%26").replace(/\+/g, "%2B");
 }
+
 /**
  * @param data
  * @param keyName
@@ -122,6 +123,9 @@ function DataTablesColumnInfo(pageId, columnHeadName, callError) {
 			pageId : pageId
 		}),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				if (typeof (callError) != "undefined" && callError != null) {
@@ -376,6 +380,9 @@ function CommDataTables(tableName, columnHeadName, column, callError) {
 						cache : false,
 						data : ServerRequestPar(parCount, inPars),
 						dataType : "json",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
 						success : function(res) {
 							if (res.code != 0) {
 								table.editor.i18n.error.system = res.message;
@@ -519,6 +526,9 @@ function CommDataTables(tableName, columnHeadName, column, callError) {
 						cache : false,
 						data : ServerRequestPar(parCount, inPar),
 						dataType : "json",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
 						success : function(res) {
 							if (res.code != 0) {
 								if (typeof (callError) != "undefined" && callError != null) {

@@ -3,15 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.service.IMainViewService;
 
 /**
@@ -30,55 +25,40 @@ public class MainController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: personMenu
-	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @return
-	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @param httpSession
+	 * @return
 	 */
 	@RequestMapping(value = "/main.personMenu", method = RequestMethod.POST)
 	@ResponseBody
-	public String personMenu(HttpSession httpSession) {
+	public ResponseData personMenu(HttpSession httpSession) {
 		ResponseData responseData = new ResponseData();
 
-		mainViewService.referPersonMenu(httpSession, "", responseData);
+		mainViewService.referPersonMenu(httpSession, null, responseData);
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: updatePersonPSW
-	 * @Description: TODO
-	 * @param: @param httpSession
-	 * @param: @param inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/main.updatePersonPSW", method = RequestMethod.POST)
 	@ResponseBody
-	public String updatePersonPSW(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData updatePersonPSW(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		mainViewService.modifyPersonPassword(httpSession, inPar, responseData);
+		mainViewService.modifyPersonPassword(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: showPage
-	 * @Description: TODO
-	 * @param: @param session
-	 * @param: @param url
-	 * @param: @return
-	 * @return: String
-	 * @throws
-	 * @since 1.0.0
+	 * @param httpSession
+	 * @param url
+	 * @return
 	 */
 	@RequestMapping(value = "/main.showPage", method = RequestMethod.GET)
 	public String showPage(HttpSession httpSession, @RequestParam("url") String url) {

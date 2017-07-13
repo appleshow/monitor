@@ -39,8 +39,11 @@ function orgRef() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -49,20 +52,24 @@ function orgRef() {
 					if (res.data[icnt].farOrgId == 0) {
 						$('#treeOrg').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName,
-								attributes : res.data[icnt].prflag,
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName,
+									attributes : res.data[icnt].prflag,
+								}
+							]
 						});
 					} else {
 						$('#treeOrg').tree('append', {
 							parent : $('#treeOrg').tree("find", "node" + res.data[icnt].farOrgId).target,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName,
-								attributes : res.data[icnt].prflag
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName,
+									attributes : res.data[icnt].prflag
+								}
+							]
 						});
 					}
 				}
@@ -126,17 +133,22 @@ function orgDel() {
 				var url = "orgConfig.modifyOrg";
 				var inf = {
 					parCount : 1,
-					inPar : [ {
-						_type : modifytype,
-						orgId : orgid
-					} ]
+					inPar : [
+						{
+							_type : modifytype,
+							orgId : orgid
+						}
+					]
 				};
 				$.ajax({
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+					headers : {
+						'Content-Type' : 'application/json;charset=utf-8'
+					},
 					success : function(res) {
 						if (res.code != 0) {
 							$smsg(res.message, "E", res.code);
@@ -185,22 +197,26 @@ function modifyOK() {
 		if (modifytype == "U" || modifytype == "D") {
 			inf = {
 				parCount : 1,
-				inPar : [ {
-					_type : modifytype,
-					orgId : orgid,
-					orgName : orgnamen,
-					prflag : orgseqn
-				} ]
+				inPar : [
+					{
+						_type : modifytype,
+						orgId : orgid,
+						orgName : orgnamen,
+						prflag : orgseqn
+					}
+				]
 			};
 		} else {
 			inf = {
 				parCount : 1,
-				inPar : [ {
-					_type : modifytype,
-					farOrgId : orgid,
-					orgName : orgnamen,
-					prflag : orgseqn
-				} ]
+				inPar : [
+					{
+						_type : modifytype,
+						farOrgId : orgid,
+						orgName : orgnamen,
+						prflag : orgseqn
+					}
+				]
 			};
 		}
 
@@ -208,8 +224,11 @@ function modifyOK() {
 			type : "POST",
 			url : url,
 			cache : false,
-			data : "inf=" + JSON.stringify(inf),
+			data : JSON.stringify(inf),
 			dataType : "json",
+			headers : {
+				'Content-Type' : 'application/json;charset=utf-8'
+			},
 			success : function(res) {
 				if (res.code != 0) {
 					$smsg(res.message, "E", res.code);

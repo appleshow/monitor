@@ -5,16 +5,10 @@ import java.text.ParseException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IHbDataStatisticsService;
 
 /**
@@ -34,75 +28,56 @@ public class HbDataStatisticsController {
 
 	/**
 	 * 
-	 * @Title: referHbType
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
-	 * @return String
-	 * @throws:
-	 * @since 1.0.0
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbDataStatisticsController.referHbType", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbType(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbType(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbType", responseData)) {
-			hbDataStatisticsService.referHbType(httpSession, inPar, responseData);
+			hbDataStatisticsService.referHbType(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: referHbNode
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/hbDataStatisticsController.referHbNode", method = RequestMethod.POST)
 	@ResponseBody
-	public String referHbNode(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referHbNode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referHbNode", responseData)) {
-			hbDataStatisticsService.referHbNode(httpSession, inPar, responseData);
+			hbDataStatisticsService.referHbNode(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refHbDataHisGridContrast
-	 * @Description: TODO
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @return
 	 * @throws ParseException
-	 *             String
-	 * @throws:
-	 * @since 1.0.0
 	 */
 	@RequestMapping(value = "/hbDataStatisticsController.refHbData", method = RequestMethod.POST)
 	@ResponseBody
-	public String refHbData(HttpSession httpSession, @RequestParam("inf") String inPar) throws ParseException {
+	public ResponseData refHbData(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) throws ParseException {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "refHbData", responseData)) {
-			hbDataStatisticsService.refHbData(httpSession, inPar, responseData);
+			hbDataStatisticsService.refHbData(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

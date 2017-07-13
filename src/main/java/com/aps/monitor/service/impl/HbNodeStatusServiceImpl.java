@@ -54,30 +54,21 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refNodeStatus
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbNodeStatusService#refNodeStatus(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 *            void
 	 */
 	@Override
-	public void refNodeStatus(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refNodeStatus(HttpSession httpSession, final RequestRefPar requestRefPar, ResponseData responseData) {
 		final List<ObjectNode> objectNodes = new ArrayList<>();
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
-		//查询所有的类型
+		// 查询所有的类型
 		HbType hbType = new HbType();
 		List<HbType> hbTypes = hbTypeMapper.selectByCondition(hbType);
-		//查询所有类型和参数
+		// 查询所有类型和参数
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		List<HbTypeItem> hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
-		//查询站点
+		// 查询站点
 		HbNode hbNode = new HbNode();
 		hbNode.setIperson((int) httpSession.getAttribute(CommUtil.SESSION_PERSON_ID));
 		List<HbNode> hbNodes = hbNodeMapper.selectByPerson(hbNode);
@@ -157,13 +148,8 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 	/**
 	 * 查询站点是否在线
 	 * 
-	 * @Title: findNodeStatus
-	 * @Description: TODO
-	 * @param hbNodes
 	 * @param hbNod
-	 * @return String
-	 * @throws:
-	 * @since 1.0.0
+	 * @return
 	 */
 	private String findNodeStatus(HbNode hbNod) {
 		String nodeStatus = "<kbd style='background:red'>离线</kbd>";
@@ -189,12 +175,10 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 	/**
 	 * 查询数据相关信息
 	 * 
-	 * @Title: findNodeDataInfo
-	 * @Description: TODO
+	 * @param hbTypeItems
 	 * @param hbNode
-	 * @return List<String>
-	 * @throws:
-	 * @since 1.0.0
+	 * @param hours
+	 * @return
 	 */
 	private List<String> findNodeDataInfo(List<HbTypeItem> hbTypeItems, HbNode hbNode, int hours) {
 		final Date nowDate = new Date();
@@ -227,7 +211,7 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 				nodeItems.fieldNames().forEachRemaining(parName -> {
 					final JsonNode parInfo = nodeItems.get(parName);
 					if (parInfo.get("select").asInt() == 1) {
-						//Find min and max value from setting
+						// Find min and max value from setting
 						final float minValue, maxValue;
 						if (!StringUtil.isNullOrEmpty(parInfo.get("itemVmin").asText())) {
 							minValue = (float) parInfo.get("itemVmin").asDouble();
@@ -239,7 +223,7 @@ public class HbNodeStatusServiceImpl implements IHbNodeStatusService {
 						} else {
 							maxValue = Float.MAX_VALUE;
 						}
-						//Check each row
+						// Check each row
 						final ObjectNode checkParInfo = JsonUtil.getObjectNodeInstance();
 						checkParInfo.put("name", findParName(hbTypeItems, hbNode, parName));
 						checkParInfo.put("min", 0);

@@ -28,8 +28,11 @@ function pageIni() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -52,8 +55,11 @@ function pageIni() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -110,15 +116,17 @@ function pageIni() {
 
 	dgUser.dbinf.query = {
 		url : "personOrgConfig.referPersonOrg",
-		inpar : [ {
-			type : "jtext",
-			name : "userId",
-			crtl : $('#user_id')
-		}, {
-			type : "jtext",
-			name : "userName",
-			crtl : $('#user_name')
-		}, ]
+		inpar : [
+				{
+					type : "jtext",
+					name : "userId",
+					crtl : $('#user_id')
+				}, {
+					type : "jtext",
+					name : "userName",
+					crtl : $('#user_name')
+				},
+		]
 	};
 
 	dgUser.dbinf.modify = {
@@ -139,7 +147,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : true,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -203,48 +213,50 @@ function pageIni() {
 			}
 		},
 
-		toolbar : [ {
-			text : '查询',
-			disabled : false,
-			iconCls : 'icon-reload',
-			handler : function() {
-				dgUser.doRefer();
-			}
-		}, '-', {
-			text : '保存',
-			disabled : false,
-			iconCls : 'icon-save',
-			handler : function() {
-				if (personOrgEERow(true)) {
-					dgUser.doModify();
+		toolbar : [
+				{
+					text : '查询',
+					disabled : false,
+					iconCls : 'icon-reload',
+					handler : function() {
+						dgUser.doRefer();
+					}
+				}, '-', {
+					text : '保存',
+					disabled : false,
+					iconCls : 'icon-save',
+					handler : function() {
+						if (personOrgEERow(true)) {
+							dgUser.doModify();
+						}
+					}
+				}, "-", {
+					text : '新增',
+					disabled : false,
+					iconCls : 'icon-add',
+					handler : function() {
+						if (personOrgEERow(true)) {
+							dgUser.doInsert(null, []);
+						}
+					}
+				}, '-', {
+					text : '删除',
+					disabled : false,
+					iconCls : 'icon-remove',
+					handler : function() {
+						if (personOrgEERow(true)) {
+							dgUser.doDelete(null);
+						}
+					}
+				}, '-', {
+					text : '撤销',
+					disabled : false,
+					iconCls : 'icon-undo',
+					handler : function() {
+						dgUser.doCancel(null);
+					}
 				}
-			}
-		}, "-", {
-			text : '新增',
-			disabled : false,
-			iconCls : 'icon-add',
-			handler : function() {
-				if (personOrgEERow(true)) {
-					dgUser.doInsert(null, []);
-				}
-			}
-		}, '-', {
-			text : '删除',
-			disabled : false,
-			iconCls : 'icon-remove',
-			handler : function() {
-				if (personOrgEERow(true)) {
-					dgUser.doDelete(null);
-				}
-			}
-		}, '-', {
-			text : '撤销',
-			disabled : false,
-			iconCls : 'icon-undo',
-			handler : function() {
-				dgUser.doCancel(null);
-			}
-		} ],
+		],
 	});
 
 	pg = dgUser.Grid.datagrid("getPager");
@@ -300,7 +312,6 @@ function selectUserName() {
 	$("#user_name").textbox("textbox").focus();
 	$("#user_name").textbox("textbox").select();
 }
-
 
 /**
  * 格式用户

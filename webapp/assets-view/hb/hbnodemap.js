@@ -34,8 +34,11 @@ function init() {
 		type : "POST",
 		url : "hbNodeMapController.refHbNode",
 		cache : false,
-		data : "inf={}",
+		data : ServerRequestPar(0, {}),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );

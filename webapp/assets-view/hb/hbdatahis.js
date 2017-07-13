@@ -54,6 +54,9 @@ function refHbNode() {
 			nodeMn : selectNode
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
@@ -219,6 +222,9 @@ function refDataHis() {
 			dateEnd : $( '#dateEnd' ).val()
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
@@ -695,6 +701,9 @@ function datatableRAjax(data, callback, settings) {
 			pageSize : data.length == -1 ? 0 : data.length
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
@@ -775,6 +784,9 @@ function datatableMAjax(data, callback, settings) {
 			pageSize : data.length == -1 ? 0 : data.length
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );
@@ -855,6 +867,9 @@ function dataTableHAjax(data, callback, settings) {
 			pageSize : data.length == -1 ? 0 : data.length
 		} ),
 		dataType : "json",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if ( res.code != 0 ) {
 				callError( res.code, res.message );

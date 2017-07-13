@@ -10,12 +10,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HbDataModeMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
@@ -50,22 +47,13 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 	private HbDataModeMapper hbDataModeMapper;
 
 	/**
-	 * 
-	 * <p>
-	 * Title: refHbNode
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
+	 *
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbDataCurService#refHbNode(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void refHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refHbNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		HbNode hbNode = new HbNode();
@@ -73,7 +61,6 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 		List<HbTypeItem> hbTypeItems;
 		List<HbNode> hbNodes;
 		ResponseData responseDataJoin = new ResponseData();
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbTypes = hbTypeMapper.selectByCondition(hbType);
 		hbTypeItems = hbTypeItemMapper.selectByCondition(hbTypeItem);
@@ -89,25 +76,17 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbDataHis
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @throws ParseException
-	 * @see com.aps.monitor.service.IHbDataCurService#refHbDataLatest(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.IHbDataHisService#refHbDataHis(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void refHbDataHis(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+	public void refHbDataHis(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) throws ParseException {
 		HbDataTable hbDataTable = new HbDataTable();
 		List<HbDataMode> hbDataModes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		hbDataTable.setNodeId(requestRefPar.getIntegerPar("nodeId"));
@@ -122,25 +101,15 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbDataHisGrid
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @throws ParseException
-	 * @see com.aps.monitor.service.IHbDataHisService#refHbDataHisGrid(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void refHbDataHisGrid(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+	public void refHbDataHisGrid(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) throws ParseException {
 		HbDataTable hbDataTable = new HbDataTable();
 		List<HbDataMode> hbDataModes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		PageInfo<HbDataMode> pageInfo;
 
@@ -159,25 +128,15 @@ public class HbDataHisServiceImpl implements IHbDataHisService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbDataHisGridContrast
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @throws ParseException
-	 * @see com.aps.monitor.service.IHbDataHisService#refHbDataHisGridContrast(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void refHbDataHisGridContrast(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+	public void refHbDataHisGridContrast(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) throws ParseException {
 		HbDataTable hbDataTable = new HbDataTable();
 		List<HbDataMode> hbDataModes = new ArrayList<>(), hbDataModesTmp;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		PageInfo<HbDataMode> pageInfo;
 		String[] nodeIds = requestRefPar.getStringPar("nodeId").split(";");

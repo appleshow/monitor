@@ -7,6 +7,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.model.HbDataTable;
+import com.aps.monitor.model.HbNode;
+import com.aps.monitor.model.HbType;
+import com.aps.monitor.model.HbTypeItem;
 import org.springframework.stereotype.Service;
 
 import com.aps.monitor.comm.CommUtil;
@@ -19,10 +23,6 @@ import com.aps.monitor.dao.HbDataTableMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
 import com.aps.monitor.dao.HbTypeMapper;
-import com.aps.monitor.model.HbDataTable;
-import com.aps.monitor.model.HbNode;
-import com.aps.monitor.model.HbType;
-import com.aps.monitor.model.HbTypeItem;
 import com.aps.monitor.service.IHbNodeConfigService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.pagehelper.PageHelper;
@@ -54,13 +54,13 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	 * </p>
 	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @see com.aps.monitor.service.IHbNodeConfigService#referHbType(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbType(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
 		HbTypeItem hbTypeItem = new HbTypeItem();
@@ -85,17 +85,16 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	 * </p>
 	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @see com.aps.monitor.service.IHbNodeConfigService#referHbTypeItem(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbTypeItem(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbTypeItem(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		List<HbTypeItem> hbTypeItems;
 		PageInfo<HbTypeItem> pageInfo;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbTypeItem.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		PageHelper.startPage(requestRefPar.getIntegerPar("pageNumber"), requestRefPar.getIntegerPar("pageSize"));
@@ -116,16 +115,15 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	 * </p>
 	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @see com.aps.monitor.service.IHbNodeConfigService#referHbNode(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbNode hbNode = new HbNode();
 		List<HbNode> hbNodes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbNode.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbNode.setNodeId(requestRefPar.getIntegerPar("nodeId"));
@@ -144,13 +142,13 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 	 * </p>
 	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
 	 * @see com.aps.monitor.service.IHbNodeConfigService#modifyHbNode(javax.servlet.http.HttpSession,
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyHbNode(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -159,7 +157,6 @@ public class HbNodeConfigServiceImpl implements IHbNodeConfigService {
 		HbNode hbNode;
 		HbDataTable hbDataTable = new HbDataTable();
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);

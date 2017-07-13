@@ -28,8 +28,11 @@ function pageIni() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -96,15 +99,17 @@ function pageIni() {
 
 	dgMenu.dbinf.query = {
 		url : "menuConfig.referMenu",
-		inpar : [ {
-			type : "jtext",
-			name : "farMenuId",
-			crtl : $('#far_menu_id')
-		}, {
-			type : "jtext",
-			name : "menuName",
-			crtl : $('#menu_name')
-		}, ]
+		inpar : [
+				{
+					type : "jtext",
+					name : "farMenuId",
+					crtl : $('#far_menu_id')
+				}, {
+					type : "jtext",
+					name : "menuName",
+					crtl : $('#menu_name')
+				},
+		]
 	};
 
 	dgMenu.dbinf.modify = {
@@ -125,7 +130,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : true,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -185,48 +192,50 @@ function pageIni() {
 			}
 		},
 
-		toolbar : [ {
-			text : '查询',
-			disabled : false,
-			iconCls : 'icon-reload',
-			handler : function() {
-				dgMenu.doRefer();
-			}
-		}, '-', {
-			text : '保存',
-			disabled : false,
-			iconCls : 'icon-save',
-			handler : function() {
-				if (menuEERow(true)) {
-					dgMenu.doModify();
+		toolbar : [
+				{
+					text : '查询',
+					disabled : false,
+					iconCls : 'icon-reload',
+					handler : function() {
+						dgMenu.doRefer();
+					}
+				}, '-', {
+					text : '保存',
+					disabled : false,
+					iconCls : 'icon-save',
+					handler : function() {
+						if (menuEERow(true)) {
+							dgMenu.doModify();
+						}
+					}
+				}, "-", {
+					text : '新增',
+					disabled : false,
+					iconCls : 'icon-add',
+					handler : function() {
+						if (menuEERow(true)) {
+							dgMenu.doInsert(null, []);
+						}
+					}
+				}, '-', {
+					text : '删除',
+					disabled : false,
+					iconCls : 'icon-remove',
+					handler : function() {
+						if (menuEERow(true)) {
+							dgMenu.doDelete(null);
+						}
+					}
+				}, '-', {
+					text : '撤销',
+					disabled : false,
+					iconCls : 'icon-undo',
+					handler : function() {
+						dgMenu.doCancel(null);
+					}
 				}
-			}
-		}, "-", {
-			text : '新增',
-			disabled : false,
-			iconCls : 'icon-add',
-			handler : function() {
-				if (menuEERow(true)) {
-					dgMenu.doInsert(null, []);
-				}
-			}
-		}, '-', {
-			text : '删除',
-			disabled : false,
-			iconCls : 'icon-remove',
-			handler : function() {
-				if (menuEERow(true)) {
-					dgMenu.doDelete(null);
-				}
-			}
-		}, '-', {
-			text : '撤销',
-			disabled : false,
-			iconCls : 'icon-undo',
-			handler : function() {
-				dgMenu.doCancel(null);
-			}
-		} ],
+		],
 	});
 
 	pg = dgMenu.Grid.datagrid("getPager");
@@ -280,8 +289,11 @@ function menuRef() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+        headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -290,20 +302,24 @@ function menuRef() {
 					if (res.data[icnt].farMenuId == "0") {
 						$('#treeMenu').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + res.data[icnt].menuId,
-								text : res.data[icnt].menuName,
-								attributes : res.data[icnt].menuSeq,
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].menuId,
+									text : res.data[icnt].menuName,
+									attributes : res.data[icnt].menuSeq,
+								}
+							]
 						});
 					} else {
 						$('#treeMenu').tree('append', {
 							parent : $('#treeMenu').tree("find", "node" + res.data[icnt].farMenuId).target,
-							data : [ {
-								id : 'node' + res.data[icnt].menuId,
-								text : res.data[icnt].menuName,
-								attributes : res.data[icnt].menuSeq
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].menuId,
+									text : res.data[icnt].menuName,
+									attributes : res.data[icnt].menuSeq
+								}
+							]
 						});
 					}
 				}
@@ -369,17 +385,22 @@ function menuDel() {
 				var url = "menuConfig.modifyMenu";
 				var inf = {
 					parCount : 1,
-					inPar : [ {
-						_type : modifytype,
-						menuId : menuid
-					} ]
+					inPar : [
+						{
+							_type : modifytype,
+							menuId : menuid
+						}
+					]
 				};
 				$.ajax({
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+                    headers : {
+                        'Content-Type' : 'application/json;charset=utf-8'
+                    },
 					success : function(res) {
 						if (res.code != 0) {
 							$smsg(res.message, "E", res.code);
@@ -443,22 +464,26 @@ function modifyOK() {
 		if (modifytype == "U" || modifytype == "D") {
 			inf = {
 				parCount : 1,
-				inPar : [ {
-					_type : modifytype,
-					menuId : menuid,
-					menuName : menunamen,
-					menuSeq : menuseqn
-				} ]
+				inPar : [
+					{
+						_type : modifytype,
+						menuId : menuid,
+						menuName : menunamen,
+						menuSeq : menuseqn
+					}
+				]
 			};
 		} else {
 			inf = {
 				parCount : 1,
-				inPar : [ {
-					_type : modifytype,
-					farMenuId : menuid,
-					menuName : menunamen,
-					menuSeq : menuseqn
-				} ]
+				inPar : [
+					{
+						_type : modifytype,
+						farMenuId : menuid,
+						menuName : menunamen,
+						menuSeq : menuseqn
+					}
+				]
 			};
 		}
 
@@ -466,8 +491,11 @@ function modifyOK() {
 			type : "POST",
 			url : url,
 			cache : false,
-			data : "inf=" + JSON.stringify(inf),
+			data : JSON.stringify(inf),
 			dataType : "json",
+			headers : {
+				'Content-Type' : 'application/json;charset=utf-8'
+			},
 			success : function(res) {
 				if (res.code != 0) {
 					$smsg(res.message, "E", res.code);

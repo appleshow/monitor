@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.RequestRefPar;
 import org.springframework.stereotype.Service;
 
 import com.aps.monitor.comm.CommUtil;
@@ -41,21 +42,14 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbNode
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IHbDataCurService#refHbNode(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.IHbDataCurService#refHbNode(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void refHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refHbNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		HbTypeItem hbTypeItem = new HbTypeItem();
 		HbNode hbNode = new HbNode();
@@ -77,21 +71,13 @@ public class HbDataCurServiceImpl implements IHbDataCurService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refNbDataLatest
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
-	 * @param responseData
-	 * @see com.aps.monitor.service.IHbDataCurService#refHbDataLatest(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @param requestRefPar
+	 * @see com.aps.monitor.service.IHbDataCurService#refHbDataLatest(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void refHbDataLatest(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void refHbDataLatest(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HBDataLatest hbDataLatest = new HBDataLatest();
 		List<HBDataLatest> hbDataLatests;
 

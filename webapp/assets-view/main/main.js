@@ -68,6 +68,9 @@ $(window).load(function() {
 		url : "main.personMenu",
 		cache : false,
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$("#mwTitle").html("警告");
@@ -497,7 +500,7 @@ function getChildMenu(farther, menus) {
 		if (!menus[index].hasOwnProperty("formId")) {
 			show = true;
 		} else {
-			if (menus[index].hasOwnProperty("comForm")) {
+			if (menus[index].hasOwnProperty("comForm") && menus[index].comForm) {
 				if (menus[index].comForm.hasOwnProperty("property0")) {
 					show = true;
 				} else {
@@ -510,7 +513,7 @@ function getChildMenu(farther, menus) {
 		if (menus[index].farMenuId == menus[farther].menuId && show) {
 			if (!haschild) {
 				haschild = true;
-				if (menus[farther].hasOwnProperty("comForm")) {
+				if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm) {
 					if (menus[farther].comForm.hasOwnProperty("property0")) {
 						url = menus[farther].comForm.property0;
 					} else {
@@ -529,7 +532,7 @@ function getChildMenu(farther, menus) {
 	if (haschild) {
 		inner += " </ul></li>";
 	} else {
-		if (menus[farther].hasOwnProperty("comForm")) {
+		if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm) {
 			if (menus[farther].comForm.hasOwnProperty("property0")) {
 				url = menus[farther].comForm.property0;
 			} else {
@@ -617,23 +620,23 @@ function saveSetting() {
 	}
 
 	var url = "main.updatePersonPSW";
-	var inf = {
-		parCount : 1,
-		inPar : [
-			{
-				pswo : $.md5($("#pwo").val()),
-				pswn : $("#pwn1").val()
-			}
-		]
-	};
+	var inf = [
+		{
+			pswo : $.md5($("#pwo").val()),
+			pswn : $("#pwn1").val()
+		}
+	];
 
 	$.ajax({
 		async : false,
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(1, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$("#mwTitle").html("警告");

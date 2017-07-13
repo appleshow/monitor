@@ -48,17 +48,8 @@ public class DealMessage212 implements IDealMessage {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: saveMessage
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param message
-	 * @return
-	 * @see com.aps.monitor.service.IDealMessage#saveMessage(com.aps.monitor.cache.CacheKey,
-	 *      com.aps.monitor.data.Message)
+	 * @see com.aps.monitor.service.IDealMessage#saveMessage(Message)
 	 */
 	@Override
 	public void saveMessage(Message message) {
@@ -67,12 +58,8 @@ public class DealMessage212 implements IDealMessage {
 
 	/**
 	 * 
-	 * @Title: insertMessage
-	 * @Description: TODO
 	 * @param message
-	 *            void
-	 * @author AppleShow
-	 * @date 2017年4月14日 上午9:49:25
+	 *
 	 */
 	private void insertMessage(Message message) {
 		final HbDataMode hbDataMode = new HbDataMode();
@@ -95,7 +82,8 @@ public class DealMessage212 implements IDealMessage {
 				});
 				if (CommUtil.getHbNodeCache().containsKey(hbDataMode.getNodeMn())) {
 					CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).setUfrom(hbDataRecord.getUfrom());
-					CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).setProperty9(message.getReceiveDate());;
+					CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).setProperty9(message.getReceiveDate());
+					;
 					Arrays.asList(dataList.get(0)).stream().filter(item -> item.startsWith("CN=")).findFirst().ifPresent(item -> {
 						format2KeyValue(item).ifPresent(keyValue -> hbDataMode.setDataType(keyValue.getValue()));
 					});
@@ -121,18 +109,18 @@ public class DealMessage212 implements IDealMessage {
 					if (jsonPar.size() > 0) {
 						hbDataRecord.setPrflag(1);
 						switch (hbDataMode.getDataType()) {
-							case "2011"://实时数据
-								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_RTD212, ""));
-								break;
-							case "2051"://分钟数据（5分钟或10分钟）
-								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
-								break;
-							case "2061"://小时数据
-								hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
-								break;
-							default:
-								hbDataMode.setNodeData(jsonPar.toString());
-								break;
+						case "2011":// 实时数据
+							hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_RTD212, ""));
+							break;
+						case "2051":// 分钟数据（5分钟或10分钟）
+							hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
+							break;
+						case "2061":// 小时数据
+							hbDataMode.setNodeData(jsonPar.toString().replace(CommUtil.HB_DATA_AVG212, ""));
+							break;
+						default:
+							hbDataMode.setNodeData(jsonPar.toString());
+							break;
 						}
 						hbDataMode.setProperty0(CommUtil.HB_DATA_CUR + CommUtil.getHbNodeCache().get(hbDataMode.getNodeMn()).getNodeId());
 						hbDataMode.setUfrom(recordId);

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.aps.monitor.comm.JsonUtil;
@@ -30,24 +31,16 @@ public class CommServiceImpl implements ICommService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referComPageShowByCondition
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
-	 * @param session
-	 * @param inpar
+	 * @param httpSession
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.ICommService#referComPageShowByCondition(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.ICommService#referComPageShowByCondition(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void referComPageShowByCondition(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referComPageShowByCondition(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComPageShow comPageShow = new ComPageShow();
 		List<?> comPageShows;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comPageShow.setPageId(requestRefPar.getIntegerPar("pageId"));
 		comPageShows = comPageShowMapper.selectByCondition(comPageShow);

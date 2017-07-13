@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.dao.ComPersonMapper;
 import com.aps.monitor.dao.ComPersonOrgMapper;
@@ -42,21 +38,12 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referComPerson
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPersonOrgConfigService#referComPerson(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referPerson(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referPerson(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComPerson comPerson = new ComPerson();
 		List<ComPerson> comPersons;
 
@@ -66,21 +53,12 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referComOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPersonOrgConfigService#referComOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
@@ -90,24 +68,14 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referComPersonOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPersonOrgConfigService#referComPersonOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referPersonOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComPerson comPerson = new ComPerson();
 		List<ComPersonOrg> comPersonOrgs;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comPerson.setUserId(requestRefPar.getStringPar("userId"));
 		comPerson.setUserName(requestRefPar.getStringPar("userName"));
@@ -117,21 +85,12 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyComPersonOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IPersonOrgConfigService#modifyComPersonOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyPersonOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyPersonOrg(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -139,7 +98,6 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 		Map<String, String> rowData;
 		ComPersonOrg comPersonOrg;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -147,25 +105,25 @@ public class PersonOrgConfigServiceImpl implements IPersonOrgConfigService {
 			if (null != comPersonOrg) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comPersonOrg.setPrtype("1");
-						comPersonOrg.setItime(now);
-						comPersonOrg.setIperson(personId);
-						comPersonOrg.setUtime(now);
-						comPersonOrg.setUperson(personId);
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comPersonOrg.setPrtype("1");
+					comPersonOrg.setItime(now);
+					comPersonOrg.setIperson(personId);
+					comPersonOrg.setUtime(now);
+					comPersonOrg.setUperson(personId);
 
-						comPeronOrgMapper.insertSelective(comPersonOrg);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						comPersonOrg.setUtime(now);
-						comPersonOrg.setUperson(personId);
-						comPeronOrgMapper.updateByPrimaryKeySelective(comPersonOrg);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						comPeronOrgMapper.deleteByPrimaryKey(comPersonOrg);
-						break;
-					default:
-						break;
+					comPeronOrgMapper.insertSelective(comPersonOrg);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					comPersonOrg.setUtime(now);
+					comPersonOrg.setUperson(personId);
+					comPeronOrgMapper.updateByPrimaryKeySelective(comPersonOrg);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					comPeronOrgMapper.deleteByPrimaryKey(comPersonOrg);
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

@@ -29,8 +29,11 @@ function pageIni() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+        headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+        },
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -88,8 +91,11 @@ function pageIni() {
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+					headers : {
+						'Content-Type' : 'application/json;charset=utf-8'
+					},
 					success : function(res) {
 						if (res.code != 0) {
 							refa = false;
@@ -199,8 +205,11 @@ function pageIni() {
 						type : "POST",
 						url : url,
 						cache : false,
-						data : "inf=" + JSON.stringify(inf),
+						data : JSON.stringify(inf),
 						dataType : "json",
+						headers : {
+							'Content-Type' : 'application/json;charset=utf-8'
+						},
 						success : function(res) {
 							if (res.code != 0) {
 								$smsg(res.message, "E", res.code);
@@ -261,24 +270,24 @@ function pageIni() {
 						type = $(this).html();
 						if (isNaN(type)) {
 							switch (type) {
-							case "Update":
-								break;
-							case "Insert":
-								dgOrgPageA.Grid.datagrid('deleteRow', icnt);
+								case "Update":
+									break;
+								case "Insert":
+									dgOrgPageA.Grid.datagrid('deleteRow', icnt);
 
-								var formctldata = dgPageCtlA.Grid.datagrid("getRows");
+									var formctldata = dgPageCtlA.Grid.datagrid("getRows");
 
-								for (var row = 0; row < formctldata.length; row++) {
-									if (formctldata[row].formId == formid) {
-										dgPageCtlA.Grid.datagrid('deleteRow', row);
-										row--;
+									for (var row = 0; row < formctldata.length; row++) {
+										if (formctldata[row].formId == formid) {
+											dgPageCtlA.Grid.datagrid('deleteRow', row);
+											row--;
+										}
 									}
-								}
-								orgformedita = replace(orgformedita, formid + ",", "");
-								break;
-							case "Delete":
-								break;
-							default:
+									orgformedita = replace(orgformedita, formid + ",", "");
+									break;
+								case "Delete":
+									break;
+								default:
 							}
 						} else {
 							dgOrgPageA.Grid.datagrid('uncheckRow', icnt);
@@ -354,8 +363,11 @@ function pageIni() {
 						type : "POST",
 						url : url,
 						cache : false,
-						data : "inf=" + JSON.stringify(inf),
+						data : JSON.stringify(inf),
 						dataType : "json",
+						headers : {
+							'Content-Type' : 'application/json;charset=utf-8'
+						},
 						success : function(res) {
 							if (res.code != 0) {
 								$smsg(res.message, "E", res.code);
@@ -420,24 +432,24 @@ function pageIni() {
 						type = $(this).html();
 						if (isNaN(type)) {
 							switch (type) {
-							case "Update":
-								break;
-							case "Insert":
-								dgOrgPageB.Grid.datagrid('deleteRow', icnt);
+								case "Update":
+									break;
+								case "Insert":
+									dgOrgPageB.Grid.datagrid('deleteRow', icnt);
 
-								var formctldata = dgPageCtlB.Grid.datagrid("getRows");
+									var formctldata = dgPageCtlB.Grid.datagrid("getRows");
 
-								for (var row = 0; row < formctldata.length; row++) {
-									if (formctldata[row].formId == formid) {
-										dgPageCtlB.Grid.datagrid('deleteRow', row);
-										row--;
+									for (var row = 0; row < formctldata.length; row++) {
+										if (formctldata[row].formId == formid) {
+											dgPageCtlB.Grid.datagrid('deleteRow', row);
+											row--;
+										}
 									}
-								}
-								orgformeditb = replace(orgformeditb, orgid + ",", "");
-								break;
-							case "Delete":
-								break;
-							default:
+									orgformeditb = replace(orgformeditb, orgid + ",", "");
+									break;
+								case "Delete":
+									break;
+								default:
 							}
 						} else {
 							dgOrgPageB.Grid.datagrid('uncheckRow', icnt);
@@ -493,8 +505,11 @@ function pageIni() {
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+					headers : {
+						'Content-Type' : 'application/json;charset=utf-8'
+					},
 					success : function(res) {
 						if (res.code != 0) {
 							refa = false;
@@ -573,7 +588,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : false,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -632,8 +649,11 @@ function pageIni() {
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+					headers : {
+						'Content-Type' : 'application/json;charset=utf-8'
+					},
 					success : function(res) {
 						if (res.code != 0) {
 							$smsg(res.message, "E", res.code);
@@ -751,7 +771,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : false,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -803,7 +825,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : false,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -862,8 +886,11 @@ function pageIni() {
 					type : "POST",
 					url : url,
 					cache : false,
-					data : "inf=" + JSON.stringify(inf),
+					data : JSON.stringify(inf),
 					dataType : "json",
+					headers : {
+						'Content-Type' : 'application/json;charset=utf-8'
+					},
 					success : function(res) {
 						if (res.code != 0) {
 							$smsg(res.message, "E", res.code);
@@ -982,7 +1009,9 @@ function pageIni() {
 		remoteSort : false,
 		// idField : 'ROWINDEX',
 		pagination : false,
-		pageList : [ 50, 100, 500 ],
+		pageList : [
+				50, 100, 500
+		],
 		pageSize : 100,
 		loadMsg : "信息处理中，请等待 ...",
 
@@ -1029,8 +1058,11 @@ function toolRef() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -1039,34 +1071,42 @@ function toolRef() {
 					if (res.data[icnt].farOrgId == 0) {
 						$('#treeOrgA').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName
+								}
+							]
 						});
 
 						$('#treeOrgB').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName
+								}
+							]
 						});
 					} else {
 						$('#treeOrgA').tree('append', {
 							parent : $('#treeOrgA').tree("find", "node" + res.data[icnt].farOrgId).target,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName
+								}
+							]
 						});
 
 						$('#treeOrgB').tree('append', {
 							parent : $('#treeOrgB').tree("find", "node" + res.data[icnt].farOrgId).target,
-							data : [ {
-								id : 'node' + res.data[icnt].orgId,
-								text : res.data[icnt].orgName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].orgId,
+									text : res.data[icnt].orgName
+								}
+							]
 						});
 					}
 				}
@@ -1084,8 +1124,11 @@ function toolRef() {
 		type : "POST",
 		url : url,
 		cache : false,
-		data : "inf=" + JSON.stringify(inf),
+		data : ServerRequestPar(0, inf),
 		dataType : "json",
+		headers : {
+			'Content-Type' : 'application/json;charset=utf-8'
+		},
 		success : function(res) {
 			if (res.code != 0) {
 				$smsg(res.message, "E", res.code);
@@ -1097,50 +1140,62 @@ function toolRef() {
 						prgroup = res.data[icnt].prgroup;
 						$('#treePageA').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + prgroup,
-								text : prgroup
-							} ]
+							data : [
+								{
+									id : 'node' + prgroup,
+									text : prgroup
+								}
+							]
 						});
 
 						$('#treePageA').tree('append', {
 							parent : $('#treePageA').tree("find", "node" + prgroup).target,
-							data : [ {
-								id : 'node' + res.data[icnt].formId,
-								text : res.data[icnt].formName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].formId,
+									text : res.data[icnt].formName
+								}
+							]
 						});
 
 						$('#treePageB').tree('append', {
 							parent : null,
-							data : [ {
-								id : 'node' + prgroup,
-								text : prgroup
-							} ]
+							data : [
+								{
+									id : 'node' + prgroup,
+									text : prgroup
+								}
+							]
 						});
 
 						$('#treePageB').tree('append', {
 							parent : $('#treePageB').tree("find", "node" + prgroup).target,
-							data : [ {
-								id : 'node' + res.data[icnt].formId,
-								text : res.data[icnt].formName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].formId,
+									text : res.data[icnt].formName
+								}
+							]
 						});
 					} else {
 						$('#treePageA').tree('append', {
 							parent : $('#treePageA').tree("find", "node" + prgroup).target,
-							data : [ {
-								id : 'node' + res.data[icnt].formId,
-								text : res.data[icnt].formName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].formId,
+									text : res.data[icnt].formName
+								}
+							]
 						});
 
 						$('#treePageB').tree('append', {
 							parent : $('#treePageB').tree("find", "node" + prgroup).target,
-							data : [ {
-								id : 'node' + res.data[icnt].formId,
-								text : res.data[icnt].formName
-							} ]
+							data : [
+								{
+									id : 'node' + res.data[icnt].formId,
+									text : res.data[icnt].formName
+								}
+							]
 						});
 					}
 

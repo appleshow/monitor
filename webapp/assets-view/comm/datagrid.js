@@ -42,18 +42,28 @@ function comDataGrid(pName, pHeadRows, bChk, bCandEdit) {
 	};
 	if (bChk) {
 		this.aryheadcols = {
-			bfrozen : [ [ {
-				field : 'fcolchk',
-				checkbox : true
-			} ] ],
-			ufrozen : [ [], [], [], [], [] ],
+			bfrozen : [
+				[
+					{
+						field : 'fcolchk',
+						checkbox : true
+					}
+				]
+			],
+			ufrozen : [
+					[], [], [], [], []
+			],
 			all : [],
 			show : []
 		};
 	} else {
 		this.aryheadcols = {
-			bfrozen : [ [] ],
-			ufrozen : [ [], [], [], [], [] ],
+			bfrozen : [
+				[]
+			],
+			ufrozen : [
+					[], [], [], [], []
+			],
 			all : [],
 			show : []
 		};
@@ -322,20 +332,20 @@ comDataGrid.prototype.doModify = function(unref) {
 			parrow = {};
 			if (isNaN(type)) {
 				switch (type) {
-				case "Update":
-					rowdata = crtdata[icnt];
-					parrow["_type"] = "U";
-					break;
-				case "Insert":
-					rowdata = crtdata[icnt];
-					parrow["_type"] = "I";
-					break;
-				case "Delete":
-					rowdata = crtdata[icnt];
-					parrow["_type"] = "D";
-					break;
-				default:
-					parrow = null;
+					case "Update":
+						rowdata = crtdata[icnt];
+						parrow["_type"] = "U";
+						break;
+					case "Insert":
+						rowdata = crtdata[icnt];
+						parrow["_type"] = "I";
+						break;
+					case "Delete":
+						rowdata = crtdata[icnt];
+						parrow["_type"] = "D";
+						break;
+					default:
+						parrow = null;
 				}
 				if (parrow != null) {
 					ipar++;
@@ -345,15 +355,15 @@ comDataGrid.prototype.doModify = function(unref) {
 								cellval = rowdata[colinf[icol].field];
 							} else {
 								switch (colinf[icol].editor.type) {
-								case "text":
-									cellval = rowdata[colinf[icol].field];
-									break;
-								case "numberbox":
-									cellval = rowdata[colinf[icol].field];
-									break;
-								default:
-									cellval = rowdata[colinf[icol].field];
-									break;
+									case "text":
+										cellval = rowdata[colinf[icol].field];
+										break;
+									case "numberbox":
+										cellval = rowdata[colinf[icol].field];
+										break;
+									default:
+										cellval = rowdata[colinf[icol].field];
+										break;
 								}
 							}
 							if (cellval == null || cellval == "") {
@@ -406,8 +416,11 @@ comDataGrid.prototype.doModify = function(unref) {
 				type : "POST",
 				url : url,
 				cache : false,
-				data : "inf=" + JSON.stringify(inf),
+				data : JSON.stringify(inf),
 				dataType : "json",
+				headers : {
+					'Content-Type' : 'application/json;charset=utf-8'
+				},
 				success : function(res) {
 					grid.datagrid('loaded');
 

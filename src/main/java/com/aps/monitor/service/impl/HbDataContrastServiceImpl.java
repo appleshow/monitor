@@ -10,12 +10,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
 import com.aps.monitor.dao.HbDataModeMapper;
 import com.aps.monitor.dao.HbNodeMapper;
 import com.aps.monitor.dao.HbTypeItemMapper;
@@ -66,7 +63,7 @@ public class HbDataContrastServiceImpl implements IHbDataContrastService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbType(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbType(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbType hbType = new HbType();
 		List<HbType> hbTypes;
 		HbTypeItem hbTypeItem = new HbTypeItem();
@@ -97,10 +94,9 @@ public class HbDataContrastServiceImpl implements IHbDataContrastService {
 	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referHbNode(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referHbNode(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		HbNode hbNode = new HbNode();
 		List<HbNode> hbNodes;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		hbNode.setTypeId(requestRefPar.getIntegerPar("typeId"));
 		hbNode.setNodeId(requestRefPar.getIntegerPar("nodeId"));
@@ -112,25 +108,17 @@ public class HbDataContrastServiceImpl implements IHbDataContrastService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: refHbData
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
 	 * @throws ParseException
-	 * @see com.aps.monitor.service.IHbDataContrastService#refHbData(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
+	 * @see com.aps.monitor.service.IHbDataContrastService#refHbData(HttpSession,
+	 *      RequestRefPar, ResponseData)
 	 */
 	@Override
-	public void refHbData(HttpSession httpSession, String inPar, ResponseData responseData) throws ParseException {
+	public void refHbData(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) throws ParseException {
 		HbDataTable hbDataTable = new HbDataTable();
 		List<HbDataMode> hbDataModes = new ArrayList<>(), hbDataModesTmp;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		PageInfo<HbDataMode> pageInfo;
 		String[] nodeIds = requestRefPar.getStringPar("nodeId").split(";");

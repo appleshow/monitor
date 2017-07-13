@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IPageShowService;
 
 @Controller
@@ -23,79 +17,55 @@ public class PageShowController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: referAllForms
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/pageShow.referAllForms", method = RequestMethod.POST)
 	@ResponseBody
-	public String referAllForms(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referAllForms(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referAllForms", responseData)) {
-			pageShowService.referAllForms(httpSession, inPar, responseData);
+			pageShowService.referAllForms(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: referPageShow
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/pageShow.referPageShow", method = RequestMethod.POST)
 	@ResponseBody
-	public String referPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referPageShow(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referPageShow", responseData)) {
-			pageShowService.referPageShow(httpSession, inPar, responseData);
+			pageShowService.referPageShow(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: modifyPageShow
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/pageShow.modifyPageShow", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyPageShow(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData modifyPageShow(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyPageShow", responseData)) {
-			pageShowService.modifyPageShow(httpSession, inPar, responseData);
+			pageShowService.modifyPageShow(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }

@@ -7,13 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.RequestRefPar;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComFormMapper;
 import com.aps.monitor.dao.ComMenuMapper;
 import com.aps.monitor.model.ComForm;
@@ -29,24 +25,14 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referMenu
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IMenuConfigService#referMenu(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referMenu(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referMenu(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComMenu comMenu = new ComMenu();
 		List<ComMenu> comMenus;
-		RequestRefPar requestRefPar = JsonUtil.readRequestRefPar(inPar);
 
 		comMenu.setFarMenuId(requestRefPar.getIntegerPar("farMenuId"));
 		comMenu.setMenuName(requestRefPar.getStringPar("menuName"));
@@ -57,21 +43,12 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyMenu
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IMenuConfigService#modifyMenu(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyMenu(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyMenu(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -79,7 +56,6 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 		Map<String, String> rowData;
 		ComMenu comMenu;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -87,21 +63,21 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 			if (null != comMenu) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comMenu.setItime(now);
-						comMenu.setIperson(personId);
-						comMenu.setUtime(now);
-						comMenu.setUperson(personId);
-						comMenuMapper.insertSelective(comMenu);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						comMenuMapper.updateByPrimaryKeySelective(comMenu);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						comMenuMapper.deleteByPrimaryKey(comMenu.getMenuId());
-						break;
-					default:
-						break;
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comMenu.setItime(now);
+					comMenu.setIperson(personId);
+					comMenu.setUtime(now);
+					comMenu.setUperson(personId);
+					comMenuMapper.insertSelective(comMenu);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					comMenuMapper.updateByPrimaryKeySelective(comMenu);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					comMenuMapper.deleteByPrimaryKey(comMenu.getMenuId());
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;
@@ -119,21 +95,12 @@ public class MenuConfigServiceImpl implements IMenuConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referAllForms
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IMenuConfigService#referAllForms(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referAllForms(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referAllForms(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComForm comForm = new ComForm();
 		List<ComForm> comForms;
 

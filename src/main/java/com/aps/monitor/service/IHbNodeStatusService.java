@@ -2,6 +2,7 @@ package com.aps.monitor.service;
 
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.RequestRefPar;
 import com.aps.monitor.comm.ResponseData;
 
 /**
@@ -27,5 +28,5 @@ public interface IHbNodeStatusService {
 	 * @throws:
 	 * @since 1.0.0
 	 */
-	void refNodeStatus(HttpSession httpSession, String inPar, ResponseData responseData);
+	void refNodeStatus(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData);
 }

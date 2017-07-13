@@ -7,12 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Service;
 
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.RequestMdyPar;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.CommUtil;
 import com.aps.monitor.dao.ComOrgMapper;
 import com.aps.monitor.model.ComOrg;
 import com.aps.monitor.service.IOrgConfigService;
@@ -24,21 +21,12 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: referOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestRefPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgConfigService#referOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void referOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void referOrg(HttpSession httpSession, RequestRefPar requestRefPar, ResponseData responseData) {
 		ComOrg comOrg = new ComOrg();
 		List<ComOrg> comOrgs;
 
@@ -48,21 +36,12 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 
 	/**
 	 * 
-	 * <p>
-	 * Title: modifyOrg
-	 * </p>
-	 * <p>
-	 * Description:
-	 * </p>
-	 * 
 	 * @param httpSession
-	 * @param inPar
+	 * @param requestMdyPar
 	 * @param responseData
-	 * @see com.aps.monitor.service.IOrgConfigService#modifyOrg(javax.servlet.http.HttpSession,
-	 *      java.lang.String, com.aps.monitor.comm.ResponseData)
 	 */
 	@Override
-	public void modifyOrg(HttpSession httpSession, String inPar, ResponseData responseData) {
+	public void modifyOrg(HttpSession httpSession, RequestMdyPar requestMdyPar, ResponseData responseData) {
 		int personId;
 		boolean jsonParseException = false;
 		String type;
@@ -70,7 +49,6 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 		Map<String, String> rowData;
 		ComOrg comOrg;
 
-		RequestMdyPar requestMdyPar = JsonUtil.readRequestMdyPar(inPar);
 		for (int row = 0; row < requestMdyPar.getParCount(); row++) {
 			rowData = requestMdyPar.getInPar().get(row);
 			type = requestMdyPar.getType(rowData);
@@ -78,21 +56,21 @@ public class OrgConfigServiceImpl implements IOrgConfigService {
 			if (null != comOrg) {
 				personId = requestMdyPar.getPersonId(httpSession, now, rowData);
 				switch (type) {
-					case CommUtil.MODIFY_TYPE_INSERT:
-						comOrg.setItime(now);
-						comOrg.setIperson(personId);
-						comOrg.setUtime(now);
-						comOrg.setUperson(personId);
-						comOrgMapper.insertSelective(comOrg);
-						break;
-					case CommUtil.MODIFY_TYPE_UPDATE:
-						comOrgMapper.updateByPrimaryKeyMap(rowData);
-						break;
-					case CommUtil.MODIFY_TYPE_DELETE:
-						comOrgMapper.deleteByPrimaryKey(comOrg.getOrgId());
-						break;
-					default:
-						break;
+				case CommUtil.MODIFY_TYPE_INSERT:
+					comOrg.setItime(now);
+					comOrg.setIperson(personId);
+					comOrg.setUtime(now);
+					comOrg.setUperson(personId);
+					comOrgMapper.insertSelective(comOrg);
+					break;
+				case CommUtil.MODIFY_TYPE_UPDATE:
+					comOrgMapper.updateByPrimaryKeyMap(rowData);
+					break;
+				case CommUtil.MODIFY_TYPE_DELETE:
+					comOrgMapper.deleteByPrimaryKey(comOrg.getOrgId());
+					break;
+				default:
+					break;
 				}
 			} else {
 				jsonParseException = true;

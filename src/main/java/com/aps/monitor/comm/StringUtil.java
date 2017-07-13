@@ -150,6 +150,32 @@ public class StringUtil {
 	}
 
 	/**
+	 *
+	 * @Title: conversionRequestReferData
+	 * @Description: TODO
+	 * @return String
+	 * @author LiuGuanbang
+	 * @date 2017年3月23日 上午12:36:15
+	 */
+	public static RequestRefPar conversionRequestReferData(RequestRefPar requestRefPar) {
+		String requestString = getConversionString(JsonUtil.writeValueAsString(requestRefPar));
+		return JsonUtil.readRequestRefPar(requestString);
+	}
+
+	/**
+	 *
+	 * @Title: conversionRequestReferData
+	 * @Description: TODO
+	 * @return String
+	 * @author LiuGuanbang
+	 * @date 2017年3月23日 上午12:36:15
+	 */
+	public static RequestMdyPar conversionRequestMdyData(RequestMdyPar requestMdyPar) {
+		String requestString = getConversionString(JsonUtil.writeValueAsString(requestMdyPar));
+		return JsonUtil.readRequestMdyPar(requestString);
+	}
+
+	/**
 	 * 加密字符串
 	 * 
 	 * @param txt

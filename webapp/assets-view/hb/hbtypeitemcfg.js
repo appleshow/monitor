@@ -42,7 +42,9 @@ function getHbTypeComb() {
 		cache : false,
 		data : ServerRequestPar(0, {}),
 		dataType : "json",
-		success : function(res) {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },		success : function(res) {
 			if (res.code != 0) {
 				callError(res.code, res.message);
 			} else {

@@ -3,16 +3,10 @@ package com.aps.monitor.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.aps.monitor.comm.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.aps.monitor.comm.CommUtil;
-import com.aps.monitor.comm.JsonUtil;
-import com.aps.monitor.comm.ResponseData;
-import com.aps.monitor.comm.StringUtil;
 import com.aps.monitor.service.IFormConfigService;
 
 /**
@@ -33,131 +27,91 @@ public class FormConfigController extends BaseController {
 
 	/**
 	 * 
-	 * @Title: refForm
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.referForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String referForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referForm(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referForm", responseData)) {
-			formConfigService.referForm(httpSession, inPar, responseData);
+			formConfigService.referForm(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: modifyForm
-	 * @Description: TODO
-	 * @param: @param
-	 *             httpSession
-	 * @param: @param
-	 *             inPar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.modifyForm", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData modifyForm(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyForm", responseData)) {
-			formConfigService.modifyForm(httpSession, inPar, responseData);
+			formConfigService.modifyForm(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refFormRight
-	 * @Description: TODO
-	 * @param: @param
-	 *             session
-	 * @param: @param
-	 *             inpar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.referFormRight", method = RequestMethod.POST)
 	@ResponseBody
-	public String referFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referFormRight(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormRight", responseData)) {
-			formConfigService.referFormRight(httpSession, inPar, responseData);
+			formConfigService.referFormRight(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: modifyFormRight
-	 * @Description: TODO
-	 * @param: @param
-	 *             session
-	 * @param: @param
-	 *             inpar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestMdyPar
+	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.modifyFormRight", method = RequestMethod.POST)
 	@ResponseBody
-	public String modifyFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData modifyFormRight(HttpSession httpSession, @RequestBody RequestMdyPar requestMdyPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "modifyFormRight", responseData)) {
-			formConfigService.modifyFormRight(httpSession, inPar, responseData);
+			formConfigService.modifyFormRight(httpSession, StringUtil.conversionRequestMdyData(requestMdyPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 
 	/**
 	 * 
-	 * @Title: refFormCtlType
-	 * @Description: TODO
-	 * @param: @param
-	 *             session
-	 * @param: @param
-	 *             inpar
-	 * @param: @return
-	 * @return: String
-	 * @throws @since
-	 *             1.0.0
+	 * @param httpSession
+	 * @param requestRefPar
+	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.referFormCtlType", method = RequestMethod.POST)
 	@ResponseBody
-	public String referFormCtlType(HttpSession httpSession, @RequestParam("inf") String inPar) {
+	public ResponseData referFormCtlType(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
-		inPar = StringUtil.getConversionString(inPar);
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormCtlType", responseData)) {
-			formConfigService.referFormCtlType(httpSession, inPar, responseData);
+			formConfigService.referFormCtlType(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
 		}
 
-		return JsonUtil.writeResponseAsString(responseData);
+		return responseData;
 	}
 }
