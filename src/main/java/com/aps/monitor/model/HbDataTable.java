@@ -1,5 +1,8 @@
 package com.aps.monitor.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,8 +11,10 @@ public class HbDataTable {
 
     private String nodeMn;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateStr;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateEnd;
 
     private String dataPar;
@@ -58,6 +63,7 @@ public class HbDataTable {
 
     private String prexp;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date itime;
 
     private String ishift;
@@ -66,6 +72,7 @@ public class HbDataTable {
 
     private Integer iperson;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date utime;
 
     private String ushift;
@@ -88,6 +95,7 @@ public class HbDataTable {
         this.nodeMn = nodeMn == null ? null : nodeMn.trim();
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getDateStr() {
         return dateStr;
     }
@@ -96,6 +104,7 @@ public class HbDataTable {
         this.dateStr = dateStr;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getDateEnd() {
         return dateEnd;
     }
@@ -288,6 +297,7 @@ public class HbDataTable {
         this.prexp = prexp == null ? null : prexp.trim();
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getItime() {
         return itime;
     }
@@ -320,6 +330,7 @@ public class HbDataTable {
         this.iperson = iperson;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getUtime() {
         return utime;
     }
