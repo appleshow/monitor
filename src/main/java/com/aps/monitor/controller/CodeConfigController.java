@@ -29,16 +29,16 @@ public class CodeConfigController extends BaseController {
 	/**
 	 * 
 	 * @param httpSession
-	 * @param requestRefPar
+	 * @param inPar
 	 * @return
 	 */
 	@RequestMapping(value = "/codeConfig.referCode", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referCode(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referCode(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referCode", responseData)) {
-			codeConfigService.referCode(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+			codeConfigService.referCode(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 
 		return responseData;

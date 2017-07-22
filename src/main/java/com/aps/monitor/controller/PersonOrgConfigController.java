@@ -83,11 +83,11 @@ public class PersonOrgConfigController extends BaseController {
 	 */
 	@RequestMapping(value = "/personOrgConfig.referPersonOrg", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referPersonOrg(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referPersonOrg(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referPersonOrg", responseData)) {
-			personOrgConfigService.referPersonOrg(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+			personOrgConfigService.referPersonOrg(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 		return responseData;
 	}

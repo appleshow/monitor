@@ -46,16 +46,16 @@ public class PersonConfigController extends BaseController {
 	/**
 	 * 
 	 * @param httpSession
-	 * @param requestRefPar
+	 * @param inPar
 	 * @return
 	 */
 	@RequestMapping(value = "/personConfig.referPerson", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referPerson(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referPerson(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referPerson", responseData)) {
-			personConfigService.referPerson(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+			personConfigService.referPerson(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 
 		return responseData;

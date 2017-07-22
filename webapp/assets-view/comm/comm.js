@@ -319,6 +319,15 @@ function $value(id) {
 	return $obj(id).value;
 }
 
+function ServerRequestPar(parCount, inPars) {
+    var par = {
+        parCount : parCount,
+        inPar : inPars
+    };
+
+    return JSON.stringify(par).replace(/%/g, "%25").replace(/\&/g, "%26").replace(/\+/g, "%2B");
+}
+
 /**
  * json2.js 2012-10-08
  * 

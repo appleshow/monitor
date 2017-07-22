@@ -31,13 +31,30 @@ public class MenuConfigController extends BaseController {
 	 * @param requestRefPar
 	 * @return
 	 */
-	@RequestMapping(value = "/menuConfig.referMenu", method = RequestMethod.POST)
+	@RequestMapping(value = "/menuConfig.referMenuTree", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referMenu(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referMenuTree(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referMenu", responseData)) {
 			menuConfigService.referMenu(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+		}
+		return responseData;
+	}
+
+	/**
+	 *
+	 * @param httpSession
+	 * @param inPar
+	 * @return
+	 */
+	@RequestMapping(value = "/menuConfig.referMenu", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseData referMenu(HttpSession httpSession, @RequestParam("inf") String inPar) {
+		ResponseData responseData = new ResponseData();
+
+		if (CommUtil.isPermissoned(httpSession, formId, "referMenu", responseData)) {
+			menuConfigService.referMenu(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 		return responseData;
 	}

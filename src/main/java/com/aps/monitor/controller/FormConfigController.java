@@ -28,16 +28,16 @@ public class FormConfigController extends BaseController {
 	/**
 	 * 
 	 * @param httpSession
-	 * @param requestRefPar
+	 * @param inPar
 	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.referForm", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referForm(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referForm(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referForm", responseData)) {
-			formConfigService.referForm(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+			formConfigService.referForm(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 
 		return responseData;
@@ -64,16 +64,16 @@ public class FormConfigController extends BaseController {
 	/**
 	 * 
 	 * @param httpSession
-	 * @param requestRefPar
+	 * @param inPar
 	 * @return
 	 */
 	@RequestMapping(value = "/formConfig.referFormRight", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData referFormRight(HttpSession httpSession, @RequestBody RequestRefPar requestRefPar) {
+	public ResponseData referFormRight(HttpSession httpSession, @RequestParam("inf") String inPar) {
 		ResponseData responseData = new ResponseData();
 
 		if (CommUtil.isPermissoned(httpSession, formId, "referFormRight", responseData)) {
-			formConfigService.referFormRight(httpSession, StringUtil.conversionRequestReferData(requestRefPar), responseData);
+			formConfigService.referFormRight(httpSession, JsonUtil.readRequestRefPar(inPar), responseData);
 		}
 
 		return responseData;

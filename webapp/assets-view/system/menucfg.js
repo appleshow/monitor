@@ -279,7 +279,7 @@ function menuEERow(showmsg) {
  * 查询菜单
  */
 function menuRef() {
-	var url = "menuConfig.referMenu";
+	var url = "menuConfig.referMenuTree";
 	var inf = {};
 
 	rootnodes = $('#treeMenu').tree('loadData', []);
