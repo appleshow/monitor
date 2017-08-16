@@ -66,7 +66,7 @@ function refHbNode() {
 				nodeTypeItem = res.subJoinResponseData.subJoinResponseData.data;
 
 				$.each( res.data, function(index, value) {
-					if ( value.hasOwnProperty( "nodeMn" ) ) {
+					if ( value.hasOwnProperty( "nodeMn" ) && value.nodeMn != null ) {
 						var nodeItems = value.nodeItem;
 						var yAxis = [], series = [], pars = [], parNames = [], parUnits = [], parCount = 0;
 

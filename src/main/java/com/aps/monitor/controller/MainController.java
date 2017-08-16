@@ -65,7 +65,7 @@ public class MainController extends BaseController {
 		if (null == httpSession.getAttribute(CommUtil.SESSION_PERSON_ID) || null == url || "".equals(url.trim())) {
 			httpSession.invalidate();
 
-			return "index.html";
+			return "reload.html";
 		} else {
 			return url;
 		}

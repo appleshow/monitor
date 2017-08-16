@@ -36,7 +36,7 @@ public class CommUtil {
 	public final static String HB_DATA_RTD212 = "-Rtd";
 	public final static String HB_DATA_AVG212 = "-Avg";
 
-	public final static int NIO_TCP_PORT = 9123;
+	public final static int NIO_TCP_PORT = Integer.parseInt(StringUtil.isNullOrEmpty(System.getenv("NIO_PORT")) ? "9123" : System.getenv("NIO_PORT"));
 
 	public final static String SYS_PATH = CommUtil.class.getResource("/").getPath();
 	private final static WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();

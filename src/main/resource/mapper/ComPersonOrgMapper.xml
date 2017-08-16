@@ -82,7 +82,8 @@
 		<where>
 			<if test="orgId != null">ORG_ID = #{orgId,jdbcType=INTEGER}</if>
 			<if test="personId != null">and PERSON_ID = #{personId,jdbcType=INTEGER}</if>
-			<if test="(orgId == null and personId == null)">PERSON_ID = null</if>
+			<if test="prtype != null">and PRTYPE = #{prtype,jdbcType=VARCHAR}</if>
+			<if test="(orgId == null and personId == null)">and PERSON_ID = null</if>
 		</where>
 	</delete>
 	<insert id="insert" parameterType="com.aps.monitor.model.ComPersonOrg"> insert into com_person_org (ORG_ID, PERSON_ID, PRFLAG, PRGROUP, PRTYPE,

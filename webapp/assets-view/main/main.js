@@ -500,8 +500,8 @@ function getChildMenu(farther, menus) {
 		if (!menus[index].hasOwnProperty("formId")) {
 			show = true;
 		} else {
-			if (menus[index].hasOwnProperty("comForm") && menus[index].comForm) {
-				if (menus[index].comForm.hasOwnProperty("property0")) {
+			if (menus[index].hasOwnProperty("comForm") && menus[index].comForm != null) {
+				if (menus[index].comForm.hasOwnProperty("property0") && menus[index].comForm.property0 != null) {
 					show = true;
 				} else {
 					show = false;
@@ -513,8 +513,8 @@ function getChildMenu(farther, menus) {
 		if (menus[index].farMenuId == menus[farther].menuId && show) {
 			if (!haschild) {
 				haschild = true;
-				if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm) {
-					if (menus[farther].comForm.hasOwnProperty("property0")) {
+				if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm != null) {
+					if (menus[farther].comForm.hasOwnProperty("property0") && menus[farther].comForm.property0 != null) {
 						url = menus[farther].comForm.property0;
 					} else {
 						url = "";
@@ -532,8 +532,8 @@ function getChildMenu(farther, menus) {
 	if (haschild) {
 		inner += " </ul></li>";
 	} else {
-		if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm) {
-			if (menus[farther].comForm.hasOwnProperty("property0")) {
+		if (menus[farther].hasOwnProperty("comForm") && menus[farther].comForm != null) {
+			if (menus[farther].comForm.hasOwnProperty("property0") && menus[farther].comForm.property0 != null) {
 				url = menus[farther].comForm.property0;
 			} else {
 				url = "";
@@ -664,4 +664,11 @@ function userOff() {
 		return;
 	}
 	location.href = "main.showPage?url=";
+}
+
+/**
+ *
+ */
+function reLoad(url) {
+	window.location.href = url;
 }

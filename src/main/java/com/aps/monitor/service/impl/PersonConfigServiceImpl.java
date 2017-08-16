@@ -114,7 +114,24 @@ public class PersonConfigServiceImpl implements IPersonConfigService {
 					if ("1".equals(rowData.get("resPsw"))) {
 						comPerson.setUserPsw(StringUtil.desEncryptStr(comPerson.getUserId(), CommUtil.LOCK_WORD));
 					}
-					comPersonMapper.updateByPrimaryKeySelective(comPerson);
+					returnValue = comPersonMapper.updateByPrimaryKeySelective(comPerson);
+					if (returnValue > 0) {
+						ComPersonOrg comPersonOrg = new ComPersonOrg();
+						comPersonOrg.setPersonId(comPerson.getPersonId());
+						comPersonOrg.setPrtype("0");
+						comPersonOrgMapper.deleteByPrimaryKey(comPersonOrg);
+
+						comPersonOrg.setPersonId(comPerson.getPersonId());
+						comPersonOrg.setOrgId(comPerson.getUserOrg());
+						comPersonOrg.setPrflag(1);
+						comPersonOrg.setPrtype("0");
+						comPersonOrg.setIperson(comPerson.getIperson());
+						comPersonOrg.setItime(comPerson.getItime());
+						comPersonOrg.setIperson(comPerson.getIperson());
+						comPersonOrg.setUtime(comPerson.getUtime());
+
+						comPersonOrgMapper.insertSelective(comPersonOrg);
+					}
 					break;
 				case CommUtil.MODIFY_TYPE_DELETE:
 					ComPersonOrg comPersonOrg = new ComPersonOrg();
