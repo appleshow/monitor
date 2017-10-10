@@ -63,6 +63,7 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/main.showPage", method = RequestMethod.GET)
 	public String showPage(HttpSession httpSession, @RequestParam("url") String url) {
 		if (null == httpSession.getAttribute(CommUtil.SESSION_PERSON_ID) || null == url || "".equals(url.trim())) {
+			httpSession.removeAttribute(CommUtil.SESSION_PERSON_ID);
 			httpSession.invalidate();
 
 			return "reload.html";

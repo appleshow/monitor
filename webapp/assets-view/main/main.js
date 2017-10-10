@@ -663,7 +663,7 @@ function userOff() {
 	if (confirm("确定注销当前用户？") == false) {
 		return;
 	}
-	location.href = "main.showPage?url=";
+	location.href = "/monitor";
 }
 
 /**
